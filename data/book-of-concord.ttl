@@ -1,0 +1,111 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Apology (1531) and Small Catechism (1529), from the PD Triglot Concordia (1921).
+# Admitted as Argument sources by ruling 2(a); each Argument is credited to its own source Body.
+# augsburg childOf book-of-concord is NOT asserted: not ruled.
+
+<body/book-of-concord> a gc:Collection ;
+    rdfs:label "Book of Concord (1580)"@en ;
+    gc:expressedIn <source/book-of-concord> .
+
+<body/apology-1531> a gc:Confession ;
+    rdfs:label "Apology of the Augsburg Confession (1531)"@en ;
+    gc:childOf <body/book-of-concord> ;
+    gc:expressedIn <source/apology-1531> .
+
+<body/small-catechism-1529> a gc:Catechism ;
+    rdfs:label "Luther's Small Catechism (1529)"@en ;
+    gc:childOf <body/book-of-concord> ;
+    gc:expressedIn <source/small-catechism-1529> .
+
+<source/book-of-concord> a gc:SourceWork ;
+    rdfs:label "Triglot Concordia (St. Louis, 1921)"@en .
+
+<source/apology-1531> a gc:SourceWork ;
+    rdfs:label "Apology of the Augsburg Confession (1531)"@en ;
+    dcterms:isPartOf <source/book-of-concord> .
+
+<source/small-catechism-1529> a gc:SourceWork ;
+    rdfs:label "Small Catechism (1529)"@en ;
+    dcterms:isPartOf <source/book-of-concord> .
+
+<source/apology-1531/ix> a gc:SourceDivision ;
+    rdfs:label "Apology, Art. IX: Of Baptism"@en ;
+    dcterms:isPartOf <source/apology-1531> .
+
+<source/small-catechism-1529/4> a gc:SourceDivision ;
+    rdfs:label "Small Catechism, Part IV: The Sacrament of Holy Baptism"@en ;
+    dcterms:isPartOf <source/small-catechism-1529> .
+
+# ---------------------------------------------------------------- holdings
+
+<body/apology-1531> gc:holds <holding/apology-1531/baptism-subjects/infants> .
+
+<holding/apology-1531/baptism-subjects/infants> a gc:Holding ;
+    gc:position <position/baptism-subjects/infants> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/apology-1531/ix> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/small-catechism-1529> gc:holds <holding/small-catechism-1529/baptism-efficacy/necessary-means-of-grace> .
+
+<holding/small-catechism-1529/baptism-efficacy/necessary-means-of-grace> a gc:Holding ;
+    gc:position <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/small-catechism-1529/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/apology-1531/ix/001> a gc:Argument ;
+    gc:source <source/apology-1531/ix> ;
+    gc:supports <position/baptism-subjects/infants> ;
+    gc:cites <passage/kjv/Matt.28.19> ;
+    gc:locator "Art. IX" ;
+    gc:secondaryLocator "Triglot Concordia (1921), English" ;
+    gc:asPrinted "Matt. 28,19" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/small-catechism-1529/4/001> a gc:Argument ;
+    gc:source <source/small-catechism-1529/4> ;
+    gc:supports <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:cites <passage/kjv/Mark.16.16> ;
+    gc:locator "Part IV, Secondly" ;
+    gc:secondaryLocator "Triglot Concordia (1921), English" ;
+    gc:asPrinted "in the last chapter of Mark" ;
+    gc:resolutionNote "Printed without a verse. Resolved to Mark 16:16 from the words quoted: \"He that believeth and is baptized shall be saved\"." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/small-catechism-1529/4/002> a gc:Argument ;
+    gc:source <source/small-catechism-1529/4> ;
+    gc:supports <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:cites <passage/kjv/Titus.3.5-Titus.3.8> ;
+    gc:locator "Part IV, Thirdly" ;
+    gc:secondaryLocator "Triglot Concordia (1921), English" ;
+    gc:asPrinted "Titus, chapter three" ;
+    gc:resolutionNote "Printed without verses. Resolved to Titus 3:5-8 from the extent quoted: \"By the washing of regeneration\" through \"This is a faithful saying\"." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.16" ;
+    gc:startOrdinal 674 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/Titus.3.5-Titus.3.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.3.5-Titus.3.8" ;
+    gc:startOrdinal 36 ; gc:endOrdinal 39 .

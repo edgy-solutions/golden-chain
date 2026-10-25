@@ -1,0 +1,691 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Gill, Body of Divinity. PD text (docs/sources/gill-body-of-divinity.md). Cited by locator only;
+# no quotation until OCR is verified (OCR HELD). Primary gc:locator is Gill's printed division;
+# pages and asPrinted strings read from the BSB 2019 page images.
+
+<body/gill> a gc:Systematic ;
+    rdfs:label "John Gill, A Body of Doctrinal and Practical Divinity"@en ;
+    gc:expressedIn <source/gill-body> .
+
+<source/gill-body> a gc:SourceWork ;
+    rdfs:label "John Gill, A Complete Body of Doctrinal and Practical Divinity (1769-70)"@en ;
+    gc:paginationOf "BSB 2019 (ISBN 9781579780234), reproducing the 1839 London pagination" .
+
+<source/gill-body/doctrinal/4/1> a gc:SourceDivision ;
+    rdfs:label "Doctrinal Divinity, Book IV, Chap. I"@en ;
+    dcterms:isPartOf <source/gill-body> .
+
+<source/gill-body/doctrinal/4/5> a gc:SourceDivision ;
+    rdfs:label "Doctrinal Divinity, Book IV, Chap. V: Of the Abrogation of the Old Covenant"@en ;
+    dcterms:isPartOf <source/gill-body> .
+
+<source/gill-body/practical/3/1> a gc:SourceDivision ;
+    rdfs:label "Practical Divinity, Book III, Chap. I: Of Baptism"@en ;
+    gc:pages "896-915" ;
+    dcterms:isPartOf <source/gill-body> .
+
+# ---------------------------------------------------------------- holdings (ruling 1: taught, or forbidden where Gill argues against)
+
+<body/gill> gc:holds <holding/gill/covenant-administrations/one-covenant-two-administrations> .
+
+<holding/gill/covenant-administrations/one-covenant-two-administrations> a gc:Holding ;
+    gc:position <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/doctrinal/4/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-perpetuity/standing-ordinance-to-the-end> .
+
+<holding/gill/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Holding ;
+    gc:position <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/johns-baptism/same-ordinance> .
+
+<holding/gill/johns-baptism/same-ordinance> a gc:Holding ;
+    gc:position <position/johns-baptism/same-ordinance> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-subjects/professing-believers-only> .
+
+<holding/gill/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-subjects/believers-and-their-infants> .
+
+<holding/gill/baptism-subjects/believers-and-their-infants> a gc:Holding ;
+    gc:position <position/baptism-subjects/believers-and-their-infants> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-subjects/infants> .
+
+<holding/gill/baptism-subjects/infants> a gc:Holding ;
+    gc:position <position/baptism-subjects/infants> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-mode/immersion-only> .
+
+<holding/gill/baptism-mode/immersion-only> a gc:Holding ;
+    gc:position <position/baptism-mode/immersion-only> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-mode/mode-indifferent> .
+
+<holding/gill/baptism-mode/mode-indifferent> a gc:Holding ;
+    gc:position <position/baptism-mode/mode-indifferent> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-formula/triune-name> .
+
+<holding/gill/baptism-formula/triune-name> a gc:Holding ;
+    gc:position <position/baptism-formula/triune-name> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-significance/union-with-christ> .
+
+<holding/gill/baptism-significance/union-with-christ> a gc:Holding ;
+    gc:position <position/baptism-significance/union-with-christ> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-significance/sign-and-seal-of-the-covenant> .
+
+<holding/gill/baptism-significance/sign-and-seal-of-the-covenant> a gc:Holding ;
+    gc:position <position/baptism-significance/sign-and-seal-of-the-covenant> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-efficacy/sign-only> .
+
+<holding/gill/baptism-efficacy/sign-only> a gc:Holding ;
+    gc:position <position/baptism-efficacy/sign-only> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-efficacy/necessary-means-of-grace> .
+
+<holding/gill/baptism-efficacy/necessary-means-of-grace> a gc:Holding ;
+    gc:position <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/gill-body/practical/3/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/gill-body/doctrinal/4/1/001> a gc:Argument ;
+    gc:source <source/gill-body/doctrinal/4/1> ;
+    gc:supports <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:cites <passage/kjv/Heb.8.7-Heb.8.8> ,
+        <passage/kjv/Heb.8.13> ,
+        <passage/kjv/Heb.9.1> ,
+        <passage/kjv/Heb.9.15> ,
+        <passage/kjv/Heb.12.24> ;
+    gc:locator "Introduction (before First)" ;
+    gc:secondaryLocator "BSB 2019 p. 345 (chapter-opening page prints no number; by offset)" ;
+    gc:secondaryLocator "CCEL outline Book IV, Chap. I" ;
+    gc:pages "345" ;
+    gc:asPrinted "the epistle to the Hebrews, chap. viii. 7, 8, 13. and ix. 1, 15. and xii. 24." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/doctrinal/4/5/001> a gc:Argument ;
+    gc:source <source/gill-body/doctrinal/4/5> ;
+    gc:supports <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:cites <passage/kjv/Heb.9.10> ,
+        <passage/kjv/Gal.3.24-Gal.3.25> ;
+    gc:citesCandidate <passage/kjv/Gal.3.1-Gal.3.4> ,
+        <passage/kjv/Gal.4.1-Gal.4.4> ;
+    gc:locator "First, 1." ;
+    gc:secondaryLocator "BSB 2019 p. 361" ;
+    gc:secondaryLocator "CCEL outline §1a" ;
+    gc:pages "361" ;
+    gc:asPrinted "Heb. ix. 10." ;
+    gc:asPrinted "Gal. iii. 1, 2, 3, 4. and iii. 24, 25." ;
+    gc:resolutionNote "Printed \"Gal. iii. 1, 2, 3, 4.\" (confirmed on the page image). The context, children under tutors, suggests Gal. iv. 1-4. Both are recorded as candidates; neither is picked (F6)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/001> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/johns-baptism/same-ordinance> ;
+    gc:cites <passage/kjv/Matt.3.13-Matt.3.17> ,
+        <passage/kjv/John.4.2> ,
+        <passage/kjv/John.3.22-John.3.23> ,
+        <passage/kjv/John.3.26> ,
+        <passage/kjv/John.4.1-John.4.2> ;
+    gc:locator "First (before 1.)" ;
+    gc:secondaryLocator "BSB 2019 p. 897" ;
+    gc:secondaryLocator "CCEL outline §1" ;
+    gc:pages "897" ;
+    gc:asPrinted "Matt. iii. 13—17." ;
+    gc:asPrinted "John iv. 2." ;
+    gc:asPrinted "John iii. 22, 23, 26. and iv. 1, 2." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/002> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/johns-baptism/same-ordinance> ;
+    gc:cites <passage/kjv/Matt.3.6-Matt.3.8> ,
+        <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Acts.2.38> ,
+        <passage/kjv/Acts.19.4-Acts.19.5> ,
+        <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36-Acts.8.37> ;
+    gc:locator "First, 1." ;
+    gc:secondaryLocator "BSB 2019 p. 898" ;
+    gc:secondaryLocator "CCEL outline §1a" ;
+    gc:pages "898" ;
+    gc:asPrinted "Matt. iii. 6, 7, 8. Mark i. 4." ;
+    gc:asPrinted "Acts ii. 38." ;
+    gc:asPrinted "Acts xix. 4, 5." ;
+    gc:asPrinted "Mark xvi. 16. Acts viii. 36, 37." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/003> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/johns-baptism/same-ordinance> ;
+    gc:cites <passage/kjv/Matt.3.6> ,
+        <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ,
+        <passage/kjv/Acts.8.38-Acts.8.39> ;
+    gc:locator "First, 2." ;
+    gc:secondaryLocator "BSB 2019 p. 898" ;
+    gc:secondaryLocator "CCEL outline §1b" ;
+    gc:pages "898" ;
+    gc:asPrinted "Matt. iii. 6, 16. John iii. 23." ;
+    gc:asPrinted "Acts viii. 38, 39." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/004> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/johns-baptism/same-ordinance> ;
+    gc:cites <passage/kjv/Acts.19.5> ,
+        <passage/kjv/Acts.8.16> ,
+        <passage/kjv/Acts.10.48> ,
+        <passage/kjv/Matt.28.19> ;
+    gc:locator "First, 3." ;
+    gc:secondaryLocator "BSB 2019 p. 898" ;
+    gc:secondaryLocator "CCEL outline §1c" ;
+    gc:pages "898" ;
+    gc:asPrinted "Acts xix. 5." ;
+    gc:asPrinted "Acts viii. 16. and x. 48." ;
+    gc:asPrinted "Matt. xxviii. 19." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/005> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/johns-baptism/same-ordinance> ;
+    gc:cites <passage/kjv/Mark.1.4> ;
+    gc:citesCandidate <passage/kjv/Acts.8.38> ,
+        <passage/kjv/Acts.2.38> ;
+    gc:locator "First, 4." ;
+    gc:secondaryLocator "BSB 2019 p. 898" ;
+    gc:secondaryLocator "CCEL outline §1d" ;
+    gc:pages "898" ;
+    gc:asPrinted "Mark i. 4. Acts viii. 38." ;
+    gc:resolutionNote "Printed \"Acts viii. 38.\" (confirmed on the page image). The remission-of-sins clause suggests Acts ii. 38. Both are recorded as candidates; neither is picked (F6)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/006> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:cites <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Acts.8.36> ,
+        <passage/kjv/Acts.8.38-Acts.8.39> ,
+        <passage/kjv/Acts.10.47-Acts.10.48> ,
+        <passage/kjv/Matt.28.19-Matt.28.20> ;
+    gc:locator "First (unnumbered text after 4.)" ;
+    gc:secondaryLocator "BSB 2019 p. 898" ;
+    gc:secondaryLocator "CCEL outline §1d" ;
+    gc:pages "898" ;
+    gc:asPrinted "Matt. xxviii. 19." ;
+    gc:asPrinted "Acts viii. 36, 38, 39. and x. 47, 48." ;
+    gc:asPrinted "Matt. xxviii. 19, 20." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/007> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Acts.9.18> ;
+    gc:locator "Thirdly, 1." ;
+    gc:secondaryLocator "BSB 2019 p. 899" ;
+    gc:secondaryLocator "CCEL outline §3a" ;
+    gc:pages "899" ;
+    gc:asPrinted "Acts ix. 18." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/008> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Matt.3.6> ,
+        <passage/kjv/Acts.2.37-Acts.2.38> ,
+        <passage/kjv/Acts.2.41> ;
+    gc:locator "Thirdly, 2." ;
+    gc:secondaryLocator "BSB 2019 pp. 899–900" ;
+    gc:secondaryLocator "CCEL outline §3b" ;
+    gc:pages "899-900" ;
+    gc:asPrinted "Matt. iii. 6." ;
+    gc:asPrinted "Acts ii. 37, 38, 41." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/009> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36> ,
+        <passage/kjv/Acts.8.12> ,
+        <passage/kjv/Acts.18.8> ;
+    gc:locator "Thirdly, 3." ;
+    gc:secondaryLocator "BSB 2019 p. 900" ;
+    gc:secondaryLocator "CCEL outline §3c" ;
+    gc:pages "900" ;
+    gc:asPrinted "Mark xvi. 16." ;
+    gc:asPrinted "Acts viii. 36." ;
+    gc:asPrinted "Acts viii. 12. and xviii. 8." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/010> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/John.4.1> ;
+    gc:locator "Thirdly, 4." ;
+    gc:secondaryLocator "BSB 2019 p. 900" ;
+    gc:secondaryLocator "CCEL outline §3d" ;
+    gc:pages "900" ;
+    gc:asPrinted "John iv. 1." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/011> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Acts.10.47> ,
+        <passage/kjv/Gal.3.2> ;
+    gc:locator "Thirdly, 5." ;
+    gc:secondaryLocator "BSB 2019 p. 900" ;
+    gc:secondaryLocator "CCEL outline §3e" ;
+    gc:pages "900" ;
+    gc:asPrinted "Acts x. 47. see Gal. iii. 2." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/012> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/Matt.3.6> ,
+        <passage/kjv/Matt.3.13> ,
+        <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ;
+    gc:locator "Fourthly, 2." ;
+    gc:secondaryLocator "BSB 2019 p. 910" ;
+    gc:secondaryLocator "CCEL outline §4b" ;
+    gc:pages "910" ;
+    gc:asPrinted "Matt. iii. 6, 13, 16." ;
+    gc:asPrinted "John iii. 23." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/013> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/Mark.1.9> ;
+    gc:locator "Fourthly, 3." ;
+    gc:secondaryLocator "BSB 2019 p. 910" ;
+    gc:secondaryLocator "CCEL outline §4c" ;
+    gc:pages "910" ;
+    gc:asPrinted "Mark i. 9." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/014> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/Rom.6.4> ,
+        <passage/kjv/Col.2.12> ;
+    gc:locator "Fourthly, 4." ;
+    gc:secondaryLocator "BSB 2019 p. 911" ;
+    gc:secondaryLocator "CCEL outline §4d" ;
+    gc:pages "911" ;
+    gc:asPrinted "Rom. vi. 4. Col. ii. 12." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/015> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/1Pet.3.20-1Pet.3.21> ,
+        <passage/kjv/Rom.6.4-Rom.6.5> ,
+        <passage/kjv/Col.2.12> ;
+    gc:locator "Fourthly, 5. (1.)" ;
+    gc:secondaryLocator "BSB 2019 p. 911" ;
+    gc:secondaryLocator "CCEL outline §4e1" ;
+    gc:pages "911" ;
+    gc:asPrinted "1 Pet. iii. 20, 21." ;
+    gc:asPrinted "Rom. vi. 4, 5. Col. ii. 12." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/016> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/1Cor.10.1-1Cor.10.2> ;
+    gc:locator "Fourthly, 5. (2.)" ;
+    gc:secondaryLocator "BSB 2019 pp. 911–912" ;
+    gc:secondaryLocator "CCEL outline §4e2" ;
+    gc:pages "911-912" ;
+    gc:asPrinted "1 Cor. x. 1, 2." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/017> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-formula/triune-name> ;
+    gc:cites <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Acts.8.16> ,
+        <passage/kjv/Acts.10.48> ;
+    gc:locator "Fifthly" ;
+    gc:secondaryLocator "BSB 2019 p. 914" ;
+    gc:secondaryLocator "CCEL outline §5" ;
+    gc:pages "914" ;
+    gc:asPrinted "Matt. xxviii. 19." ;
+    gc:asPrinted "Acts viii. 16." ;
+    gc:asPrinted "Acts x. 48." ;
+    gc:asPrinted "Matt. xxviii. 19." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/018> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.4-Rom.6.5> ,
+        <passage/kjv/Col.2.12> ;
+    gc:locator "Sixthly, 1." ;
+    gc:secondaryLocator "BSB 2019 p. 914" ;
+    gc:secondaryLocator "CCEL outline §6a" ;
+    gc:pages "914" ;
+    gc:asPrinted "Rom. vi. 4, 5. Col. ii. 12." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/019> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-efficacy/sign-only> ;
+    gc:cites <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Acts.2.38> ;
+    gc:locator "Sixthly, 2." ;
+    gc:secondaryLocator "BSB 2019 p. 914" ;
+    gc:secondaryLocator "CCEL outline §6b" ;
+    gc:pages "914" ;
+    gc:asPrinted "Mark i. 4. Acts ii. 38." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/020> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-efficacy/sign-only> ;
+    gc:cites <passage/kjv/Acts.22.16> ;
+    gc:locator "Sixthly, 3." ;
+    gc:secondaryLocator "BSB 2019 p. 914" ;
+    gc:secondaryLocator "CCEL outline §6c" ;
+    gc:pages "914" ;
+    gc:asPrinted "Acts xxii. 16." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/practical/3/1/021> a gc:Argument ;
+    gc:source <source/gill-body/practical/3/1> ;
+    gc:supports <position/baptism-efficacy/sign-only> ;
+    gc:cites <passage/kjv/1Pet.3.21> ;
+    gc:locator "Sixthly, 4." ;
+    gc:secondaryLocator "BSB 2019 p. 914" ;
+    gc:secondaryLocator "CCEL outline §6d" ;
+    gc:pages "914" ;
+    gc:asPrinted "1 Pet. iii. 21." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/1Cor.10.1-1Cor.10.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.10.1-1Cor.10.2" ;
+    gc:startOrdinal 205 ; gc:endOrdinal 206 .
+
+<passage/kjv/1Pet.3.20-1Pet.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Pet" ; gc:osisRef "1Pet.3.20-1Pet.3.21" ;
+    gc:startOrdinal 70 ; gc:endOrdinal 71 .
+
+<passage/kjv/1Pet.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Pet" ; gc:osisRef "1Pet.3.21" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Acts.2.37-Acts.2.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.37-Acts.2.38" ;
+    gc:startOrdinal 63 ; gc:endOrdinal 64 .
+
+<passage/kjv/Acts.2.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.38" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Acts.2.41> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.41" ;
+    gc:startOrdinal 67 ; gc:endOrdinal 67 .
+
+<passage/kjv/Acts.8.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.12" ;
+    gc:startOrdinal 265 ; gc:endOrdinal 265 .
+
+<passage/kjv/Acts.8.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.16" ;
+    gc:startOrdinal 269 ; gc:endOrdinal 269 .
+
+<passage/kjv/Acts.8.36> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.36" ;
+    gc:startOrdinal 289 ; gc:endOrdinal 289 .
+
+<passage/kjv/Acts.8.36-Acts.8.37> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.36-Acts.8.37" ;
+    gc:startOrdinal 289 ; gc:endOrdinal 290 .
+
+<passage/kjv/Acts.8.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.38" ;
+    gc:startOrdinal 291 ; gc:endOrdinal 291 .
+
+<passage/kjv/Acts.8.38-Acts.8.39> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.38-Acts.8.39" ;
+    gc:startOrdinal 291 ; gc:endOrdinal 292 .
+
+<passage/kjv/Acts.9.18> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.9.18" ;
+    gc:startOrdinal 311 ; gc:endOrdinal 311 .
+
+<passage/kjv/Acts.10.47> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.47" ;
+    gc:startOrdinal 383 ; gc:endOrdinal 383 .
+
+<passage/kjv/Acts.10.47-Acts.10.48> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.47-Acts.10.48" ;
+    gc:startOrdinal 383 ; gc:endOrdinal 384 .
+
+<passage/kjv/Acts.10.48> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.48" ;
+    gc:startOrdinal 384 ; gc:endOrdinal 384 .
+
+<passage/kjv/Acts.18.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.18.8" ;
+    gc:startOrdinal 642 ; gc:endOrdinal 642 .
+
+<passage/kjv/Acts.19.4-Acts.19.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.19.4-Acts.19.5" ;
+    gc:startOrdinal 666 ; gc:endOrdinal 667 .
+
+<passage/kjv/Acts.19.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.19.5" ;
+    gc:startOrdinal 667 ; gc:endOrdinal 667 .
+
+<passage/kjv/Acts.22.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.22.16" ;
+    gc:startOrdinal 797 ; gc:endOrdinal 797 .
+
+<passage/kjv/Col.2.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.12" ;
+    gc:startOrdinal 41 ; gc:endOrdinal 41 .
+
+<passage/kjv/Gal.3.1-Gal.3.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.1-Gal.3.4" ;
+    gc:startOrdinal 46 ; gc:endOrdinal 49 .
+
+<passage/kjv/Gal.3.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.2" ;
+    gc:startOrdinal 47 ; gc:endOrdinal 47 .
+
+<passage/kjv/Gal.3.24-Gal.3.25> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.24-Gal.3.25" ;
+    gc:startOrdinal 69 ; gc:endOrdinal 70 .
+
+<passage/kjv/Gal.4.1-Gal.4.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.4.1-Gal.4.4" ;
+    gc:startOrdinal 75 ; gc:endOrdinal 78 .
+
+<passage/kjv/Heb.8.7-Heb.8.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.8.7-Heb.8.8" ;
+    gc:startOrdinal 136 ; gc:endOrdinal 137 .
+
+<passage/kjv/Heb.8.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.8.13" ;
+    gc:startOrdinal 142 ; gc:endOrdinal 142 .
+
+<passage/kjv/Heb.9.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.1" ;
+    gc:startOrdinal 143 ; gc:endOrdinal 143 .
+
+<passage/kjv/Heb.9.10> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.10" ;
+    gc:startOrdinal 152 ; gc:endOrdinal 152 .
+
+<passage/kjv/Heb.9.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.15" ;
+    gc:startOrdinal 157 ; gc:endOrdinal 157 .
+
+<passage/kjv/Heb.12.24> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.12.24" ;
+    gc:startOrdinal 273 ; gc:endOrdinal 273 .
+
+<passage/kjv/John.3.22-John.3.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.22-John.3.23" ;
+    gc:startOrdinal 98 ; gc:endOrdinal 99 .
+
+<passage/kjv/John.3.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.23" ;
+    gc:startOrdinal 99 ; gc:endOrdinal 99 .
+
+<passage/kjv/John.3.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.26" ;
+    gc:startOrdinal 102 ; gc:endOrdinal 102 .
+
+<passage/kjv/John.4.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.4.1" ;
+    gc:startOrdinal 113 ; gc:endOrdinal 113 .
+
+<passage/kjv/John.4.1-John.4.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.4.1-John.4.2" ;
+    gc:startOrdinal 113 ; gc:endOrdinal 114 .
+
+<passage/kjv/John.4.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.4.2" ;
+    gc:startOrdinal 114 ; gc:endOrdinal 114 .
+
+<passage/kjv/Mark.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.1.4" ;
+    gc:startOrdinal 4 ; gc:endOrdinal 4 .
+
+<passage/kjv/Mark.1.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.1.9" ;
+    gc:startOrdinal 9 ; gc:endOrdinal 9 .
+
+<passage/kjv/Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.16" ;
+    gc:startOrdinal 674 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.3.6> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.6" ;
+    gc:startOrdinal 54 ; gc:endOrdinal 54 .
+
+<passage/kjv/Matt.3.6-Matt.3.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.6-Matt.3.8" ;
+    gc:startOrdinal 54 ; gc:endOrdinal 56 .
+
+<passage/kjv/Matt.3.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.13" ;
+    gc:startOrdinal 61 ; gc:endOrdinal 61 .
+
+<passage/kjv/Matt.3.13-Matt.3.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.13-Matt.3.17" ;
+    gc:startOrdinal 61 ; gc:endOrdinal 65 .
+
+<passage/kjv/Matt.3.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.16" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/Matt.28.19-Matt.28.20> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19-Matt.28.20" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1071 .
+
+<passage/kjv/Rom.6.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4" ;
+    gc:startOrdinal 142 ; gc:endOrdinal 142 .
+
+<passage/kjv/Rom.6.4-Rom.6.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4-Rom.6.5" ;
+    gc:startOrdinal 142 ; gc:endOrdinal 143 .

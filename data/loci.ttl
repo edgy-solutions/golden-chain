@@ -1,0 +1,162 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Phase-1 headings, loci, Positions and the edges between them.
+# Loci 23, 28-32 and 33a/33b (33 split per ruling 3, 2026-10-25). Labels are proposed; no doctrine is asserted.
+
+<heading/salvation> a gc:Heading ;
+    rdfs:label "Salvation"@en .
+
+<heading/worship> a gc:Heading ;
+    rdfs:label "Worship"@en .
+
+# ---------------------------------------------------------------- loci
+
+<locus/covenant-administrations> a gc:Locus ;
+    rdfs:label "Covenant administrations"@en ;
+    skos:notation "23" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "Are the old and new covenants two administrations of one covenant of grace?"@en .
+
+<locus/baptism-perpetuity> a gc:Locus ;
+    rdfs:label "Perpetuity of baptism"@en ;
+    skos:notation "28" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Is water baptism a standing ordinance until Christ returns?"@en .
+
+<locus/johns-baptism> a gc:Locus ;
+    rdfs:label "John's baptism"@en ;
+    skos:notation "29" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Was John's baptism the same ordinance as Christian baptism?"@en .
+
+<locus/baptism-subjects> a gc:Locus ;
+    rdfs:label "Subjects of baptism"@en ;
+    skos:notation "30" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Who may be baptized?"@en .
+
+<locus/baptism-mode> a gc:Locus ;
+    rdfs:label "Mode of baptism"@en ;
+    skos:notation "31" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "How is baptism administered?"@en .
+
+<locus/baptism-formula> a gc:Locus ;
+    rdfs:label "Formula of baptism"@en ;
+    skos:notation "32" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "In whose name is baptism administered?"@en .
+
+<locus/baptism-significance> a gc:Locus ;
+    rdfs:label "Significance of baptism"@en ;
+    skos:notation "33a" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What does baptism signify?"@en .
+
+<locus/baptism-efficacy> a gc:Locus ;
+    rdfs:label "Efficacy of baptism"@en ;
+    skos:notation "33b" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What does baptism effect?"@en .
+
+# ---------------------------------------------------------------- positions
+
+<position/covenant-administrations/one-covenant-two-administrations> a gc:Position ;
+    rdfs:label "One covenant of grace in substance, administered in two ways: before Christ and after."@en ;
+    gc:answers <locus/covenant-administrations> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Position ;
+    rdfs:label "Water baptism is a standing ordinance, to continue until the end of the world."@en ;
+    gc:answers <locus/baptism-perpetuity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/johns-baptism/same-ordinance> a gc:Position ;
+    rdfs:label "John's baptism and the apostles' baptism are one and the same ordinance."@en ;
+    gc:answers <locus/johns-baptism> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/professing-believers-only> a gc:Position ;
+    rdfs:label "Only those who profess repentance and faith are to be baptized."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/believers-and-their-infants> a gc:Position ;
+    rdfs:label "Professing believers, and the infants of one or both believing parents."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/infants> a gc:Position ;
+    rdfs:label "Children are to be baptized; no parental condition is stated."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-mode/immersion-only> a gc:Position ;
+    rdfs:label "Baptism is immersion; immersion is necessary to its due administration."@en ;
+    gc:answers <locus/baptism-mode> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-mode/mode-indifferent> a gc:Position ;
+    rdfs:label "Dipping is not necessary; baptism is rightly administered by pouring or sprinkling."@en ;
+    gc:answers <locus/baptism-mode> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-formula/triune-name> a gc:Position ;
+    rdfs:label "In the name of the Father, and of the Son, and of the Holy Spirit."@en ;
+    gc:answers <locus/baptism-formula> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-significance/union-with-christ> a gc:Position ;
+    rdfs:label "Baptism signifies union with Christ: fellowship in his death and resurrection, ingrafting, remission of sins, newness of life."@en ;
+    gc:answers <locus/baptism-significance> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-significance/sign-and-seal-of-the-covenant> a gc:Position ;
+    rdfs:label "Baptism is a sign and seal of the covenant of grace."@en ;
+    gc:answers <locus/baptism-significance> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/sign-only> a gc:Position ;
+    rdfs:label "Baptism signifies; it does not of itself confer or effect what it signifies."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/grace-conferred-in-right-use> a gc:Position ;
+    rdfs:label "By the right use of baptism, the grace promised is conferred by the Holy Spirit to those to whom it belongs, in God's time."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/necessary-means-of-grace> a gc:Position ;
+    rdfs:label "Baptism is necessary to salvation; by it God's grace is offered and forgiveness of sins is given."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- edges (ADR-0003 §6; as ratified as the weaker Position, ADR-0005 §4)
+
+<position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/believers-and-their-infants> .
+<position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/infants> .
+<position/baptism-mode/immersion-only> gc:excludes <position/baptism-mode/mode-indifferent> .
+<position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/grace-conferred-in-right-use> .
+<position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/necessary-means-of-grace> .
+
+# E1, ratified 2026-10-25.
+<position/baptism-subjects/believers-and-their-infants> gc:entails <position/covenant-administrations/one-covenant-two-administrations> .

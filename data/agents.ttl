@@ -1,0 +1,15 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ADR-0005 §2: who proposes and who ratifies.
+
+<agent/build-agent> a gc:Agent ;
+    rdfs:label "Build agent"@en .
+
+<agent/architect> a gc:Agent ;
+    rdfs:label "Architect"@en .
+

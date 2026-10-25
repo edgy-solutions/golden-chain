@@ -1,0 +1,212 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Second London Baptist Confession (docs/sources/lbc-1689.md). Reference only; no quotation.
+
+<body/lbc-1689> a gc:Confession ;
+    rdfs:label "Second London Baptist Confession (1677/1689)"@en ;
+    gc:expressedIn <source/lbc-1689> .
+
+<source/lbc-1689> a gc:SourceWork ;
+    rdfs:label "A Confession of Faith (1677/1689), with proof texts"@en .
+
+<source/lbc-1689/28/1> a gc:SourceDivision ;
+    rdfs:label "LBC 28.1"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/1> a gc:SourceDivision ;
+    rdfs:label "LBC 29.1"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/2> a gc:SourceDivision ;
+    rdfs:label "LBC 29.2"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/3> a gc:SourceDivision ;
+    rdfs:label "LBC 29.3"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/4> a gc:SourceDivision ;
+    rdfs:label "LBC 29.4"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+# ---------------------------------------------------------------- holdings
+# No efficacy (33b) Holding: 29.1 says "a sign", not "only a sign" (finding).
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-perpetuity/standing-ordinance-to-the-end> .
+
+<holding/lbc-1689/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Holding ;
+    gc:position <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/28/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-subjects/professing-believers-only> .
+
+<holding/lbc-1689/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/2> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-mode/immersion-only> .
+
+<holding/lbc-1689/baptism-mode/immersion-only> a gc:Holding ;
+    gc:position <position/baptism-mode/immersion-only> ;
+    gc:modality <vocab/modality/required> ;
+    dcterms:source <source/lbc-1689/29/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-formula/triune-name> .
+
+<holding/lbc-1689/baptism-formula/triune-name> a gc:Holding ;
+    gc:position <position/baptism-formula/triune-name> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/3> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-significance/union-with-christ> .
+
+<holding/lbc-1689/baptism-significance/union-with-christ> a gc:Holding ;
+    gc:position <position/baptism-significance/union-with-christ> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/lbc-1689/28/1/001> a gc:Argument ;
+    gc:source <source/lbc-1689/28/1> ;
+    gc:supports <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/1Cor.11.26> ;
+    gc:locator "28.1" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.3-Rom.6.5> ,
+        <passage/kjv/Col.2.12> ,
+        <passage/kjv/Gal.3.27> ,
+        <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Rom.6.2> ,
+        <passage/kjv/Rom.6.4> ;
+    gc:citesCandidate <passage/kjv/Acts.2.41> ,
+        <passage/kjv/Acts.8.12> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "bible-researcher.com transcription" ;
+    gc:secondaryLocator "IA bim_eighteenth-century_a-confession-of-faith-p_1719 (4th ed., 1719)" ;
+    gc:asPrinted "Act. 26.16." ;
+    gc:resolutionNote "Printed \"Act. 26.16.\" (transcription; the 1719 OCR agrees, unverified against the image). A known slip; the architect names Acts 2:41 or 8:12. The transcription notes that most modern editions read Acts 22:16. Neither candidate is picked (ruling 6)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/2/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/2> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Mark.16.16> ;
+    gc:citesCandidate <passage/kjv/Acts.8.36-Acts.8.37> ,
+        <passage/kjv/Acts.8.37-Acts.8.38> ;
+    gc:locator "29.2" ;
+    gc:secondaryLocator "bible-researcher.com transcription" ;
+    gc:secondaryLocator "IA bim_eighteenth-century_a-confession-of-faith-p_1719 (4th ed., 1719)" ;
+    gc:asPrinted "Act. 8.36,37." ;
+    gc:asPrinted "Acts 8. 37, 38." ;
+    gc:resolutionNote "The transcription prints \"Act. 8.36,37.\"; the 1719 OCR reads \"Acts 8. 37, 38.\". Left to the architect's reading of the page image (ruling 6)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/3/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/3> ;
+    gc:supports <position/baptism-formula/triune-name> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/Acts.8.38> ;
+    gc:locator "29.3" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/4/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/4> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ;
+    gc:locator "29.4" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/1Cor.11.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.11.26" ;
+    gc:startOrdinal 263 ; gc:endOrdinal 263 .
+
+<passage/kjv/Acts.2.41> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.41" ;
+    gc:startOrdinal 67 ; gc:endOrdinal 67 .
+
+<passage/kjv/Acts.8.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.12" ;
+    gc:startOrdinal 265 ; gc:endOrdinal 265 .
+
+<passage/kjv/Acts.8.36-Acts.8.37> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.36-Acts.8.37" ;
+    gc:startOrdinal 289 ; gc:endOrdinal 290 .
+
+<passage/kjv/Acts.8.37-Acts.8.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.37-Acts.8.38" ;
+    gc:startOrdinal 290 ; gc:endOrdinal 291 .
+
+<passage/kjv/Acts.8.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.38" ;
+    gc:startOrdinal 291 ; gc:endOrdinal 291 .
+
+<passage/kjv/Col.2.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.12" ;
+    gc:startOrdinal 41 ; gc:endOrdinal 41 .
+
+<passage/kjv/Gal.3.27> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.27" ;
+    gc:startOrdinal 72 ; gc:endOrdinal 72 .
+
+<passage/kjv/John.3.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.23" ;
+    gc:startOrdinal 99 ; gc:endOrdinal 99 .
+
+<passage/kjv/Mark.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.1.4" ;
+    gc:startOrdinal 4 ; gc:endOrdinal 4 .
+
+<passage/kjv/Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.16" ;
+    gc:startOrdinal 674 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.3.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.16" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Matt.28.19-Matt.28.20> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19-Matt.28.20" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1071 .
+
+<passage/kjv/Rom.6.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.2" ;
+    gc:startOrdinal 140 ; gc:endOrdinal 140 .
+
+<passage/kjv/Rom.6.3-Rom.6.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.3-Rom.6.5" ;
+    gc:startOrdinal 141 ; gc:endOrdinal 143 .
+
+<passage/kjv/Rom.6.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4" ;
+    gc:startOrdinal 142 ; gc:endOrdinal 142 .

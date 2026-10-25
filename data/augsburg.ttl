@@ -1,0 +1,50 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Augsburg Confession (docs/sources/augsburg.md). Latin is the primary layer.
+# Art. IX adduces no Scripture, so Augsburg supplies Holdings only (ruling 2).
+
+<body/augsburg> a gc:Confession ;
+    rdfs:label "Augsburg Confession (1530)"@en ;
+    gc:expressedIn <source/augsburg> .
+
+<source/augsburg> a gc:SourceWork ;
+    rdfs:label "Augsburg Confession (1530), Triglot Concordia (1921)"@en .
+
+<source/augsburg/ix> a gc:SourceDivision ;
+    rdfs:label "Augsburg Confession, Art. IX: Of Baptism"@en ;
+    dcterms:isPartOf <source/augsburg> .
+
+# ---------------------------------------------------------------- holdings
+
+<body/augsburg> gc:holds <holding/augsburg/baptism-subjects/professing-believers-only> .
+
+<holding/augsburg/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/augsburg/ix> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/augsburg> gc:holds <holding/augsburg/baptism-subjects/infants> .
+
+<holding/augsburg/baptism-subjects/infants> a gc:Holding ;
+    gc:position <position/baptism-subjects/infants> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/augsburg/ix> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/augsburg> gc:holds <holding/augsburg/baptism-efficacy/necessary-means-of-grace> .
+
+<holding/augsburg/baptism-efficacy/necessary-means-of-grace> a gc:Holding ;
+    gc:position <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/augsburg/ix> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
