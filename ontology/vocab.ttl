@@ -1,0 +1,114 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<vocab/modality> a skos:ConceptScheme ;
+    skos:prefLabel "Modality"@en .
+
+<vocab/modality/required> a skos:Concept ;
+    skos:inScheme <vocab/modality> ;
+    skos:topConceptOf <vocab/modality> ;
+    skos:prefLabel "required"@en ;
+    skos:definition "Holding or practising the Position is a condition of membership, communion, or office in the Body. Dissent is grounds for exclusion or discipline."@en .
+
+<vocab/modality/taught> a skos:Concept ;
+    skos:inScheme <vocab/modality> ;
+    skos:topConceptOf <vocab/modality> ;
+    skos:prefLabel "taught"@en ;
+    skos:definition "The Body affirms and teaches the Position, but dissent does not by itself bar membership."@en .
+
+<vocab/modality/tolerated> a skos:Concept ;
+    skos:inScheme <vocab/modality> ;
+    skos:topConceptOf <vocab/modality> ;
+    skos:prefLabel "tolerated"@en ;
+    skos:definition "The Body does not teach the Position but permits it among those in its scope."@en .
+
+<vocab/modality/forbidden> a skos:Concept ;
+    skos:inScheme <vocab/modality> ;
+    skos:topConceptOf <vocab/modality> ;
+    skos:prefLabel "forbidden"@en ;
+    skos:definition "The Body rejects the Position. Holding or practising it is grounds for discipline or exclusion."@en .
+
+<vocab/user-modality> a skos:ConceptScheme ;
+    skos:prefLabel "User modality"@en .
+
+<vocab/user-modality/obligatory> a skos:Concept ;
+    skos:inScheme <vocab/user-modality> ;
+    skos:topConceptOf <vocab/user-modality> ;
+    skos:prefLabel "obligatory"@en ;
+    skos:definition "I must hold or practise this."@en .
+
+<vocab/user-modality/permitted> a skos:Concept ;
+    skos:inScheme <vocab/user-modality> ;
+    skos:topConceptOf <vocab/user-modality> ;
+    skos:prefLabel "permitted"@en ;
+    skos:definition "I may hold or practise this; I can live with it either way."@en .
+
+<vocab/user-modality/forbidden> a skos:Concept ;
+    skos:inScheme <vocab/user-modality> ;
+    skos:topConceptOf <vocab/user-modality> ;
+    skos:prefLabel "forbidden"@en ;
+    skos:definition "I must not hold or practise this, nor submit to it."@en .
+
+<vocab/tier> a skos:ConceptScheme ;
+    skos:prefLabel "Tier"@en .
+
+<vocab/tier/first> a skos:Concept ;
+    skos:inScheme <vocab/tier> ;
+    skos:topConceptOf <vocab/tier> ;
+    skos:prefLabel "first"@en ;
+    skos:definition "First-order: bears on the gospel itself."@en .
+
+<vocab/tier/second> a skos:Concept ;
+    skos:inScheme <vocab/tier> ;
+    skos:topConceptOf <vocab/tier> ;
+    skos:prefLabel "second"@en ;
+    skos:definition "Second-order: Christians who differ normally cannot share one church order."@en .
+
+<vocab/tier/third> a skos:Concept ;
+    skos:inScheme <vocab/tier> ;
+    skos:topConceptOf <vocab/tier> ;
+    skos:prefLabel "third"@en ;
+    skos:definition "Third-order: members of one congregation may differ."@en .
+
+<vocab/clarity> a skos:ConceptScheme ;
+    skos:prefLabel "Clarity"@en .
+
+<vocab/clarity/settled> a skos:Concept ;
+    skos:inScheme <vocab/clarity> ;
+    skos:topConceptOf <vocab/clarity> ;
+    skos:prefLabel "settled"@en ;
+    skos:definition "The plumb-line holds a Position and it is not disputed among its own. Full weight."@en .
+
+<vocab/clarity/contested> a skos:Concept ;
+    skos:inScheme <vocab/clarity> ;
+    skos:topConceptOf <vocab/clarity> ;
+    skos:prefLabel "contested"@en ;
+    skos:definition "The plumb-line holds a Position but marks it as disputed among its own. Full weight; the flag is for display and honesty."@en .
+
+<vocab/clarity/open> a skos:Concept ;
+    skos:inScheme <vocab/clarity> ;
+    skos:topConceptOf <vocab/clarity> ;
+    skos:prefLabel "open"@en ;
+    skos:definition "No verdict is rendered. Scoring weight 0."@en .
+
+<vocab/scope> a skos:ConceptScheme ;
+    skos:prefLabel "Scope"@en .
+
+<vocab/scope/all> a skos:Concept ;
+    skos:inScheme <vocab/scope> ;
+    skos:topConceptOf <vocab/scope> ;
+    skos:prefLabel "all"@en ;
+    skos:definition "Applies to all in the Body. The default; an absent scope means all."@en .
+
+<vocab/scope/officers> a skos:Concept ;
+    skos:inScheme <vocab/scope> ;
+    skos:topConceptOf <vocab/scope> ;
+    skos:prefLabel "officers"@en ;
+    skos:definition "Applies to officers."@en .
+
+<vocab/scope/members> a skos:Concept ;
+    skos:inScheme <vocab/scope> ;
+    skos:topConceptOf <vocab/scope> ;
+    skos:prefLabel "members"@en ;
+    skos:definition "Applies to members."@en .

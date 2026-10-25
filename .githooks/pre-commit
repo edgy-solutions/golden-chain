@@ -1,0 +1,28 @@
+#!/bin/sh
+# Reject staged PDFs anywhere, and non-.ttl/.py/.md files under data/.
+rc=0
+tmp=$(mktemp)
+git diff --cached --name-only --diff-filter=ACMR -z > "$tmp"
+# POSIX sh has no read -d; split NULs into lines via tr (names with newlines unsupported).
+tr '\0' '\n' < "$tmp" > "$tmp.l"
+while IFS= read -r p; do
+  [ -n "$p" ] || continue
+  lower=$(printf '%s' "$p" | tr 'A-Z' 'a-z')
+  case "$lower" in
+    *.pdf) echo "pre-commit: PDF not allowed: $p" >&2; rc=1; continue ;;
+  esac
+  case "$p" in
+    data/*)
+      base=${p##*/}
+      case "$base" in
+        *.*) ext=${base##*.} ;;
+        *) ext= ;;
+      esac
+      case "$ext" in
+        ttl|py|md) ;;
+        *) echo "pre-commit: only .ttl, .py, .md allowed under data/: $p" >&2; rc=1 ;;
+      esac ;;
+  esac
+done < "$tmp.l"
+rm -f "$tmp" "$tmp.l"
+exit $rc

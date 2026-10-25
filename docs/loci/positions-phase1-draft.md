@@ -213,11 +213,21 @@ The Augsburg Holdings on 30c and 33c cannot exist until their Positions do.
 - **F5. LBC proof-text variants.**
   - 29.1 prints "Acts 26.16". The 1719 witness agrees; the transcription notes 22:16 as the likely intent. Proposal: cite as printed and leave the correction to the architect.
   - 29.2: the transcription reads "Act. 8.36,37", but the 1719 OCR reads "Acts 8. 37, 38". It is to be read from the page image before minting.
-- **F6. Gill citations to read on the page image:**
-  - §1d "Acts 8:38" (2:38 would fit the remission-of-sins clause);
-  - D IV.5 §1a "Gal. 3:1-4" (4:1–4 fits "children … under tutors");
-  - §4e4 "Ps. 62:7".
-  - Each is cited as printed unless the page image differs.
+- **F6. Gill citations that look like slips. They are cited as printed.**
+
+  | Locator | Printed | What the context suggests |
+  |---|---|---|
+  | §1d | "Acts 8:38" | 2:38, for the remission-of-sins clause |
+  | D IV.5 §1a | "Gal. 3:1-4" | 4:1–4, for "children … under tutors" |
+  | §4e4 | "Ps. 62:7" | — |
+
+  - CCEL and the BSB OCR agree on all three: BSB p. 898 "Mark i. 4. Acts viii. 38."; p. 361 "Gal. iii. 1, 2, 3, 4. and iii. 24, 25."; p. 912 "Psalm lxii. 7. and lxix. 1, 2."
+  - So the reading is the 1839 print, not a CCEL transcription error.
+  - A human look at the page image confirms the roman numerals (OCR only locates).
+  - Correcting an author's slip is the architect's call.
+- **F9. Locator labels.** CCEL's outline labels (`§1d`, `§3e3b2`) are not Gill's own. The BSB prints, for example, "4. In the end and use of baptism" under "First" for CCEL's §1d.
+  - Proposal: `gc:locator` carries Gill's printed numbering, e.g. `"1. First; 4."`, with the CCEL label as a second `gc:locator` literal for the cross-check.
+  - This draft uses the CCEL labels until the build.
 - **F7. Dissertation 5** is cited from the extracted list. Its citations' context is to be read before minting.
 - **F8. WCF 7.6 prints "Gal. ii. 17"** for "Christ the substance". Schaff's American edition reads Col 2:17. That proof belongs to the Christ-the-substance clause, not to the Position's clause, so it is not cited.
 
