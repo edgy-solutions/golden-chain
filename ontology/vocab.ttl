@@ -112,3 +112,18 @@
     skos:topConceptOf <vocab/scope> ;
     skos:prefLabel "members"@en ;
     skos:definition "Applies to members."@en .
+
+<vocab/status> a skos:ConceptScheme ;
+    skos:prefLabel "Status"@en .
+
+<vocab/status/proposed> a skos:Concept ;
+    skos:inScheme <vocab/status> ;
+    skos:topConceptOf <vocab/status> ;
+    skos:prefLabel "proposed"@en ;
+    skos:definition "Put forward by the build agent; not yet ruled on by the architect. Loaded and shown, but marked."@en .
+
+<vocab/status/ratified> a skos:Concept ;
+    skos:inScheme <vocab/status> ;
+    skos:topConceptOf <vocab/status> ;
+    skos:prefLabel "ratified"@en ;
+    skos:definition "Ruled on and accepted by the architect (ADR-0005). Carries gc:ratifiedBy and dcterms:dateAccepted."@en .

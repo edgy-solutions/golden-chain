@@ -1,0 +1,201 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Golden Chain SHACL shapes (ADR-0002, ADR-0003, ADR-0005). Phase 1.
+# Validated over the union of ontology/core.ttl, ontology/vocab.ttl and data/*.ttl.
+# Checks that need code rather than SHACL live in goldenchain/ingest.py:
+#   - every Passage IRI is canonical (goldenchain.passage.parse) and its triples match it;
+#   - gc:tier and gc:clarity appear only in the plumb-line graph (ADR-0003 §3).
+
+<ontology/shapes> a owl:Ontology ;
+    sh:declare
+        [ sh:prefix "gc" ; sh:namespace "https://w3id.org/golden-chain/ontology#"^^xsd:anyURI ] ,
+        [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] .
+
+# ---------------------------------------------------------------- IRI patterns (ADR-0002)
+
+<ontology/shapes#Heading> a sh:NodeShape ;
+    sh:targetClass gc:Heading ;
+    sh:pattern "^https://w3id\\.org/golden-chain/heading/[a-z0-9-]+$" ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+
+<ontology/shapes#Agent> a sh:NodeShape ;
+    sh:targetClass gc:Agent ;
+    sh:pattern "^https://w3id\\.org/golden-chain/agent/[a-z0-9-]+$" .
+
+<ontology/shapes#SourceWork> a sh:NodeShape ;
+    sh:targetClass gc:SourceWork ;
+    sh:pattern "^https://w3id\\.org/golden-chain/source/[a-z0-9-]+$" ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+
+<ontology/shapes#SourceDivision> a sh:NodeShape ;
+    sh:targetClass gc:SourceDivision ;
+    sh:pattern "^https://w3id\\.org/golden-chain/source/[a-z0-9-]+(/[a-z0-9-]+)+$" ;
+    sh:property [ sh:path dcterms:isPartOf ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Source ] .
+
+# ---------------------------------------------------------------- loci and positions
+
+<ontology/shapes#Locus> a sh:NodeShape ;
+    sh:targetClass gc:Locus ;
+    sh:pattern "^https://w3id\\.org/golden-chain/locus/[a-z0-9-]+$" ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path skos:notation ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path gc:question ; sh:minCount 1 ; sh:datatype rdf:langString ] ;
+    sh:property [ sh:path gc:underHeading ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Heading ] ;
+    sh:property [ sh:path gc:tier ; sh:maxCount 1 ;
+        sh:in ( <vocab/tier/first> <vocab/tier/second> <vocab/tier/third> ) ] ;
+    sh:property [ sh:path gc:clarity ; sh:maxCount 1 ;
+        sh:in ( <vocab/clarity/settled> <vocab/clarity/contested> <vocab/clarity/open> ) ] ;
+    # Until the plumb-line graph exists every Locus raises this warning (one per Locus).
+    sh:property [ sh:path gc:tier ; sh:minCount 1 ; sh:severity sh:Warning ;
+        sh:message "Locus has no tier yet; the plumb-line supplies it (ADR-0003 §3)." ] .
+
+<ontology/shapes#Position> a sh:NodeShape ;
+    sh:targetClass gc:Position ;
+    sh:pattern "^https://w3id\\.org/golden-chain/position/[a-z0-9-]+/[a-z0-9-]+$" ;
+    sh:node <ontology/shapes#Status> ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path gc:answers ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Locus ] ;
+    sh:property [ sh:path gc:excludes ; sh:class gc:Position ] ;
+    sh:property [ sh:path gc:entails ; sh:class gc:Position ] ;
+    # Rule 2 (clarified in ADR-0005): >= 1 Argument from some source.
+    sh:property [ sh:path [ sh:inversePath gc:supports ] ; sh:minCount 1 ;
+        sh:message "Rule 2: a Position needs at least one Argument." ] ;
+    sh:sparql [
+        sh:message "Position IRI's locus segment must match its gc:answers Locus." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:answers ?l .
+                FILTER (STRBEFORE(STRAFTER(STR($this), "/position/"), "/")
+                        != STRAFTER(STR(?l), "/locus/"))
+            }""" ] .
+
+# ---------------------------------------------------------------- editorial status (ADR-0005 §2)
+
+<ontology/shapes#Status> a sh:NodeShape ;
+    sh:property [ sh:path gc:status ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( <vocab/status/proposed> <vocab/status/ratified> ) ] ;
+    sh:property [ sh:path gc:proposedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Agent ] ;
+    # Only the architect ratifies.
+    sh:property [ sh:path gc:ratifiedBy ; sh:maxCount 1 ; sh:in ( <agent/architect> ) ] ;
+    sh:property [ sh:path dcterms:dateAccepted ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
+    sh:xone (
+        [ sh:property [ sh:path gc:status ; sh:hasValue <vocab/status/proposed> ] ;
+          sh:property [ sh:path gc:ratifiedBy ; sh:maxCount 0 ] ;
+          sh:property [ sh:path dcterms:dateAccepted ; sh:maxCount 0 ] ]
+        [ sh:property [ sh:path gc:status ; sh:hasValue <vocab/status/ratified> ] ;
+          sh:property [ sh:path gc:ratifiedBy ; sh:minCount 1 ] ;
+          sh:property [ sh:path dcterms:dateAccepted ; sh:minCount 1 ] ]
+    ) .
+
+# ---------------------------------------------------------------- arguments (ADR-0005 §3)
+
+<ontology/shapes#Argument> a sh:NodeShape ;
+    sh:targetClass gc:Argument ;
+    sh:pattern "^https://w3id\\.org/golden-chain/argument/[a-z0-9-]+(/[a-z0-9-]+)*/[0-9]{3}$" ;
+    sh:node <ontology/shapes#Status> ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:path gc:source ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:SourceDivision ] ;
+    sh:property [ sh:path gc:supports ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Position ] ;
+    sh:property [ sh:path gc:cites ; sh:minCount 1 ; sh:class gc:Passage ] ;
+    sh:property [ sh:path gc:citesCandidate ; sh:class gc:Passage ] ;
+    sh:property [ sh:path gc:locator ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:secondaryLocator ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:pages ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:asPrinted ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:resolutionNote ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:quotationCheckedAgainst ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    # Cap: at most 3 sentences. A display choice, not a legal one (ADR-0005 §3).
+    # A sentence break is [.!?] followed by whitespace and a capital; 3 sentences = at most 2 breaks.
+    # Abbreviations such as "Rom. Vi." can over-count, so the cap errs strict, never lax.
+    sh:property [ sh:path gc:quotation ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:pattern "^(?:[^.!?]|[.!?](?!\\s+[A-Z]))*(?:[.!?](?=\\s+[A-Z])(?:[^.!?]|[.!?](?!\\s+[A-Z]))*){0,2}$" ;
+        sh:message "Quotation exceeds 3 sentences (ADR-0005 §3)." ] ;
+    sh:property [ sh:path gc:status ] ;
+    sh:property [ sh:path gc:proposedBy ] ;
+    sh:property [ sh:path gc:ratifiedBy ] ;
+    sh:property [ sh:path dcterms:dateAccepted ] ;
+    sh:or (
+        [ sh:property [ sh:path gc:quotation ; sh:maxCount 0 ] ]
+        [ sh:property [ sh:path gc:quotationCheckedAgainst ; sh:minCount 1 ] ;
+          sh:property [ sh:path gc:pages ; sh:minCount 1 ] ]
+    ) ;
+    sh:sparql [
+        sh:message "gc:resolutionNote requires gc:asPrinted." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:resolutionNote ?n .
+                FILTER NOT EXISTS { $this gc:asPrinted ?p }
+            }""" ] .
+
+# ---------------------------------------------------------------- passages (ADR-0002, revised)
+
+# Syntax only here; canonical form is checked in code with goldenchain.passage.parse.
+# Closed: a Passage names a text location and nothing else.
+<ontology/shapes#Passage> a sh:NodeShape ;
+    sh:targetClass gc:Passage ;
+    sh:pattern "^https://w3id\\.org/golden-chain/passage/kjv/[1-3]?[A-Z][a-z]+\\.[1-9][0-9]*\\.[1-9][0-9]*(-[1-3]?[A-Z][a-z]+\\.[1-9][0-9]*\\.[1-9][0-9]*)?$" ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:path gc:versification ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "kjv" ) ] ;
+    sh:property [ sh:path gc:book ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:osisRef ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path gc:startOrdinal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ;
+    sh:property [ sh:path gc:endOrdinal ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] .
+
+# Reserved by ADR-0002; none may be minted until its shape is ratified.
+<ontology/shapes#Anchor> a sh:NodeShape ;
+    sh:targetClass gc:Anchor ;
+    sh:sparql [
+        sh:message "No gc:Anchor may be minted until ADR-0002 ratifies its shape." ;
+        sh:select "SELECT $this WHERE { }" ] .
+
+# ---------------------------------------------------------------- bodies and holdings
+
+<ontology/shapes#Body> a sh:NodeShape ;
+    sh:targetClass gc:Body ;
+    sh:pattern "^https://w3id\\.org/golden-chain/body/[a-z0-9-]+$" ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path gc:childOf ; sh:class gc:Body ] ;
+    sh:property [ sh:path gc:holds ; sh:class gc:Holding ] ;
+    sh:property [ sh:path gc:expressedIn ; sh:class gc:SourceWork ] .
+
+<ontology/shapes#Holding> a sh:NodeShape ;
+    sh:targetClass gc:Holding ;
+    sh:pattern "^https://w3id\\.org/golden-chain/holding/[a-z0-9-]+/[a-z0-9-]+/[a-z0-9-]+(/[a-z0-9-]+)?$" ;
+    sh:node <ontology/shapes#Status> ;
+    sh:property [ sh:path [ sh:inversePath gc:holds ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Body ] ;
+    sh:property [ sh:path gc:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Position ] ;
+    sh:property [ sh:path gc:modality ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( <vocab/modality/required> <vocab/modality/taught>
+                <vocab/modality/tolerated> <vocab/modality/forbidden> ) ] ;
+    # Absent scope means all; an explicit all is redundant and would break the IRI rule below.
+    sh:property [ sh:path gc:scope ; sh:maxCount 1 ;
+        sh:in ( <vocab/scope/officers> <vocab/scope/members> ) ] ;
+    sh:property [ sh:path dcterms:source ; sh:minCount 1 ; sh:class gc:SourceDivision ] ;
+    sh:property [ sh:path gc:derivedBy ; sh:maxCount 1 ; sh:in ( "implication" ) ] ;
+    sh:sparql [
+        sh:message "Holding IRI must be holding/{body}/{locus}/{position}[/{scope}] from its own triples." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?b gc:holds $this .
+                $this gc:position ?p .
+                OPTIONAL { $this gc:scope ?s }
+                BIND (CONCAT("https://w3id.org/golden-chain/holding/",
+                             STRAFTER(STR(?b), "/body/"), "/",
+                             STRAFTER(STR(?p), "/position/"),
+                             IF(BOUND(?s), CONCAT("/", STRAFTER(STR(?s), "/vocab/scope/")), ""))
+                      AS ?expected)
+                FILTER (STR($this) != ?expected)
+            }""" ] .

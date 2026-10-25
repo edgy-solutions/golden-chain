@@ -1,0 +1,182 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Golden Chain core ontology (ADR-0001..0003, ADR-0005). Phase 1.
+# Every term is the build agent's proposal under those ADRs; labels only, no doctrine.
+
+<ontology> a owl:Ontology ;
+    rdfs:label "Golden Chain core ontology"@en ;
+    owl:versionIRI <ontology/0.1.0> .
+
+# ---------------------------------------------------------------- classes
+
+gc:Heading a owl:Class ; rdfs:label "Heading"@en ;
+    rdfs:comment "A top-level grouping of Loci (e.g. Worship)."@en .
+
+gc:Locus a owl:Class ; rdfs:label "Locus"@en ;
+    rdfs:comment "A question of faith or practice."@en .
+
+gc:Position a owl:Class ; rdfs:label "Position"@en ;
+    rdfs:comment "One answer to one Locus. Source-neutral: who states it lives on Arguments and Holdings."@en .
+
+gc:Argument a owl:Class ; rdfs:label "Argument"@en ;
+    rdfs:comment "A source division's appeal to Scripture in support of one Position. Carries no prose of its own (ADR-0005)."@en .
+
+gc:Passage a owl:Class ; rdfs:label "Passage"@en ;
+    rdfs:comment "A text location: one verse or a contiguous range in one book, under one versification. Names a location only; every citing resource is distinct from it (ADR-0002)."@en .
+
+gc:Anchor a owl:Class ; rdfs:label "Anchor"@en ;
+    rdfs:comment "Reserved: a sub-verse text location within a Passage. No instance is minted until its ADR-0002 shape is ratified."@en .
+
+gc:Source a owl:Class ; rdfs:label "Source"@en .
+
+gc:SourceWork a owl:Class ; rdfs:subClassOf gc:Source ; rdfs:label "Source work"@en .
+
+gc:SourceDivision a owl:Class ; rdfs:subClassOf gc:Source ; rdfs:label "Source division"@en .
+
+gc:Body a owl:Class ; rdfs:label "Body"@en ;
+    rdfs:comment "A holder of Positions: a confession, catechism, systematic, collection, or (later) a denomination."@en .
+
+gc:Confession a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Confession"@en .
+
+gc:Catechism a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Catechism"@en .
+
+gc:Systematic a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Systematic"@en ;
+    rdfs:comment "A systematic theology. It teaches; it is not a subscription standard."@en .
+
+gc:Collection a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Collection"@en ;
+    rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord), parent of its member Bodies."@en .
+
+gc:Holding a owl:Class ; rdfs:label "Holding"@en ;
+    rdfs:comment "The n-ary holds relation: Body, Position, modality, scope, source."@en .
+
+gc:Agent a owl:Class ; rdfs:label "Agent"@en ;
+    rdfs:comment "Who proposed or ratified an editorial resource (ADR-0005)."@en .
+
+gc:Inconsistency a owl:Class ; rdfs:label "Inconsistency"@en ;
+    rdfs:comment "Derived only (graph/derived/consistency): a Body whose effective Holdings violate an excludes or entails edge."@en .
+
+# ---------------------------------------------------------------- loci and positions
+
+gc:underHeading a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain gc:Locus ; rdfs:range gc:Heading .
+
+gc:question a owl:DatatypeProperty ; rdfs:domain gc:Locus ; rdfs:range rdf:langString .
+
+gc:answers a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain gc:Position ; rdfs:range gc:Locus .
+
+gc:excludes a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:domain gc:Position ; rdfs:range gc:Position ;
+    rdfs:comment "No holder can consistently affirm both (ADR-0003 §6, ratified definition 2026-10-25)."@en .
+
+gc:entails a owl:ObjectProperty ;
+    rdfs:domain gc:Position ; rdfs:range gc:Position ;
+    rdfs:comment "Whoever affirms the subject is committed to the object. Never derives a Holding for a silent Body."@en .
+
+gc:tier a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Locus ;
+    rdfs:comment "Asserted only in the plumb-line graph (ADR-0003 §3)."@en .
+
+gc:clarity a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Locus ;
+    rdfs:comment "Asserted only in the plumb-line graph (ADR-0003 §4)."@en .
+
+# ---------------------------------------------------------------- arguments
+
+gc:supports a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain gc:Argument ; rdfs:range gc:Position .
+
+gc:cites a owl:ObjectProperty ; rdfs:domain gc:Argument ; rdfs:range gc:Passage ;
+    rdfs:comment "A Passage the source cites, resolved to what was meant."@en .
+
+gc:citesCandidate a owl:ObjectProperty ; rdfs:domain gc:Argument ; rdfs:range gc:Passage ;
+    rdfs:comment "One of several readings of a printed citation that cannot be resolved without a ruling; no candidate is picked."@en .
+
+gc:source a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain gc:Argument ; rdfs:range gc:SourceDivision .
+
+gc:locator a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:comment "The primary locator: the author's own printed division (e.g. Gill's heads and sub-heads)."@en .
+
+gc:secondaryLocator a owl:DatatypeProperty ;
+    rdfs:comment "A further locator: a printed page in another witness, an outline label, or a second text layer."@en .
+
+gc:pages a owl:DatatypeProperty ;
+    rdfs:comment "Printed pages in the work's working text (ADR-0002 page locator)."@en .
+
+gc:paginationOf a owl:DatatypeProperty ; rdfs:domain gc:SourceWork .
+
+gc:quotation a owl:DatatypeProperty ; rdfs:domain gc:Argument ;
+    rdfs:comment "A verbatim quotation of the source division; at most 3 sentences (a display choice, ADR-0005)."@en .
+
+gc:quotationCheckedAgainst a owl:DatatypeProperty ; rdfs:domain gc:Argument .
+
+gc:asPrinted a owl:DatatypeProperty ; rdfs:domain gc:Argument ;
+    rdfs:comment "The citation exactly as printed in the witness named by the locator."@en .
+
+gc:resolutionNote a owl:DatatypeProperty ; rdfs:domain gc:Argument ;
+    rdfs:comment "Why the printed citation resolves as it does, where that is a judgment. Editorial; never doctrine."@en .
+
+# ---------------------------------------------------------------- passages
+
+gc:versification a owl:DatatypeProperty .
+
+gc:book a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain gc:Passage ;
+    rdfs:comment "OSIS book code."@en .
+
+gc:osisRef a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain gc:Passage .
+
+gc:startOrdinal a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain gc:Passage ;
+    rdfs:comment "1-based verse index within the book under the Passage's versification."@en .
+
+gc:endOrdinal a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain gc:Passage .
+
+gc:inPassage a owl:ObjectProperty ; rdfs:domain gc:Anchor ; rdfs:range gc:Passage ;
+    rdfs:comment "Reserved with gc:Anchor."@en .
+
+# ---------------------------------------------------------------- bodies and holdings
+
+gc:childOf a owl:ObjectProperty ; rdfs:domain gc:Body ; rdfs:range gc:Body ;
+    rdfs:comment "Inheritance with per-Locus override (ADR-0003 §7)."@en .
+
+gc:expressedIn a owl:ObjectProperty ; rdfs:domain gc:Body ; rdfs:range gc:SourceWork .
+
+gc:holds a owl:ObjectProperty, owl:InverseFunctionalProperty ;
+    rdfs:domain gc:Body ; rdfs:range gc:Holding .
+
+gc:position a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain gc:Holding ; rdfs:range gc:Position .
+
+gc:modality a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Holding .
+
+gc:scope a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Holding ;
+    rdfs:comment "Absent means vocab/scope/all."@en .
+
+gc:derivedBy a owl:DatatypeProperty ; rdfs:domain gc:Holding ;
+    rdfs:comment "How the modality was read from the text when not stated outright, e.g. \"implication\"."@en .
+
+# ---------------------------------------------------------------- editorial status (ADR-0005)
+
+gc:status a owl:ObjectProperty, owl:FunctionalProperty .
+
+gc:proposedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range gc:Agent .
+
+gc:ratifiedBy a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:range gc:Agent .
+
+# ---------------------------------------------------------------- derived only
+
+gc:effectivelyHolds a owl:ObjectProperty ; rdfs:domain gc:Body ; rdfs:range gc:Holding ;
+    rdfs:comment "Derived (graph/derived/inheritance): the Holdings that apply to a Body after childOf inheritance."@en .
+
+gc:inconsistent a owl:DatatypeProperty ; rdfs:domain gc:Body .
+
+gc:body a owl:ObjectProperty ; rdfs:domain gc:Inconsistency ; rdfs:range gc:Body .
+
+gc:rule a owl:DatatypeProperty ; rdfs:domain gc:Inconsistency .
+
+gc:involves a owl:ObjectProperty ; rdfs:domain gc:Inconsistency ; rdfs:range gc:Position .

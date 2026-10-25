@@ -6,7 +6,8 @@ from rdflib.namespace import RDF, SKOS
 
 B = "https://w3id.org/golden-chain/"
 VOCAB = Path(__file__).resolve().parent.parent / "ontology" / "vocab.ttl"
-COUNTS = {"modality": 4, "user-modality": 3, "tier": 3, "clarity": 3, "scope": 3}
+# status (proposed, ratified) added with ADR-0005, ratified provisionally 2026-10-25.
+COUNTS = {"modality": 4, "user-modality": 3, "tier": 3, "clarity": 3, "scope": 3, "status": 2}
 
 
 def load():
@@ -22,12 +23,12 @@ def test_parses():
 def test_schemes_and_counts():
     g = load()
     schemes = set(g.subjects(RDF.type, SKOS.ConceptScheme))
-    assert len(schemes) == 5
+    assert len(schemes) == len(COUNTS)
     for name, n in COUNTS.items():
         s = URIRef(B + "vocab/" + name)
         assert s in schemes
         assert len(set(g.subjects(SKOS.inScheme, s))) == n
-    assert len(set(g.subjects(RDF.type, SKOS.Concept))) == 16
+    assert len(set(g.subjects(RDF.type, SKOS.Concept))) == sum(COUNTS.values())
 
 
 def test_concept_iris():
