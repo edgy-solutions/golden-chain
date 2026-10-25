@@ -1,6 +1,7 @@
 # Locus vocabulary: draft for ratification
 
-Phase 0, item (d). **Proposal only.** Nothing here is data. Questions are
+Phase 0, item (d); amended after the architect review of 2026-10-25
+(rulings marked **R**). **Proposal only.** Nothing here is data. Questions are
 phrased as questions, not as answers. Tiers are *proposed placeholders* for
 the architect; under standing rule 3 no tier enters `data/` except as
 authored by the architect in `plumb-line.ttl` (see ADR-0003 and handoff Q9).
@@ -12,8 +13,9 @@ authored by the architect in `plumb-line.ttl` (see ADR-0003 and handoff Q9).
 - **Gill ref**: Gill's own division, edition-independent.
   `D VI.4` = Doctrinal Book VI ch. 4; `P III.1 §3` = Practical Book III
   ch. 1, Gill's third head; `Diss. 1–5` = the appendix on proselyte
-  baptism. Book numbers follow CCEL/first edition, **not** Tegg 1839,
-  which renumbers per volume (see source report).
+  baptism. Book numbers are Gill's own, as printed in the BSB working
+  text. They are not those of the two-volume 1839 IA scan, which renumbers
+  books per volume (see the source report).
 - **Heading**: one of God / Scripture / Man / Christ / Salvation / Church /
   Worship / Last things.
 - **Tier**: 1 = first order, 2 = second, 3 = third (proposed).
@@ -35,7 +37,7 @@ authored by the architect in `plumb-line.ttl` (see ADR-0003 and handoff Q9).
   under-reports, and incidental mentions over-report (e.g. "papist" in a
   list of examples).
 
-## Table (42 loci)
+## Table (42 drafted; 41 after ruling 34 an Argument)
 
 | # | Slug | Question | Gill ref | Heading | Tier | Prac. | Named alternative |
 |---|---|---|---|---|---|---|---|
@@ -72,7 +74,7 @@ authored by the architect in `plumb-line.ttl` (see ADR-0003 and handoff Q9).
 | 31 | `baptism-mode` | How is baptism administered: immersion, pouring, or sprinkling? | P III.1 §4 | Worship | 2 or 3 ⚑ | ✓ | Sprinkling, pouring (S) |
 | 32 | `baptism-formula` | In whose name is baptism administered? | P III.1 §5 | Worship | 1 | ✓ | — |
 | 33 | `baptism-significance` | What does baptism signify, and does it effect what it signifies? | P III.1 §6 | Worship | 2 | ✓ | — |
-| 34 | `proselyte-baptism-origin` | Is Christian baptism derived from Jewish proselyte baptism? | Diss. 1–5 | Worship | 3 | ✓ | Lightfoot, Dr Wall, Grotius, Paedobaptists (T, S). ⚑ May be an *Argument*, not a Locus (Q11) |
+| ~~34~~ | ~~`proselyte-baptism-origin`~~ | **R: not a Locus.** It is an Argument (Diss. 1–5) under 30 `baptism-subjects`. Slug never minted. | Diss. 1–5 | — | — | ✓ | Lightfoot, Dr Wall, Grotius, Paedobaptists (T, S) |
 | 35 | `supper-presence` | How is Christ present in the Lord's Supper? | P III.2 §3 | Worship | 2 | ✓ | Papists (L); Socinus (L) |
 | 36 | `supper-subjects` | Who may come to the Lord's Supper; is baptism prerequisite? | P III.2 §4 | Worship | 2 | ✓ | Infant communion, third-century practice (S) |
 | 37 | `public-prayer` | Are set forms of prayer, including the Lord's Prayer, to be used in public worship? | P III.5–6 | Worship | 3 | ✓ | Papists, Socinians (L) |
@@ -88,19 +90,27 @@ Considered and left out of the ~40 (available if wanted): `second-coming`
 and the remaining Practical I chapters (graces of internal worship), which
 are pastoral rather than contested.
 
-## Baptism loci for phase 1 (proposed scope)
+## Phase-1 scope (R, 2026-10-25)
 
-Gill treats these separately within P III.1 or in the Dissertation: 28
-`baptism-perpetuity`, 29 `johns-baptism`, 30 `baptism-subjects`, 31
-`baptism-mode`, 32 `baptism-formula`, 33 `baptism-significance`, plus 34
-`proselyte-baptism-origin` if it is a Locus. 36 `supper-subjects` is where
-Gill addresses baptism as a prerequisite to communion; include it or not
-(Q12).
+Seven loci:
+- 23 `covenant-administrations`: the first real `entails` edge.
+- 28 `baptism-perpetuity`.
+- 29 `johns-baptism`.
+- 30 `baptism-subjects`. The Dissertation (Diss. 1–5) is an Argument here.
+- 31 `baptism-mode`.
+- 32 `baptism-formula`.
+- 33 `baptism-significance`. The Augsburg answer on efficacy is a third Position here.
+
+The Lord's Supper loci (35, 36) wait for phase 2.
+
+The vocabulary is therefore **41 loci**, not 42: 34 is withdrawn.
+**Tier** in this table is a placeholder only. By ruling, tier is a Locus
+property set in `data/plumb-line.ttl` by the architect (ADR-0003 §3), so
+these numbers never enter `data/`.
 
 ## Flags (⚑) summarised
 
 - 8, 31, 39: tier genuinely ambiguous between bodies; the architect's
   call, not mine.
-- 23: the paedobaptist case for 30 runs through 23; phase 1 will need at
-  least the Positions on 23, or an Argument that cites it.
-- 34: Locus vs Argument.
+- 23: the paedobaptist case for 30 runs through 23. **R:** 23 is in phase 1.
+- 34: **R:** an Argument, not a Locus.

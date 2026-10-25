@@ -6,9 +6,9 @@
 - Proposed by: build agent
 - Ratified by: architect
 
-> TEMPLATE NOTE (phase 0): the phase-0 brief refers to "the template
-> already in the repo"; the repo was empty. This template is itself a
-> proposal (handoff question Q1). Replace it if a canonical one exists.
+Accepted by the architect, 2026-10-25. An ADR ratified with changes keeps
+its proposal text, records the ruling in a "Ratification" section, and
+moves settled open points into the Decision.
 
 ## Context
 

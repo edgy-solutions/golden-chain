@@ -1,8 +1,8 @@
 # ADR-0001: Store roles and the single ingest path
 
-- Status: Proposed
+- Status: Ratified with changes
 - Date proposed: 2026-10-25
-- Date ratified:
+- Date ratified: 2026-10-25
 - Proposed by: build agent
 - Ratified by: architect
 
@@ -109,15 +109,21 @@ never "fixed" by editing the expected numbers.
 - A config test asserts the served Fuseki config exposes no update
   endpoint.
 
-## Open points
+## Ratification (2026-10-25)
 
-1. Fuseki deployment for phase 1: local `fuseki-server` jar (Java 17 is
-   present) vs Docker image. Proposal: the jar with a checked-in
-   `config.ttl`, for zero extra infra.
-2. Reasoner for phase 1(e): Jena's OWL Micro/Mini rule reasoner is enough
-   for symmetric/transitive/property-chain needs. Full OWL DL consistency
-   (e.g. Openllet/HermiT) is heavier. Proposal: the Jena rule reasoner plus
-   SHACL; a DL reasoner only if a DL axiom is introduced.
-3. Bible text (Weaviate, later): the KJV is PD in the US but under Crown
-   letters patent in the UK. Choice of translation is a rule-4 decision;
-   it needs its own ADR before any Scripture text enters the repo.
+The phase-0 open points are settled as follows.
+
+1. **Toolchain (Q19).**
+   - Python 3.11 via `py -3.11`, in a gitignored `.venv`.
+   - rdflib and pySHACL for parsing, validation and tests.
+   - The Jena `fuseki-server` jar on Java 17 for the local store, with a checked-in `fuseki/config.ttl`. No Docker in phases 0–1.
+2. **Reasoner.** The Jena rule reasoner (OWL Micro/Mini family) plus SHACL. A DL reasoner comes only with a DL axiom and its own ADR.
+3. **Scripture text (Q20).**
+   - No verse text is stored in phases 0–1. A Passage is an IRI with ordinals and nothing more.
+   - The choice of translation is **ADR-0004**, reserved until display needs verse text.
+   - That ADR must address the KJV's status: public domain in most jurisdictions, but under Crown letters patent **in the UK only**.
+4. **Licensed corpus (rule 9).**
+   - Licensed source material (e.g. the BSB Gill PDF) is read only by configured path, from `GOLDEN_CHAIN_CORPUS`, outside the working tree.
+   - It is never committed or copied into the repo. `.gitignore` excludes `*.pdf`, `*.epub` and `*.docx`.
+   - The pre-commit hook refuses PDFs anywhere and, under `data/`, any file that is not `.ttl`, `.py` or `.md`.
+   - Derived working copies (OCR) stay outside the repo too.

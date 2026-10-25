@@ -2,7 +2,7 @@
 
 Golden Chain: *the faith and practice of the churches.*
 
-## Layout (proposed in phase 0)
+## Layout
 
 ```
 docs/
@@ -34,9 +34,14 @@ fuseki/              config.ttl for local Fuseki (read-only service config)
 | Doc | Status |
 |---|---|
 | [identity.md](identity.md) | Current |
-| [ADR-0001 Store roles and the single ingest path](adr/0001-store-roles-and-single-ingest-path.md) | Proposed |
-| [ADR-0002 Identity: IRI patterns](adr/0002-identity-iri-patterns.md) | Proposed |
-| [ADR-0003 Controlled vocabularies and scoring](adr/0003-controlled-vocabularies-and-scoring.md) | Proposed |
-| [Source: Gill, Body of Divinity](sources/gill-body-of-divinity.md) | Report |
-| [Locus vocabulary draft](loci/locus-vocabulary-draft.md) | Proposal |
+| [ADR-0001 Store roles and the single ingest path](adr/0001-store-roles-and-single-ingest-path.md) | Ratified with changes 2026-10-25 |
+| [ADR-0002 Identity: IRI patterns](adr/0002-identity-iri-patterns.md) | Ratified with changes 2026-10-25 |
+| [ADR-0003 Controlled vocabularies and scoring](adr/0003-controlled-vocabularies-and-scoring.md) | Ratified with changes 2026-10-25 (§6 proposal) |
+| ADR-0004 Scripture translation | Reserved: written when display needs verse text |
+| [ADR-0005 Editorial status, provenance, Argument text](adr/0005-editorial-status-and-argument-text.md) | Proposed |
+| [Source: Gill, Body of Divinity (BSB working text)](sources/gill-body-of-divinity.md) | Report, amended 2026-10-25 |
+| [Source: Westminster Confession](sources/westminster.md) | Report |
+| [Source: Second London Baptist Confession](sources/lbc-1689.md) | Report |
+| [Source: Augsburg Confession](sources/augsburg.md) | Report |
+| [Locus vocabulary draft](loci/locus-vocabulary-draft.md) | Proposal, amended with rulings |
 | [Handoff, phase 0](handoff/HANDOFF_phase0.md) | Open |

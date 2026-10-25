@@ -1,8 +1,8 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Proposed
+- Status: Ratified with changes (§6 remains a proposal)
 - Date proposed: 2026-10-25
-- Date ratified:
+- Date ratified: 2026-10-25
 - Proposed by: build agent
 - Ratified by: architect
 
@@ -34,11 +34,10 @@ Carried by a `gc:Holding` (Body, Position, modality[, scope]).
 
 - **Silence is not a modality.** No Holding means the Body's sources say
   nothing; scoring treats it as *unknown* (§5), never as `tolerated`.
-- **Scope (proposed):** an optional `gc:scope` from `B vocab/scope/`
-  {`all` (default), `officers`, `members`}. This expresses e.g. "required
-  of officers, tolerated in members". Phase 1(c) will test whether
-  Westminster/1689 need it. If ratified, Holding IRIs gain a `/{scope}`
-  segment (ADR-0002).
+- **Scope (ratified):** `gc:scope` from `B vocab/scope/` {`all`, `officers`,
+  `members`}. Default `all`, and an absent scope means `all`. It expresses
+  e.g. "required of officers, tolerated in members". Holding IRIs gain a
+  `/{scope}` segment except for `all` (ADR-0002).
 - Each Holding carries `dcterms:source` → a Source division
   (e.g. `B source/wcf/28/4`). No Holding without one.
 
@@ -63,10 +62,10 @@ order); third-order (members of one congregation may differ). The language
 is the familiar "theological triage" distinction; the definitions here are
 operational, for scoring only.
 
-**Who asserts tier (proposal):** tier is an editorial judgment, so it is
-asserted only in `data/plumb-line.ttl`, as `gc:tier` on the Locus in the
-plumb-line named graph. The graph is the provenance. Other Bodies' own
-triage, if ever modelled, is a separate property (Q9).
+**Who asserts tier (ratified):**
+- Tier is a property **of the Locus**: exactly one `gc:tier` per Locus.
+- Its source is `data/plumb-line.ttl`. That is the only file that may assert `gc:tier`, and the plumb-line named graph is the provenance.
+- There is one authority. Tier is **not** per Body, and no Body-specific tier is modelled.
 
 ### 4. Clarity: `B vocab/clarity/`
 
@@ -74,7 +73,8 @@ triage, if ever modelled, is a separate property (Q9).
 
 - `open`: no verdict is rendered and the scoring weight is **0**.
 - `contested`: the plumb-line holds a Position but marks it as disputed
-  among its own; proposed full weight with a visible badge (Q10).
+  among its own. **Full weight** (ratified). The flag is for display and
+  honesty, not for scoring.
 - `settled`: full weight.
 
 ### 5. Weigh: cost runs from the user INTO the Body
@@ -88,16 +88,22 @@ office):
 
 | user ↓ / body → | required | taught | tolerated | forbidden | silent |
 |---|---|---|---|---|---|
-| **obligatory** | 0 | 0 | 0.25 ᴾ | **WALL** ᴾ | unknown |
-| **permitted** | 0.1 ᴾ | 0 | 0 | ≈0 → 0.05 ᴳ | unknown |
-| **forbidden** | **WALL** ᴳ | 0.75 ᴾ | 0.5 ᴳ (mid) | 0 | unknown |
+| **obligatory** | 0 | 0 | 0.25 | **WALL** | unknown |
+| **permitted** | 0.1 | 0 | 0 | 0.05 | unknown |
+| **forbidden** | **WALL** | 0.75 | 0.5 | 0 | unknown |
 
-ᴳ = given in the brief. ᴾ = proposed here; each needs ratification.
+All cells ratified 2026-10-25.
 
-Reasons for the proposed cells:
-- *obligatory × forbidden = WALL*: the mirror of the given wall. The Body
+Reasons for the cells:
+- *obligatory × forbidden = WALL* (ratified as a hard wall). The Body
   would prevent what the user's conscience requires; joining means
   disobeying one or the other.
+  - **Canonical case: an ordinance withheld.** A user holds believer's
+    baptism by immersion obligatory for themselves. They join a Body that
+    forbids rebaptism of those baptized as infants, and so refuses to
+    administer it.
+  - The ordinance the user's conscience requires is withheld by the Body's
+    discipline. No amount of agreement elsewhere makes that joinable.
 - *forbidden × taught = 0.75*: the user would sit under teaching they
   reject, but would not be made to practise it. Worse than tolerated (0.5),
   not a wall.
@@ -111,13 +117,23 @@ not sum, because mutually exclusive Positions on one Locus would otherwise
 count the same disagreement twice.
 
 **Weights.** `w(L) = tierW(L) × clarityW(L)`, where tierW is
-first = 9, second = 3, third = 1 (proposed) and clarityW is
-open = 0, contested = 1, settled = 1. Reason for 9/3/1: a geometric step of 3
-means one mid-penalty disagreement (0.5) at a tier costs at least as much as two
-maximal (0.75) disagreements one tier down (0.5 × 3 = 1.5 ≥ 2 × 0.75 × 1).
-At first order that is 4.5, which outweighs five maximal third-order
-disagreements (3.75). The factor is a
-parameter, kept in one place and covered by a test.
+first = 9, second = 3, third = 1, and clarityW is open = 0,
+contested = 1, settled = 1.
+
+- **Reason for 9/3/1 (architect's wording):** "geometric; a single
+  second-order disagreement should outweigh any number of third-order
+  ones".
+- **Finding: the weights do not meet the reason as stated** (recorded,
+  not fixed; rule 6).
+  - With 9/3/1, one maximal second-order disagreement costs 3 × 0.75 = 2.25.
+  - Three maximal third-order disagreements cost 3 × 1 × 0.75 = 2.25, which ties it, and four exceed it.
+  - No finite geometric factor makes one outweigh *any number*. Only a lexicographic comparison does: compare by tier first, then by cost within tier.
+  - The handoff asks which is intended.
+- **Starting weights only.** They are revisited after the first two test
+  users.
+- **Hard walls are not weighted.** They never enter the sum, whatever the
+  tier.
+- The factors are parameters, kept in one constant and covered by a test.
 
 **Body score** against a user:
 1. **Walls**: the list of loci where any cell is WALL, whatever the tier.
@@ -135,7 +151,22 @@ the loci, and the stored Holdings with their sources.
 **Open loci score zero** by `clarityW = 0`, and also show no plumb-line
 verdict.
 
-### 6. Derived stances via `excludes` (proposal)
+### 5a. Plumb-line as a user (ratified)
+
+To weigh a Body against the plumb-line, the plumb-line's Holdings are read
+as user stances.
+
+| Plumb-line modality | Read as user modality |
+|---|---|
+| `required` | `obligatory` |
+| `taught` | `obligatory` |
+| `tolerated` | `permitted` |
+| `forbidden` | `forbidden` |
+
+**Reason:** the plumb-line asserts truth, so what it teaches it holds.
+`taught` therefore maps to `obligatory`, not `permitted`.
+
+### 6. Derived stances via `excludes` (proposal; not ratified)
 
 `excludes` is symmetric. In Jena's derived graph only (ADR-0001):
 - a Body's `required(P)` with `P excludes Q` derives `forbidden(Q)` for
@@ -144,6 +175,25 @@ verdict.
   the user at scoring time.
 Derived values are marked as derived and listed separately in any
 rendering.
+
+**When `excludes` "fires" (provisional ruling, Q18):** a Body that holds
+both Positions of an `excludes` pair as `required` is **derived
+inconsistent** by the reasoner. The phase-1 test asserts exactly that.
+The build agent's own definition is in the phase-1 handoff, for the
+architect to compare.
+
+### 7. Inheritance with overrides (ratified)
+
+`childOf` inheritance is computed **per Locus**:
+- If a child Body asserts **any** Holding on Locus L, those Holdings
+  **replace the parent's Holdings on L entirely**.
+- There are no partial merges: a parent Holding on L never survives
+  alongside a child Holding on L, even on a different Position or scope.
+- On loci where the child asserts nothing, the parent's Holdings are
+  inherited unchanged.
+
+This is non-monotonic (ADR-0001), so it runs as a closed-world SPARQL step
+into the derived graph, before scoring.
 
 ## Consequences
 
@@ -162,28 +212,30 @@ rendering.
   brief: the cost of joining is not the cost of being joined.
 - **Sum over Positions per Locus.** Double-counts mutually exclusive
   answers. Rejected in favour of max.
-- **Tier on Locus as a global fact.** It would make a triage judgment look
-  like a property of the question. Rejected in favour of plumb-line-asserted
-  tier (pending Q9).
+- **Tier per Body** (each Body's own triage). Rejected at ratification:
+  one authority. Tier is a Locus property sourced from the plumb-line file.
+- **Reduced weight for contested loci.** Rejected: the flag is for honesty,
+  not discounting.
+- **Per-Position inheritance override.** Rejected: partial merges produce
+  Bodies no source describes.
 - **Silent = tolerated.** Simpler, but it flatters thin data. Rejected.
 
 ## Verification
 
 - SHACL: every Holding has exactly one modality from the scheme, at most
-  one scope, and ≥1 `dcterms:source`; every Locus in the plumb-line graph
-  has exactly one clarity and one tier.
+  one scope, and ≥1 `dcterms:source`. Every Locus has exactly one tier, and
+  `gc:tier` triples appear only in the plumb-line graph. Every Locus in the
+  plumb-line graph has exactly one clarity.
+- Tests: the plumb-line mapping table, and per-Locus override (a child
+  Holding on L removes *every* parent Holding on L).
 - Unit tests over the full 3×5 cell table; walls are never summed; open
   loci contribute 0 to both numerator and denominator; the tier factor is
   read from one constant.
 
 ## Open points
 
-- Q5: ratify or replace the ᴾ cells, especially obligatory × forbidden =
-  WALL.
-- Q6: tier weights 9/3/1.
-- Q7: inheritance override grain: per Locus (child holding *any* Position
-  on L replaces all parent Holdings on L; proposed) or per Position.
-- Q8: plumb-line-vs-Body distance needs a mapping from body modality to
-  user modality (required→obligatory, taught→obligatory?,
-  tolerated→permitted, forbidden→forbidden).
-- Q9, Q10: see the handoff.
+- §6 (derived `forbidden` from `required` + `excludes`) is still a
+  proposal. The Q18 ruling defines only the inconsistency check.
+- Revisit 9/3/1 after the first two test users.
+- The 9/3/1 reason vs the arithmetic (finding above): keep the weighted sum
+  with this known bound, or order lexicographically by tier?

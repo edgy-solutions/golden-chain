@@ -1,8 +1,8 @@
 # ADR-0002: Identity: IRI patterns under https://w3id.org/golden-chain/
 
-- Status: Proposed
+- Status: Ratified with changes
 - Date proposed: 2026-10-25
-- Date ratified:
+- Date ratified: 2026-10-25
 - Proposed by: build agent
 - Ratified by: architect
 
@@ -149,10 +149,22 @@ Notes on each:
 - Guard: no IRI in `data/` outside `B`, except external vocabularies
   (rdf, rdfs, owl, skos, dcterms, sh, xsd).
 
-## Open points
+## Ratification (2026-10-25)
 
-- Q13: who rules two formulations the same Position, and how that is
-  recorded.
-- Q14: Passage namespace, shared (this ADR) or neutral.
-- Q15: scope segment on Holding (`/officers`, `/members`), needed only if
-  ADR-0003 adopts scope.
+- **Q13, Position sameness.**
+  - The default is **one Position per distinct answer**, with every source that states it credited (by its Arguments and Holdings).
+  - The build agent *proposes* merges, with evidence: the divisions compared and why the answers are the same. The **architect rules** on them.
+  - A ruled merge deprecates the losing IRI (`owl:deprecated true`, `dcterms:isReplacedBy`), per general rule 3.
+  - Proposals are listed in the phase handoff; no merge is applied silently.
+- **Q14, Passage namespace.** Passages stay under `B passage/…`. goat-yard-archive adopts these IRIs, and there is no second namespace. Alternative B is closed.
+- **Q15, scope.** Adopted (ADR-0003 §1).
+  - The Holding pattern is `B holding/{body}/{locus}/{position}` when scope is `all`, the default.
+  - For other scopes it is `B holding/{body}/{locus}/{position}/{scope}`, with `{scope}` ∈ {`officers`, `members`}.
+  - Omitting the segment for `all` keeps the common case short. It is unambiguous because the segment count differs.
+
+## Open points (phase 1)
+
+- **Augsburg source divisions.**
+  - Proposal: `B source/augsburg/{article}`, plus `preface` and `conclusion`. Sentence sections go in `gc:locator`, never in the IRI, because the Latin and German count them differently (see [docs/sources/augsburg.md](../sources/augsburg.md)).
+  - This departs from the `{chapter}/{paragraph}` confession pattern and awaits ratification.
+- **LBC chapters** keep the LBC's own numbers (`B source/lbc-1689/29/4`). The WCF↔LBC chapter concordance is data, not identity.
