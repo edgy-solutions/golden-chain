@@ -3,7 +3,7 @@
 - Branch: `phase-0`. `main` was created from the phase-0 commit and pushed.
 - State:
   - The Positions draft and the blank plumb-line form are done.
-  - Infrastructure that rests only on ratified ADRs is being built: the hook, the read-only Fuseki config, and the vocabularies.
+  - The infrastructure that rests only on ratified ADRs is built (a4b280a).
   - The data TTL is blocked on rulings (below).
 
 ## Done so far
@@ -15,6 +15,7 @@
 | 7ce5628 | Architect's provenance note: Gill is PD, front matter excluded, quotation allowed; `gc:pages` |
 | 5036d3d | This handoff (first version) |
 | 02dc53b | `docs/loci/positions-phase1-draft.md` and `docs/loci/plumb-line-form-phase1.md` |
+| a4b280a | Pre-commit hook (active via `core.hooksPath`), read-only `fuseki/config.ttl`, `ontology/vocab.ttl`, `pyproject.toml`; 15 tests pass |
 
 ## Blocked on the architect (see the draft's findings)
 
@@ -41,10 +42,9 @@
 
 ## Next steps
 
-1. Land the infrastructure: `.githooks/pre-commit`, `fuseki/config.ttl`, `ontology/vocab.ttl`, `pyproject.toml`, and the tests.
-2. After the rulings:
+1. After the rulings:
    - the canonicaliser and its versification table;
    - `ontology/core.ttl` and `ontology/shapes.ttl` (ADR-0005);
    - `data/*.ttl` from the draft;
    - the load, the reasoner, the excludes and entails tests, and the guard test (Jena half).
-3. Report, and replace this file with the full phase-1 handoff.
+2. Report, and replace this file with the full phase-1 handoff.
