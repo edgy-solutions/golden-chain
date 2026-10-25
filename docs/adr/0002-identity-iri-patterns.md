@@ -162,6 +162,12 @@ Notes on each:
   - For other scopes it is `B holding/{body}/{locus}/{position}/{scope}`, with `{scope}` ∈ {`officers`, `members`}.
   - Omitting the segment for `all` keeps the common case short. It is unambiguous because the segment count differs.
 
+- **Page locator (architect, 2026-10-25).** The printed pages of a work's working text are stable, so they are an optional field beside the division reference, never part of an IRI.
+  - The field is `gc:pages`, a literal: `"896"`, `"896-915"`, or roman for front matter.
+  - It may appear on a Source division or an Argument.
+  - The edition it refers to is stated once on the work, as `gc:paginationOf` on `B source/gill-body`, with the value `"BSB 2019 (ISBN 9781579780234), reproducing the 1839 London pagination"`.
+  - Another edition's pages are never written to `gc:pages`.
+
 ## Open points (phase 1)
 
 - **Augsburg source divisions.**

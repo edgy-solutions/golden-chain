@@ -43,15 +43,20 @@ Doctrinal per book 31/16/13/7/14/15/11; Practical 24/6/8/6.
 | Title | *A Complete Body of Doctrinal and Practical Divinity: or a System of Evangelical Truths, Deduced from the Sacred Scriptures*. "A New Edition". |
 | Publisher | The Baptist Standard Bearer, Inc., Paris, Arkansas. Reprinted 2019. |
 | ISBN | 978-1-57978-023-4 (ISBN-10 1579780237) |
-| Underlying edition | A photographic reprint. It reproduces the publishers' "Advertisement" signed **London, June 1839**, which calls it "a verbatim reprint of the original, in 3 vols. quarto … excepting … typographical errors". The original imprint is replaced by the BSB's, so the 1839 publisher is not shown on the title page. |
-| Licence | Gill's text is public domain. The BSB scan, typography and front matter are the publisher's. **Used with the publisher's permission. The permission letter is in progress** and is not yet on file (open question). |
+| Underlying edition | A photographic reprint of the 1839 London edition (Tegg, per the architect). It reproduces that edition's "Advertisement" signed **London, June 1839**: "a verbatim reprint of the original, in 3 vols. quarto … excepting … typographical errors". The original imprint is replaced by the BSB's, so the scan itself does not name the 1839 publisher (finding 1). |
+| Licence (architect, 2026-10-25) | **Gill's text is public domain.** BSB 2019 is a faithful reproduction of the 1839 London edition. Per its Advertisement, that edition is a verbatim reprint of Gill's own 1769–70 quarto. A faithful reproduction of a PD text acquires no new copyright, so Gill's words are used, displayed and quoted freely. **BSB front matter is excluded** from the corpus and from all data: the publisher's foreword (dated 20 October 1984), imprint and back-matter catalogue. The 1839 portrait and memoir are PD but are not Gill's text and are not used. The publisher's **verbal permission** is noted here as history only and is **not relied on**. (The architect's note says this is not legal advice.) |
 | Location | The private corpus, read-only, by configured path: `$GOLDEN_CHAIN_CORPUS/gill/9781579780234_A Complete Body of Doctrinal & Practical Divinity.pdf`. Never committed, never copied into this repo (rule 9; `*.pdf` is gitignored). |
 | Identity | SHA-256 `cdfd7fdc519766d8a63ba8fc83e26a2ae7f437d752d0be58ff49dfd00ccb0f22`; 260,232,644 bytes. A guard can check the configured file against this hash before any page locator is trusted. |
 
 ### Inventory
 
 - **Pages:** 1086 PDF pages, not encrypted. Produced with Adobe Acrobat Pro DC 19.10, created 2019-02-07. Page size 432 × 648 pt (6 × 9 in).
-- **Text layer: none.** Every page is a single scanned image. There is no outline or bookmarks. Reading it needs OCR. Tesseract 5.5 is installed locally. OCR output is held in the session scratchpad, outside the repo, and is used only to locate headings.
+- **Text layer: none on Gill's pages** in the file at the configured path (hash above).
+  - Every page is a single image XObject with no fonts and no text operators.
+  - The only extractable text is on six BSB catalogue pages (PDF pp. 1080–1085).
+  - There is no outline or bookmarks.
+  - The architect's note quotes OCR text from this edition ("3reeman", "BaptiR"). That text did not come from this file: it may be a viewer's on-the-fly OCR, or another copy (open question).
+  - For locating headings, local Tesseract 5.5 OCR is held in the session scratchpad, outside the repo. OCR is never a quotation source.
 - **Layout:**
 
   | PDF pages | Content |
@@ -97,9 +102,11 @@ BSB numbers the books Doctrinal I–VII and Practical I–IV in both the content
 
 ### Deviations and findings
 
-1. **BSB is not the same setting as the IA 1839 scan (B).** Both descend from London 1839, but:
-   - BSB is one volume with continuous pagination, Gill's book numbers, and CHAP. labels.
-   - The IA copy is two volumes, renumbers books per volume (v.2 Book V = Practical III), restarts its pagination (Practical I.8 at v.2 p. 420; BSB p. 753), and showed no CHAP. labels in phase 0.
+1. **BSB is not the same setting as the IA 1839 scan (B).**
+   - BSB's printed pages are the pagination of the 1839 edition it reproduces. The BSB foreword cites Practical III.1 at "pp. 896–915" and Doctrinal VII.8 at "pp. 643–667", and both match the BSB contents.
+   - Both descend from London 1839, but:
+     - BSB is one volume with continuous pagination, Gill's book numbers, and CHAP. labels.
+     - The IA copy is two volumes, renumbers books per volume (v.2 Book V = Practical III), restarts its pagination (Practical I.8 at v.2 p. 420; BSB p. 753), and showed no CHAP. labels in phase 0.
 
    **Consequence:** IA and BSB page locators are not interchangeable. The tiebreaker role (wording) is unaffected.
 2. **Contents titles differ from body titles in places.** This is variation within the edition, not a change of division:
@@ -114,17 +121,18 @@ BSB numbers the books Doctrinal I–VII and Practical I–IV in both the content
 
 | Source | Role |
 |---|---|
-| **BSB 2019** (above) | **Working text.** Secondary locator literal `BSB p. {printed page}` on `gc:locator`. Never in an IRI (ADR-0002). |
-| **CCEL** (A) | Free cross-check, and a convenience for finding sub-heads (Gill's "First… Sixthly"). Its text never enters the repo (CCEL terms). |
-| **IA 1839 scan** (B) | **Tiebreaker on disputed wording.** Its page images are public domain. |
+| **BSB 2019** (above) | **Working text.** The page image is the check for every quotation. Its printed pages are a stable optional secondary locator, `gc:pages` (ADR-0002, Ratification). Pages never go in an IRI. |
+| **CCEL** (A) | Clean cross-check for locating passages and Gill's sub-heads ("First… Sixthly"). CCEL's *files* never enter the repo (CCEL terms). A quotation is Gill's words checked against the BSB page image, not copied from CCEL. |
+| **IA 1839 scan** (B) | **Tiebreaker on disputed wording** only. Its pagination is different from BSB's (finding 1). |
 | **Citation key** | Gill's own division, unchanged: `B source/gill-body/{doctrinal\|practical}/{book}/{chapter}`, `B source/gill-body/dissertation/{n}`. |
-| **Quotation scope** | **Placeholder, for the architect to fill:** "use only \| display and quotation, max N sentences". Until it is filled, an Argument carries a section reference only and **no text**. Argument text, when allowed, is a verbatim quotation within scope, never a paraphrase. |
+| **Quotation scope (filled 2026-10-25)** | **Display and quotation permitted.** Gill's text is PD. Every quotation is verified against the BSB page image, and the page is recorded. Front matter is excluded. No sentence cap was set (open question). Argument text is a verbatim quotation or absent, never a paraphrase (ADR-0005). |
 
 ## What enters the repo from this source
 
 - Chapter and section references, as IRIs (ADR-0002), with an optional `BSB p.` locator literal.
 - Passage references Gill cites, as OSIS ranges.
-- Quotations: none until the quotation scope is filled.
+- Verbatim quotations of Gill, each checked against the BSB page image, with the printed page recorded.
+- Nothing from the BSB front matter (foreword, imprint, catalogue).
 - **No** PDF, page image, OCR output or wholesale text from any edition.
 
 ## Phase-0 recommendation (superseded 2026-10-25; history)

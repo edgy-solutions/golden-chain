@@ -51,13 +51,23 @@ Deprecation stays `owl:deprecated` (ADR-0002); it is not a status.
 
 - An Argument carries **no prose of its own**. Its content is:
   - `gc:source`: exactly one source division IRI;
-  - `gc:locator`: optional literals, e.g. `"BSB p. 899"`, `"§3, Fourthly"`;
+  - `gc:locator`: optional literals naming Gill's sub-head, e.g. `"§3, Fourthly"`;
+  - `gc:pages`: optional, the printed pages in the working text (ADR-0002);
   - `gc:cites`: one or more Passages;
   - `gc:supports`: exactly one Position.
 - **`gc:quotation`** is the only text property allowed on an Argument. It is a verbatim quotation from the source division, within the quotation scope.
-- **The quotation scope is unfilled** (Gill report: "use only | display and quotation, max N sentences"). Until it is filled, the shape sets **`gc:quotation` maxCount 0**: Argument text is a section reference only.
+- **The quotation scope is filled** (architect, 2026-10-25): display and quotation are permitted.
+  - Gill's text is public domain.
+  - Every quotation is verified against the page image.
+  - Front matter is excluded.
+  - The confessions keep "reference only" until a quotation source is ruled for each (their source reports).
+  - The shape therefore allows **at most one `gc:quotation`** per Argument, and only together with the two properties below.
 - The Argument shape is **`sh:closed`**, with `rdf:type` and the properties above. Any other text property (`rdfs:comment`, `dcterms:description`, `skos:note`, `rdfs:label`) fails validation. A paraphrase therefore has nowhere to go.
-- When quotation is allowed, the shape will also require `gc:quotationCheckedAgainst` (the edition read, e.g. BSB) and enforce the sentence cap only as a length bound. Verbatim fidelity is checked by a human against the page.
+- A `gc:quotation` requires:
+  - **`gc:quotationCheckedAgainst`**: the page image read, as a literal naming the edition and printed page, e.g. `"BSB 2019 p. 899"`;
+  - **`gc:pages`**: the printed page or pages.
+- OCR output is never a quotation source. It only finds the page.
+- No sentence cap is set. If one is ruled, the shape enforces it as a length bound.
 
 ### 4. Edges between Positions
 
@@ -82,7 +92,8 @@ two Positions.
 - SHACL tests:
   - A Position, Argument or Holding without `gc:status`, or without `gc:proposedBy`, fails.
   - `ratified` without `gc:ratifiedBy` or `dcterms:dateAccepted` fails.
-  - An Argument carrying `gc:quotation` fails while the scope is unfilled.
+  - An Argument carrying `gc:quotation` without `gc:quotationCheckedAgainst` or without `gc:pages` fails.
+  - An Argument carrying two `gc:quotation`s fails.
   - An Argument carrying `rdfs:comment` fails (closed shape).
 - A guard test asserts that no resource in `data/` other than the plumb-line has `gc:status vocab/status/ratified` unless `gc:ratifiedBy` is `B agent/architect`.
 
