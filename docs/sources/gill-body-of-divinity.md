@@ -1,7 +1,12 @@
 # Source report: John Gill, A Body of Doctrinal and Practical Divinity
 
-Phase 0, item (c). Nothing has been downloaded into this repo. Working copies
-used for this survey were held in the agent's session scratchpad only.
+Phase 0, item (c); amended in phase 1 after the architect review of
+2026-10-25. The working text is now the Baptist Standard Bearer edition
+(section *Working text* below), which supersedes the phase-0 recommendation.
+That recommendation is kept at the end of this report as history.
+
+Nothing from any edition is in this repo. Working copies are held outside
+the working tree only (rule 9).
 
 ## The work
 
@@ -31,7 +36,99 @@ Doctrinal per book 31/16/13/7/14/15/11; Practical 24/6/8/6.
 | E | Monergism ebook | Unstated | ePub, mobi, PDF | Unstated | Not fetchable by automated client (HTTP 403). Not recommended without provenance. |
 | F | HathiTrust records (1796, 1810, 1839) | as listed | Page images | PD in US | Duplicates B–D; not inspected (HTTP 403 to automated client). |
 
-## Recommendation
+## Working text (ratified 2026-10-25): Baptist Standard Bearer 2019
+
+| Field | Value |
+|---|---|
+| Title | *A Complete Body of Doctrinal and Practical Divinity: or a System of Evangelical Truths, Deduced from the Sacred Scriptures*. "A New Edition". |
+| Publisher | The Baptist Standard Bearer, Inc., Paris, Arkansas. Reprinted 2019. |
+| ISBN | 978-1-57978-023-4 (ISBN-10 1579780237) |
+| Underlying edition | A photographic reprint. It reproduces the publishers' "Advertisement" signed **London, June 1839**, which calls it "a verbatim reprint of the original, in 3 vols. quarto … excepting … typographical errors". The original imprint is replaced by the BSB's, so the 1839 publisher is not shown on the title page. |
+| Licence | Gill's text is public domain. The BSB scan, typography and front matter are the publisher's. **Used with the publisher's permission. The permission letter is in progress** and is not yet on file (open question). |
+| Location | The private corpus, read-only, by configured path: `$GOLDEN_CHAIN_CORPUS/gill/9781579780234_A Complete Body of Doctrinal & Practical Divinity.pdf`. Never committed, never copied into this repo (rule 9; `*.pdf` is gitignored). |
+| Identity | SHA-256 `cdfd7fdc519766d8a63ba8fc83e26a2ae7f437d752d0be58ff49dfd00ccb0f22`; 260,232,644 bytes. A guard can check the configured file against this hash before any page locator is trusted. |
+
+### Inventory
+
+- **Pages:** 1086 PDF pages, not encrypted. Produced with Adobe Acrobat Pro DC 19.10, created 2019-02-07. Page size 432 × 648 pt (6 × 9 in).
+- **Text layer: none.** Every page is a single scanned image. There is no outline or bookmarks. Reading it needs OCR. Tesseract 5.5 is installed locally. OCR output is held in the session scratchpad, outside the repo, and is used only to locate headings.
+- **Layout:**
+
+  | PDF pages | Content |
+  |---|---|
+  | 1–6 | Title pages and imprint |
+  | 5 | 1839 Advertisement |
+  | 7–15 | Publisher's foreword |
+  | 16–17 | Contents |
+  | 18 onward | Memoir |
+  | from printed p. xxxiii | Introduction |
+  | — | Doctrinal Divinity, printed pp. 1–696 |
+  | — | Practical Divinity, printed pp. 697–994 |
+  | — | Dissertation, printed pp. 995–1024 |
+  | 1078 onward | Index |
+  | 1085–1086 | Back matter |
+
+- **Pagination:** printed page numbers are continuous across the whole work, and the book is a single volume. In the body, **PDF page = printed page + 53**, checked at printed pp. 345, 876, 896, 915 and 995.
+
+### Reconciliation against the 156-chapter tally
+
+Predicted: **156**. Counted from the BSB contents (PDF pp. 16–17):
+
+| Part | Chapters per book | Total |
+|---|---|---|
+| Doctrinal I–VII | 31 / 16 / 13 / 7 / 14 / 15 / 11 | 107 |
+| Practical I–IV | 24 / 6 / 8 / 6 | 44 |
+| Dissertation | 5 | 5 |
+| **All** | | **156** ✓ |
+
+The per-book counts match the phase-0 CCEL tally exactly.
+
+**Body headings spot-checked** against the contents, for the phase-1 chapters and their neighbours:
+
+| Chapter(s) | Printed pages | PDF pages | Result |
+|---|---|---|---|
+| Doctrinal IV.1–6 | from 345 | 398–421 | BOOK IV and CHAP. I–VI headings present, in order |
+| Practical III.1–2 | 896, 915 | 949, 968 | BOOK III, *Of Baptism*, CHAP. II *Of the Lord's Supper* |
+| Dissertation 1–5 | 995–1024 | 1048–1077 | CHAP. I–V headings present |
+
+### Does BSB follow Gill's own division? Yes.
+
+BSB numbers the books Doctrinal I–VII and Practical I–IV in both the contents and the body headings (e.g. "BOOK IV" before Doctrinal IV.1; "BOOK III" before Practical III.1). Chapters are labelled "CHAP." in the body. The citation scheme (`Doctrinal VI.4`, `Practical III.1 §3`, `Dissertation 5`) maps one-to-one onto it.
+
+### Deviations and findings
+
+1. **BSB is not the same setting as the IA 1839 scan (B).** Both descend from London 1839, but:
+   - BSB is one volume with continuous pagination, Gill's book numbers, and CHAP. labels.
+   - The IA copy is two volumes, renumbers books per volume (v.2 Book V = Practical III), restarts its pagination (Practical I.8 at v.2 p. 420; BSB p. 753), and showed no CHAP. labels in phase 0.
+
+   **Consequence:** IA and BSB page locators are not interchangeable. The tiebreaker role (wording) is unaffected.
+2. **Contents titles differ from body titles in places.** This is variation within the edition, not a change of division:
+   - Doctrinal IV.2: the contents read "Of the Covenant of Grace in the Patriarchal State"; the body reads "Of the Exhibitions of the Covenant of Grace in the Patriarchal State". IV.3 is similar.
+   - Practical I.8: the BSB contents read "Of the Grace of Hope". The IA v.2 contents read "Of Hope", and its body reads "Of the Grace of Hope".
+
+   **Rule:** chapter titles in TTL follow the **body heading** of the working text.
+3. **CCEL's Practical I.8 title "Of the Grace of God" is confirmed wrong** against both BSB and IA. The correct title is "Of the Grace of Hope", which replaces the phase-0 "Of Hope".
+4. **OCR limits.** Some contents numbers are illegible in OCR (Practical II.2–4; Doctrinal I.8 shows as ";"). The entries are present and in sequence, so the count is unaffected. Wording that matters is read from the page image, never from OCR.
+
+## Roles of the sources (ratified 2026-10-25)
+
+| Source | Role |
+|---|---|
+| **BSB 2019** (above) | **Working text.** Secondary locator literal `BSB p. {printed page}` on `gc:locator`. Never in an IRI (ADR-0002). |
+| **CCEL** (A) | Free cross-check, and a convenience for finding sub-heads (Gill's "First… Sixthly"). Its text never enters the repo (CCEL terms). |
+| **IA 1839 scan** (B) | **Tiebreaker on disputed wording.** Its page images are public domain. |
+| **Citation key** | Gill's own division, unchanged: `B source/gill-body/{doctrinal\|practical}/{book}/{chapter}`, `B source/gill-body/dissertation/{n}`. |
+| **Quotation scope** | **Placeholder, for the architect to fill:** "use only \| display and quotation, max N sentences". Until it is filled, an Argument carries a section reference only and **no text**. Argument text, when allowed, is a verbatim quotation within scope, never a paraphrase. |
+
+## What enters the repo from this source
+
+- Chapter and section references, as IRIs (ADR-0002), with an optional `BSB p.` locator literal.
+- Passage references Gill cites, as OSIS ranges.
+- Quotations: none until the quotation scope is filled.
+- **No** PDF, page image, OCR output or wholesale text from any edition.
+
+## Phase-0 recommendation (superseded 2026-10-25; history)
+
 
 **Cite Gill by his own division; use CCEL as the working text; use the 1839
 Tegg page images (B) as the citation witness; confirm book numbering against

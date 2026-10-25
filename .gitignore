@@ -1,0 +1,16 @@
+# Licensed corpus material never enters this repo (rule 9). Read it by
+# configured path (GOLDEN_CHAIN_CORPUS) from outside the working tree.
+*.pdf
+*.epub
+*.docx
+
+# Local toolchain
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local Fuseki databases and logs
+fuseki/run/
+fuseki/databases/
+*.log
