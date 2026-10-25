@@ -12,7 +12,8 @@
     gc:expressedIn <source/lbc-1689> .
 
 <source/lbc-1689> a gc:SourceWork ;
-    rdfs:label "A Confession of Faith (1677/1689), with proof texts"@en .
+    rdfs:label "A Confession of Faith (1677/1689), with proof texts"@en ;
+    dcterms:bibliographicCitation "Witness: the 1677 first printing, facsimile edition (2000). Slug kept as lbc-1689 (architect ruling, 2026-10-25)." .
 
 <source/lbc-1689/28/1> a gc:SourceDivision ;
     rdfs:label "LBC 28.1"@en ;
@@ -100,30 +101,27 @@
         <passage/kjv/Col.2.12> ,
         <passage/kjv/Gal.3.27> ,
         <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Acts.22.16> ,
         <passage/kjv/Rom.6.2> ,
         <passage/kjv/Rom.6.4> ;
-    gc:citesCandidate <passage/kjv/Acts.2.41> ,
-        <passage/kjv/Acts.8.12> ;
     gc:locator "29.1" ;
-    gc:secondaryLocator "bible-researcher.com transcription" ;
-    gc:secondaryLocator "IA bim_eighteenth-century_a-confession-of-faith-p_1719 (4th ed., 1719)" ;
-    gc:asPrinted "Act. 26.16." ;
-    gc:resolutionNote "Printed \"Act. 26.16.\" (transcription; the 1719 OCR agrees, unverified against the image). A known slip; the architect names Acts 2:41 or 8:12. The transcription notes that most modern editions read Acts 22:16. Neither candidate is picked (ruling 6)." ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27" ;
+    gc:asPrinted "(d) Mar. 1.4; Act. 26. 16" ;
+    gc:asPrinted "(e) Rom. 6.2,4" ;
+    gc:resolutionNote "Notes (c)-(e) read by the architect from the 1677 facsimile. (d) prints \"Act. 26. 16\" in 1677, not a later slip; resolved to Acts 22:16 (the remission-of-sins clause), a 22->26 compositor error. Resolution proposed by the architect; the earlier candidates Acts 2:41 and 8:12 are withdrawn." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
 <argument/lbc-1689/29/2/001> a gc:Argument ;
     gc:source <source/lbc-1689/29/2> ;
     gc:supports <position/baptism-subjects/professing-believers-only> ;
-    gc:cites <passage/kjv/Mark.16.16> ;
-    gc:citesCandidate <passage/kjv/Acts.8.36-Acts.8.37> ,
-        <passage/kjv/Acts.8.37-Acts.8.38> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36-Acts.8.37> ;
     gc:locator "29.2" ;
-    gc:secondaryLocator "bible-researcher.com transcription" ;
-    gc:secondaryLocator "IA bim_eighteenth-century_a-confession-of-faith-p_1719 (4th ed., 1719)" ;
-    gc:asPrinted "Act. 8.36,37." ;
-    gc:asPrinted "Acts 8. 37, 38." ;
-    gc:resolutionNote "The transcription prints \"Act. 8.36,37.\"; the 1719 OCR reads \"Acts 8. 37, 38.\". Left to the architect's reading of the page image (ruling 6)." ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(f) Mar. 16.16; Act. 8.36,37" ;
+    gc:resolutionNote "Note (f) read by the architect from the 1677 facsimile: Acts 8:36-37. The 1719 OCR reading \"37, 38\" is wrong." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
@@ -151,25 +149,17 @@
     gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.11.26" ;
     gc:startOrdinal 263 ; gc:endOrdinal 263 .
 
-<passage/kjv/Acts.2.41> a gc:Passage ;
-    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.41" ;
-    gc:startOrdinal 67 ; gc:endOrdinal 67 .
-
-<passage/kjv/Acts.8.12> a gc:Passage ;
-    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.12" ;
-    gc:startOrdinal 265 ; gc:endOrdinal 265 .
-
 <passage/kjv/Acts.8.36-Acts.8.37> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.36-Acts.8.37" ;
     gc:startOrdinal 289 ; gc:endOrdinal 290 .
 
-<passage/kjv/Acts.8.37-Acts.8.38> a gc:Passage ;
-    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.37-Acts.8.38" ;
-    gc:startOrdinal 290 ; gc:endOrdinal 291 .
-
 <passage/kjv/Acts.8.38> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.38" ;
     gc:startOrdinal 291 ; gc:endOrdinal 291 .
+
+<passage/kjv/Acts.22.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.22.16" ;
+    gc:startOrdinal 797 ; gc:endOrdinal 797 .
 
 <passage/kjv/Col.2.12> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.12" ;
