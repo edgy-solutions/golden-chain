@@ -1,7 +1,12 @@
 # Plumb-line form: phase 1 (blank)
 
 - For: the architect, who supplies the plumb-line (Q17).
-- Positions are from [positions-phase1-draft.md](positions-phase1-draft.md). Rows marked *blocked* have no minted Position yet (finding F1); fill them only if F1 is ruled to admit them.
+- Positions are as minted in [data/loci.ttl](../../data/loci.ttl). The draft is [positions-phase1-draft.md](positions-phase1-draft.md).
+- Revised 2026-10-25 after the rulings:
+  - locus 33 is split into 33a and 33b (ruling 3);
+  - `mode-indifferent` replaces `pouring-or-sprinkling-sufficient` (ruling 4);
+  - `infants` and `necessary-means-of-grace` are minted, through the Apology IX and the Small Catechism IV (ruling 2a).
+- No row is blocked.
 - How the entries are used:
   - **Modality** (per Position): `required` | `taught` | `tolerated` | `forbidden`, or leave blank for silence. ADR-0003 §5a reads these as user stances: required and taught → obligatory; tolerated → permitted; forbidden → forbidden.
   - **Clarity** (per Locus): `settled` | `contested` | `open`.
@@ -39,7 +44,7 @@ Tier: ____  Clarity: ____
 |---|---|
 | `professing-believers-only` | |
 | `believers-and-their-infants` | |
-| `infants` (*blocked*) | |
+| `infants` | |
 
 ## 31 `baptism-mode`: How is baptism administered?
 
@@ -48,7 +53,7 @@ Tier: ____  Clarity: ____
 | Position | Modality |
 |---|---|
 | `immersion-only` | |
-| `pouring-or-sprinkling-sufficient` | |
+| `mode-indifferent` | |
 
 ## 32 `baptism-formula`: In whose name is baptism administered?
 
@@ -58,12 +63,21 @@ Tier: ____  Clarity: ____
 |---|---|
 | `triune-name` | |
 
-## 33 `baptism-significance`: What does baptism signify, and does it effect what it signifies?
+## 33a `baptism-significance`: What does baptism signify?
 
-Tier: ____  Clarity: ____  (see F3: possibly split into significance and efficacy)
+Tier: ____  Clarity: ____
+
+| Position | Modality |
+|---|---|
+| `union-with-christ` | |
+| `sign-and-seal-of-the-covenant` | |
+
+## 33b `baptism-efficacy`: What does baptism effect?
+
+Tier: ____  Clarity: ____
 
 | Position | Modality |
 |---|---|
 | `sign-only` | |
-| `sign-and-seal-conferring-grace` | |
-| `necessary-means-of-grace` (*blocked*) | |
+| `grace-conferred-in-right-use` | |
+| `necessary-means-of-grace` | |

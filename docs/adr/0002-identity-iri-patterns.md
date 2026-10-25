@@ -1,6 +1,6 @@
 # ADR-0002: Identity: IRI patterns under https://w3id.org/golden-chain/
 
-- Status: Ratified with changes
+- Status: Ratified with changes; **the Passage scheme is revised (2026-10-25) and back to Proposed** for review by the architect and the goat-yard architect (see "Revision 1")
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -43,12 +43,15 @@ Below, `B` = `https://w3id.org/golden-chain/`.
 | Heading | `B heading/{slug}` | `B heading/worship` |
 | Locus | `B locus/{slug}` | `B locus/baptism-subjects` |
 | Position | `B position/{locus-slug}/{slug}` | `B position/baptism-subjects/professing-believers-only` |
-| Passage | `B passage/{osisRef}` | `B passage/Matt.28.19-Matt.28.20` |
+| Passage (*revised, proposed*) | `B passage/{v11n}/{osisRef}` | `B passage/kjv/Matt.28.19-Matt.28.20` |
+| Anchor (*reserved, none minted*) | `B anchor/{v11n}/{osisRef}/{selector}` | — |
 | Source work | `B source/{work}` | `B source/gill-body` |
 | Source division | `B source/{work}/{division path}` | `B source/gill-body/practical/3/1`, `B source/wcf/28/4` |
 | Argument | `B argument/{work}/{division path}/{nnn}` | `B argument/gill-body/practical/3/1/007` |
 | Body | `B body/{slug}` | `B body/plumb-line`, `B body/lbc-1689` |
 | Holding (n-ary `holds`) | `B holding/{body}/{locus}/{position}[/{scope}]` | `B holding/wcf/baptism-subjects/believers-and-their-infants` |
+| Agent (ADR-0005, ratified) | `B agent/{slug}` | `B agent/architect` |
+| Inconsistency (derived only, *proposed*) | `B inconsistency/{body}/{rule}/{locus}/{position}/{locus}/{position}` | `B inconsistency/x/excludes/baptism-mode/immersion-only/baptism-mode/mode-indifferent` |
 | Named graph | `B graph/{file-stem}`; `B graph/derived/{rule-set}` | `B graph/gill-body-of-divinity` |
 
 Notes on each:
@@ -98,21 +101,40 @@ Notes on each:
 3. **Discontiguous citations** (Rom 6:3–4, 6) are two Passages. An Argument
    cites a list of Passages.
 4. **Cross-book spans** are not Passages; split them.
-5. **Versification: KJV** (the CrossWire SWORD `KJV` v11n). It is stated
-   in the ontology as `gc:versification "KJV"` on the scheme and is not in
-   the IRI. A source using another numbering (e.g. Hebrew Mal 3:19–24 =
+5. **Versification is in the IRI** (*revised*): the segment `{v11n}`
+   names the scheme, lowercase. The default and, for now, the only one is
+   `kjv` (the CrossWire SWORD `KJV` v11n). Each Passage also carries
+   `gc:versification "kjv"`. A source using another numbering (e.g. Hebrew Mal 3:19–24 =
    KJV Mal 4:1–6, or psalm superscriptions) is mapped to KJV at ingest,
    and the source's own numbering is kept as a literal.
+
+   **Provenance of the `kjv` table** ([goldenchain/versification.py](../../goldenchain/versification.py)):
+
+   > Derived from CrossWire SWORD `include/canon.h` (KJV v11n), fetched 2026-10-25; verse counts re-keyed as facts, no code copied. Totals: 66 books / 1,189 chapters / 31,102 verses. Checked by `tests/test_versification.py`.
+
+   This follows goat-yard's truth-set form as far as it is written down: what it is derived from, the date, the stated totals, and the check. goat-yard has not written that form as a rule, so the line may change on review.
 6. **Ordinals for overlap.** Each Passage carries `gc:book`,
    `gc:startOrdinal`, `gc:endOrdinal` (verse index within the book under
    KJV v11n), so "try" can find every Passage overlapping a verse without
    per-verse IRIs.
 7. **Validation.** A canonicaliser `goldenchain.passage.canonical(ref) ->
    iri` plus round-trip and bad-input tests are born with the first
-   Passage. SHACL checks the IRI matches the grammar regex.
+   Passage. SHACL checks the IRI matches the grammar regex; ingest checks
+   every Passage IRI with `goldenchain.passage.parse`.
 8. **Cross-project.** goat-yard-archive uses **these same IRIs**
    (`B passage/…`), not its own copies, so a passage is one node across
    projects. (Alternative B below is a neutral namespace; Q14.)
+9. **Passage IRIs name text locations only** (*revised*). A Passage carries
+   its location (versification, book, osisRef, ordinals) and nothing else;
+   the SHACL Passage shape is closed. Every resource that *cites* a
+   location is distinct from it and has its own IRI: an Argument, a
+   Holding, or an external region (e.g. a goat-yard page region). None of
+   them is ever typed `gc:Passage` or merged into one.
+10. **Sub-verse Anchor, reserved** (*revised*). A location finer than a
+    verse (a clause, a word span) will be a `gc:Anchor` at
+    `B anchor/{v11n}/{osisRef}/{selector}`, linked by `gc:inPassage` to its
+    Passage. The selector grammar is not decided. **No Anchor is minted**
+    until it is; a SHACL shape fails any `gc:Anchor`.
 
 ## Consequences
 
@@ -170,7 +192,22 @@ Notes on each:
 
 ## Open points (phase 1)
 
-- **Augsburg source divisions.**
-  - Proposal: `B source/augsburg/{article}`, plus `preface` and `conclusion`. Sentence sections go in `gc:locator`, never in the IRI, because the Latin and German count them differently (see [docs/sources/augsburg.md](../sources/augsburg.md)).
-  - This departs from the `{chapter}/{paragraph}` confession pattern and awaits ratification.
+- **Augsburg source divisions: ruled (architect, 2026-10-25).** `B source/augsburg/{roman-article}`, lowercase (`B source/augsburg/ix`). Latin is the primary layer; German is a second literal. Sentence sections go in `gc:locator`, never in the IRI.
+- **Book of Concord members** follow the same rule: `B source/apology-1531/ix`, `B source/small-catechism-1529/4` (the Small Catechism's parts are numbered, not articles). *Proposed.*
 - **LBC chapters** keep the LBC's own numbers (`B source/lbc-1689/29/4`). The WCF↔LBC chapter concordance is data, not identity.
+
+## Revision 1 (2026-10-25, proposed; for review by both architects)
+
+Requested by the goat-yard terms before goat-yard-archive adopts the scheme:
+
+1. The versification scheme is a segment of the Passage IRI:
+   `B passage/{v11n}/{osisRef}`, default `kjv`. Rule 5 is rewritten.
+   - Before: `B passage/Rom.6.4`. After: `B passage/kjv/Rom.6.4`.
+   - Why: a second scheme (e.g. a Hebrew or LXX v11n) can then be minted without colliding, and a consumer never has to read the ontology to interpret an IRI.
+2. A sub-verse Anchor resource shape is reserved (rule 10); none is minted.
+3. Passage IRIs name text locations only; every citing resource is distinct (rule 9).
+4. The `kjv` table carries a provenance line: derived from CrossWire SWORD `canon.h`, totals 66 / 1,189 / 31,102 (rule 5). Requested by goat-yard addition 3.
+
+Effect on data: every phase-1 Passage is already minted in the revised form
+(87 Passages). If review changes the form, they are regenerated by the
+canonicaliser; no Passage IRI has been published outside this repo.
