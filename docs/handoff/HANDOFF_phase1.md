@@ -35,4 +35,5 @@
 
 - The BSB 1984 foreword is a Body ("Strict Baptist, BSB 1984"), `childOf` Gill with overrides on Practical III.1, II.6 (locus 26) and Doctrinal VII.8 (locus 42). The front-matter exclusion vs. a Body's Source must be ruled before it is modelled.
 - The Q5 locus (rebaptism) is where the foreword's "no baptism, no church" lands later.
+- **33c, the Gill/LBC Position** ("infant baptism is no baptism"), blocked correctly in phase 1 (architect, report 5). It comes in phase 2 from Gill's *The Divine Right of Infant Baptism Examined and Disproved* (PD), which argues it with proofs. That is a new phase-2 source: a source report first (rule 4).
 - LBC 26 is phase 2.

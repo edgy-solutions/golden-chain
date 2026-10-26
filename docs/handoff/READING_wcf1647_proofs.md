@@ -2,7 +2,7 @@
 
 For: Chris. Read these from the page images of the witness, in one sitting. No model has viewed them, and none may.
 
-- **Witness:** Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`. See [../sources/westminster.md](../sources/westminster.md), § "Proof texts as printed".
+- **Witness:** Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, page images at `archive.org/details/humbleadviceofas00west`. The leaves are listed per chapter below. Printed page = leaf − 8. See [../sources/westminster.md](../sources/westminster.md), § "Proof texts as printed".
 - **What to fill:** for each Argument, the letter or letters of the note, the note exactly as printed, and the printed page.
   - Keep the original spelling, punctuation and spacing, including "with" and "&".
   - Write long s as s.
@@ -13,26 +13,29 @@ The "Schaff (A)" column is a reading aid only, from the 1889 apparatus. The "OCR
 
 Write over the `__` blanks.
 
-## Ch. 7 (page __)
+## Ch. 7 (IA leaves 24–25, pp. (16)–(17); confirm: __)
 
 | Argument | Clause (Schaff) | Schaff (A) | OCR letter | Letter(s) | As printed (1647) |
 |---|---|---|---|---|---|
 | `7/5/001` | 7.5: "differently administered in the time of the law and in the time of the gospel" | 2 Cor. iii. 6–9 | — | __ | __ |
-| `7/6/001` | 7.6: "There are not therefore two covenants of grace differing in substance, but one and the same" | Gal. iii. 14, 16; Acts xv. 11; Rom. iii. 21–23, 30; Psa. xxxii. 1; Rom. iv. 3, 6, 16, 17, 23, 24; Heb. xiii. 8 | — | __ | __ |
+| `7/6/001` | 7.6: "There are not therefore two covenants of grace differing in substance, but one and the same" | Gal. iii. 14, 16; Acts xv. 11; Rom. iii. 21–23, 30; Psa. xxxii. 1; Rom. iv. 3, 6, 16, 17, 23, 24; Heb. xiii. 8 | r? ("difpenfations r") | __ | __ |
 
-## Ch. 27 (page __)
+## Ch. 27 (IA leaf 55, p. (47); confirm: __)
 
 | Argument | Clause (Schaff) | Schaff (A) | OCR letter | Letter(s) | As printed (1647) |
 |---|---|---|---|---|---|
-| `27/1/001` | 27.1: "holy signs and seals of the covenant of grace" | Rom. iv. 11; Gen. xvii. 7, 10 | — | __ | __ |
+| `27/1/001` | 27.1: "holy signs and seals of the covenant of grace" | Rom. iv. 11; Gen. xvii. 7, 10 | a? (OCR "Grace 4") | __ | __ |
 
-## Ch. 28 (pages (48)–(49); confirm: __)
+## Ch. 28 (IA leaves 56–57, pp. (48)–(49); confirm: __)
 
 | Argument | Clause (Schaff) | Schaff (A) | OCR letter | Letter(s) | As printed (1647) | Page |
 |---|---|---|---|---|---|---|
 | `28/1/001` | 28.1: "a sign and seal of the covenant of grace" | Rom. iv. 11, with Col. ii. 11, 12 | — | __ | __ | __ |
 | `28/1/002` | 28.1: "of his ingrafting into Christ" **and** "of his giving up unto God … to walk in newness of life" | Gal. iii. 27; Rom. vi. 5 **and** Rom. vi. 3, 4 (two clauses in Schaff, so expect two letters) | — | __ | __ | __ |
 | `28/1/003` | 28.1: "to be continued in his Church until the end of the world" | Matt. xxviii. 19, 20 | — | __ | __ | __ |
+| *new* (Q8) | 28.1: "for the solemn admission of the party baptized into the visible Church" | 1 Cor. xii. 13 | — | __ | __ | __ |
+| *new* (Q8) | 28.1: "of regeneration" | Tit. iii. 5 | — | __ | __ | __ |
+| *new* (Q8) | 28.1: "of remission of sins" | Mark i. 4 | — | __ | __ | __ |
 | `28/2/001` | 28.2: water, "in the name of the Father, and of the Son, and of the Holy Ghost", by a lawfully called minister | Matt. iii. 11; John i. 33; Matt. xxviii. 19, 20 | — | __ | __ | __ |
 | `28/3/001` | 28.3: "Dipping … is not necessary; but baptism is rightly administered by pouring or sprinkling" | Heb. ix. 10, 19–22; Acts ii. 41; xvi. 33; Mark vii. 4 | — | __ | __ | __ |
 | `28/4/001` | 28.4: "the infants of one or both believing parents are to be baptized" | Gen. xvii. 7, 9, with Gal. iii. 9, 14, and Col. ii. 11, 12, and Acts ii. 38, 39, and Rom. iv. 11, 12; 1 Cor. vii. 14; Matt. xxviii. 19; Mark x. 13–16; Luke xviii. 15 | m ("baptized m") | __ | __ | __ |

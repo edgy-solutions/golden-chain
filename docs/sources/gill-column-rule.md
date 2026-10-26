@@ -1,13 +1,14 @@
 # Gill BSB/Tegg: printed inter-column rule and gutter, pp. 896–915
 
 - For: the architect and the goat-yard architect, before Golden Chain pins `substrate-v0`. This is goat-yard addition 2, 2026-10-25.
-- Status: measured, **not yet signed**. The architect signs from the pixels; the gutter strips are listed under "Sign-off".
+- Status: measured, **not yet signed**. Rescaled per the architect (report 5); the runs are provisional until rerun clean (report 6). The architect signs from the pixels; the gutter strips are listed under "Sign-off".
 - This is a measurement on pixels, not an OCR step. No text layer was read (the pages have none: one image object each), no model saw any image, and no goat-yard code was used.
 
 ## Result
 
 | Item | Result |
 |---|---|
+| Frame (every px in this table and in "Per page (run 2)") | native embedded image, **5100 × 7650 px**, line height median **90 px** (81–98). This is not goat-yard's scale (55 px); the numbers at goat-yard's scale are under "Rerun at scale 7.2", and at the architect's frame under "Rerun at scale 0.703". The pt values are for human reading only; goat-yard reads none of them. |
 | n | 20 pages: printed 896–915, PDF pages 949–968 (PDF page = printed + 53) |
 | Rule present | **20 / 20** (run 2) |
 | Rule kind | **single** on every ruled slab. No double rule was found anywhere. |
@@ -106,9 +107,10 @@ If fix A abstains on a single rule, the request file is
 "column split on a single rule". It carries, from this file:
 
 - n = 20 (printed 896–915), the method above, and the run headers (script and PDF sha256);
-- the Result table: rule present 20/20, single on 20/20, rule width median 14 px = 1.19 pt;
-- the per-page table (run 2): ruled and interior slabs, median rule width, median gutter per page;
-- the gutter distribution: unimodal, median 131 px = 11.1 pt, n = 312 ruled slabs, with the bin counts;
+- **at one goat-yard-readable frame only**, with the frame beside every number and no pt. Below is goat-yard's line-height scale (frame 3111 × 4666 px, line height median 57 px; "Rerun at scale 7.2"). If report 6 rules for the architect's frame, the figures are those of "Rerun at scale 0.703" (3585 × 5377, line height 64: rule width pooled 10 px, gutter pooled 92 px):
+  - rule present 20/20, single on 20/20, rule width median 8 px (p5–p95 7–12);
+  - the per-page table: ruled and interior slabs, median rule width, median gutter;
+  - the gutter: median 80 px (p5–p95 71–88), n = 312 ruled slabs;
 - the run-1 abstentions (pp. 897, 898, 902) and their cause, so no wrong-pass is hidden.
 
 The request is not filed until the architect signs from pixels and the goat-yard answer is in.
@@ -130,6 +132,8 @@ Asked by goat-yard (response of 2026-10-26, [goat-yard.md](goat-yard.md)) before
 4. `locate_column_rule` is called on the mask and the record.
 
 Constants as pinned: `RULE_COL_FRAC` 0.59, `RULE_STRIP_PX` 300, `RULE_Y_TOP_PX` 700, `RULE_SEARCH_PX` 300, `RULE_MAX_RESID_PX` 15, `RULE_MIN_STRIP_FRAC` 0.5, `INK` 110.
+
+**Frame** (every px in this section and in "Empty-strip hypotheses"): native 5100 × 7650 px, line height median 90 px (81–98). That is 1.64 × goat-yard's scale, so this run is a record at the wrong scale. It stands and is not edited. The run at goat-yard's scale is "Rerun at scale 7.2".
 
 `presplit` found **no horizontal rule** on any page (`rules` = [None, None]; the BSB has no footnote rule). The body window therefore ends at H − 300 = 7350, which gives 22 strips per page.
 
@@ -231,7 +235,114 @@ Reading. These numbers support only; pixels decide.
   - magenta ticks: y_end = 7350.
 - `ruled_rows.json` there holds F, L and the ruled fractions for all 20 pages.
 
-Sign-off form for these strips: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
+These native strips are **superseded** (ruling on report 5, SCALE 3). Chris signs the strips from the rescaled run instead; see "Rerun at scale 0.703".
+
+## Rerun at scale 7.2 (goat-yard step 2: line-height match, 2026-10-26)
+
+- **Frame** (every px in this section): pypdfium2 render, scale 7.2, grey, **3111 × 4666 px**. Line height median **57 px** (49–61), pitch 69, ratio to 55 = 1.036. That is inside goat-yard's band.
+- **Run headers:**
+  - `column_rule`: 2026-10-26T01:51:22Z, script sha256 `15a48c3a…`, slab 244.
+  - `gy_locate_column_rule`: 2026-10-26T01:51:28Z, script sha256 `97a8fc72…`. goat-yard is unchanged, at substrate-v0 `3d0b03e0`.
+  - **Provisional** (truth-set form §7). The golden-chain tools tree was uncommitted, and the headers carry no golden-chain git state. See report 6.
+- **Results:** `~/.golden-chain/column-rule-scale7.2-2026-10-26/` and `~/.golden-chain/gy-locate-column-rule-scale7.2-2026-10-26/`.
+
+| Clause (locked 01:43:23Z) | Measured | Result |
+|---|---|---|
+| R1: W ∈ {3110, 3111}, H ∈ {4665, 4666} | 3111 × 4666 on 20/20 | held |
+| R2: line height median [52, 58], every page [48, 62], pitch [68, 71] | 57; 49–61; 69 | held |
+| R3: present and single 20/20; per-page rule width [6, 12]; pooled gutter [75, 85]; per-page gutter [70, 100] | 20/20 single; 7.5–11 (pooled 8, p5–p95 7–12); pooled 80 (71–88), n = 312; 74–98 | held |
+| R4: 12 strips per page; 20/20 ok; max residual ≤ 10; half_w [1.5, 4.0] | 12; 20/20 ok; 7.1 (p. 906); 1.5–3.0 | held |
+| R5: strips with a cluster 233/240 (896 6/12, 907 11/12) | **235/240**: 896 7/12 (empty 700–1900), 907 12/12 | **missed** |
+
+R5 is a finding against my own mapping of the old strip labels to the new frame. On 896 the continuous ruled run starts at about 2165, inside strip 1900–2200, which carries a cluster. On 907 the last strip (4000–4300) carries a cluster.
+
+## Rerun at scale 0.703 (the architect's frame, ruling on report 5, SCALE, 2026-10-26)
+
+- **Frame** (every px in this section): pypdfium2 render, scale 8.2963 = 3584 / 432 pt, i.e. 0.7027 of native, grey, **3585 × 5377 px**. Line height median **64 px** (57–68), pitch 80, ratio to 55 = 1.164. **That is outside goat-yard's 49–61**, as predicted (D2). Report 6 asks which frame governs.
+- **Run headers:**
+  - `column_rule`: script sha256 `15a48c3a…`, slab 281.
+  - `gy_locate_column_rule`: 2026-10-26T01:57:45Z, script sha256 `97a8fc72…` (the same tool as at 7.2). goat-yard is at substrate-v0 `3d0b03e0`.
+  - **Provisional**, as above.
+- **Results:** `~/.golden-chain/column-rule-scale8.2963-2026-10-26/` and `~/.golden-chain/gy-locate-column-rule-scale8.2963-2026-10-26/`.
+- **The architect's step-1 prediction** was a line height of 70–85 px at 5100 × 7650. It **missed**: the measure is 90 (81–98), taken before the lock.
+
+| Clause (locked 01:57:38Z) | Measured | Result |
+|---|---|---|
+| A1 (architect): 20/20 status ok | 20/20 ok | **held** |
+| A2 (architect): max residual ≤ 15 px | 9.8 (p. 906) | **held** |
+| D1: W = 3584, H ∈ {5375, 5376, 5377} | **3585** × 5377 | **missed** (pypdfium2 rounds 432 × 8.2963 = 3584.0 up to 3585) |
+| D2: line height median [60, 66], every page [55, 70], pitch [78, 82] | 64; 57–68; 80 | held |
+| D3: present and single 20/20; per-page rule width [8, 14]; pooled gutter [87, 97]; per-page gutter [80, 118] | 20/20 single; 9–12 (pooled 10, p5–p95 8–13); pooled 92 (81–102); 85–113 | held |
+| D4: 14 strips per page; half_w [1.5, 5.0] | **15** (the 15th is a partial strip, 4900–5077, 177 rows); 2.0–3.5 | **missed** on the strip count |
+| D5: 274/280 (896 8/14, empty 700–2200) | **294/300**: 896 9/15 (empty 700–2200, the predicted six); every other page 15/15 | **missed** on the totals, which follow D4. The empty set matched. |
+
+D4 is a finding against my model of the strip loop. goat-yard keeps a partial last strip when the remainder is large: 177 rows here is kept, while 66 rows (at 7.2) and 50 rows (native) were dropped.
+
+| Page | Status | Strips with a cluster | half_w | Max residual |
+|---|---|---|---|---|
+| 896 | ok | 9/15 | 2.5 | 1.8 |
+| 897 | ok | 15/15 | 2.0 | 6.1 |
+| 898 | ok | 15/15 | 3.0 | 4.3 |
+| 899 | ok | 15/15 | 2.5 | 5.5 |
+| 900 | ok | 15/15 | 3.5 | 4.9 |
+| 901 | ok | 15/15 | 2.5 | 7.1 |
+| 902 | ok | 15/15 | 2.5 | 5.1 |
+| 903 | ok | 15/15 | 3.5 | 6.7 |
+| 904 | ok | 15/15 | 2.5 | 1.8 |
+| 905 | ok | 15/15 | 2.5 | 3.8 |
+| 906 | ok | 15/15 | 3.5 | 9.8 |
+| 907 | ok | 15/15 | 3.5 | 5.7 |
+| 908 | ok | 15/15 | 2.5 | 3.5 |
+| 909 | ok | 15/15 | 3.0 | 4.6 |
+| 910 | ok | 15/15 | 2.5 | 5.9 |
+| 911 | ok | 15/15 | 3.0 | 4.6 |
+| 912 | ok | 15/15 | 2.5 | 5.0 |
+| 913 | ok | 15/15 | 3.0 | 3.9 |
+| 914 | ok | 15/15 | 3.0 | 2.6 |
+| 915 | ok | 15/15 | 3.5 | 5.0 |
+
+**The last strip.** Peaks in the partial strip 4900–5077 are 0.72 (896), 0.64 (902), 0.64 (907) and 0.76 (908), all above 0.59. The architect's locked hypothesis is that these peaks are "the inked edge of justified text (left edge of the right column's stems) or footnote text inside the ±300 px window after the rule ends, not a faint rule".
+
+The numbers lean the other way; Chris's reading decides.
+- At scale 7.2, a mode-midpoint measure (below) puts the rule's end at 4353–4373 on these four pages. That is 5016–5040 in this frame, or 7135–7170 native.
+- So the rule would cover 116–140 of the strip's 177 rows, i.e. 0.66–0.79, close to each peak.
+- The same arithmetic fits the native run: there the rule ends 135–170 rows into strip 7000–7300, giving 0.45–0.57 against peaks of 0.44–0.55.
+- If so, the peaks are the rule itself, ending above the foot: H2 as first locked.
+
+### Signing-strip measure: a threshold finding
+
+The measure in [`tools/signing_strips.py`](../../tools/signing_strips.py) (a row is ruled when its window ink is ≥ 2·half_w) breaks goat-yard law 9.
+- **The threshold sits at the rule-width mode,** not at the midpoint between the empty mode (0) and the rule mode. So a 1 px thinning of the rule drops a row.
+  - At 7.2, p. 907's last strip has a mode of 5 against a need of 6, giving a ruled fraction of 0.20.
+  - At 0.703, p. 907 gives L = 4528 and a fraction of 0.141.
+- **The 50-row run (F and L need ≥ 45 of 50 rows) is shorter than one line pitch** (69 at 7.2, 80 at 0.703). So one line of type crossing the gutter can pass as rule.
+  - p. 896's F = 1863 (7.2) and F = 2148 (0.703) both come from a 47-row run, about 330 rows above where the continuous rule starts.
+
+**Mode-midpoint check** (scratch script `17a543aa…`, not a tool of record). RULED′ = window ink ≥ ceil(m/2), where m is the page mode of non-zero window counts. Locked 01:54:44Z, run at scale 7.2:
+
+| Clause | Measured | Result |
+|---|---|---|
+| M1: m ∈ {5, 6, 7} on 20/20 | m ∈ {4, 5, 6}; m = 4 on 897 and 901 | **missed** |
+| M2: F′(896) ∈ [2100, 2250]; F′ = 700 on the other 19 | F′(896) = 1863 (the same 47-row run); 700 on 19/19 | **missed** on 896 |
+| M3: L′ ≥ 4300 on 896, 902, 907, 908 | 4368, 4353, 4354, 4373 | held |
+| M4: ruled′ fraction of the last strip ≥ 0.95 on those four | 1.0 on all four | held |
+
+So the midpoint threshold removes the last-strip artefact (M3, M4). The short run still catches type on 896 (M2). The proposed fix is a midpoint threshold plus a run length in line pitches. It changes a tool of record, so it waits for a ruling (report 6).
+
+### Strips for Chris (rescaled, with native crops)
+
+- **Folder** (local viewing only, never sent to a hosted model; not in git): `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale8.2963-2026-10-26\strips-for-signing\`.
+- **Strips:**
+  - `p896-gutter-full.png`, `p897-gutter-full.png`, `p898-gutter-full.png`: rows 0–5376.
+  - `p896-foot.png`, `p902-foot.png`, `p907-foot.png`, `p908-foot.png`: rows 4300–5376.
+  - Each is 600 px wide, centred on xdiv.
+- **Native crops:** each strip has a `-native.png` crop of the embedded 5100 × 7650 image beside it, covering the same region × 1.4227 (`--native`).
+- **Measures from these strips**, by the threshold above (so only indicative):
+  - F(896) = 2148.
+  - L = 5026 (896), 5003 (902), 4528 (907) and 5035 (908).
+- **Header:** 2026-10-26T02:01:44Z, script sha256 `675968bf…`, run JSON sha256 `ef6fade7…`. Provisional, as above.
+
+Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 
 ## Sign-off (architect, from pixels)
 

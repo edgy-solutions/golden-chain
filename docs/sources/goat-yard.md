@@ -102,16 +102,55 @@ Skipped, and why:
 
 Modules loaded by path: `build_page_geometry`, `cv_footnote_presplit`, `verse_regions`, `note_start_detect`, `box_sanity`, `hanging_indent`. They are listed in `SUBSTRATE_MODULES` in `tools/gy_locate_column_rule.py`, and the pin guard fails if the set loaded differs. `tests/test_gy_locate.py` imports each one, so a module that comes to need a skipped dependency fails at test time, not at run time.
 
-## Status (build agent, updated 2026-10-26)
+## Scale correction (2026-10-25)
+
+> GY SCALE CORRECTION, 2026-10-25. Goat-yard images carry no DPI;
+> comparisons are in pixels at 3584×5400 px per page, line height
+> 49-61 px. All substrate pixel constants (300-row strips, MERGE_GAP
+> 20, MAX_RESID 15, DOUBLE_RULE_MAX_W 24, ±300 px of xdiv) are at that
+> scale.
+>
+> Before anything else:
+> 1. Report our render: page size in px, the pypdfium2 scale used, and
+>    measured body line height in px (median and range over the 20
+>    pages, from text_lines or our own measure). State the ratio
+>    (our line height / 55).
+> 2. If our line height is outside 49-61 px, the pin run was made at
+>    the wrong scale. Re-render pp. 896-915 to put median line height
+>    at ~55 px, re-measure the rule width and gutter in those pixels,
+>    write a NEW locked prediction (the old run stands as a record,
+>    not edited), and rerun locate_column_rule. The strips for Chris
+>    are cut from the rescaled images, not the old ones.
+> 3. If our line height is inside 49-61 px, say so with the number,
+>    restate rule width and gutter alongside line height, and the run
+>    stands; proceed to cutting the strips.
+> 4. From now on every pixel measurement in docs/sources/ is reported
+>    with the page px size and line height beside it. Points are not
+>    used for anything goat-yard will read.
+
+**Our render, as the pin run made it** (measured 2026-10-26, code only):
+- **No pypdfium2 render.** The pin run used each page's single embedded image, unscaled: 5100 × 7650 px, 1 bpp. The page is 432 × 648 pt, so that is 11.806 px/pt (850 dpi).
+- **Line height**, from goat-yard's own `analyze_page_s1` on those images:
+  - `page_line_h` (the pooled median of the raw `_text_lines` bands): median **90 px**, range 81–98.
+  - Final band height: median 101 px, range 83–104.
+  - Pitch (baseline step): 113–114 px.
+- **Ratio 90 / 55 = 1.64.** That is outside 49–61, so **the pin run was made at the wrong scale** (item 2). It stands as a record and is not edited.
+
+**Rescale.** pypdfium2 `render(scale=7.2, grayscale=True)`, where 7.2 = 11.806 × 55/90, rounded. The old→new factor is 0.610. Predictions were locked 2026-10-26T01:43:23Z, before any render, in `~/.golden-chain/gy-scale-rerender-predictions-locked.txt`. Results are in [gill-column-rule.md](gill-column-rule.md), § "Rerun at scale 7.2": line height 57 (49–61), 20/20 ok, max residual 7.1 px.
+
+**The architect's frame** (ruling on report 5, SCALE). The architect ruled a render at 3584/5100 ≈ 0.703 of native (pypdfium2 scale 8.2963, frame 3585 × 5377 px). Line height is 64 px (57–68), outside 49–61. Locked 01:57:38Z: the architect's criterion, 20/20 ok with residual ≤ 15, **held** (max 9.8 px). Details are in [gill-column-rule.md](gill-column-rule.md), § "Rerun at scale 0.703". Chris signs the strips from this run, with native crops beside them. The native run stays on record as "made at the wrong scale".
+- **Open (report 6):** the 0.703 frame, goat-yard's step 2 (line height ~55 px) and the truth-set form §6.1 ("Native page pixels … No consumer rescales silently") point three ways. The build agent followed the architect's ruling.
+
+## Status (build agent, updated 2026-10-26, report 6)
 
 | Item | Status |
 |---|---|
 | Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed with `pip install -e --no-deps`, accepted on report 4 (see Install above). OCR is still HELD (see Addition 2). |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
-| ADR-0002 revision | Applied as "Revision 1" in [ADR-0002](../adr/0002-identity-iri-patterns.md). Proposed, for review by both architects. |
+| ADR-0002 revision | Revision 1 **ratified** by the architect (2026-10-26), subject to goat-yard's explicit sign-off on (a) the kjv segment, (b) the reserved Anchor, (c) locations only. Chris forwards it. |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. |
-| Addition 3 (provenance line) | In ADR-0002 rule 5. goat-yard has no written truth-set provenance form; the line follows its nearest examples, marked **pending GY form** (ruling Q20). The question is in the GY message. |
+| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. **Rescaled** (ruling on report 5): at the architect's 0.703 frame, 20/20 ok, max residual 9.8 px; the strips to sign are cut from that run. Runs made from an uncommitted tools tree are **provisional** (truth-set form §7) until rerun clean. |
+| Addition 3 (provenance line) | In ADR-0002 rule 5, citing goat-yard's `docs/forms/TRUTH_SET_FORM.md` v1 (published 2026-10-25, `a0a30d4`, branch apparatus-next). It borrows the provenance elements only. |
 | Interface requests filed | None. |
-| Single-rule fixture for A2 | **Not prepared.** Its condition, "if 20/20 passes", is met on goat-yard's criteria (ruling on report 4). Preparing it awaits the architect's word (report 5). |
+| Single-rule fixture for A2 | **Not prepared.** Ruled to wait until the rescaled run passes clean and Chris has signed the rescaled strips (ruling on report 5, Q4). |

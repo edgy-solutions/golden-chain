@@ -72,16 +72,29 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 - *The Humble Advice of the Assembly of Divines … concerning a Confession of Faith: with the Quotations and Texts of Scripture annexed.* [V: title page]
 - The proofs first appeared in the London printing of 1647. [R] No image of that printing has been inspected. [U]
 
-**Witness of record (proposed)**
+**Witness of record** (ruled by the architect on report 5, Q7, 2026-10-26)
 - C: Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, Princeton Theological Seminary scan, 76 images, `NOT_IN_COPYRIGHT`. [V]
 - It is the only 1647 printing with proofs that has been fetched. Whether it is a reprint of the London printing, and whether the two letter their notes identically, is [U].
+- If the London 1647 printing with proofs is found later, it is a **second witness, not a replacement**. Differences between them become findings.
 - Proposed `gc:secondaryLocator`: `"Edinburgh: Evan Tyler, 1647, p. (48)"`, in the same form as the LBC's.
 
 **How the proofs are printed**
 - Lettered marginal notes keyed to clauses. [V from OCR letters only]
   - The OCR shows letters in the text of ch. 28, e.g. "baptized m", "it n", "regenerated p", "time r", "perfon f".
   - The note texts cannot be recovered from it (long s, broken sigla). **No string comes from the OCR.**
-- Ch. 28 falls on printed pp. (48)–(49). [V from the OCR page markers; one of them reads "(43)"] The pages for chs. 7 and 27 are [U].
+- **Where to read them in the scan.** One page per leaf. Printed page = IA leaf − 8.
+  - That holds at every OCR page marker on leaves 34–64, e.g. (39) on leaf 47 and (49) on leaf 57. [V]
+  - For leaves 23–25 it is extrapolated, since the OCR finds no marker there. [U]
+  - The IA viewer counts from 0: leaf n is `archive.org/details/humbleadviceofas00west/page/n{n−1}`. [R]
+
+  | Division | IA leaf | Printed page | Basis |
+  |---|---|---|---|
+  | 7.5 | 24 | (16) | the OCR's "This Covenant was differently adminiftred" is on leaf 24 |
+  | 7.6 | 25 | (17) | the OCR's "not therefore Two Covenants of Grace" is on leaf 25, which also opens ch. 8 |
+  | 27.1 | 55 | (47) | the OCR's "Chap. XXVII … Signes and Seals of the Covenant of Grace" |
+  | 28.1–28.7 | 56–57 | (48)–(49) | 28.3 is on leaf 56; the OCR's "28.6 … time r" and 28.7 "perfon f" are on leaf 57 |
+
+  An NLS copy has not been sought. [U]
 - Whether the letters run per chapter, and whether they skip j and v, is [U].
 
 **Rule (as for the LBC)**
@@ -92,6 +105,8 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 **Not yet recorded.** No model views page images. The strings are to be read by the architect on [../handoff/READING_wcf1647_proofs.md](../handoff/READING_wcf1647_proofs.md), and nothing changes in TTL until that form is signed.
 - Some current Arguments group proofs that Schaff prints under different clauses. For example, `28/1/002` cites both the ingrafting note (Gal 3:27; Rom 6:5) and the newness-of-life note (Rom 6:3, 4). Under the rule those split.
 - Argument counts are predicted once the letters are known.
+- **Three 28.1 clauses not yet cited** (ruling on report 5, Q8): admission (1 Cor 12:13), regeneration (Tit 3:5) and remission (Mark 1:4). Once their letters are read and signed, each lettered note becomes an Argument supporting WCF's composite 33a Position, `union-with-christ`. They are on the reading form.
+- **Who proposes, who signs** (ruling on report 3, Q1): the ruling asks the build agent to propose letters and strings from the IA images, and Chris to sign each row. The build agent is a hosted model and has not viewed the images; see report 6. Until that is resolved, the form is unchanged: Chris reads, Chris signs.
 
 ## Phase-1 divisions
 

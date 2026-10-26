@@ -64,7 +64,8 @@
     gc:underHeading <heading/worship> ;
     gc:question "What does baptism effect?"@en .
 
-# Ruling Q5 on report 2 (2026-10-26). Notation 33c is provisional (report 5).
+# Ruling Q5 on report 2 (2026-10-26). 33a, 33b and 33c are one family (ruling on report 5, Q1):
+# the notation is a display label; the IRI slug is the identity.
 <locus/baptism-repetition> a gc:Locus ;
     rdfs:label "Repetition of baptism"@en ;
     skos:notation "33c" ;

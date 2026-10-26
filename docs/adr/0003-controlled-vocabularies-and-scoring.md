@@ -258,7 +258,7 @@ on {required, taught}², and entails on P ∈ {required, taught} with Q forbidde
    asserts its own Holdings on that Locus. No parent is ever picked.
    - "Differ" compares (Position, modality, scope) as sets per Locus, never
      Holding IRIs, because two Bodies' Holdings always have distinct IRIs.
-   - *Build-agent readings, for confirmation:*
+   - *Readings confirmed by the architect (ruling on report 4, Q7, 2026-10-26):*
      - (a) A parent that is **silent** on the Locus is not a difference. The rule
        fires only when both parents speak there.
      - (b) The child **still inherits** both parents' Holdings on that
