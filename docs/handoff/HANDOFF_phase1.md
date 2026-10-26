@@ -1,8 +1,8 @@
 # Handoff: phase 1 (in flight)
 
-- Branch: `phase-0`, not pushed since `main` was created. Last commit: the report commit after d145a67.
-- Latest report: [REPORT_phase1_02.md](REPORT_phase1_02.md) (24 open questions).
-- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 169 tests pass.
+- Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
+- Latest report: [REPORT_phase1_03.md](REPORT_phase1_03.md). Report 2's Q5–Q24 are still unanswered; Chris is sending report 2 to the architect.
+- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 172 tests pass.
 
 ## How to rebuild and check
 
@@ -15,6 +15,8 @@
 
 - Phase 1, report 1 rulings (Gill as `body/gill`; 33a/33b split; implication Holdings; E1; cite as printed; locator scheme; CrossWire canon.h; ADR-0005 provisional).
 - LBC 29 (2026-10-25): witness is the 1677 first printing, facsimile edition 2000; slug `lbc-1689` kept; lettered notes go in `gc:asPrinted`. See [../sources/lbc-1689.md](../sources/lbc-1689.md).
+- Report 2 rulings (2026-10-26): one Argument per lettered note, enforced by a shape (ADR-0005 amendment); `gc:` properties only where no standard term fits, `dcterms` for bibliography (ADR-0002 rule 6).
+- Awaited: LBC 28.1, 29.3, 29.4 note letters (Chris photographing); goat-yard's answer on fix A and a single rule; the architect's column-rule sign-off.
 
 ## goat-yard (lane G)
 
