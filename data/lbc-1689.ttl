@@ -147,6 +147,8 @@
     gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
         <passage/kjv/Acts.8.38> ;
     gc:locator "29.3" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
@@ -156,6 +158,8 @@
     gc:cites <passage/kjv/Matt.3.16> ,
         <passage/kjv/John.3.23> ;
     gc:locator "29.4" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(h) Mat. 3. 16. Joh. 3. 23." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
