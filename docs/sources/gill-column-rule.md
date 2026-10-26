@@ -113,6 +113,69 @@ If fix A abstains on a single rule, the request file is
 
 The request is not filed until the architect signs from pixels and the goat-yard answer is in.
 
+## goat-yard `locate_column_rule` at substrate-v0 (2026-10-26)
+
+Asked by goat-yard (response of 2026-10-26, [goat-yard.md](goat-yard.md)) before any OCR.
+
+**Run header.**
+- Tool: [`tools/gy_locate_column_rule.py`](../../tools/gy_locate_column_rule.py), sha256 `aa57288b…`, run once at 2026-10-26T00:50:15Z.
+- PDF sha256 `cdfd7fdc…`.
+- goat-yard: worktree at tag `substrate-v0`, commit `3d0b03e0`, clean; `verse_regions.py` sha256 `3cfe1062…`; geometry config hash `bf928b83759beb26`.
+- Python 3.11.1, numpy 2.4.6, pypdfium2 5.14.0, pillow 13.0.0.
+
+**Method.** goat-yard code is used unchanged, imported from the worktree, never copied:
+1. The page's embedded image (5100 × 7650 px, about 850 dpi) is written as an 8-bit grey PNG. It is **not rescaled**; goat-yard's vol. 1 frame is 3584 × 5400.
+2. `build_page_geometry.process_page` (its default `presplit`) gives the geometry record.
+3. `page_ink` gives the ink mask.
+4. `locate_column_rule` is called on the mask and the record.
+
+Constants as pinned: `RULE_COL_FRAC` 0.59, `RULE_STRIP_PX` 300, `RULE_Y_TOP_PX` 700, `RULE_SEARCH_PX` 300, `RULE_MAX_RESID_PX` 15, `RULE_MIN_STRIP_FRAC` 0.5, `INK` 110.
+
+`presplit` found **no horizontal rule** on any page (`rules` = [None, None]; the BSB has no footnote rule). The body window therefore ends at H − 300 = 7350, which gives 22 strips per page.
+
+A smoke run on p. 183 (the calibration page, outside the set) came first: ok, 22/22, half_w 4.5, residual 8.6.
+
+| Page | Status | Strips with a cluster | half_w (px) | Max residual (px) | Slope | xdiv |
+|---|---|---|---|---|---|---|
+| 896 | ok | 11/22 | 4.0 | 2.1 | 0.000348 | 2558 |
+| 897 | ok | 22/22 | 3.0 | 9.5 | -0.005156 | 2566 |
+| 898 | ok | 22/22 | 4.5 | 7.7 | 0.003287 | 2435 |
+| 899 | ok | 22/22 | 3.5 | 8.7 | -0.001901 | 2556 |
+| 900 | ok | 22/22 | 5.0 | 7.4 | 0.001345 | 2433 |
+| 901 | ok | 22/22 | 3.5 | 11.7 | -0.001176 | 2557 |
+| 902 | ok | 21/22 | 4.0 | 6.9 | 0.009645 | 2456 |
+| 903 | ok | 22/22 | 5.5 | 11.6 | 0.001071 | 2549 |
+| 904 | ok | 22/22 | 4.0 | 3.1 | -2.9e-05 | 2426 |
+| 905 | ok | 22/22 | 4.0 | 5.1 | -0.002395 | 2556 |
+| 906 | ok | 22/22 | 5.0 | 13.3 | -0.003415 | 2407 |
+| 907 | ok | 21/22 | 5.0 | 8.3 | 0.003896 | 2571 |
+| 908 | ok | 21/22 | 4.0 | 5.4 | -0.004714 | 2411 |
+| 909 | ok | 22/22 | 4.5 | 5.3 | -0.003366 | 2571 |
+| 910 | ok | 22/22 | 4.0 | 12.6 | -0.002221 | 2417 |
+| 911 | ok | 22/22 | 4.5 | 7.9 | 0.005134 | 2580 |
+| 912 | ok | 22/22 | 4.0 | 7.6 | -0.002086 | 2420 |
+| 913 | ok | 22/22 | 4.2 | 5.8 | -0.001911 | 2564 |
+| 914 | ok | 22/22 | 4.0 | 6.5 | 0.001614 | 2437 |
+| 915 | ok | 22/22 | 5.0 | 7.7 | -0.004015 | 2556 |
+
+**Against the prediction locked 2026-10-26 (before the run):**
+
+| Clause | Result |
+|---|---|
+| 20/20 status ok | **Held.** No abstention, so no request file is triggered. |
+| Max residual ≤ 15 px | **Held.** Worst is 13.3 px on p. 906, 1.7 px inside the limit. |
+| Every strip carries a cluster | **Missed on 4 pages: 14 of 440 strips.** A finding. |
+
+The 14 empty strips (peak column ink fraction in the search window against the 0.59 cut):
+- **p. 896, strips 700–3700 (10 strips):** peaks 0.00–0.53. p. 896 is the page run 2 flagged (9/14 ruled slabs). The empty strips are the upper body.
+- **The last strip, 7000–7300, on pp. 896, 902, 907, 908:** peaks 0.52, 0.44, 0.45, 0.55. All are below 0.59.
+
+Not established, and needs pixels: whether the rule ends inside the last strip (so ink is diluted by the window ending at 7350), or is present but too faint for 0.59.
+
+**Width.** `locate_column_rule` widths (columns with fraction ≥ 0.59 in a 300-row strip) have medians of 6–11 px (half_w 3.0–5.5). Run 2's per-row rule-width medians were 12–18 px. These are different measures. The slanted rule (|slope| up to 0.0096 on p. 902, about 3 px of drift per strip) spreads its ink across more columns than any one column holds at 0.59. That is the `RULE_COL_FRAC` risk goat-yard named. Observation only; nothing is changed.
+
+Results are in `~/.golden-chain/gy-locate-column-rule-2026-10-26/` (outside the repo). Per-strip column fractions are stored for every page, so a request file can be written without a rerun.
+
 ## Sign-off (architect, from pixels)
 
 - Gutter strips for pp. 896–915: band x ∈ [0.35 W, 0.65 W], full height, scaled 1:2, local viewing only. They are not in git: `C:\Users\cnogr\.golden-chain\column-rule-2026-10-25\strips\gutter-p{896..915}.png`.

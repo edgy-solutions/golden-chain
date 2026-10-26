@@ -91,12 +91,12 @@ locked file is `~/.golden-chain/gy-locate-column-rule-predictions-locked.txt`.
 
 | Item | Status |
 |---|---|
-| Pin `substrate-v0` | The local goat-yard clone shows the tag at 3d0b03e0. **Not pinned:** waiting for Chris to confirm. Nothing is consumed, and OCR is HELD. |
+| Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed into the golden-chain venv with `pip install -e --no-deps`; the package's own dependencies (dagster, openai, dspy, weaviate, baml) are not needed by `verse_regions` and were not installed. OCR is still HELD. |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Applied as "Revision 1" in [ADR-0002](../adr/0002-identity-iri-patterns.md). Proposed, for review by both architects. |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule ([gill-column-rule.md](gill-column-rule.md)). goat-yard accepts a single rule by construction but has no test for it, so `RULE_COL_FRAC` 0.59 is the risk. Next, after the pin: `locate_column_rule` unchanged on pp. 896–915, against the locked prediction above. The architect's sign-off from pixels is pending. |
+| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915: **20/20 ok, max residual 13.3 px**. The "every strip" clause **missed**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908 ([gill-column-rule.md](gill-column-rule.md)). The architect's sign-off from pixels is pending. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5. goat-yard has no written truth-set provenance form; the line follows its nearest examples, marked **pending GY form** (ruling Q20). The question is in the GY message. |
 | Interface requests filed | None. |
-| Single-rule fixture for A2 | Only if `locate_column_rule` passes 20/20: a synthetic page in the shape of `test_verse_regions._cs_page`. |
+| Single-rule fixture for A2 | **Held.** The condition was "if 20/20 passes". Status ok is 20/20, but the locked prediction missed one clause. Awaiting a ruling on whether that counts as a pass. |
