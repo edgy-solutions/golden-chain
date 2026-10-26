@@ -148,3 +148,92 @@ def test_rerun_is_idempotent_and_clears_derived():
         out.update(f.read_text(encoding="utf-8"))
     assert inconsistencies(out) == []
     assert not [t for g in snapshot().values() for t in g if t[1] == GC.inconsistent]
+
+
+# ---- scope (ADR-0003 rev. 1): excludes and entails fire only when scopes intersect ----------
+
+SCOPES = [None, "officers", "members"]
+
+
+def intersect(s1, s2) -> bool:
+    return s1 is None or s2 is None or s1 == s2
+
+
+def test_officers_required_vs_members_tolerated_does_not_fire():
+    """The architect's born test (report 2, Q11). Tolerated never fires, so scope is not what
+    keeps this one quiet; the parametrised tests below are the ones that exercise scope."""
+    w = two_positions("excludes")
+    w.hold("b", "l", "p", "required", scope="officers")
+    w.hold("b", "l", "q", "tolerated", scope="members")
+    assert inconsistencies(ingest.derive_rdflib(w.dataset())) == []
+
+
+@pytest.mark.parametrize("s1,s2", list(itertools.product(SCOPES, SCOPES)))
+def test_excludes_fires_iff_scopes_intersect(s1, s2):
+    w = two_positions("excludes")
+    w.hold("b", "l", "p", "required", scope=s1)
+    w.hold("b", "l", "q", "required", scope=s2)
+    found = inconsistencies(ingest.derive_rdflib(w.dataset()))
+    assert len(found) == (1 if intersect(s1, s2) else 0)
+
+
+@pytest.mark.parametrize("s1,s2", list(itertools.product(SCOPES, SCOPES)))
+def test_entails_fires_iff_scopes_intersect(s1, s2):
+    w = two_positions("entails")
+    w.hold("b", "l", "p", "required", scope=s1)
+    w.hold("b", "l", "q", "forbidden", scope=s2)
+    found = inconsistencies(ingest.derive_rdflib(w.dataset()))
+    assert len(found) == (1 if intersect(s1, s2) else 0)
+
+
+# ---- two parents (ADR-0003 rev. 1): differing parents make the child inconsistent ---------
+
+def diamond(hold_p1, hold_p2):
+    """Child c of parents p1 and p2 on locus l; hold_pN is a list of (pos, modality, scope)."""
+    w = World()
+    for pos in ("x", "y"):
+        w.position("l", pos)
+    w.position("k", "z")
+    for name, holds in (("p1", hold_p1), ("p2", hold_p2)):
+        w.body(name)
+        for pos, mod, scope in holds:
+            w.hold(name, "l", pos, mod, scope)
+    w.body("c")
+    w.g.add((U("body/c"), GC.childOf, U("body/p1")))
+    w.g.add((U("body/c"), GC.childOf, U("body/p2")))
+    return w
+
+
+def rules(derived):
+    cons = derived.graph(U("graph/derived/consistency"))
+    return sorted((str(next(cons.objects(i, GC.body))).split("/body/")[1], str(next(cons.objects(i, GC.rule))))
+                  for i in inconsistencies(derived))
+
+
+@pytest.mark.parametrize("p1,p2,fires", [
+    ([("x", "taught", None)], [("y", "taught", None)], True),          # different Positions
+    ([("x", "taught", None)], [("x", "required", None)], True),        # same Position, other modality
+    ([("x", "taught", None)], [("x", "taught", "officers")], True),    # same, other scope
+    ([("x", "taught", None)], [("x", "taught", None)], False),         # agree
+    ([("x", "taught", None), ("y", "forbidden", None)],
+     [("y", "forbidden", None), ("x", "taught", None)], False),        # agree as sets
+    ([("x", "taught", None)], [], False),                              # p2 silent on l: not a difference
+])
+def test_parents_differ(p1, p2, fires):
+    d = ingest.derive_rdflib(diamond(p1, p2).dataset())
+    assert rules(d) == ([("c", "parents-differ")] if fires else [])
+
+
+def test_parents_differ_silenced_by_own_holding():
+    w = diamond([("x", "taught", None)], [("y", "taught", None)])
+    w.hold("c", "l", "x", "taught")
+    d = ingest.derive_rdflib(w.dataset())
+    assert rules(d) == []
+    assert ("c", "l/x") in eff(d) and ("c", "l/y") not in eff(d)
+
+
+def test_parents_differ_picks_no_parent():
+    """The child still inherits from both parents; no parent is chosen."""
+    d = ingest.derive_rdflib(diamond([("x", "taught", None)], [("y", "taught", None)]).dataset())
+    assert {("c", "l/x"), ("c", "l/y")} <= eff(d)
+    assert len(inconsistencies(d)) == 1

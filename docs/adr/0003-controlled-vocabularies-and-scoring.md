@@ -1,6 +1,6 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Ratified with changes (§6 remains a proposal)
+- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-26) recorded as ruled
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -239,3 +239,32 @@ into the derived graph, before scoring.
 - Revisit 9/3/1 after the first two test users.
 - The 9/3/1 reason vs the arithmetic (finding above): keep the weighted sum
   with this known bound, or order lexicographically by tier?
+
+## Revision 1 (2026-10-26; architect's rulings on report 2, Q11 and Q15)
+
+Recorded as ruled; implemented in `reasoner/20-consistency.ru`; tests in
+`tests/test_reasoner.py`. The E1 firing definitions (report 1) stand: excludes
+on {required, taught}², and entails on P ∈ {required, taught} with Q forbidden.
+
+1. **Scope in firing (Q11).** `excludes` and `entails` fire only when the two
+   Holdings' scopes **intersect**. An absent scope is `all` and intersects
+   everything. Two explicit scopes intersect only if they are equal.
+   - The born test is "officers-required vs members-tolerated on excluded
+     Positions must not fire". It passes, but tolerated never fires anyway, so
+     scope is not what keeps it quiet. The tests that exercise scope are
+     the 3 × 3 scope grids for excludes and for entails, both with required Holdings.
+2. **Two parents (Q15).** A Body with two parents whose effective Holdings
+   differ on a Locus is **inconsistent** (rule `parents-differ`), unless it
+   asserts its own Holdings on that Locus. No parent is ever picked.
+   - "Differ" compares (Position, modality, scope) as sets per Locus, never
+     Holding IRIs, because two Bodies' Holdings always have distinct IRIs.
+   - *Build-agent readings, for confirmation:*
+     - (a) A parent that is **silent** on the Locus is not a difference. The rule
+       fires only when both parents speak there.
+     - (b) The child **still inherits** both parents' Holdings on that
+       Locus (§7 is unchanged), so the inconsistency is visible
+       and neither parent is chosen.
+     - (c) Only **direct** parents are compared. A diamond further up flags the
+       Body that has the two parents, not its descendants.
+   - IRI: `B inconsistency/{body}/parents-differ/{locus}`. `gc:involves`
+     names the differing Positions.
