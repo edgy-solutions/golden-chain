@@ -21,13 +21,18 @@ the measured set, before the run):
    iff coverage >= 0.5 (a column rule runs the text height; less is a
    fragment). Any page under 0.9 is flagged for a human look.
 
-Usage: python -I tools/column_rule.py <pdf> <first> <last> <out_dir>
+Usage: python -I tools/column_rule.py <pdf> <first> <last> <out_dir> [--scale S]
+With --scale S the page is instead rendered by pypdfium2 at scale S (grey,
+ink = grey < 128; same polarity/crop check) and the slab height becomes
+slab_rows(S) = round(R * S / SCALE_NATIVE), so a slab spans the same page
+height; the header then also records scale, slab_rows and frame_wh.
 (printed page numbers; PDF page = printed + 53). Needs numpy, pypdfium2.
 """
 import datetime
 import hashlib
 import importlib.metadata
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -43,13 +48,35 @@ RIGHT_TEXT = (0.55, 0.85)
 BINS = 20
 DPI = 850
 PT = 72 / DPI
+SCALE_NATIVE = DPI / 72
 
 
 class Fail(Exception):
     pass
 
 
-def bitmap(pdf, printed):
+REPO = Path(__file__).resolve().parents[1]
+
+
+def git_state(repo):
+    """golden-chain's own git state; fails loud if git cannot answer."""
+    def git(*args):
+        try:
+            return subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True,
+                                  text=True).stdout
+        except (subprocess.CalledProcessError, OSError) as e:
+            raise Fail(f"git {' '.join(args)} failed in {repo}: {e}")
+    commit = git("rev-parse", "HEAD").strip()
+    porcelain = len(git("status", "--porcelain").splitlines())
+    return {"commit": commit, "dirty": porcelain > 0, "porcelain": porcelain}
+
+
+def clean_run(start, end):
+    """Truth-set form 7: clean only if start and end are both clean and identical."""
+    return not start["dirty"] and not end["dirty"] and start["commit"] == end["commit"]
+
+
+def image_obj(pdf, printed):
     pg = pdf[printed + OFFSET - 1]
     objs = list(pg.get_objects())
     imgs = [o for o in objs if o.type == raw.FPDF_PAGEOBJ_IMAGE]
@@ -58,12 +85,40 @@ def bitmap(pdf, printed):
     m = imgs[0].get_metadata()
     if (m.width, m.height, m.bits_per_pixel) != (5100, 7650, 1):
         raise Fail(f"p.{printed}: image {m.width}x{m.height} {m.bits_per_pixel}bpp")
-    ink = np.asarray(imgs[0].get_bitmap(render=False).to_pil().convert("L")) > 127
+    return pg, imgs[0]
+
+
+def check_ink(ink, printed):
     border = np.concatenate([ink[:50].ravel(), ink[-50:].ravel(),
                              ink[:, :50].ravel(), ink[:, -50:].ravel()]).mean()
     if border > 0.001 or not 0.02 < ink.mean() < 0.4:
         raise Fail(f"p.{printed}: polarity/crop check: border {border:.4f}, ink {ink.mean():.4f}")
     return ink
+
+
+def bitmap(pdf, printed):
+    _, img = image_obj(pdf, printed)
+    ink = np.asarray(img.get_bitmap(render=False).to_pil().convert("L")) > 127
+    return check_ink(ink, printed)
+
+
+def render(pdf, printed, scale):
+    """2-D uint8 grey render at `scale` (pypdfium2); ink is grey < 128."""
+    pg, _ = image_obj(pdf, printed)
+    return grey_checked(pg.render(scale=scale, grayscale=True).to_numpy(), printed)
+
+
+def grey_checked(grey, printed):
+    if grey.ndim == 3 and grey.shape[2] == 1:
+        grey = grey[:, :, 0]
+    if grey.ndim != 2 or grey.dtype != np.uint8:
+        raise Fail(f"p.{printed}: render is {grey.ndim}-D {grey.dtype}, expected 2-D uint8")
+    check_ink(grey < 128, printed)
+    return grey
+
+
+def slab_rows(scale):
+    return R if scale is None else round(R * scale / SCALE_NATIVE)
 
 
 def mode_midpoint(f):
@@ -97,11 +152,11 @@ def zero_run(v, start, step):
     return n if 0 <= i < len(v) else None
 
 
-def measure(ink):
+def measure(ink, r=R):
     H, W = ink.shape
     x0, x1 = int(BAND[0] * W), int(BAND[1] * W)
-    slabs = [ink[y:y + R] for y in range(0, H - R + 1, R)]
-    f = np.array([s[:, x0:x1].sum(0) / R for s in slabs])
+    slabs = [ink[y:y + r] for y in range(0, H - r + 1, r)]
+    f = np.array([s[:, x0:x1].sum(0) / r for s in slabs])
     T, hist = mode_midpoint(f)
     rows = []
     for i, s in enumerate(slabs):
@@ -110,7 +165,7 @@ def measure(ink):
         if not two_col:
             continue
         v = s[:, x0:x1].sum(0)
-        row = {"slab": i, "y": i * R}
+        row = {"slab": i, "y": i * r}
         clusters = []
         if T is not None:
             for a, b in runs(f[i] >= T):
@@ -164,10 +219,12 @@ def measure(ink):
     }
 
 
-def main(pdf_path, first, last, out):
+def main(pdf_path, first, last, out, scale=None):
+    git_start = git_state(REPO)
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     pdf = pdfium.PdfDocument(pdf_path)
+    r = slab_rows(scale)
     header = {
         "run": "gill-column-rule",
         "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
@@ -179,9 +236,19 @@ def main(pdf_path, first, last, out):
         "versions": {"python": sys.version.split()[0], "numpy": np.__version__,
                      "pypdfium2": importlib.metadata.version("pypdfium2")},
     }
-    pages = {}
+    pages, frames = {}, {}
     for p in range(first, last + 1):
-        pages[p] = measure(bitmap(pdf, p))
+        ink = bitmap(pdf, p) if scale is None else render(pdf, p, scale) < 128
+        frames[p] = [int(ink.shape[1]), int(ink.shape[0])]
+        pages[p] = measure(ink, r)
+    if scale is not None:
+        wh = {tuple(v) for v in frames.values()}
+        if len(wh) != 1:
+            raise Fail(f"page frame sizes differ: {sorted(wh)}")
+        header.update(scale=scale, slab_rows=r, frame_wh=list(wh.pop()))
+    git_end = git_state(REPO)
+    header.update({"golden_chain_git_start": git_start, "golden_chain_git_end": git_end,
+                   "clean_run": clean_run(git_start, git_end)})
     (out / "column_rule.json").write_text(json.dumps({"header": header, "pages": pages}, indent=1, default=str))
     for p, r in pages.items():
         g = r["gutter_px"]
@@ -189,11 +256,24 @@ def main(pdf_path, first, last, out):
               "T", None if r["threshold"] is None else round(r["threshold"], 3),
               "cov", r["coverage"], f"{r['rule_slabs']}/{r['two_col_slabs']}", "kind", r["rule_kind"],
               "rule_w med", int(np.median(r["rule_w_px"])) if r["rule_w_px"] else None,
-              "gutter med/min/max", (int(np.median(g)), min(g), max(g)) if g else None)
+              "gutter med/min/max", (int(np.median(g)), min(g), max(g)) if g else None,
+              *(["frame", "x".join(map(str, frames[p]))] if scale is not None else []))
+
+
+def parse(argv):
+    argv = list(argv)
+    scale = None
+    if "--scale" in argv:
+        i = argv.index("--scale")
+        scale = float(argv[i + 1])
+        del argv[i:i + 2]
+    if len(argv) != 4:
+        raise Fail(__doc__)
+    return argv[0], int(argv[1]), int(argv[2]), argv[3], scale
 
 
 if __name__ == "__main__":
     try:
-        main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
+        main(*parse(sys.argv[1:]))
     except Fail as e:
         sys.exit(f"FAIL: {e}")

@@ -44,3 +44,36 @@ def test_unlisted_substrate_module_fails_loud(monkeypatch):
     monkeypatch.setattr(G, "SUBSTRATE_MODULES", G.SUBSTRATE_MODULES - {"box_sanity"})
     with pytest.raises(G.Fail, match="box_sanity"):
         G.goatyard()
+
+
+def bands(*ys, h=50):
+    return [{"y0": y, "y1": y + h} for y in ys]
+
+
+S1 = {"line_h": {"left": {"basis": "own", "page_line_h": 54}, "right": {"basis": "page", "page_line_h": 54}},
+      "left": bands(300, 100, 200), "right": bands(110, 230, h=60)}
+
+
+def test_line_height_exact_medians():
+    r = G.line_height(S1)
+    assert r == {"page_line_h": 54, "basis": {"left": "own", "right": "page"},
+                 "band_h_med": 50, "pitch_med": 100, "n_bands": 5}  # pitches 100,100,120
+
+
+def test_line_height_right_fallback_and_empty():
+    s1 = {"line_h": {"right": {"basis": "own", "page_line_h": 7}}, "left": [], "right": []}
+    assert G.line_height(s1) == {"page_line_h": 7, "basis": {"right": "own"},
+                                 "band_h_med": None, "pitch_med": None, "n_bands": 0}
+
+
+def test_line_height_summary():
+    per = [{"page_line_h": 50, "pitch_med": 100}, {"page_line_h": 56, "pitch_med": 110},
+           {"page_line_h": 60, "pitch_med": None}]
+    assert G.line_height_summary(per) == {"page_line_h_median": 56, "page_line_h_range": [50, 60],
+                                          "pitch_median": 105, "ratio_to_55": 1.018,
+                                          "goat_yard_band": [49, 61]}
+
+
+def test_gy_uses_shared_git_state():
+    import column_rule as C
+    assert G.git_state is C.git_state and G.clean_run is C.clean_run and G.REPO == C.REPO

@@ -1,6 +1,6 @@
 """goat-yard's locate_column_rule, unchanged, on BSB Gill printed pages (GY response, 2026-10-26).
 
-Usage: python tools/gy_locate_column_rule.py <gill.pdf> <first> <last> <out-dir>
+Usage: python tools/gy_locate_column_rule.py <gill.pdf> <first> <last> <out-dir> [--scale S] [--prediction TEXT]
 
 goat-yard is consumed from a worktree at tag substrate-v0, never copied
 (docs/sources/goat-yard.md). The worktree is GOLDEN_CHAIN_GOATYARD, default
@@ -9,13 +9,19 @@ goat-yard is consumed from a worktree at tag substrate-v0, never copied
 Per page:
 - the page's single embedded image (5100 x 7650, 1 bpp), the same bitmap as
   tools/column_rule.py, written as an 8-bit grey PNG (ink 0, paper 255) in
-  <out-dir>/pages/; nothing is rescaled;
+  <out-dir>/pages/; nothing is rescaled. With --scale S the PNG is instead
+  column_rule.render(pdf, p, S): a pypdfium2 grey render, anti-aliased, not
+  thresholded; all pages must share the first page's size;
 - goat-yard's geometry writer: build_page_geometry.process_page (presplit
   with its default upscale and full-width depth) gives the record;
 - verse_regions.page_ink on the grey image, then verse_regions.locate_column_rule.
 
 For every strip the per-column ink fraction over the search window is stored
 too, so an abstention can become a request file without a rerun.
+- "line_h": goat-yard's own S1 (verse_regions.analyze_page_s1) page line height,
+  per-column basis, median band height and median band pitch (line_height);
+  the header's "line_height" summarises it against goat-yard's 55 px design
+  height (band 49..61). --prediction TEXT overrides the header's prediction.
 Needs numpy, pypdfium2, pillow (the `measure` extra).
 """
 
@@ -24,6 +30,7 @@ import hashlib
 import importlib.metadata
 import json
 import os
+import statistics
 import subprocess
 import sys
 from pathlib import Path
@@ -32,7 +39,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from column_rule import OFFSET, Fail, bitmap  # noqa: E402
+from column_rule import OFFSET, REPO, Fail, bitmap, clean_run, git_state, render  # noqa: E402
 
 PINNED = "3d0b03e0ac8d67b1e9e53947faf98205205082b5"
 TAG = "substrate-v0"
@@ -88,9 +95,37 @@ def strip_fracs(ink, record, VR):
     return out
 
 
-def main(pdf_path, first, last, out):
+def line_height(s1):
+    lh = s1["line_h"]
+    first = lh.get("left") or lh.get("right")
+    bands = {c: sorted(s1[c], key=lambda b: b["y0"]) for c in ("left", "right")}
+    heights = [b["y1"] - b["y0"] for c in bands for b in bands[c]]
+    pitches = [b2["y0"] - b1["y0"] for c in bands for b1, b2 in zip(bands[c], bands[c][1:])]
+    return {"page_line_h": first["page_line_h"] if first else None,
+            "basis": {c: v["basis"] for c, v in lh.items()},
+            "band_h_med": statistics.median(heights) if heights else None,
+            "pitch_med": statistics.median(pitches) if pitches else None,
+            "n_bands": len(heights)}
+
+
+def line_height_summary(per_page):
+    hs = [v["page_line_h"] for v in per_page if v and v["page_line_h"] is not None]
+    pitches = [v["pitch_med"] for v in per_page if v and v["pitch_med"] is not None]
+    med = statistics.median(hs) if hs else None
+    return {"page_line_h_median": med, "page_line_h_range": [min(hs), max(hs)] if hs else None,
+            "pitch_median": statistics.median(pitches) if pitches else None,
+            "ratio_to_55": round(med / 55, 3) if med is not None else None,
+            "goat_yard_band": [49, 61]}
+
+
+PREDICTION = ("20/20 ok; every strip carries a cluster; max residual <= 15 px "
+              "(~/.golden-chain/gy-locate-column-rule-predictions-locked.txt)")
+
+
+def main(pdf_path, first, last, out, scale=None, prediction=PREDICTION):
     import pypdfium2 as pdfium
 
+    git_start = git_state(REPO)
     root, BPG, VR = goatyard()
     out = Path(out)
     (out / "pages").mkdir(parents=True, exist_ok=True)
@@ -112,13 +147,18 @@ def main(pdf_path, first, last, out):
         "versions": {"python": sys.version.split()[0], "numpy": np.__version__,
                      "pypdfium2": importlib.metadata.version("pypdfium2"),
                      "pillow": importlib.metadata.version("pillow")},
-        "prediction": "20/20 ok; every strip carries a cluster; max residual <= 15 px "
-                      "(~/.golden-chain/gy-locate-column-rule-predictions-locked.txt)",
+        "prediction": prediction,
     }
     pdf = pdfium.PdfDocument(pdf_path)
-    pages = {}
+    pages, frames, frame_wh = {}, {}, None
     for p in range(first, last + 1):
-        grey = np.where(bitmap(pdf, p), 0, 255).astype(np.uint8)
+        grey = np.where(bitmap(pdf, p), 0, 255).astype(np.uint8) if scale is None else render(pdf, p, scale)
+        if scale is not None:
+            if frame_wh is None:
+                frame_wh = grey.shape[::-1]
+                header["frame"] = f"pypdfium2 render, scale {scale}, grey, {frame_wh[0]} x {frame_wh[1]} px"
+            elif grey.shape[::-1] != frame_wh:
+                raise Fail(f"p.{p}: frame {grey.shape[::-1]} differs from first page {frame_wh}")
         path = out / "pages" / f"p{p}.png"
         Image.fromarray(grey, mode="L").save(path)
         record, missing = BPG.process_page("bsb-gill", p + OFFSET, path, path.name, "measure", config)
@@ -126,15 +166,34 @@ def main(pdf_path, first, last, out):
             raise Fail(f"p.{p}: image not written")
         ink = VR.page_ink(np.asarray(Image.open(path).convert("L")))
         split = VR.locate_column_rule(ink, record)
+        frames[p] = f"{grey.shape[1]}x{grey.shape[0]}"
+        lh = line_height(VR.analyze_page_s1(ink, record))
         pages[p] = {"geometry": {k: record.get(k) for k in ("page", "xdiv", "rules", "mode", "flags", "error")},
-                    "split": split, "strip_fracs": strip_fracs(ink, record, VR)}
+                    "split": split, "strip_fracs": strip_fracs(ink, record, VR),
+                    "line_h": lh}
+    header["line_height"] = line_height_summary([r["line_h"] for r in pages.values()])
+    git_end = git_state(REPO)
+    header.update({"golden_chain_git_start": git_start, "golden_chain_git_end": git_end,
+                   "clean_run": clean_run(git_start, git_end)})
     (out / "locate_column_rule.json").write_text(json.dumps({"header": header, "pages": pages}, indent=1))
     for p, r in pages.items():
         s = r["split"]
         print(p, s["status"], s.get("reason", ""), "strips", f"{s.get('n_rule')}/{s.get('n_strips')}",
               "half_w", s.get("half_w"), "resid", s.get("max_resid"), "xdiv", r["geometry"]["xdiv"],
-              "rules", r["geometry"]["rules"])
+              "rules", r["geometry"]["rules"], "line_h", r["line_h"]["page_line_h"],
+              "frame", frames[p])
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
+    argv, opts = sys.argv[1:], {}
+    for flag, key, conv in (("--scale", "scale", float), ("--prediction", "prediction", str)):
+        if flag in argv:
+            i = argv.index(flag)
+            opts[key] = conv(argv[i + 1])
+            del argv[i:i + 2]
+    try:
+        if len(argv) != 4:
+            raise Fail(__doc__)
+        main(argv[0], int(argv[1]), int(argv[2]), argv[3], **opts)
+    except Fail as e:
+        sys.exit(f"FAIL: {e}")
