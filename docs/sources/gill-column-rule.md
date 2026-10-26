@@ -1,7 +1,7 @@
 # Gill BSB/Tegg: printed inter-column rule and gutter, pp. 896–915
 
 - For: the architect and the goat-yard architect, before Golden Chain pins `substrate-v0`. This is goat-yard addition 2, 2026-10-25.
-- Status: measured, **not yet signed**. Rescaled per the architect (report 5); the runs are provisional until rerun clean (report 6). The architect signs from the pixels; the gutter strips are listed under "Sign-off".
+- Status: measured, **not yet signed**. Rescaled per the architect (report 5); rerun clean at `d32f888` (report 6). The architect signs from the pixels; the gutter strips are listed under "Sign-off".
 - This is a measurement on pixels, not an OCR step. No text layer was read (the pages have none: one image object each), no model saw any image, and no goat-yard code was used.
 
 ## Result
@@ -243,7 +243,7 @@ These native strips are **superseded** (ruling on report 5, SCALE 3). Chris sign
 - **Run headers:**
   - `column_rule`: 2026-10-26T01:51:22Z, script sha256 `15a48c3a…`, slab 244.
   - `gy_locate_column_rule`: 2026-10-26T01:51:28Z, script sha256 `97a8fc72…`. goat-yard is unchanged, at substrate-v0 `3d0b03e0`.
-  - **Provisional** (truth-set form §7). The golden-chain tools tree was uncommitted, and the headers carry no golden-chain git state. See report 6.
+  - **Provisional** as first run (truth-set form §7): the tools tree was uncommitted. Superseded by the clean rerun below, which matched it exactly.
 - **Results:** `~/.golden-chain/column-rule-scale7.2-2026-10-26/` and `~/.golden-chain/gy-locate-column-rule-scale7.2-2026-10-26/`.
 
 | Clause (locked 01:43:23Z) | Measured | Result |
@@ -262,7 +262,7 @@ R5 is a finding against my own mapping of the old strip labels to the new frame.
 - **Run headers:**
   - `column_rule`: script sha256 `15a48c3a…`, slab 281.
   - `gy_locate_column_rule`: 2026-10-26T01:57:45Z, script sha256 `97a8fc72…` (the same tool as at 7.2). goat-yard is at substrate-v0 `3d0b03e0`.
-  - **Provisional**, as above.
+  - **Provisional** as first run, as above; superseded by the clean rerun.
 - **Results:** `~/.golden-chain/column-rule-scale8.2963-2026-10-26/` and `~/.golden-chain/gy-locate-column-rule-scale8.2963-2026-10-26/`.
 - **The architect's step-1 prediction** was a line height of 70–85 px at 5100 × 7650. It **missed**: the measure is 90 (81–98), taken before the lock.
 
@@ -329,9 +329,29 @@ The measure in [`tools/signing_strips.py`](../../tools/signing_strips.py) (a row
 
 So the midpoint threshold removes the last-strip artefact (M3, M4). The short run still catches type on 896 (M2). The proposed fix is a midpoint threshold plus a run length in line pitches. It changes a tool of record, so it waits for a ruling (report 6).
 
+### Clean rerun (truth-set form §7, 2026-10-26)
+
+The runs above used an uncommitted tools tree, and their headers carried no golden-chain git state, so they are **provisional**. The tools now record `golden_chain_git_start`, `golden_chain_git_end` and `clean_run`. All five runs were redone from a clean tree at `d32f888`.
+
+- **Locked** 2026-10-26T02:06:54Z, before the runs, in `~/.golden-chain/clean-rerun-predictions-locked.txt`.
+- **Headers:**
+  - `column_rule`: script sha256 `54adbe25…`; 02:07:04Z (7.2) and 02:07:43Z (0.703).
+  - `gy_locate_column_rule`: script sha256 `12fb62a2…`; 02:07:10Z and 02:07:49Z.
+  - `signing_strips`: script sha256 `1feb878d…`, 02:08:32Z, run JSON sha256 `1a7a2975…`.
+  - goat-yard is at substrate-v0 `3d0b03e0`.
+- **Results:** the same directory names with the suffix `-clean`.
+
+| Clause | Result |
+|---|---|
+| C1: `clean_run` true in all 5 headers, start = end = `d32f888`, porcelain 0 | **held** |
+| C2: measurements identical (`pages` of both tools at both scales, `ruled_rows.json`, the 14 strip PNGs byte for byte) | **held** (README identical too) |
+| C3: the script sha changes; nothing else in the headers changes but utc, the shas and the three new keys | **missed on the letter**: the gy headers' `prediction` text also changed, because I passed the new lock's reference. A finding against my own lock; no measurement is affected. |
+
+So every number in the two rerun sections above is now from a clean run and may be cited.
+
 ### Strips for Chris (rescaled, with native crops)
 
-- **Folder** (local viewing only, never sent to a hosted model; not in git): `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale8.2963-2026-10-26\strips-for-signing\`.
+- **Folder** (local viewing only, never sent to a hosted model; not in git): `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale8.2963-2026-10-26-clean\strips-for-signing\` (clean; byte-identical to the provisional folder without `-clean`).
 - **Strips:**
   - `p896-gutter-full.png`, `p897-gutter-full.png`, `p898-gutter-full.png`: rows 0–5376.
   - `p896-foot.png`, `p902-foot.png`, `p907-foot.png`, `p908-foot.png`: rows 4300–5376.
@@ -340,7 +360,7 @@ So the midpoint threshold removes the last-strip artefact (M3, M4). The short ru
 - **Measures from these strips**, by the threshold above (so only indicative):
   - F(896) = 2148.
   - L = 5026 (896), 5003 (902), 4528 (907) and 5035 (908).
-- **Header:** 2026-10-26T02:01:44Z, script sha256 `675968bf…`, run JSON sha256 `ef6fade7…`. Provisional, as above.
+- **Header:** clean run, above. The provisional strips were 2026-10-26T02:01:44Z, script sha256 `675968bf…`.
 
 Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 

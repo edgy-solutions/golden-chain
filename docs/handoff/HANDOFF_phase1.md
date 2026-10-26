@@ -1,11 +1,11 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
-- Latest report: [REPORT_phase1_05.md](REPORT_phase1_05.md).
+- Latest report: [REPORT_phase1_06.md](REPORT_phase1_06.md). It has seven open questions for the architect.
 - Waiting on Chris (pixels; no model views page images):
-  - [SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md): gates OCR;
+  - [SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md), recut for the rescaled strips (0.703 frame, clean run, native crops beside): gates OCR and the A2 fixture;
   - [READING_wcf1647_proofs.md](READING_wcf1647_proofs.md): gates the Q16 `gc:asPrinted` strings.
-- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 216 tests pass; ingest 0 violations, 9 warnings.
+- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 254 tests pass (the USFM data test skips unless `GOLDEN_CHAIN_BIBLES` is set); ingest 0 violations, 9 warnings.
 
 ## How to rebuild and check
 
@@ -20,14 +20,17 @@
 - LBC: witness is the 1677 first printing, facsimile edition 2000; slug `lbc-1689` kept; one Argument per lettered note. Letters for 26.15, 27.1 and 28.2 are stored for phase 2 in [../sources/lbc-1689.md](../sources/lbc-1689.md).
 - Report 2 rulings, Q1–Q24 (2026-10-26). Done: Q1–Q9, Q11, Q15, Q20–Q24. Q16: source note and reading form done; strings await the form. Q17–Q19 need no action.
 - The Book of Concord is a `gc:Collection`; its members are `dcterms:isPartOf` it, never `childOf` it. The Apology is `childOf` augsburg; the Small Catechism has no parent (ruling on report 4).
-- WCF proofs: witness proposed as Edinburgh, Tyler 1647; one Argument per lettered note, as for the LBC.
+- WCF proofs: Edinburgh, Tyler 1647 is the witness of record; London 1647, if found, is a second witness (report 5, Q7). One Argument per lettered note, as for the LBC. The 28.1 admission, regeneration and remission notes become Arguments for the composite 33a Position once read and signed (Q8).
+- Rulings on reports 3–5 and ADR-0002 Revision 1 (ratified, subject to goat-yard sign-off) applied (report 6). Held: report 4 Q6 (the Gill provenance wording; report 6, Q5).
+- Bible text: none stored or fetched. The USFM Bibles are read by `GOLDEN_CHAIN_BIBLES` only ([../sources/bibles-usfm.md](../sources/bibles-usfm.md)). ADR-0004 will name the USFM KJV as the display text source.
 
 ## goat-yard (lane G)
 
 - Terms, additions and responses are verbatim in [../sources/goat-yard.md](../sources/goat-yard.md).
 - Pinned: worktree `../goatyard-substrate-v0` at tag `substrate-v0` (3d0b03e0), installed with `pip install -e --no-deps`. Tool: `tools/gy_locate_column_rule.py`.
-- `locate_column_rule` run (2026-10-26): the run PASSES goat-yard's criteria, 20/20. The locked "every strip" clause is FALSIFIED (426/440) and is never edited.
-- **OCR is HELD** until Chris signs the empty strips and H1/H2 are confirmed, or the request file is written (ruling on report 4). The A2 fixture awaits the architect's word (report 5, Q4).
+- `locate_column_rule` (2026-10-26). The native run PASSES goat-yard's criteria, 20/20, but was "made at the wrong scale"; its "every strip" clause is FALSIFIED and is never edited. Reruns at 7.2 and at the architect's 0.703 frame both pass 20/20, and were rerun **clean** at `d32f888`. Which frame governs is report 6, Q1.
+- Run headers record golden-chain `git_start` / `git_end` / `clean_run`. A run is citable only if it is clean: commit first, then run.
+- **OCR is HELD** until Chris signs the rescaled strips, with the outcome as in the form. The A2 fixture waits for the same (report 5, Q4).
 - Addition 1: any 1766 Exposition page is cited by goat-yard FILE page number with the line "printed = file − 88". None cited yet.
 - No interface requests filed.
 
@@ -36,4 +39,7 @@
 - The BSB 1984 foreword is a Body ("Strict Baptist, BSB 1984"), `childOf` Gill with overrides on Practical III.1, II.6 (locus 26) and Doctrinal VII.8 (locus 42). The front-matter exclusion vs. a Body's Source must be ruled before it is modelled.
 - The Q5 locus (rebaptism) is where the foreword's "no baptism, no church" lands later.
 - **33c, the Gill/LBC Position** ("infant baptism is no baptism"), blocked correctly in phase 1 (architect, report 5). It comes in phase 2 from Gill's *The Divine Right of Infant Baptism Examined and Disproved* (PD), which argues it with proofs. That is a new phase-2 source: a source report first (rule 4).
+- **Phase-2 candidates for that Position**, in the architect's order (report 5, Q3); read neither until then:
+  1. Gill, *The Divine Right of Infant Baptism Examined and Disproved*;
+  2. Gill, *Exposition* at Acts 19:5, in goat-yard's corpus, cited by its region IRI.
 - LBC 26 is phase 2.

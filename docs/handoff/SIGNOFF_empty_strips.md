@@ -4,8 +4,9 @@ For: Chris. Fill this in from the strips themselves, in one sitting. No model ha
 
 **You sign the rescaled strips** (ruling on report 5, SCALE 3). The native crop beside each one is there to read from. The earlier strips, rendered at native 5100 × 7650, are superseded: that run is on record as "made at the wrong scale".
 
-- **Strips:** `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale8.2963-2026-10-26\strips-for-signing\`.
+- **Strips:** `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale8.2963-2026-10-26-clean\strips-for-signing\`.
   - Each `pNNN-….png` has a `pNNN-…-native.png` beside it.
+  - The run is **clean** (golden-chain `d32f888`, truth-set form §7). Its strips are byte-identical to the provisional run's.
 - **Frame for every row number below:** the rescaled run, **3585 × 5377 px**. Line height is 57–67 px by page (pooled median 64, pitch 80).
   - A native row is the frame row × 1.4227. Native is 5100 × 7650, line height about 90.
 - **Legend:** `README.txt` in that folder.
