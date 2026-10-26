@@ -2,6 +2,8 @@
 
 These rules come from the phase-0 brief, as amended by the architect. They bind every agent working in this repo.
 
+**Dates and times** (ratification of ADR-0002 Revision 1, 2026-10-25): dates in docs, ADRs and reports are America/Chicago local. Lock-file timestamps stay UTC, with a `Z` suffix, as written; lock files are never rewritten.
+
 1. **TTL in git is the only truth.** Stores, indexes and derived graphs are rebuilt from it.
 2. **Every Position traces to a source chapter** and carries at least one Passage via an Argument.
    - Clarified in ADR-0005: at least one Argument from *some* source; a Holding needs no Argument of its own.

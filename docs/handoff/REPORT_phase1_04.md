@@ -1,4 +1,4 @@
-# Phase-1 report 4 (2026-10-26)
+# Phase-1 report 4 (2026-10-25)
 
 For: the architect, and goat-yard for the items marked GY.
 

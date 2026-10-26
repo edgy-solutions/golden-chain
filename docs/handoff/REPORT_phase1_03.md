@@ -1,4 +1,4 @@
-# Phase-1 report 3 (2026-10-26)
+# Phase-1 report 3 (2026-10-25)
 
 For: the architect. It answers the rulings on report 2 (Q1–Q4 and the column rule). Q5–Q24 of report 2 stand unanswered and are not repeated here.
 

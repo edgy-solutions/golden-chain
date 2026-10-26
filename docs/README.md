@@ -52,7 +52,7 @@ the duplicate triples, so a Passage counts once.
 |---|---|
 | [identity.md](identity.md) | Current |
 | [ADR-0001 Store roles and the single ingest path](adr/0001-store-roles-and-single-ingest-path.md) | Ratified with changes 2026-10-25 |
-| [ADR-0002 Identity: IRI patterns](adr/0002-identity-iri-patterns.md) | Ratified with changes 2026-10-25 |
+| [ADR-0002 Identity: IRI patterns](adr/0002-identity-iri-patterns.md) | Ratified with changes 2026-10-25; Revision 1 ratified by both architects 2026-10-25 |
 | [ADR-0003 Controlled vocabularies and scoring](adr/0003-controlled-vocabularies-and-scoring.md) | Ratified with changes 2026-10-25 (§6 proposal) |
 | ADR-0004 Scripture translation | Reserved: written when display needs verse text |
 | [ADR-0005 Editorial status, provenance, Argument text](adr/0005-editorial-status-and-argument-text.md) | Proposed |

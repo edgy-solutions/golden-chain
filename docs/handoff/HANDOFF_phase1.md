@@ -21,7 +21,7 @@
 - Report 2 rulings, Q1–Q24 (2026-10-26). Done: Q1–Q9, Q11, Q15, Q20–Q24. Q16: source note and reading form done; strings await the form. Q17–Q19 need no action.
 - The Book of Concord is a `gc:Collection`; its members are `dcterms:isPartOf` it, never `childOf` it. The Apology is `childOf` augsburg; the Small Catechism has no parent (ruling on report 4).
 - WCF proofs: Edinburgh, Tyler 1647 is the witness of record; London 1647, if found, is a second witness (report 5, Q7). One Argument per lettered note, as for the LBC. The 28.1 admission, regeneration and remission notes become Arguments for the composite 33a Position once read and signed (Q8).
-- Rulings on reports 3–5 and ADR-0002 Revision 1 (ratified, subject to goat-yard sign-off) applied (report 6). Held: report 4 Q6 (the Gill provenance wording; report 6, Q5).
+- Rulings on reports 3–5 and ADR-0002 Revision 1 (ratified by both architects; the date convention is at the top of `docs/RULES.md`) applied (report 6). Held: report 4 Q6 (the Gill provenance wording; report 6, Q5).
 - Bible text: none stored or fetched. The USFM Bibles are read by `GOLDEN_CHAIN_BIBLES` only ([../sources/bibles-usfm.md](../sources/bibles-usfm.md)). ADR-0004 will name the USFM KJV as the display text source.
 
 ## goat-yard (lane G)

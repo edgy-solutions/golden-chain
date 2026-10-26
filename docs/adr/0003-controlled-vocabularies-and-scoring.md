@@ -1,6 +1,6 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-26) recorded as ruled
+- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -240,7 +240,7 @@ into the derived graph, before scoring.
 - The 9/3/1 reason vs the arithmetic (finding above): keep the weighted sum
   with this known bound, or order lexicographically by tier?
 
-## Revision 1 (2026-10-26; architect's rulings on report 2, Q11 and Q15)
+## Revision 1 (2026-10-25; architect's rulings on report 2, Q11 and Q15)
 
 Recorded as ruled; implemented in `reasoner/20-consistency.ru`; tests in
 `tests/test_reasoner.py`. The E1 firing definitions (report 1) stand: excludes
@@ -258,7 +258,7 @@ on {required, taught}², and entails on P ∈ {required, taught} with Q forbidde
    asserts its own Holdings on that Locus. No parent is ever picked.
    - "Differ" compares (Position, modality, scope) as sets per Locus, never
      Holding IRIs, because two Bodies' Holdings always have distinct IRIs.
-   - *Readings confirmed by the architect (ruling on report 4, Q7, 2026-10-26):*
+   - *Readings confirmed by the architect (ruling on report 4, Q7, 2026-10-25):*
      - (a) A parent that is **silent** on the Locus is not a difference. The rule
        fires only when both parents speak there.
      - (b) The child **still inherits** both parents' Holdings on that

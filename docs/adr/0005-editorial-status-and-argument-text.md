@@ -69,7 +69,7 @@ Deprecation stays `owl:deprecated` (ADR-0002); it is not a status.
   - `gc:asPrinted`: the citation exactly as printed in the witness the locator names;
   - `gc:citesCandidate`: each reading of a printed citation that cannot be resolved without a ruling. No candidate is picked;
   - `gc:resolutionNote`: at most one, and only together with `gc:asPrinted`. It is an editorial note on why the citation resolves as it does or why candidates are recorded. Like the status properties, it is editorial and never doctrine.
-- *Amended (architect, report 2 Q1, 2026-10-26): one Argument per lettered note.* Where a source letters its proofs (the confessions), each lettered note is its own Argument, and the letter opens its `gc:asPrinted`, e.g. `"(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27"`. A Passage then leads to the exact clause it supports.
+- *Amended (architect, report 2 Q1, 2026-10-25): one Argument per lettered note.* Where a source letters its proofs (the confessions), each lettered note is its own Argument, and the letter opens its `gc:asPrinted`, e.g. `"(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27"`. A Passage then leads to the exact clause it supports.
   - Rule 2 is per Position, not per Argument: several notes may support the same Position, as LBC 29.1 (c), (d) and (e) all support `union-with-christ`.
   - Shape: a `gc:asPrinted` opening with `(x) ` must be the Argument's only `gc:asPrinted`. Unlettered inline citations (Gill) may carry several.
 - **`gc:quotation`** is the only text property allowed on an Argument. It is a verbatim quotation from the source division, within the quotation scope.

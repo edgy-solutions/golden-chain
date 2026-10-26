@@ -141,6 +141,12 @@ Modules loaded by path: `build_page_geometry`, `cv_footnote_presplit`, `verse_re
 **The architect's frame** (ruling on report 5, SCALE). The architect ruled a render at 3584/5100 ≈ 0.703 of native (pypdfium2 scale 8.2963, frame 3585 × 5377 px). Line height is 64 px (57–68), outside 49–61. Locked 01:57:38Z: the architect's criterion, 20/20 ok with residual ≤ 15, **held** (max 9.8 px). Details are in [gill-column-rule.md](gill-column-rule.md), § "Rerun at scale 0.703". Chris signs the strips from this run, with native crops beside them. The native run stays on record as "made at the wrong scale".
 - **Open (report 6):** the 0.703 frame, goat-yard's step 2 (line height ~55 px) and the truth-set form §6.1 ("Native page pixels … No consumer rescales silently") point three ways. The build agent followed the architect's ruling.
 
+## goat-yard's adoption note (ratification of ADR-0002 Revision 1, 2026-10-25)
+
+Relayed by the architect:
+- **Verse numbering:** goat-yard's *Exposition* follows KJV numbering, including superscriptions in verse 1. So their regions map to `B passage/kjv/…` with no mapping table.
+- **Gating:** their adoption of the scheme is gated on `substrate-v1` and their verse-region console, not on Golden Chain.
+
 ## Status (build agent, updated 2026-10-26, report 6)
 
 | Item | Status |
@@ -148,7 +154,7 @@ Modules loaded by path: `build_page_geometry`, `cv_footnote_presplit`, `verse_re
 | Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed with `pip install -e --no-deps`, accepted on report 4 (see Install above). OCR is still HELD (see Addition 2). |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
-| ADR-0002 revision | Revision 1 **ratified** by the architect (2026-10-26), subject to goat-yard's explicit sign-off on (a) the kjv segment, (b) the reserved Anchor, (c) locations only. Chris forwards it. |
+| ADR-0002 revision | Revision 1 **ratified by both architects** (2026-10-25). Status set to Ratified. The future Anchor selector grammar must allow a quoted-phrase selector (rule 10). |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
 | Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. **Rescaled** (ruling on report 5): at the architect's 0.703 frame, 20/20 ok, max residual 9.8 px; the strips to sign are cut from that run. Rerun **clean** (truth-set form §7) at golden-chain `d32f888`; the measurements are identical. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5, citing goat-yard's `docs/forms/TRUTH_SET_FORM.md` v1 (published 2026-10-25, `a0a30d4`, branch apparatus-next). It borrows the provenance elements only. |
