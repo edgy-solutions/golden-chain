@@ -82,16 +82,16 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 - Lettered marginal notes keyed to clauses. [V from OCR letters only]
   - The OCR shows letters in the text of ch. 28, e.g. "baptized m", "it n", "regenerated p", "time r", "perfon f".
   - The note texts cannot be recovered from it (long s, broken sigla). **No string comes from the OCR.**
-- **Where to read them in the scan.** One page per leaf. Printed page = IA leaf − 8.
-  - That holds at every OCR page marker on leaves 34–64, e.g. (39) on leaf 47 and (49) on leaf 57. [V]
-  - For leaves 23–25 it is extrapolated, since the OCR finds no marker there. [U]
+- **Where to read them in the scan.** One page per leaf. The page cited is the head **as printed** on that leaf. [V: pixels, 2026-10-25]
+  - IA leaf − 8 was proposed from the OCR's page markers (e.g. (39) on leaf 47, (49) on leaf 57). It **fails** on the page images: leaf 23 prints [13], leaf 24 (14), leaf 25 (17); leaf 54 prints (56), leaf 55 (46), leaf 56 (48). The text runs on across 24→25 and 55→56, so the heads are misprinted, not leaves missing. [V: pixels]
+  - Whether a misprinted head is cited as printed or with a correction is open (report 7).
   - The IA viewer counts from 0: leaf n is `archive.org/details/humbleadviceofas00west/page/n{n−1}`. [R]
 
   | Division | IA leaf | Printed page | Basis |
   |---|---|---|---|
-  | 7.5 | 24 | (16) | the OCR's "This Covenant was differently adminiftred" is on leaf 24 |
+  | 7.5 | 24 | (14) as printed; leaf − 8 gives 16 | the OCR's "This Covenant was differently adminiftred" is on leaf 24; head read from pixels |
   | 7.6 | 25 | (17) | the OCR's "not therefore Two Covenants of Grace" is on leaf 25, which also opens ch. 8 |
-  | 27.1 | 55 | (47) | the OCR's "Chap. XXVII … Signes and Seals of the Covenant of Grace" |
+  | 27.1 | 55 | (46) as printed; leaf − 8 gives 47 | head read from pixels; the OCR's "Chap. XXVII … Signes and Seals of the Covenant of Grace" |
   | 28.1–28.7 | 56–57 | (48)–(49) | 28.3 is on leaf 56; the OCR's "28.6 … time r" and 28.7 "perfon f" are on leaf 57 |
 
   An NLS copy has not been sought. [U]
@@ -102,11 +102,11 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 - The letter opens `gc:asPrinted` and is the Argument's only `gc:asPrinted`.
 - Several notes may support one Position.
 
-**Not yet recorded.** No model views page images. The strings are to be read by the architect on [../handoff/READING_wcf1647_proofs.md](../handoff/READING_wcf1647_proofs.md), and nothing changes in TTL until that form is signed.
+**Not yet recorded.** The build agent proposes the strings from the page images, and Chris signs each from pixels (below). They are read on [../handoff/READING_wcf1647_proofs.md](../handoff/READING_wcf1647_proofs.md), and nothing changes in TTL until that form is signed.
 - Some current Arguments group proofs that Schaff prints under different clauses. For example, `28/1/002` cites both the ingrafting note (Gal 3:27; Rom 6:5) and the newness-of-life note (Rom 6:3, 4). Under the rule those split.
 - Argument counts are predicted once the letters are known.
 - **Three 28.1 clauses not yet cited** (ruling on report 5, Q8): admission (1 Cor 12:13), regeneration (Tit 3:5) and remission (Mark 1:4). Once their letters are read and signed, each lettered note becomes an Argument supporting WCF's composite 33a Position, `union-with-christ`. They are on the reading form.
-- **Who proposes, who signs** (ruling on report 3, Q1): the ruling asks the build agent to propose letters and strings from the IA images, and Chris to sign each row. The build agent is a hosted model and has not viewed the images; see report 6. Until that is resolved, the form is unchanged: Chris reads, Chris signs.
+- **Who proposes, who signs** (ruling on report 3, Q1): the ruling asks the build agent to propose letters and strings from the IA images, and Chris to sign each row. Settled by the ruling on report 6, Q4: Golden Chain's rule is that public-domain page images may be viewed by the build agent for proposing. goat-yard's no-hosted-model law governs goat-yard crops, not these. Signing from pixels remains Chris's. Each row records who proposed it and who signed it.
 
 ## Phase-1 divisions
 

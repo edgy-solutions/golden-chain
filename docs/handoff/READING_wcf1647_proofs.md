@@ -1,8 +1,10 @@
 # Reading form: WCF 1647 proof notes as printed (ruling Q16)
 
-For: Chris. Read these from the page images of the witness, in one sitting. No model has viewed them, and none may.
+For: Chris, who signs each row from the page images of the witness, in one sitting.
 
-- **Witness:** Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, page images at `archive.org/details/humbleadviceofas00west`. The leaves are listed per chapter below. Printed page = leaf − 8. See [../sources/westminster.md](../sources/westminster.md), § "Proof texts as printed".
+The build agent may view these public-domain page images to propose strings (ruling on report 6, Q4). A proposed string binds nothing until you sign it from the page. Where you differ, write what is printed.
+
+- **Witness:** Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, page images at `archive.org/details/humbleadviceofas00west`. The leaves are listed per chapter below. The page is the head as printed on the leaf; leaf − 8 fails on leaves 24 and 55 (they print (14) and (46)). See [../sources/westminster.md](../sources/westminster.md), § "Proof texts as printed".
 - **What to fill:** for each Argument, the letter or letters of the note, the note exactly as printed, and the printed page.
   - Keep the original spelling, punctuation and spacing, including "with" and "&".
   - Write long s as s.
@@ -13,14 +15,14 @@ The "Schaff (A)" column is a reading aid only, from the 1889 apparatus. The "OCR
 
 Write over the `__` blanks.
 
-## Ch. 7 (IA leaves 24–25, pp. (16)–(17); confirm: __)
+## Ch. 7 (IA leaves 24–25, heads print (14) and (17); confirm: __)
 
 | Argument | Clause (Schaff) | Schaff (A) | OCR letter | Letter(s) | As printed (1647) |
 |---|---|---|---|---|---|
 | `7/5/001` | 7.5: "differently administered in the time of the law and in the time of the gospel" | 2 Cor. iii. 6–9 | — | __ | __ |
 | `7/6/001` | 7.6: "There are not therefore two covenants of grace differing in substance, but one and the same" | Gal. iii. 14, 16; Acts xv. 11; Rom. iii. 21–23, 30; Psa. xxxii. 1; Rom. iv. 3, 6, 16, 17, 23, 24; Heb. xiii. 8 | r? ("difpenfations r") | __ | __ |
 
-## Ch. 27 (IA leaf 55, p. (47); confirm: __)
+## Ch. 27 (IA leaf 55, head prints (46); confirm: __)
 
 | Argument | Clause (Schaff) | Schaff (A) | OCR letter | Letter(s) | As printed (1647) |
 |---|---|---|---|---|---|

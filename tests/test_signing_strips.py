@@ -8,39 +8,6 @@ np = pytest.importorskip("numpy")
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 import signing_strips as ss  # noqa: E402
 
-H, W, HALF_W, PAD = 400, 200, 10, 5
-
-
-def rows(ink):
-    return ss.ruled_rows(ink, 0.0, 100.0, HALF_W, PAD)
-
-
-def test_rule_ends_at_known_row():
-    ink = np.zeros((H, W), dtype=bool)
-    ink[:300, 95:115] = True  # 20 ink px per row = 2*half_w
-    r = rows(ink)
-    assert r[:300].all() and not r[300:].any()
-    assert ss.last_run_end(r) == 299 + (ss.RUN - ss.NEED)  # 45 of 50 rows: L is 5 rows past the end
-
-
-def test_rule_starts_at_known_row():
-    ink = np.zeros((H, W), dtype=bool)
-    ink[150:, 95:115] = True
-    r = rows(ink)
-    assert not r[:150].any()
-    assert ss.first_run_start(r, y_min=0) == 150 - (ss.RUN - ss.NEED)  # F is 5 rows before the start
-    assert ss.first_run_start(r, y_min=200) == 200
-
-
-def test_faint_rule_not_ruled():
-    ink = np.zeros((H, W), dtype=bool)
-    ink[:, 100:119] = True  # 19 ink px < 2*half_w
-    r = rows(ink)
-    assert not r.any()
-    assert ss.first_run_start(r, y_min=0) is None
-    assert ss.last_run_end(r) is None
-
-
 def run_json(n_strips=12, consts=None):
     sf = [{"y0": 700 + 300 * i, "y1": 1000 + 300 * i, "frac": [0.0]} for i in range(n_strips)]
     return {"header": {"constants": consts} if consts is not None else {}, "pages": {"1": {"strip_fracs": sf}}}
@@ -55,11 +22,6 @@ def test_strip_bounds_short_runs():
     assert ss.strip_bounds(run_json(2)["pages"]["1"]) == ((1000, 1300), 700)
     with pytest.raises(ss.Fail):
         ss.strip_bounds({"strip_fracs": []})
-
-
-def test_y_min_from_header():
-    assert ss.y_min(run_json(consts={"RULE_Y_TOP_PX": 450})) == 450
-    assert ss.y_min(run_json()) == 700
 
 
 def test_parse_full_foot():
@@ -105,16 +67,40 @@ def test_native_crop_shape_and_mag_tick(tmp_path):
         data, run, nat = native_fixture(d, kn)
         out = d / "out"
         out.mkdir()
-        made = ss.strip(run, data, 1, 100, "p1-foot.png", out, nat)
+        made = ss.strip(run, data, 1, 100, "p1-foot.png", out, nat, "foot")
         assert [m["file"] for m in made] == ["p1-foot.png", "p1-foot-native.png"]
         im = np.asarray(Image.open(out / "p1-foot-native.png"))
         hn, wn = round(400 * kn), round(100 * kn)
         r0, r1 = math.floor(100 * kn), min(hn - 1, math.ceil(400 * kn) - 1)
-        assert im.shape == (r1 - r0 + 1, wn, 3)  # xdiv 50 +-300 covers all columns
+        assert im.shape == (r1 - r0 + 1, wn)  # grey; xdiv 50 +-300 covers all columns
+        assert (im == 255).all()  # no overlay in the pixels
         assert made[1]["rows"] == [r0, r1] and made[1]["cols"] == [0, wn - 1]
         ye = round(300 * kn) - r0  # magenta y_end tick, centre row
-        assert (im[ye, 0] == (255, 0, 255)).all() and (im[ye, -1] == (255, 0, 255)).all()
-        assert not (im[ye + 3, 0] == (255, 0, 255)).all()
+        mag = [o for o in made[1]["overlay"] if o["colour"] == ss.MAGENTA]
+        assert [(o["x"], o["y"], o["w"], o["h"]) for o in mag] == [(0, ye - 1, 20, 3), (wn - 20, ye - 1, 20, 3)]
+        assert made[1]["sha256"] == ss.sha256(out / "p1-foot-native.png")
+
+
+def test_strip_is_raw_page_pixels(tmp_path):
+    """Ruling on report 6: no threshold in what the signer sees; every grey level survives."""
+    from PIL import Image
+    data, run, nat = native_fixture(tmp_path)
+    page = (np.arange(400 * 100) % 256).astype(np.uint8).reshape(400, 100)
+    Image.fromarray(page).save(run / "pages" / "p1.png")
+    out = tmp_path / "out"
+    out.mkdir()
+    made = ss.strip(run, data, 1, 100, "p1-foot.png", out)
+    im = np.asarray(Image.open(out / "p1-foot.png"))
+    assert np.array_equal(im, page[100:, 0:100]) and len(np.unique(im)) == 256
+    assert made[0]["overlay"] and all(set(o) == {"x", "y", "w", "h", "colour", "what"} for o in made[0]["overlay"])
+
+
+def test_page_record_from_run():
+    d = run_json(3)
+    d["pages"]["1"]["split"] = {"y_range": [0, 1234], "strips": [{"y_mid": 850.0}]}
+    r = ss.page_record(d["pages"]["1"])
+    assert r["ticks"] == [700, 1000, 1300] and r["y_end"] == 1234 and r["foot_y0"] == 700
+    assert r["last_strip"] == [1300, 1600] and [e["y0"] for e in r["empty_strips"]] == [1000, 1300]
 
 
 def test_native_readme_line(tmp_path):

@@ -56,6 +56,7 @@ the duplicate triples, so a Passage counts once.
 | [ADR-0003 Controlled vocabularies and scoring](adr/0003-controlled-vocabularies-and-scoring.md) | Ratified with changes 2026-10-25 (§6 proposal) |
 | ADR-0004 Scripture translation | Reserved: written when display needs verse text |
 | [ADR-0005 Editorial status, provenance, Argument text](adr/0005-editorial-status-and-argument-text.md) | Proposed |
+| [ADR-0006 Signing console](adr/0006-signing-console.md) | Proposed |
 | [Source: Gill, Body of Divinity (BSB working text)](sources/gill-body-of-divinity.md) | Report, amended 2026-10-25 |
 | [Source: Westminster Confession](sources/westminster.md) | Report |
 | [Source: Second London Baptist Confession](sources/lbc-1689.md) | Report |

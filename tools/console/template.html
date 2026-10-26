@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root { --bg:#fff; --fg:#1a1a1a; --mut:#555; --line:#ccc; --acc:#0b57d0; --bad:#b00020; }
+@media (prefers-color-scheme: dark) { :root { --bg:#16181c; --fg:#e8e8e8; --mut:#a0a0a0; --line:#3a3d44; --acc:#8ab4f8; --bad:#ff6b81; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.45 system-ui, sans-serif; margin:0 auto; padding:16px; max-width:1200px; }
+h1 { font-size:1.4em; margin:.3em 0; } h2 { font-size:1.15em; border-bottom:1px solid var(--line); padding-bottom:.2em; }
+.prov { background:var(--bad); color:#fff; padding:8px 12px; font-weight:bold; margin-bottom:8px; }
+.meta { color:var(--mut); } .sha { font:12px ui-monospace, monospace; color:var(--mut); word-break:break-all; }
+.instruction { border-left:3px solid var(--acc); padding:0 12px; margin:12px 0; } .instruction p, .text p { white-space:pre-wrap; margin:.4em 0; }
+.sec { margin:24px 0; } .row { border:1px solid var(--line); border-radius:6px; padding:8px 12px; margin:10px 0; }
+.rl { font-weight:600; } .ctx { color:var(--mut); margin:.3em 0; } .field { margin:6px 0; } .fl { margin-right:8px; }
+.opt { margin-right:12px; white-space:nowrap; } .prop { background:rgba(128,128,128,.18); padding:1px 6px; border-radius:3px; white-space:pre-wrap; }
+.txt { width:28em; max-width:100%; } .note { width:24em; max-width:100%; } .rstate { margin-top:6px; color:var(--mut); }
+.fig { margin:10px 0; } .figbar { margin-bottom:4px; }
+.box { overflow:auto; max-height:80vh; max-width:100%; border:1px solid var(--line); }
+.stack { position:relative; } .stack img { display:block; max-width:none; position:absolute; left:0; top:0; }
+.stack svg { position:absolute; left:0; top:0; cursor:crosshair; }
+figcaption { color:var(--mut); font-size:13px; } .frame { font:12px ui-monospace, monospace; }
+.seeabove { color:var(--mut); font-size:13px; } button.armed { outline:2px solid var(--acc); }
+.status { position:sticky; bottom:0; background:var(--bg); border-top:1px solid var(--line); padding:8px 0; }
+footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
+</style>
+</head>
+<body>
+<header id="header">__HEADER__</header>
+<main id="main">__BODY__</main>
+<div class="status"><button type="button" id="export">Export verdicts</button> <span id="status"></span></div>
+<footer>The download is the record. The browser draft is a convenience only.</footer>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+"use strict";
+(function () {
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var KEY = "gc-console-" + D.build16;
+  var dirty = false, armed = null, rows = {}, figs = {}, imgs = {};
+  D.spec.images.forEach(function (im) { imgs[im.id] = im; });
+  Array.prototype.forEach.call(document.querySelectorAll(".row"), function (r) { rows[r.dataset.row] = r; });
+  Array.prototype.forEach.call(document.querySelectorAll(".fig"), function (f) { figs[f.dataset.image] = f; });
+
+  function q(el, sel) { return el.querySelector(sel); }
+  function all(el, sel) { return Array.prototype.slice.call(el.querySelectorAll(sel)); }
+  function checkedVal(el) { var c = q(el, "input:checked"); return c ? c.value : null; }
+  function specField(rowId, fid) {
+    for (var s = 0; s < D.spec.sections.length; s++) {
+      var rs = D.spec.sections[s].rows;
+      for (var r = 0; r < rs.length; r++) if (rs[r].id === rowId)
+        for (var f = 0; f < rs[r].fields.length; f++) if (rs[r].fields[f].id === fid) return rs[r].fields[f];
+    }
+    return null;
+  }
+  function rowState(rowEl) { return checkedVal(q(rowEl, ".rstate")) || "verdict"; }
+
+  function fieldValue(rowEl, fEl) {
+    var kind = fEl.dataset.kind, sf = specField(rowEl.dataset.row, fEl.dataset.field);
+    if (kind === "text") { var t = q(fEl, "input").value; return t === "" ? null : t; }
+    if (kind === "select") { var v = q(fEl, "select").value; return v === "" ? null : v; }
+    if (kind === "radio") return checkedVal(fEl);
+    if (kind === "checkbox") {
+      if (rowEl.dataset.touched !== "1") return null;
+      return all(fEl, "input:checked").map(function (i) { return i.value; });
+    }
+    if (kind === "proposal") {
+      var a = checkedVal(fEl);
+      if (a === null) return null;
+      return { action: a, text: a === "correct" ? q(fEl, ".corr").value : null, proposed: sf.proposed };
+    }
+    return fEl.dataset.pick ? JSON.parse(fEl.dataset.pick) : null;  // pick-row
+  }
+  function answered(fEl, v) {
+    if (v === null) return false;
+    if (fEl.dataset.kind === "proposal" && v.action === "correct") return v.text.trim() !== "";
+    return true;
+  }
+  function collectRow(rowEl) {
+    var st = rowState(rowEl), values = {};
+    all(rowEl, ".field").forEach(function (f) { values[f.dataset.field] = st === "verdict" ? fieldValue(rowEl, f) : null; });
+    return { state: st, values: values, note: q(rowEl, ".note").value };
+  }
+  function rowComplete(rowEl) {
+    if (rowState(rowEl) !== "verdict") return true;
+    return all(rowEl, ".field").every(function (f) {
+      return f.dataset.required !== "1" || answered(f, fieldValue(rowEl, f));
+    });
+  }
+  function signature() {
+    var s = {};
+    all(document, ".sigfield").forEach(function (i) { s[i.id.replace("sig-", "")] = i.value; });
+    return s;
+  }
+  function isComplete() {
+    var s = signature(), ok = true;
+    Object.keys(s).forEach(function (k) { if (s[k].trim() === "") ok = false; });
+    Object.keys(rows).forEach(function (id) { if (!rowComplete(rows[id])) ok = false; });
+    return ok;
+  }
+  function collect() {
+    var out = {};
+    Object.keys(rows).forEach(function (id) { out[id] = collectRow(rows[id]); });
+    return out;
+  }
+
+  function status() {
+    var el = document.getElementById("status");
+    el.textContent = (isComplete() ? "complete" : "incomplete") + (dirty ? "; changes not exported" : "; nothing unexported");
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ build_hash: D.build_hash, rows: collect(), signature: signature() })); } catch (e) { /* draft only */ }
+  }
+  function changed() { dirty = true; save(); status(); }
+
+  function applyEnable(rowEl) {
+    var off = rowState(rowEl) !== "verdict";
+    all(rowEl, ".field").forEach(function (f) {
+      all(f, "input,select,button").forEach(function (c) { c.disabled = off; });
+      if (!off && f.dataset.kind === "proposal") q(f, ".corr").disabled = checkedVal(f) !== "correct";
+    });
+  }
+  function clearFields(rowEl) {
+    all(rowEl, ".field").forEach(function (f) {
+      all(f, "input").forEach(function (c) { if (c.type === "radio" || c.type === "checkbox") c.checked = false; else c.value = ""; });
+      all(f, "select").forEach(function (s) { s.value = ""; });
+      if (f.dataset.kind === "pick-row") setPick(f, null);
+    });
+    rowEl.dataset.touched = "0";
+  }
+
+  // pick-row: the click maps the image row to the page row by the crop's recorded origin
+  function setPick(fEl, val) {
+    var fig = figs[fEl.dataset.image];
+    all(fig, "line[data-pf='" + fEl.dataset.pf + "']").forEach(function (l) { l.remove(); });
+    if (val === null) { delete fEl.dataset.pick; q(fEl, ".pickval").textContent = "not picked"; return; }
+    fEl.dataset.pick = JSON.stringify(val);
+    q(fEl, ".pickval").textContent = "page row " + val.page_row + " (frame " + val.frame_wh[0] + "x" + val.frame_wh[1] + ")";
+    var w = fig.dataset.w, ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    ln.setAttribute("x1", 0); ln.setAttribute("x2", w); ln.setAttribute("y1", val.y_image + 0.5); ln.setAttribute("y2", val.y_image + 0.5);
+    ln.setAttribute("stroke", "#e000e0"); ln.setAttribute("stroke-width", 2); ln.setAttribute("data-pf", fEl.dataset.pf);
+    q(fig, ".picks").appendChild(ln);
+  }
+  var pfn = 0;
+  all(document, ".field[data-kind='pick-row']").forEach(function (f) { f.dataset.pf = "pf" + (pfn++); });
+
+  function setArmed(fEl) {
+    all(document, "button.armed").forEach(function (b) { b.classList.remove("armed"); });
+    armed = fEl;
+    if (fEl) q(fEl, ".pick").classList.add("armed");
+  }
+  all(document, ".field[data-kind='pick-row']").forEach(function (f) {
+    q(f, ".pick").addEventListener("click", function () { setArmed(armed === f ? null : f); });
+    q(f, ".pickclear").addEventListener("click", function () { setPick(f, null); if (armed === f) setArmed(null); changed(); });
+  });
+  all(document, ".fig").forEach(function (fig) {
+    var id = fig.dataset.image, img = q(fig, "img"), svg = q(fig, "svg"), stack = q(fig, ".stack");
+    var W = +fig.dataset.w, H = +fig.dataset.h;
+    q(fig, ".ovtoggle").addEventListener("change", function (ev) { q(fig, ".rects").style.display = ev.target.checked ? "" : "none"; });
+    q(fig, ".zoom").addEventListener("change", function (ev) {
+      var z = +ev.target.value;
+      [img, svg].forEach(function (n) { n.style.width = (W * z) + "px"; n.style.height = (H * z) + "px"; });
+      stack.style.width = (W * z) + "px"; stack.style.height = (H * z) + "px";
+    });
+    stack.addEventListener("click", function (ev) {
+      if (!armed || armed.dataset.image !== id) return;
+      var r = img.getBoundingClientRect(), y = Math.floor((ev.clientY - r.top) * H / r.height);
+      y = Math.max(0, Math.min(H - 1, y));
+      var fr = imgs[id].frame;
+      var target = armed;
+      setPick(target, { image_id: id, y_image: y, page_row: fr.rows[0] + y, frame_wh: fr.frame_wh });
+      setArmed(null);
+      rows[target.closest(".row").dataset.row].dataset.touched = "1";
+      changed();
+    });
+  });
+
+  // row and field events
+  Object.keys(rows).forEach(function (id) {
+    var r = rows[id];
+    r.dataset.touched = "0";
+    all(r, ".rstate input[type=radio]").forEach(function (i) {
+      i.addEventListener("change", function () {
+        if (rowState(r) !== "verdict") clearFields(r);
+        applyEnable(r); changed();
+      });
+    });
+    all(r, ".fields").forEach(function (fs) {
+      fs.addEventListener("input", function (ev) {
+        r.dataset.touched = "1";
+        var f = ev.target.closest(".field");
+        if (f && f.dataset.kind === "proposal") q(f, ".corr").disabled = checkedVal(f) !== "correct";
+        changed();
+      });
+    });
+    q(r, ".note").addEventListener("input", changed);
+  });
+  all(document, ".sigfield").forEach(function (i) { i.addEventListener("input", changed); });
+
+  // restore the draft only if it is for this build
+  function restore() {
+    var d = null;
+    try { d = JSON.parse(localStorage.getItem(KEY)); } catch (e) { d = null; }
+    if (!d || d.build_hash !== D.build_hash || !d.rows) return;
+    Object.keys(d.rows).forEach(function (id) {
+      var r = rows[id], s = d.rows[id];
+      if (!r) return;
+      all(r, ".rstate input").forEach(function (i) { i.checked = i.value === s.state; });
+      q(r, ".note").value = s.note || "";
+      all(r, ".field").forEach(function (f) {
+        var v = s.values[f.dataset.field], k = f.dataset.kind;
+        if (v === null || v === undefined) return;
+        r.dataset.touched = "1";
+        if (k === "text") q(f, "input").value = v;
+        else if (k === "select") q(f, "select").value = v;
+        else if (k === "radio") all(f, "input").forEach(function (i) { i.checked = i.value === v; });
+        else if (k === "checkbox") all(f, "input").forEach(function (i) { i.checked = v.indexOf(i.value) >= 0; });
+        else if (k === "proposal") {
+          all(f, "input[type=radio]").forEach(function (i) { i.checked = i.value === v.action; });
+          q(f, ".corr").value = v.text || "";
+        } else setPick(f, v);
+      });
+      applyEnable(r);
+    });
+    var sg = d.signature || {};
+    all(document, ".sigfield").forEach(function (i) { i.value = sg[i.id.replace("sig-", "")] || ""; });
+    dirty = true;
+  }
+
+  document.getElementById("export").addEventListener("click", function () {
+    var out = {
+      format: "golden-chain-console-verdicts/1", kind: D.kind, build_hash: D.build_hash,
+      spec_sha256: D.spec_sha256, code_sha256: D.code_sha256, run_header: D.spec.run_header,
+      images: D.images, rows: collect(), signature: signature(), complete: isComplete(),
+      exported_utc: new Date().toISOString()
+    };
+    var blob = new Blob([JSON.stringify(out, null, 1)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "verdicts_" + D.kind + "_" + D.build16 + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    dirty = false; status();
+  });
+  window.addEventListener("beforeunload", function (ev) {
+    if (dirty) { ev.preventDefault(); ev.returnValue = ""; }
+  });
+
+  restore();
+  Object.keys(rows).forEach(function (id) { applyEnable(rows[id]); });
+  status();
+})();
+</script>
+</body>
+</html>

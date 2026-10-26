@@ -7,7 +7,7 @@
 
 # Gill, Body of Divinity. PD text (docs/sources/gill-body-of-divinity.md). Cited by locator only;
 # no quotation until OCR is verified (OCR HELD). Primary gc:locator is Gill's printed division;
-# pages and asPrinted strings read from the BSB 2019 page images.
+# pages and asPrinted strings read from CCEL and the pre-hold OCR (since discarded); to be signed from pixels.
 
 <body/gill> a gc:Systematic ;
     rdfs:label "John Gill, A Body of Doctrinal and Practical Divinity"@en ;
@@ -180,7 +180,7 @@
     gc:pages "361" ;
     gc:asPrinted "Heb. ix. 10." ;
     gc:asPrinted "Gal. iii. 1, 2, 3, 4. and iii. 24, 25." ;
-    gc:resolutionNote "Printed \"Gal. iii. 1, 2, 3, 4.\" (confirmed on the page image). The context, children under tutors, suggests Gal. iv. 1-4. Both are recorded as candidates; neither is picked (F6)." ;
+    gc:resolutionNote "Printed \"Gal. iii. 1, 2, 3, 4.\": read from CCEL and the pre-hold OCR (since discarded); to be signed from pixels. The context, children under tutors, suggests Gal. iv. 1-4. Both are recorded as candidates; neither is picked (F6)." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
@@ -266,7 +266,7 @@
     gc:secondaryLocator "CCEL outline §1d" ;
     gc:pages "898" ;
     gc:asPrinted "Mark i. 4. Acts viii. 38." ;
-    gc:resolutionNote "Printed \"Acts viii. 38.\" (confirmed on the page image). The remission-of-sins clause suggests Acts ii. 38. Both are recorded as candidates; neither is picked (F6)." ;
+    gc:resolutionNote "Printed \"Acts viii. 38.\": read from CCEL and the pre-hold OCR (since discarded); to be signed from pixels. The remission-of-sins clause suggests Acts ii. 38. Both are recorded as candidates; neither is picked (F6)." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
