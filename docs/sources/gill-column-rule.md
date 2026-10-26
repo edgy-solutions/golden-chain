@@ -364,6 +364,55 @@ So every number in the two rerun sections above is now from a clean run and may 
 
 Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 
+## Rerun at scale 6.947 (the governing frame, ruling on report 6, Frame, 2026-10-25)
+
+The ruling: "The line-height-matched scale governs. Rerun at the scale that puts median line height nearest 55 and inside 49-61; the 0.703 run stays on record. Cut the (fixed) strips from that run."
+
+- **Selection rule** (locked before any render at this scale): s0 = 7.2 × 55/57 = 6.947. If its median is 55, s0 governs, since no scale can be nearer. Otherwise up to two more renders at s1 = s0 × 55/median.
+- **Result:** the median is **55.0**, so 6.947 governs. No further render was made.
+- **Frame** (every px in this section): pypdfium2 render, scale 6.947, grey, **3002 × 4502 px**. That is 0.5884 of native, and a native row is a frame row × 1.6992.
+- **Locked** 2026-10-26T02:43:12Z in `~/.golden-chain/gy-scale-linematch-predictions-locked.txt`, at `cc32fb0` plus the uncommitted cutter fix. The runs were made after that fix was committed, from a clean tree at `6a7c5d1`.
+- **Run headers** (all `clean_run` true, start = end = `6a7c5d1`):
+  - `gy_locate_column_rule`: 2026-10-26T02:58:36Z, script sha256 `12fb62a2…`. goat-yard is at substrate-v0 `3d0b03e0`.
+  - `column_rule`: 2026-10-26T02:59:22Z, script sha256 `54adbe25…`, slab 235.
+  - `signing_strips`: 2026-10-26T03:01:42Z, script sha256 `4231c9b2…`, run JSON sha256 `1baa930e…`.
+- **Results:** `~/.golden-chain/gy-locate-column-rule-scale6.947-2026-10-25/` and `~/.golden-chain/column-rule-scale6.947-2026-10-25/`.
+
+| Clause (locked 02:43:12Z) | Measured | Result |
+|---|---|---|
+| L1: frame 3002 × 4502 on 20/20 | 3002 × 4502 on 20/20 | held |
+| L2: line height median [54, 56]; every page [45, 61]; pitch median [64, 69] | **55**; 48–58; 67 | held |
+| L3: present and single 20/20; per-page rule width [6, 11]; pooled gutter [74, 80]; per-page gutter [69, 96]; flagged 1 | 20/20 single; 7–11 (pooled 8); pooled 77; 71.5–94; flagged 1 (p. 896) | held |
+| L4: y_end 4202; strips 700..4000, 12 per page, the last partial (4000–4202, 202 rows); 20/20 ok; max residual ≤ 10; half_w [1.5, 3.0] | as predicted; 20/20 ok; 6.7; 2.0–3.0 | held |
+| L5: 896 7/12 (empty 700..1900); every other page 12/12; total 235/240 | 896 7/12, empty 700–1900; 235/240 | held |
+| L6: 14 PNGs (7 run, 7 native); run strips 8-bit grey with > 2 levels; native exactly 2 levels; 14 sha256s in strips.json; clean_run true | 14; 256 levels each; 2 levels each; 14 sha256s, all match their files; true | held |
+
+Not locked, reported as measured:
+- **The empty strips on p. 896,** 700–1900, have peak column ink 0.27, 0.37, 0.31, 0.19 and 0.41 against the 0.59 cut.
+- **The last strip,** 4000–4202, peaks at 1.00 (896), 0.98 (902), 0.91 (907) and 1.00 (908). It is ruled on all four pages.
+  - The scale 7.2 mode-midpoint measure put the rule's end at 7135–7170 native, which is 4199–4220 in this frame: at or just below y_end.
+  - So in this frame the rule fills almost all of the last strip. Chris's reading decides (ruling on report 6: "if the pixels show the rule itself ending above the foot, my locked hypothesis is refuted, record it, and no request file is needed (no abstention). Chris decides.").
+- **Two pages have a large per-strip gutter maximum,** 277 (p. 913) and 320 (p. 915), against medians of 76 and 78.5. The medians are in the band. The maxima are not explained here (report 7).
+
+**The cutter, fixed** (ruling on report 6: "no thresholded content in signing strips. They are raw page pixels plus a drawn overlay of the run's result. Thresholds belong to the run, not to what the signer sees."). [`tools/signing_strips.py`](../../tools/signing_strips.py) now:
+- writes each strip as the page render's pixels, unthresholded;
+- records the run's result as an overlay list in `strips.json`: strip boundaries (green), y_end (magenta), cluster centres (red) and fitted band edges (blue);
+- computes no ruled-row measure.
+
+The threshold measure and its numbers (F, L and the ruled fractions in § "Signing-strip measure" above) are withdrawn; they stay on record. The console (ADR-0006, proposed) draws the overlay as a layer the signer can hide.
+
+### Strips for Chris (line-height-matched, with native crops)
+
+- **Folder** (local viewing only, never sent to a hosted model; not in git): `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-scale6.947-2026-10-25\strips-for-signing\`.
+- **Strips:**
+  - `p896-gutter-full.png`, `p897-gutter-full.png`, `p898-gutter-full.png`: rows 0–4501.
+  - `p896-foot.png`, `p902-foot.png`, `p907-foot.png`, `p908-foot.png`: rows 3400–4501.
+  - Each is 600 px wide, centred on xdiv.
+- **Native crops:** each strip has a `-native.png` crop of the embedded 5100 × 7650 image beside it, covering the same region × 1.6992.
+- These supersede the strips at 0.703 above, which stay on record.
+
+Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
+
 ## Sign-off (architect, from pixels)
 
 - Gutter strips for pp. 896–915: band x ∈ [0.35 W, 0.65 W], full height, scaled 1:2, local viewing only. They are not in git: `C:\Users\cnogr\.golden-chain\column-rule-2026-10-25\strips\gutter-p{896..915}.png`.

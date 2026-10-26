@@ -147,7 +147,7 @@ Relayed by the architect:
 - **Verse numbering:** goat-yard's *Exposition* follows KJV numbering, including superscriptions in verse 1. So their regions map to `B passage/kjv/…` with no mapping table.
 - **Gating:** their adoption of the scheme is gated on `substrate-v1` and their verse-region console, not on Golden Chain.
 
-## Status (build agent, updated 2026-10-26, report 6)
+## Status (build agent, updated 2026-10-25, report 7)
 
 | Item | Status |
 |---|---|
@@ -156,7 +156,7 @@ Relayed by the architect:
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Revision 1 **ratified by both architects** (2026-10-25). Status set to Ratified. The future Anchor selector grammar must allow a quoted-phrase selector (rule 10). |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. **Rescaled** (ruling on report 5): at the architect's 0.703 frame, 20/20 ok, max residual 9.8 px; the strips to sign are cut from that run. Rerun **clean** (truth-set form §7) at golden-chain `d32f888`; the measurements are identical. |
+| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. **Rescaled** (ruling on report 5): at the architect's 0.703 frame, 20/20 ok, max residual 9.8 px; the strips to sign are cut from that run. Rerun **clean** (truth-set form §7) at golden-chain `d32f888`; the measurements are identical. **Line-height-matched** (ruling on report 6, Frame): at scale 6.947 the median line height is 55, so that frame governs. Clean at `6a7c5d1`, 20/20 ok, max residual 6.7 px, L1–L6 held. The strips to sign are cut from that run, as raw pixels with a drawn overlay. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5, citing goat-yard's `docs/forms/TRUTH_SET_FORM.md` v1 (published 2026-10-25, `a0a30d4`, branch apparatus-next). It borrows the provenance elements only. |
 | Interface requests filed | None. |
-| Single-rule fixture for A2 | **Not prepared.** Ruled to wait until the rescaled run passes clean and Chris has signed the rescaled strips (ruling on report 5, Q4). |
+| Single-rule fixture for A2 | **Not prepared.** Ruled to wait until the rescaled run passes clean and Chris has signed the rescaled strips (ruling on report 5, Q4). The governing run (6.947) is clean; Chris's signature is outstanding. |
