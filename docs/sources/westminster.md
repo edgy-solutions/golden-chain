@@ -64,6 +64,35 @@ American text). [U]
 ingested in phase 1. They may later become `gc:cites` Passages on the
 division, marked with their edition.
 
+## Proof texts as printed (ruling Q16, 2026-10-26)
+
+The phase-1 WCF Arguments cite Passages taken from Schaff's English proof apparatus (A). That supersedes "not ingested in phase 1" in the citation scheme above. Ruling Q16 asks for `gc:asPrinted` strings from the 1647 apparatus "with Scripture proofs", using the same lettered rule as the LBC (ADR-0005, as amended for report 2 Q1).
+
+**Edition**
+- *The Humble Advice of the Assembly of Divines … concerning a Confession of Faith: with the Quotations and Texts of Scripture annexed.* [V: title page]
+- The proofs first appeared in the London printing of 1647. [R] No image of that printing has been inspected. [U]
+
+**Witness of record (proposed)**
+- C: Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, Princeton Theological Seminary scan, 76 images, `NOT_IN_COPYRIGHT`. [V]
+- It is the only 1647 printing with proofs that has been fetched. Whether it is a reprint of the London printing, and whether the two letter their notes identically, is [U].
+- Proposed `gc:secondaryLocator`: `"Edinburgh: Evan Tyler, 1647, p. (48)"`, in the same form as the LBC's.
+
+**How the proofs are printed**
+- Lettered marginal notes keyed to clauses. [V from OCR letters only]
+  - The OCR shows letters in the text of ch. 28, e.g. "baptized m", "it n", "regenerated p", "time r", "perfon f".
+  - The note texts cannot be recovered from it (long s, broken sigla). **No string comes from the OCR.**
+- Ch. 28 falls on printed pp. (48)–(49). [V from the OCR page markers; one of them reads "(43)"] The pages for chs. 7 and 27 are [U].
+- Whether the letters run per chapter, and whether they skip j and v, is [U].
+
+**Rule (as for the LBC)**
+- Each lettered note is its own Argument.
+- The letter opens `gc:asPrinted` and is the Argument's only `gc:asPrinted`.
+- Several notes may support one Position.
+
+**Not yet recorded.** No model views page images. The strings are to be read by the architect on [../handoff/READING_wcf1647_proofs.md](../handoff/READING_wcf1647_proofs.md), and nothing changes in TTL until that form is signed.
+- Some current Arguments group proofs that Schaff prints under different clauses. For example, `28/1/002` cites both the ingrafting note (Gal 3:27; Rom 6:5) and the newness-of-life note (Rom 6:3, 4). Under the rule those split.
+- Argument counts are predicted once the letters are known.
+
 ## Phase-1 divisions
 
 | Division | Topic | Phase-1 locus |
@@ -76,7 +105,7 @@ division, marked with their edition.
 | 28.3 | Mode: dipping not necessary; pouring or sprinkling | baptism-mode |
 | 28.4 | Subjects: professing adults and the infants of one or both believing parents | baptism-subjects |
 | 28.5–28.6 | Neglect a great sin, but grace and salvation not inseparably annexed; efficacy not tied to the moment of administration | baptism-significance |
-| 28.7 | Once only | baptism-significance |
+| 28.7 | Once only | baptism-repetition (ruling Q5) |
 
 The locus column is a drafting aid. The Holdings themselves are proposed in
 TTL with `status: proposed`.
