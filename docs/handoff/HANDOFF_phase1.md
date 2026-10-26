@@ -1,11 +1,13 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
-- Latest report: [REPORT_phase1_06.md](REPORT_phase1_06.md). It has seven open questions for the architect.
-- Waiting on Chris (pixels; no model views page images):
-  - [SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md), recut for the rescaled strips (0.703 frame, clean run, native crops beside): gates OCR and the A2 fixture;
-  - [READING_wcf1647_proofs.md](READING_wcf1647_proofs.md): gates the Q16 `gc:asPrinted` strings.
-- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 254 tests pass (the USFM data test skips unless `GOLDEN_CHAIN_BIBLES` is set); ingest 0 violations, 9 warnings.
+- Latest report: [REPORT_phase1_07.md](REPORT_phase1_07.md). It has eleven open questions for the architect. **Blocking item 1 of the reply to report 6 arrived snipped; asked to resend.**
+- Waiting on Chris, in the signing consoles (ADR-0006, proposed), under `~/.golden-chain/console/<kind>/`:
+  - empty strips, build `88d902a181ba64c1` ([SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md); 6.947 frame, clean run, raw pixels with overlay): gates OCR and the A2 fixture. No model views these strips;
+  - WCF 1647 proofs, build `24f26ea83e4d6bc2` ([READING_wcf1647_proofs.md](READING_wcf1647_proofs.md); strings proposed by the build agent from the PD leaves): gates the Q16 `gc:asPrinted` strings.
+- Waiting on the architect: ADR-0006 ratification, then the plumb-line sitting (build `e61e4575347277b6`; writes nothing to `data/` until open point 1 is ruled).
+- Console CLIs: `tools/console/specs/<kind>.py <input> <spec.json>`, then `tools/console/build.py <spec.json> --out-dir DIR` (DIR must exist), then `tools/console/ingest.py <verdicts.json> <manifest.json> [--write]`. Build from a clean tree, or the build is provisional.
+- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 301 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
 
 ## How to rebuild and check
 
@@ -28,9 +30,9 @@
 
 - Terms, additions and responses are verbatim in [../sources/goat-yard.md](../sources/goat-yard.md).
 - Pinned: worktree `../goatyard-substrate-v0` at tag `substrate-v0` (3d0b03e0), installed with `pip install -e --no-deps`. Tool: `tools/gy_locate_column_rule.py`.
-- `locate_column_rule` (2026-10-26). The native run PASSES goat-yard's criteria, 20/20, but was "made at the wrong scale"; its "every strip" clause is FALSIFIED and is never edited. Reruns at 7.2 and at the architect's 0.703 frame both pass 20/20, and were rerun **clean** at `d32f888`. Which frame governs is report 6, Q1.
+- `locate_column_rule` (2026-10-26). The native run PASSES goat-yard's criteria, 20/20, but was "made at the wrong scale"; its "every strip" clause is FALSIFIED and is never edited. Reruns at 7.2 and at the architect's 0.703 frame both pass 20/20, and were rerun **clean** at `d32f888`. **The line-height-matched frame governs** (ruling on report 6): scale 6.947, median 55, clean at `6a7c5d1`, L1–L6 held. The strips to sign are cut from it.
 - Run headers record golden-chain `git_start` / `git_end` / `clean_run`. A run is citable only if it is clean: commit first, then run.
-- **OCR is HELD** until Chris signs the rescaled strips, with the outcome as in the form. The A2 fixture waits for the same (report 5, Q4).
+- **OCR is HELD** until Chris signs the 6.947 strips, with the outcome as in the form. The A2 fixture waits for the same (report 5, Q4).
 - Addition 1: any 1766 Exposition page is cited by goat-yard FILE page number with the line "printed = file − 88". None cited yet.
 - No interface requests filed.
 
