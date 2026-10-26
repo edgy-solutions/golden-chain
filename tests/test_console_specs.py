@@ -49,7 +49,7 @@ def strips_dir(tmp_path):
         tc.png(d / name, 16, 8, shade=90 + len(entries))
         entries.append({"file": name, "sha256": build.sha256_file(d / name), "page": page, "kind": kind,
                         "native": native, "rows": [700, 708], "cols": [0, 16], "frame_wh": [3585, 5377],
-                        "k": 1.4227 if native else 1.0, "line_h": 60 + page % 10,
+                        "k": 1.4227 if native else 1.0, "line_h": None if native else 60 + page % 10,
                         "overlay": [{"x": 0, "y": 0, "w": 16, "h": 2, "colour": "#00a000", "what": "tick 700"}]})
     add("p896-gutter-full.png", 896, "gutter-full", False)
     add("p896-gutter-full-native.png", 896, "gutter-full", True)
@@ -93,6 +93,7 @@ def test_empty_strips_spec_ids_and_build(tmp_path, monkeypatch):
     assert spec["sections"][0]["text"].startswith("if the pixels refute the geometry reading of H1")
     assert spec["run_header"]["clean_run"] is True and spec["signer"] == "Chris"
     assert "Sign from the pixels." in spec["instruction"] and "3585 x 5377" in spec["instruction"]
+    assert "Line height by strip: 62–68 px." in spec["instruction"]  # native strips carry line_h None
     assert {i["id"] for i in spec["images"]} == {Path(f).stem for f in
             (e["file"] for e in json.loads((d / "strips.json").read_text())["strips"])}
     made, man = built(tmp_path, monkeypatch, out)

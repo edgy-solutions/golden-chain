@@ -127,7 +127,7 @@ def abst_section(data):
 
 def instruction(data):
     s0 = data["strips"][0]
-    hs = [s["line_h"] for s in data["strips"] if "line_h" in s]
+    hs = [s["line_h"] for s in data["strips"] if s.get("line_h") is not None]  # native crops: not measured
     lh = f"{min(hs)}–{max(hs)}" if hs else "not recorded"
     return ("Sign from the pixels. The overlay is the run's result, drawn over raw page pixels; hide it to see "
             "the page alone. No threshold is applied to anything shown here.\n\n"
