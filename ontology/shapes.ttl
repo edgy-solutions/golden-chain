@@ -136,6 +136,17 @@
             SELECT $this WHERE {
                 $this gc:resolutionNote ?n .
                 FILTER NOT EXISTS { $this gc:asPrinted ?p }
+            }""" ] ;
+    # One note per Argument where a source letters its proofs (ruling, report 2 Q1): a gc:asPrinted
+    # that opens with a note letter, "(c) ...", must be the Argument's only gc:asPrinted.
+    # Unlettered inline citations (Gill) may carry several.
+    sh:sparql [
+        sh:message "An Argument cites one lettered note: a lettered gc:asPrinted must be its only gc:asPrinted." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:asPrinted ?a , ?b .
+                FILTER (REGEX(STR(?a), "^[(][a-z][)] ") && ?a != ?b)
             }""" ] .
 
 # ---------------------------------------------------------------- passages (ADR-0002, revised)

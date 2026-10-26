@@ -32,6 +32,12 @@ Below, `B` = `https://w3id.org/golden-chain/`.
    numbers in instance IRIs.
 5. IRIs carry **no source or holder** unless the resource is
    source-specific by nature (Argument, Source, Holding).
+6. **Standard vocabulary first** (architect, report 2 Q4, 2026-10-26).
+   Mint a `gc:` property only when no standard vocabulary term carries the
+   meaning. For anything bibliographic, prefer `dcterms` (`dcterms:source`,
+   `dcterms:bibliographicCitation`, `dcterms:isVersionOf`, …). First use:
+   the LBC witness edition on `B source/lbc-1689` is a
+   `dcterms:bibliographicCitation`.
 
 ### Patterns
 

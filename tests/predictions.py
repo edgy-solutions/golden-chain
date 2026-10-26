@@ -7,8 +7,10 @@
 # except Passage: 87 was measured, not predicted independently, and is pinned here as the baseline.
 # LBC 29 ruling (2026-10-25): Passage 87 -> 86 predicted and locked before regenerating (only
 # Acts.8.37-Acts.8.38 drops; Acts 2:41, 8:12, 22:16 and 8:36-37 stay cited elsewhere); matched.
+# LBC 29.1 split into one Argument per lettered note (ruling, report 2 Q1): Argument and
+# supports 41 -> 43, locked 2026-10-26T00:27:52Z before regenerating; matched.
 PREDICTED = {
-    "Locus": 8, "Position": 14, "Argument": 41, "Passage": 86, "Body": 7, "Holding": 33,
-    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 41, "childOf": 2,
+    "Locus": 8, "Position": 14, "Argument": 43, "Passage": 86, "Body": 7, "Holding": 33,
+    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 2,
     "effectivelyHolds": 33, "warnings": 8,
 }

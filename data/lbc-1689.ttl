@@ -99,17 +99,33 @@
     gc:supports <position/baptism-significance/union-with-christ> ;
     gc:cites <passage/kjv/Rom.6.3-Rom.6.5> ,
         <passage/kjv/Col.2.12> ,
-        <passage/kjv/Gal.3.27> ,
-        <passage/kjv/Mark.1.4> ,
-        <passage/kjv/Acts.22.16> ,
-        <passage/kjv/Rom.6.2> ,
-        <passage/kjv/Rom.6.4> ;
+        <passage/kjv/Gal.3.27> ;
     gc:locator "29.1" ;
     gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
     gc:asPrinted "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Acts.22.16> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
     gc:asPrinted "(d) Mar. 1.4; Act. 26. 16" ;
+    gc:resolutionNote "\"Act. 26. 16\" is in the 1677 printing, not a later slip (confirmed from the page by the architect). Resolved to Acts 22:16 (the remission-of-sins clause), a 22->26 compositor error; resolution proposed by the architect. The earlier candidates Acts 2:41 and 8:12 are withdrawn." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/003> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.2> ,
+        <passage/kjv/Rom.6.4> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
     gc:asPrinted "(e) Rom. 6.2,4" ;
-    gc:resolutionNote "Notes (c)-(e) read by the architect from the 1677 facsimile. (d) prints \"Act. 26. 16\" in 1677, not a later slip; resolved to Acts 22:16 (the remission-of-sins clause), a 22->26 compositor error. Resolution proposed by the architect; the earlier candidates Acts 2:41 and 8:12 are withdrawn." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 

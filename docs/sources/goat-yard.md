@@ -78,6 +78,6 @@
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Applied as "Revision 1" in [ADR-0002](../adr/0002-identity-iri-patterns.md). Proposed, for review by both architects. |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured. The rule is present on 20/20, as a **single** rule: [gill-column-rule.md](gill-column-rule.md). The conditional request is not triggered; the architect's sign-off from pixels is pending. Open: fix A expects a *double* rule. |
+| Addition 2 (column rule) | Measured. The rule is present on 20/20, as a **single** rule: [gill-column-rule.md](gill-column-rule.md). The "without a rule" request is not triggered; the architect's sign-off from pixels is pending. Fix A expects a *double* rule: Chris sent that question to the goat-yard architect (2026-10-26). The evidence for a "single rule" request is assembled in that file. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5. goat-yard has no written truth-set provenance form; the line follows its nearest examples and may change on review. |
 | Interface requests filed | None. |

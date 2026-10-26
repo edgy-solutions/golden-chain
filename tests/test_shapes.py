@@ -119,6 +119,29 @@ def test_resolution_note_without_as_printed_fails():
     assert not fails_on(g, ARG)
 
 
+def test_lettered_note_must_be_only_as_printed():
+    g = minimal()
+    g.add((ARG, GC.asPrinted, Literal("(c) Rom. 6.3,4,5; Col. 2.12")))
+    assert not fails_on(g, ARG)
+    g.add((ARG, GC.asPrinted, Literal("(d) Mar. 1.4")))
+    assert fails_on(g, ARG)
+
+
+def test_lettered_note_with_unlettered_fails():
+    g = minimal()
+    g.add((ARG, GC.asPrinted, Literal("(c) Rom. 6.3")))
+    g.add((ARG, GC.asPrinted, Literal("Matt. xxviii. 19.")))
+    assert fails_on(g, ARG)
+
+
+def test_several_unlettered_as_printed_pass():
+    """Gill cites inline, without note letters; several strings per Argument stay legal."""
+    g = minimal()
+    g.add((ARG, GC.asPrinted, Literal("Matt. xxviii. 19.")))
+    g.add((ARG, GC.asPrinted, Literal("Acts viii. 36, 38, 39. and x. 47, 48.")))
+    assert not fails_on(g, ARG)
+
+
 def test_position_without_argument_fails():
     g = minimal()
     for t in list(g.triples((ARG, None, None))):

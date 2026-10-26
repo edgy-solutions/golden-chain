@@ -98,9 +98,22 @@ The code is [tools/column_rule.py](../../tools/column_rule.py) (numpy, pypdfium2
 ## Consequence for goat-yard
 
 - Under run 2, **no page lacks a rule**, so the conditional "column split without a rule" request is **not triggered**. This waits on the architect's sign-off on pp. 897, 898 and 902, the run-1 abstentions.
-- **Open:** goat-yard's fix A locates a printed **double** rule, but this setting prints a **single** rule of about 1.2 pt.
-  - Whether fix A accepts a single rule is a question for goat-yard, not something to measure here.
-  - If it does not, a request "column split on a single rule" would carry the figures above.
+- **Finding: single rule, not double.** goat-yard's fix A locates a printed **double** rule; this setting prints a **single** rule of about 1.2 pt on every ruled slab of all 20 pages.
+  - Whether fix A accepts or abstains on a single rule is goat-yard's question. Chris sent it to the goat-yard architect on 2026-10-26; we do not wait on the tag to find out.
+
+### Evidence for a request, if one is needed
+
+If fix A abstains on a single rule, the request file is
+`REQUEST_goldenchain_<date>.md` at goat-yard's `docs/requests/`, titled
+"column split on a single rule". It carries, from this file:
+
+- n = 20 (printed 896–915), the method above, and the run headers (script and PDF sha256);
+- the Result table: rule present 20/20, single on 20/20, rule width median 14 px = 1.19 pt;
+- the per-page table (run 2): ruled and interior slabs, median rule width, median gutter per page;
+- the gutter distribution: unimodal, median 131 px = 11.1 pt, n = 312 ruled slabs, with the bin counts;
+- the run-1 abstentions (pp. 897, 898, 902) and their cause, so no wrong-pass is hidden.
+
+The request is not filed until the architect signs from pixels and the goat-yard answer is in.
 
 ## Sign-off (architect, from pixels)
 
