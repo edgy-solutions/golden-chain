@@ -13,8 +13,11 @@
 # supports 41 -> 43, locked 2026-10-26T00:27:52Z before regenerating; matched.
 # Rulings Q7, Q8 (Book of Concord is a Collection; members dcterms:isPartOf, not childOf):
 # childOf 2 -> 0, effectivelyHolds 33 unchanged, locked 2026-10-26T00:42:45Z; matched.
+# Ruling on report 4: apology childOf augsburg (small-catechism has no parent): childOf 0 -> 1,
+# effectivelyHolds 33 -> 34 (Apology inherits only augsburg/baptism-efficacy; its own infants
+# Holding overrides baptism-subjects), locked 2026-10-26T01:04:26Z; matched.
 PREDICTED = {
     "Locus": 8, "Position": 14, "Argument": 43, "Passage": 86, "Body": 7, "Holding": 33,
-    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 0,
-    "effectivelyHolds": 33, "warnings": 8,
+    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 1,
+    "effectivelyHolds": 34, "warnings": 8,
 }

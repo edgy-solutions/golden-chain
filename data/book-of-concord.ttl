@@ -9,6 +9,8 @@
 # Admitted as Argument sources by ruling 2(a); each Argument is credited to its own source Body.
 # The Book of Concord is a collection, not a parent (rulings Q7, Q8): its members are
 # dcterms:isPartOf it, never gc:childOf, and inherit nothing from it.
+# The Apology defends the Augustana: childOf augsburg, inheriting its Holdings and adding Arguments.
+# The Small Catechism (1529) predates Augsburg: no parent (ruling on report 4).
 
 <body/book-of-concord> a gc:Collection ;
     rdfs:label "Book of Concord (1580)"@en ;
@@ -17,6 +19,7 @@
 
 <body/apology-1531> a gc:Confession ;
     rdfs:label "Apology of the Augsburg Confession (1531)"@en ;
+    gc:childOf <body/augsburg> ;
     dcterms:isPartOf <body/book-of-concord> ;
     gc:expressedIn <source/apology-1531> .
 
