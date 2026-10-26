@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # Phase-1 headings, loci, Positions and the edges between them.
-# Loci 23, 28-32 and 33a/33b (33 split per ruling 3, 2026-10-25). Labels are proposed; no doctrine is asserted.
+# Loci 23, 28-32, 33a/33b (33 split per ruling 3, 2026-10-25) and 33c (ruling Q5, 2026-10-26). Labels are proposed; no doctrine is asserted.
 
 <heading/salvation> a gc:Heading ;
     rdfs:label "Salvation"@en .
@@ -63,6 +63,13 @@
     skos:notation "33b" ;
     gc:underHeading <heading/worship> ;
     gc:question "What does baptism effect?"@en .
+
+# Ruling Q5 on report 2 (2026-10-26). Notation 33c is provisional (report 5).
+<locus/baptism-repetition> a gc:Locus ;
+    rdfs:label "Repetition of baptism"@en ;
+    skos:notation "33c" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "May baptism be repeated?"@en .
 
 # ---------------------------------------------------------------- positions
 
@@ -149,6 +156,15 @@
     gc:answers <locus/baptism-efficacy> ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
+
+<position/baptism-repetition/once-only> a gc:Position ;
+    rdfs:label "Baptism is administered but once to any person; it is never repeated."@en ;
+    gc:answers <locus/baptism-repetition> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Q5's second Position ("infant baptism is no baptism, so believer's baptism of one baptized in
+# infancy is not repetition"; Gill, LBC) is not minted: no Argument in the text yet (rule 2; report 5).
 
 # ---------------------------------------------------------------- edges (ADR-0003 §6; as ratified as the weaker Position, ADR-0005 §4)
 

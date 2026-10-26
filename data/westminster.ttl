@@ -47,6 +47,10 @@
     rdfs:label "WCF 28.6"@en ;
     dcterms:isPartOf <source/wcf> .
 
+<source/wcf/28/7> a gc:SourceDivision ;
+    rdfs:label "WCF 28.7"@en ;
+    dcterms:isPartOf <source/wcf> .
+
 # ---------------------------------------------------------------- holdings
 
 <body/wcf> gc:holds <holding/wcf/covenant-administrations/one-covenant-two-administrations> .
@@ -153,7 +157,16 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
-# Ruling 4, 28.7 (rebaptism forbidden): not minted; no phase-1 locus and no Position mintable under rule 2.
+# Ruling Q5 on report 2: 28.7 "is but once to be administered to any person"; scope all.
+<body/wcf> gc:holds <holding/wcf/baptism-repetition/once-only> .
+
+<holding/wcf/baptism-repetition/once-only> a gc:Holding ;
+    gc:position <position/baptism-repetition/once-only> ;
+    gc:modality <vocab/modality/required> ;
+    dcterms:source <source/wcf/28/7> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- arguments
 
 <argument/wcf/7/5/001> a gc:Argument ;
@@ -268,6 +281,14 @@
         <passage/kjv/Acts.2.38> ,
         <passage/kjv/Acts.2.41> ;
     gc:locator "28.6" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/7/001> a gc:Argument ;
+    gc:source <source/wcf/28/7> ;
+    gc:supports <position/baptism-repetition/once-only> ;
+    gc:cites <passage/kjv/Titus.3.5> ;
+    gc:locator "28.7" ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 

@@ -6,6 +6,7 @@
   - locus 33 is split into 33a and 33b (ruling 3);
   - `mode-indifferent` replaces `pouring-or-sprinkling-sufficient` (ruling 4);
   - `infants` and `necessary-means-of-grace` are minted, through the Apology IX and the Small Catechism IV (ruling 2a).
+  - locus 33c `baptism-repetition` is added (ruling Q5, 2026-10-26).
 - No row is blocked.
 - How the entries are used:
   - **Modality** (per Position): `required` | `taught` | `tolerated` | `forbidden`, or leave blank for silence. ADR-0003 §5a reads these as user stances: required and taught → obligatory; tolerated → permitted; forbidden → forbidden.
@@ -81,3 +82,16 @@ Tier: ____  Clarity: ____
 | `sign-only` | |
 | `grace-conferred-in-right-use` | |
 | `necessary-means-of-grace` | |
+
+## 33c `baptism-repetition`: May baptism be repeated?
+
+Added on ruling Q5 (2026-10-26). The notation 33c is provisional.
+
+Tier: ____  Clarity: ____
+
+| Position | Modality |
+|---|---|
+| `once-only` | |
+| *(not minted)* "infant baptism is no baptism, so the believer's baptism of one baptized in infancy is not repetition" | |
+
+The second row is not a minted Position yet. Neither Gill's *Body* nor LBC 29 states it in words with a proof text (report 5). Fill it in if you wish; it binds nothing until it is minted.

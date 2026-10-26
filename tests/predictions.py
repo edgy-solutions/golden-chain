@@ -16,8 +16,12 @@
 # Ruling on report 4: apology childOf augsburg (small-catechism has no parent): childOf 0 -> 1,
 # effectivelyHolds 33 -> 34 (Apology inherits only augsburg/baptism-efficacy; its own infants
 # Holding overrides baptism-subjects), locked 2026-10-26T01:04:26Z; matched.
+# Ruling Q5 on report 2: locus baptism-repetition (33c) with WCF 28.7 once-only only (the Gill/LBC
+# Position is not minted; rule 2): Locus 8->9, Position 14->15, Argument/supports 43->44, Holding/holds
+# 33->34, answers 14->15, effectivelyHolds 34->35, warnings 8->9 (gc:tier, one per Locus), Passage 86
+# unchanged (Titus 3:5 already cited by 28.6), locked 2026-10-26T01:13:13Z; matched.
 PREDICTED = {
-    "Locus": 8, "Position": 14, "Argument": 43, "Passage": 86, "Body": 7, "Holding": 33,
-    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 1,
-    "effectivelyHolds": 34, "warnings": 8,
+    "Locus": 9, "Position": 15, "Argument": 44, "Passage": 86, "Body": 7, "Holding": 34,
+    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 44, "childOf": 1,
+    "effectivelyHolds": 35, "warnings": 9,
 }
