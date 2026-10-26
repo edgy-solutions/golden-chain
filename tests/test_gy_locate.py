@@ -1,5 +1,6 @@
 """The pin guard of tools/gy_locate_column_rule.py: goat-yard is used only clean, at substrate-v0."""
 
+import importlib
 import sys
 from pathlib import Path
 
@@ -25,3 +26,21 @@ def test_pinned_worktree_loads_unchanged(monkeypatch):
     monkeypatch.setenv("GOLDEN_CHAIN_GOATYARD", str(WORKTREE))
     _, _, VR = G.goatyard()
     assert VR.RULE_COL_FRAC == 0.59 and VR.RULE_MAX_RESID_PX == 15
+
+
+@pytest.mark.skipif(not WORKTREE.exists(), reason="no goat-yard worktree at substrate-v0")
+@pytest.mark.parametrize("name", sorted(G.SUBSTRATE_MODULES))
+def test_every_substrate_module_imports_without_skipped_deps(monkeypatch, name):
+    """Installed --no-deps: a module that needs dagster etc. fails here, not in a run."""
+    monkeypatch.setenv("GOLDEN_CHAIN_GOATYARD", str(WORKTREE))
+    root, _, _ = G.goatyard()
+    module = importlib.import_module(name)
+    assert Path(module.__file__).resolve().is_relative_to(root)
+
+
+@pytest.mark.skipif(not WORKTREE.exists(), reason="no goat-yard worktree at substrate-v0")
+def test_unlisted_substrate_module_fails_loud(monkeypatch):
+    monkeypatch.setenv("GOLDEN_CHAIN_GOATYARD", str(WORKTREE))
+    monkeypatch.setattr(G, "SUBSTRATE_MODULES", G.SUBSTRATE_MODULES - {"box_sanity"})
+    with pytest.raises(G.Fail, match="box_sanity"):
+        G.goatyard()

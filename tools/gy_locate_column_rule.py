@@ -36,6 +36,10 @@ from column_rule import OFFSET, Fail, bitmap  # noqa: E402
 
 PINNED = "3d0b03e0ac8d67b1e9e53947faf98205205082b5"
 TAG = "substrate-v0"
+# Every worktree module we load, by path. Installed --no-deps (docs/sources/goat-yard.md):
+# a module outside this list, or one needing a skipped dependency, fails loud.
+SUBSTRATE_MODULES = frozenset({"build_page_geometry", "cv_footnote_presplit", "verse_regions",
+                               "note_start_detect", "box_sanity", "hanging_indent"})
 
 
 def git(root, *args):
@@ -59,6 +63,10 @@ def goatyard():
     sys.path.insert(0, str(root / "pipeline" / "reextract"))
     import build_page_geometry as BPG
     import verse_regions as VR
+    loaded = {n for n, m in list(sys.modules.items())
+              if Path(getattr(m, "__file__", None) or "/").resolve().is_relative_to(root)}
+    if loaded != SUBSTRATE_MODULES:
+        raise Fail(f"goat-yard modules loaded {sorted(loaded)}, expected {sorted(SUBSTRATE_MODULES)}")
     return root, BPG, VR
 
 

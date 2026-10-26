@@ -118,7 +118,7 @@ The request is not filed until the architect signs from pixels and the goat-yard
 Asked by goat-yard (response of 2026-10-26, [goat-yard.md](goat-yard.md)) before any OCR.
 
 **Run header.**
-- Tool: [`tools/gy_locate_column_rule.py`](../../tools/gy_locate_column_rule.py), sha256 `aa57288b…`, run once at 2026-10-26T00:50:15Z.
+- Tool: [`tools/gy_locate_column_rule.py`](../../tools/gy_locate_column_rule.py), sha256 `aa57288b…`, run once at 2026-10-26T00:50:15Z. A later edit added only the module-set guard (`SUBSTRATE_MODULES`, report 5), so the file's current sha differs from the run's.
 - PDF sha256 `cdfd7fdc…`.
 - goat-yard: worktree at tag `substrate-v0`, commit `3d0b03e0`, clean; `verse_regions.py` sha256 `3cfe1062…`; geometry config hash `bf928b83759beb26`.
 - Python 3.11.1, numpy 2.4.6, pypdfium2 5.14.0, pillow 13.0.0.
@@ -164,17 +164,74 @@ A smoke run on p. 183 (the calibration page, outside the set) came first: ok, 22
 |---|---|
 | 20/20 status ok | **Held.** No abstention, so no request file is triggered. |
 | Max residual ≤ 15 px | **Held.** Worst is 13.3 px on p. 906, 1.7 px inside the limit. |
-| Every strip carries a cluster | **Missed on 4 pages: 14 of 440 strips.** A finding. |
+| Every strip carries a cluster | **FALSIFIED: 14 of 440 strips are empty, on 4 pages.** |
+
+**Ruling on report 4.**
+- **The run PASSES goat-yard's criteria, 20/20.** On every page, n_rule ≥ 3, n_rule / n_strips ≥ 0.5, and residual ≤ 15 px. The lowest is p. 896, at 11/22 = 0.50.
+- **The third clause is FALSIFIED.** It was the architect's, and stricter than goat-yard's acceptance. It stays as locked and is never edited.
+- The 14 empty strips are a finding, not a defect.
 
 The 14 empty strips (peak column ink fraction in the search window against the 0.59 cut):
 - **p. 896, strips 700–3700 (10 strips):** peaks 0.00–0.53. p. 896 is the page run 2 flagged (9/14 ruled slabs). The empty strips are the upper body.
 - **The last strip, 7000–7300, on pp. 896, 902, 907, 908:** peaks 0.52, 0.44, 0.45, 0.55. All are below 0.59.
 
-Not established, and needs pixels: whether the rule ends inside the last strip (so ink is diluted by the window ending at 7350), or is present but too faint for 0.59.
+Not established by the run; pixels decide (below): whether the rule ends inside the last strip (so ink is diluted by the window ending at 7350), or is present but too faint for 0.59.
 
 **Width.** `locate_column_rule` widths (columns with fraction ≥ 0.59 in a 300-row strip) have medians of 6–11 px (half_w 3.0–5.5). Run 2's per-row rule-width medians were 12–18 px. These are different measures. The slanted rule (|slope| up to 0.0096 on p. 902, about 3 px of drift per strip) spreads its ink across more columns than any one column holds at 0.59. That is the `RULE_COL_FRAC` risk goat-yard named. Observation only; nothing is changed.
 
 Results are in `~/.golden-chain/gy-locate-column-rule-2026-10-26/` (outside the repo). Per-strip column fractions are stored for every page, so a request file can be written without a rerun.
+
+### Empty-strip hypotheses (ruling on report 4)
+
+Locked 2026-10-26T01:03:32Z, before any measurement or render, in `~/.golden-chain/gy-empty-strips-hypotheses-locked.txt`:
+- **H1.** p. 896 is the chapter opening. The head spans both columns and the rule starts below it, so the empty strips cover the head. The split there is the fitted line, extrapolated, which is harmless.
+- **H2.** The last strips on 896, 902, 907 and 908 are only partly ruled because the rule ends above the page foot. That is a strip-boundary artefact. If instead the rule runs to the bottom and is faint, the 0.59 cut is biting, and that is the first request file.
+
+**Measure** (in code: [`tools/signing_strips.py`](../../tools/signing_strips.py)):
+- The window is the run's own fit, c(y) ± (half_w + pad).
+- A row is *ruled* when its ink count in the window is ≥ 2·half_w.
+- F is the first y ≥ 700 with ≥ 45 of rows [y, y+49] ruled.
+- L is the last y with ≥ 45 of rows [y−49, y] ruled.
+- By that definition F falls 5 rows before a rule's start, and L 5 rows after its end. The born tests assert exactly that.
+
+Run 2026-10-26T01:05:11Z. Script sha256 `d5679fdb…`, run JSON sha256 `3bc98694…`.
+
+| Clause (locked) | Page | Measured | Result |
+|---|---|---|---|
+| H1: F(896) ∈ [3400, 3700) | 896 | F = 3059 | **missed** (341 rows early) |
+| H2: L ∈ [7000, 7300) | 896 | 7112 | held |
+| | 902 | 6921 | **missed** (ends above 7000) |
+| | 907 | 6448 | **missed** (ends above 7000) |
+| | 908 | 6896 | **missed** (ends above 7000) |
+| H2: ruled fraction of 7000–7299 within 0.10 of the peak | 896 | 0.363 vs 0.523 | **missed** |
+| | 902 | 0.050 vs 0.443 | **missed** |
+| | 907 | 0.013 vs 0.447 | **missed** |
+| | 908 | 0.313 vs 0.550 | **missed** |
+| H2 falsifier: L ≥ 7300 on any of the four | all four | max L 7112 | **did not fire** |
+| Control: L ≥ 7177 on the other 16 | 16 pages | 15 held; **p. 911 L = 7160** | **missed on 911** |
+
+Reading. These numbers support only; pixels decide.
+- **H2's direction holds, and more strongly than predicted.** By this measure the rule never runs to the foot on any of the four pages.
+  - On 902, 907 and 908 it ends before the last strip begins.
+  - So the 0.44–0.55 column peaks in that strip are **not** the rule at the fitted line. What carries them is not known.
+- **H1's number missed.**
+  - On p. 896, ruled rows begin at 3059, inside strip 2800–3100.
+  - Yet strips 3100 and 3400 are empty to `locate_column_rule`. Their peaks are 0.30 and 0.50.
+- These are divergences from locked numbers, so they are findings (rule 6). Nothing is re-predicted.
+
+**Strips for Chris** (local viewing only, never sent to a hosted model; not in git): `C:\Users\cnogr\.golden-chain\gy-locate-column-rule-2026-10-26\strips-for-signing\`.
+- `p896-gutter-full.png`: whole height.
+- `p896-foot.png`, `p902-foot.png`, `p907-foot.png`, `p908-foot.png`: rows 6700–7649.
+- `p897-gutter-full.png`, `p898-gutter-full.png`: the run-2 abstentions, still unsigned.
+- Each strip is 600 px wide, centred on xdiv, at native scale.
+- Overlays (`README.txt` there):
+  - red ticks: the cluster centre per strip;
+  - blue dots: the fitted band edges;
+  - green ticks: strip boundaries;
+  - magenta ticks: y_end = 7350.
+- `ruled_rows.json` there holds F, L and the ruled fractions for all 20 pages.
+
+Sign-off form for these strips: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 
 ## Sign-off (architect, from pixels)
 

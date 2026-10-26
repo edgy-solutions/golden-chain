@@ -87,16 +87,31 @@ Prediction locked 2026-10-26, before any run: n = 20 (printed 896–915),
 **20/20 ok, every strip carries a cluster, max residual ≤ 15 px**. The
 locked file is `~/.golden-chain/gy-locate-column-rule-predictions-locked.txt`.
 
+## Install (ruling on report 4, 2026-10-26)
+
+`pip install -e --no-deps` of the substrate-v0 worktree into the golden-chain venv, accepted by the architect.
+
+Skipped, and why:
+- **Package dependencies** (goat-yard `pyproject.toml` at 3d0b03e): python-dotenv 1.2.1, requests 2.32.5, weaviate-client 4.18.3, dspy-ai 3.0.4, baml-py 0.211.1, openai 2.14.0, tenacity 9.1.2, protobuf < 6, pymupdf ≥ 1.27.1.
+- **Extra `backend`** (not requested): fastapi, uvicorn, pydantic, httpx, langfuse, passlib, bcrypt, python-multipart, slowapi, sqlalchemy, psycopg2-binary, svix, pyjwt.
+- **Extra `pipeline`** (not requested): dagster, dagster-webserver, networkx, matplotlib, nltk, rapidfuzz, minio, pytesseract, dagster-slack, langfuse.
+- **Why.**
+  - The modules we run need only numpy and Pillow. Those come from our own `measure` extra, with pypdfium2.
+  - The skipped set is LLM clients, a vector store, a web backend and an orchestrator. None is used by a measurement, and rule 3 keeps LLM clients out of anything that touches doctrine.
+  - `pipeline/__init__.py` imports dagster. So the flat modules are loaded by path (`pipeline/scripts`, `pipeline/reextract` on `sys.path`), never as the `pipeline` package.
+
+Modules loaded by path: `build_page_geometry`, `cv_footnote_presplit`, `verse_regions`, `note_start_detect`, `box_sanity`, `hanging_indent`. They are listed in `SUBSTRATE_MODULES` in `tools/gy_locate_column_rule.py`, and the pin guard fails if the set loaded differs. `tests/test_gy_locate.py` imports each one, so a module that comes to need a skipped dependency fails at test time, not at run time.
+
 ## Status (build agent, updated 2026-10-26)
 
 | Item | Status |
 |---|---|
-| Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed into the golden-chain venv with `pip install -e --no-deps`; the package's own dependencies (dagster, openai, dspy, weaviate, baml) are not needed by `verse_regions` and were not installed. OCR is still HELD. |
+| Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed with `pip install -e --no-deps`, accepted on report 4 (see Install above). OCR is still HELD (see Addition 2). |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Applied as "Revision 1" in [ADR-0002](../adr/0002-identity-iri-patterns.md). Proposed, for review by both architects. |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915: **20/20 ok, max residual 13.3 px**. The "every strip" clause **missed**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908 ([gill-column-rule.md](gill-column-rule.md)). The architect's sign-off from pixels is pending. |
+| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule. goat-yard `locate_column_rule` at substrate-v0, run once on pp. 896–915. **The run PASSES goat-yard's criteria, 20/20** (≥ 3 strips and ≥ 50 % per page, residual ≤ 15 px; max 13.3 px). The locked clause "every strip carries a cluster" is **FALSIFIED**: 14 of 440 strips are empty, on pp. 896, 902, 907 and 908. The clause was the architect's and stricter than goat-yard's acceptance. The lock is not edited. The empty strips are a finding, not a defect. Strips are prepared for Chris to sign from pixels ([gill-column-rule.md](gill-column-rule.md)). OCR is unheld only once Chris has signed and the two hypotheses are confirmed, or the request file is written. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5. goat-yard has no written truth-set provenance form; the line follows its nearest examples, marked **pending GY form** (ruling Q20). The question is in the GY message. |
 | Interface requests filed | None. |
-| Single-rule fixture for A2 | **Held.** The condition was "if 20/20 passes". Status ok is 20/20, but the locked prediction missed one clause. Awaiting a ruling on whether that counts as a pass. |
+| Single-rule fixture for A2 | **Not prepared.** Its condition, "if 20/20 passes", is met on goat-yard's criteria (ruling on report 4). Preparing it awaits the architect's word (report 5). |
