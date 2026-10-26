@@ -11,8 +11,10 @@
 # Acts.8.37-Acts.8.38 drops; Acts 2:41, 8:12, 22:16 and 8:36-37 stay cited elsewhere); matched.
 # LBC 29.1 split into one Argument per lettered note (ruling, report 2 Q1): Argument and
 # supports 41 -> 43, locked 2026-10-26T00:27:52Z before regenerating; matched.
+# Rulings Q7, Q8 (Book of Concord is a Collection; members dcterms:isPartOf, not childOf):
+# childOf 2 -> 0, effectivelyHolds 33 unchanged, locked 2026-10-26T00:42:45Z; matched.
 PREDICTED = {
     "Locus": 8, "Position": 14, "Argument": 43, "Passage": 86, "Body": 7, "Holding": 33,
-    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 2,
+    "excludes": 5, "entails": 1, "holds": 33, "answers": 14, "supports": 43, "childOf": 0,
     "effectivelyHolds": 33, "warnings": 8,
 }

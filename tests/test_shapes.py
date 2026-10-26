@@ -201,6 +201,54 @@ def test_explicit_scope_all_fails():
     assert fails_on(g, all_)
 
 
+def collection(g):
+    """body/boc as a gc:Collection, body/gill its member."""
+    boc = U("body/boc")
+    g.add((boc, RDF.type, GC.Collection))
+    g.add((boc, RDFS.label, Literal("Collection")))
+    return boc
+
+
+def test_collection_membership_both_ways_passes():
+    g = minimal()
+    boc = collection(g)
+    g.add((boc, DCTERMS.hasPart, U("body/gill")))
+    g.add((U("body/gill"), DCTERMS.isPartOf, boc))
+    assert not fails_on(g, boc) and not fails_on(g, U("body/gill"))
+
+
+def test_child_of_collection_fails():
+    """Rulings Q7, Q8: a Collection is not a parent."""
+    g = minimal()
+    boc = collection(g)
+    g.add((U("body/gill"), GC.childOf, boc))
+    assert fails_on(g, U("body/gill"))
+
+
+def test_is_part_of_without_has_part_fails():
+    g = minimal()
+    boc = collection(g)
+    g.add((U("body/gill"), DCTERMS.isPartOf, boc))
+    assert fails_on(g, U("body/gill"))
+
+
+def test_has_part_without_is_part_of_fails():
+    g = minimal()
+    boc = collection(g)
+    g.add((boc, DCTERMS.hasPart, U("body/gill")))
+    assert fails_on(g, boc)
+
+
+def test_is_part_of_non_collection_body_fails():
+    g = minimal()
+    other = U("body/other")
+    g.add((other, RDF.type, GC.Body))
+    g.add((other, RDFS.label, Literal("Other")))
+    g.add((other, DCTERMS.hasPart, U("body/gill")))
+    g.add((U("body/gill"), DCTERMS.isPartOf, other))
+    assert fails_on(g, U("body/gill"))
+
+
 def test_anchor_fails():
     g = minimal()
     g.add((U("anchor/x"), RDF.type, GC.Anchor))

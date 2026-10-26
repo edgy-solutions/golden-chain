@@ -7,20 +7,22 @@
 
 # Apology (1531) and Small Catechism (1529), from the PD Triglot Concordia (1921).
 # Admitted as Argument sources by ruling 2(a); each Argument is credited to its own source Body.
-# augsburg childOf book-of-concord is NOT asserted: not ruled.
+# The Book of Concord is a collection, not a parent (rulings Q7, Q8): its members are
+# dcterms:isPartOf it, never gc:childOf, and inherit nothing from it.
 
 <body/book-of-concord> a gc:Collection ;
     rdfs:label "Book of Concord (1580)"@en ;
+    dcterms:hasPart <body/augsburg> , <body/apology-1531> , <body/small-catechism-1529> ;
     gc:expressedIn <source/book-of-concord> .
 
 <body/apology-1531> a gc:Confession ;
     rdfs:label "Apology of the Augsburg Confession (1531)"@en ;
-    gc:childOf <body/book-of-concord> ;
+    dcterms:isPartOf <body/book-of-concord> ;
     gc:expressedIn <source/apology-1531> .
 
 <body/small-catechism-1529> a gc:Catechism ;
     rdfs:label "Luther's Small Catechism (1529)"@en ;
-    gc:childOf <body/book-of-concord> ;
+    dcterms:isPartOf <body/book-of-concord> ;
     gc:expressedIn <source/small-catechism-1529> .
 
 <source/book-of-concord> a gc:SourceWork ;

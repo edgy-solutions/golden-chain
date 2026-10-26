@@ -179,7 +179,30 @@
     sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
     sh:property [ sh:path gc:childOf ; sh:class gc:Body ] ;
     sh:property [ sh:path gc:holds ; sh:class gc:Holding ] ;
-    sh:property [ sh:path gc:expressedIn ; sh:class gc:SourceWork ] .
+    sh:property [ sh:path gc:expressedIn ; sh:class gc:SourceWork ] ;
+    # Membership of a Collection is dcterms:isPartOf, never gc:childOf (rulings Q7, Q8).
+    sh:property [ sh:path dcterms:isPartOf ; sh:class gc:Collection ] ;
+    sh:sparql [
+        sh:message "A gc:Collection is not a parent: use dcterms:isPartOf, not gc:childOf." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE { $this gc:childOf ?c . ?c a gc:Collection . }""" ] ;
+    sh:sparql [
+        sh:message "dcterms:isPartOf a Collection must be mirrored by the Collection's dcterms:hasPart." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE { $this dcterms:isPartOf ?c . ?c a gc:Collection .
+                                 FILTER NOT EXISTS { ?c dcterms:hasPart $this } }""" ] .
+
+<ontology/shapes#Collection> a sh:NodeShape ;
+    sh:targetClass gc:Collection ;
+    sh:property [ sh:path dcterms:hasPart ; sh:class gc:Body ] ;
+    sh:sparql [
+        sh:message "dcterms:hasPart must be mirrored by the member's dcterms:isPartOf." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE { $this dcterms:hasPart ?m .
+                                 FILTER NOT EXISTS { ?m dcterms:isPartOf $this } }""" ] .
 
 <ontology/shapes#Holding> a sh:NodeShape ;
     sh:targetClass gc:Holding ;

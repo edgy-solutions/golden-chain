@@ -10,6 +10,7 @@
 
 <body/augsburg> a gc:Confession ;
     rdfs:label "Augsburg Confession (1530)"@en ;
+    dcterms:isPartOf <body/book-of-concord> ;
     gc:expressedIn <source/augsburg> .
 
 <source/augsburg> a gc:SourceWork ;

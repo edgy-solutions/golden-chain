@@ -51,7 +51,7 @@ gc:Systematic a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Systematic"@en
     rdfs:comment "A systematic theology. It teaches; it is not a subscription standard."@en .
 
 gc:Collection a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Collection"@en ;
-    rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord), parent of its member Bodies."@en .
+    rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord). It is not a parent: its members are dcterms:isPartOf it and inherit nothing from it (rulings Q7, Q8)."@en .
 
 gc:Holding a owl:Class ; rdfs:label "Holding"@en ;
     rdfs:comment "The n-ary holds relation: Body, Position, modality, scope, source."@en .
