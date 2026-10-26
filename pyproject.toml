@@ -6,6 +6,8 @@ dependencies = ["rdflib", "pyshacl"]
 
 [project.optional-dependencies]
 test = ["pytest"]
+# tools/column_rule.py (page-image measurement; not needed by ingest or tests).
+measure = ["pypdfium2", "numpy", "pillow"]
 
 [tool.setuptools]
 packages = ["goldenchain"]

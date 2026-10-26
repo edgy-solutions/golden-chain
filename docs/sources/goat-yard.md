@@ -69,15 +69,34 @@
 >    31,102) as its provenance line, in the same form goat-yard uses for
 >    truth sets.
 
-## Status (build agent, 2026-10-25)
+## Response on the single rule (2026-10-26)
+
+> - Single rule accepted by construction; no single-rule test exists in
+>   goat-yard; thresholds were tuned on vol.1 doubles. RULE_COL_FRAC
+>   0.59 per 300-row strip is the risk for our 14 px rule.
+> - Pin only to the tag substrate-v0 once Chris confirms it exists at
+>   3d0b03e. Then, before any OCR: run goat-yard's locate_column_rule
+>   unchanged on pp. 896-915. Lock the prediction now: 20/20 ok, all
+>   strips carrying a cluster, max residual <= 15 px. Report per-page
+>   status, strips, half_w, residual. Any abstention is a finding and
+>   becomes the first request file with per-column ink fractions.
+> - If 20/20 passes, prepare a single-rule synthetic fixture in the
+>   shape of test_verse_regions._cs_page to offer back to A2.
+
+Prediction locked 2026-10-26, before any run: n = 20 (printed 896–915),
+**20/20 ok, every strip carries a cluster, max residual ≤ 15 px**. The
+locked file is `~/.golden-chain/gy-locate-column-rule-predictions-locked.txt`.
+
+## Status (build agent, updated 2026-10-26)
 
 | Item | Status |
 |---|---|
-| Pin `substrate-v0` | Not cut. Nothing is consumed, and OCR is HELD. |
+| Pin `substrate-v0` | The local goat-yard clone shows the tag at 3d0b03e0. **Not pinned:** waiting for Chris to confirm. Nothing is consumed, and OCR is HELD. |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Applied as "Revision 1" in [ADR-0002](../adr/0002-identity-iri-patterns.md). Proposed, for review by both architects. |
 | Addition 1 (1766 numbering) | Recorded. No 1766 page is cited yet. |
-| Addition 2 (column rule) | Measured. The rule is present on 20/20, as a **single** rule: [gill-column-rule.md](gill-column-rule.md). The "without a rule" request is not triggered; the architect's sign-off from pixels is pending. Fix A expects a *double* rule: Chris sent that question to the goat-yard architect (2026-10-26). The evidence for a "single rule" request is assembled in that file. |
+| Addition 2 (column rule) | Measured: the rule is present on 20/20, as a **single** rule ([gill-column-rule.md](gill-column-rule.md)). goat-yard accepts a single rule by construction but has no test for it, so `RULE_COL_FRAC` 0.59 is the risk. Next, after the pin: `locate_column_rule` unchanged on pp. 896–915, against the locked prediction above. The architect's sign-off from pixels is pending. |
 | Addition 3 (provenance line) | In ADR-0002 rule 5. goat-yard has no written truth-set provenance form; the line follows its nearest examples and may change on review. |
 | Interface requests filed | None. |
+| Single-rule fixture for A2 | Only if `locate_column_rule` passes 20/20: a synthetic page in the shape of `test_verse_regions._cs_page`. |
