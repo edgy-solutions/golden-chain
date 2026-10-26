@@ -82,18 +82,16 @@ The code is [tools/column_rule.py](../../tools/column_rule.py) (numpy, pypdfium2
 | P1 | present on 20 / 20 | **held** |
 | P2 | single rule everywhere | **held** |
 | P3 | median rule width per page 12–16 px | **missed on p. 907** (18 px) |
-| P4 | median gutter per page 125–145 px | **missed on p. 896** (160) **and p. 898** (121.5) |
+| P4 | median gutter per page 125–145 px | **missed on pp. 896** (160), **898** (121.5) **and 911** (124.5) |
 | P5 | at most p. 896 flagged | **held** |
 
-**Run 1** (script sha256 `6f08535f…`, 2026-10-25T19:34:29Z): 17 present, **3 abstained** (pp. 897, 898, 902). Of record, and a finding.
-- **Cause: a defect in the mode finder, not in the page.** The high mode was the upper half's argmax. On those three pages the text tail in the half's first bin (56, 102 and 73 columns) outweighed the rule bin (f ≥ 0.95: 36, 99 and 56 columns). The method therefore found no valley.
-- Two pieces of evidence show the rule was there:
-  - the rule bin was populated;
-  - the "gutters" measured on those pages were 53–66 px, the width of one flank, so a narrow feature was splitting the white.
+**Run 1** (script sha256 `6f08535f…`, 2026-10-25T19:34:29Z) found 17 rules and **abstained on 3 pages** (pp. 897, 898, 902). The cause was a defect in the mode finder, not in the pages. The high mode was taken as the upper half's argmax. On those three pages the text tail in that half's first bin (56, 102 and 73 columns) outweighed the rule bin (f ≥ 0.95: 36, 99 and 56 columns), so no valley was found. Two things showed the rule was there: the rule bin was populated, and the "gutters" measured were 53–66 px, the width of one flank, so a narrow feature was splitting the white. The fix (v2) changes only the high-mode choice, to the highest local maximum. Run 2 is a clean rerun of all 20 pages under the same locked predictions, and p. 183 is unchanged under v2. Run 1 stays of record, as a finding.
 
-**Run 2** (script sha256 `f5760f3b…`, 2026-10-25T19:35:27Z; PDF sha256 `cdfd7fdc…`; Python 3.11.1, numpy 2.4.6, pypdfium2 5.14.0).
-- v2 changes only the high-mode choice: the highest local maximum.
-- It was a clean full rerun of all 20 pages under the same predictions. p. 183 is unchanged under v2.
+**Run 2 header:** script sha256 `f5760f3b…`; 2026-10-25T19:35:27Z; PDF sha256 `cdfd7fdc…`; Python 3.11.1, numpy 2.4.6, pypdfium2 5.14.0.
+
+**Findings (ruling Q22): build-agent predictions P3 and P4 missed.** Neither is fixed or re-predicted.
+- P3 predicted a median rule width of 12–16 px on every page. Measured: 19 pages in range and **p. 907 at 18 px**.
+- P4 predicted a median gutter of 125–145 px on every page. Measured: 17 pages in range, and three out: **p. 896 at 160 px**, **p. 898 at 121.5 px** and **p. 911 at 124.5 px**. p. 911 was left out of the miss list until 2026-10-26, when this paragraph was checked against the per-page table. That omission is also a finding.
 
 ## Consequence for goat-yard
 

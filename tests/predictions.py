@@ -5,6 +5,8 @@
 # Filled by the main session; None makes tests/test_real_data.py::test_counts_match_predictions fail loud.
 # Locked 2026-10-25T19:24:54Z before the first generate (scratchpad predictions-locked.txt),
 # except Passage: 87 was measured, not predicted independently, and is pinned here as the baseline.
+# Ruling Q21 (2026-10-26): acceptable once. From now on every count is predicted, derived ones
+# included; a count pinned as measured is a finding.
 # LBC 29 ruling (2026-10-25): Passage 87 -> 86 predicted and locked before regenerating (only
 # Acts.8.37-Acts.8.38 drops; Acts 2:41, 8:12, 22:16 and 8:36-37 stay cited elsewhere); matched.
 # LBC 29.1 split into one Argument per lettered note (ruling, report 2 Q1): Argument and

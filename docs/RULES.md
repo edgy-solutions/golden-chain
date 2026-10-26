@@ -10,6 +10,7 @@ These rules come from the phase-0 brief, as amended by the architect. They bind 
    - The pre-commit hook allows only `.ttl`, `.py` and `.md` under `data/`, and refuses PDFs anywhere.
 5. **ADR before building.**
 6. **Predict counts, then verify.** A divergence is a finding, not a fix.
+   - Every count is predicted, derived counts included. A count pinned as measured, not predicted, is a finding (ruling Q21, 2026-10-26; the Passage 87 pin was accepted once).
 7. **Tests are born with the change.** Thresholds get a documented reason.
 8. **When uncertain, stop and report.**
 9. PDF and permission letter live in the private corpus repo at <corpus path>/gill/ — read-only, by configured path, never committed or copied here.

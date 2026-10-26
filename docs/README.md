@@ -29,6 +29,23 @@ tests/               guard tests, born with the change they test (rule 7)
 fuseki/              config.ttl for local Fuseki (read-only service config)
 ```
 
+### data/ (phase 1; ruling Q9, 2026-10-26)
+
+Seven files. Each file is one named graph at ingest.
+
+| File | Holds |
+|---|---|
+| `loci.ttl` | Headings, Loci and Positions, with `excludes` / `entails` between Positions |
+| `agents.ttl` | The architect and build agents named in `gc:proposedBy` / `gc:ratifiedBy` |
+| `gill-body-of-divinity.ttl` | Gill: the Body, its Source and divisions, Holdings, Arguments, cited Passages |
+| `westminster.ttl` | WCF: the same shape |
+| `lbc-1689.ttl` | LBC (1677 witness; slug kept): the same shape |
+| `augsburg.ttl` | Augsburg: Body, Source, Holdings |
+| `book-of-concord.ttl` | The Book of Concord `gc:Collection`, Apology and Small Catechism: Bodies, Sources, Holdings, Arguments |
+
+A Passage is declared in every file that cites it. The union graph merges
+the duplicate triples, so a Passage counts once.
+
 ## Index
 
 | Doc | Status |
