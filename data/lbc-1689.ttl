@@ -91,6 +91,8 @@
     gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
         <passage/kjv/1Cor.11.26> ;
     gc:locator "28.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), p. 96, \"Of Baptism and the Lords Supper\"" ;
+    gc:asPrinted "(a) Mat. 28. 19, 20. 1 Cor. 11. 26." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
