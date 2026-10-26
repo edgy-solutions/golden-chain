@@ -79,6 +79,18 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+# Ruling Q6 on report 2: IX also says "Baptism is necessary to salvation" and "with Baptism salvation
+# [...] is offered", in the sentence that cites Matt. 28,19. Argument only: no Holding (ruling on report 4).
+<argument/apology-1531/ix/002> a gc:Argument ;
+    gc:source <source/apology-1531/ix> ;
+    gc:supports <position/baptism-efficacy/necessary-means-of-grace> ;
+    gc:cites <passage/kjv/Matt.28.19> ;
+    gc:locator "Art. IX" ;
+    gc:secondaryLocator "Triglot Concordia (1921), English" ;
+    gc:asPrinted "Matt. 28,19" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 <argument/small-catechism-1529/4/001> a gc:Argument ;
     gc:source <source/small-catechism-1529/4> ;
     gc:supports <position/baptism-efficacy/necessary-means-of-grace> ;

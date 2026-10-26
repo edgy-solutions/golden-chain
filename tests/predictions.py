@@ -20,8 +20,10 @@
 # Position is not minted; rule 2): Locus 8->9, Position 14->15, Argument/supports 43->44, Holding/holds
 # 33->34, answers 14->15, effectivelyHolds 34->35, warnings 8->9 (gc:tier, one per Locus), Passage 86
 # unchanged (Titus 3:5 already cited by 28.6), locked 2026-10-26T01:13:13Z; matched.
+# Ruling Q6 on report 2: Apology IX Argument 002 for necessary-means-of-grace (Matt 28:19), no
+# Holding: Argument/supports 44 -> 45, locked 2026-10-26T01:17:01Z; matched.
 PREDICTED = {
-    "Locus": 9, "Position": 15, "Argument": 44, "Passage": 86, "Body": 7, "Holding": 34,
-    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 44, "childOf": 1,
+    "Locus": 9, "Position": 15, "Argument": 45, "Passage": 86, "Body": 7, "Holding": 34,
+    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 45, "childOf": 1,
     "effectivelyHolds": 35, "warnings": 9,
 }
