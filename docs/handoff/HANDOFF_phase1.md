@@ -1,7 +1,7 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
-- Latest report: [REPORT_phase1_07.md](REPORT_phase1_07.md). It has eleven open questions for the architect. **Blocking item 1 of the reply to report 6 arrived snipped; asked to resend.**
+- Latest report: [REPORT_phase1_07.md](REPORT_phase1_07.md). It has eleven questions for the architect; Q1 is answered (item 1 of the reply to report 6 was deleted 2026-10-26: "the strips were correct and Chris was reading them before the legend; nothing to fix").
 - Waiting on Chris, in the signing consoles (ADR-0006, proposed), under `~/.golden-chain/console/<kind>/`:
   - empty strips, build `88d902a181ba64c1` ([SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md); 6.947 frame, clean run, raw pixels with overlay): gates OCR and the A2 fixture. No model views these strips;
   - WCF 1647 proofs, build `24f26ea83e4d6bc2` ([READING_wcf1647_proofs.md](READING_wcf1647_proofs.md); strings proposed by the build agent from the PD leaves): gates the Q16 `gc:asPrinted` strings.
@@ -24,6 +24,8 @@
 - The Book of Concord is a `gc:Collection`; its members are `dcterms:isPartOf` it, never `childOf` it. The Apology is `childOf` augsburg; the Small Catechism has no parent (ruling on report 4).
 - WCF proofs: Edinburgh, Tyler 1647 is the witness of record; London 1647, if found, is a second witness (report 5, Q7). One Argument per lettered note, as for the LBC. The 28.1 admission, regeneration and remission notes become Arguments for the composite 33a Position once read and signed (Q8).
 - Rulings on reports 3–5 and ADR-0002 Revision 1 (ratified by both architects; the date convention is at the top of `docs/RULES.md`) applied (report 6). Held: report 4 Q6 (the Gill provenance wording; report 6, Q5).
+- Reply to report 6 (frame, last strip, signing strips, console): applied in report 7. Item 1 deleted by the architect (2026-10-26); "Everything else in that block stands, with the console first."
+- w3id PR #6977 merged 2026-10-26 (merge commit `8b89818`); the IRI base is live ([../identity.md](../identity.md)). No data change.
 - Bible text: none stored or fetched. The USFM Bibles are read by `GOLDEN_CHAIN_BIBLES` only ([../sources/bibles-usfm.md](../sources/bibles-usfm.md)). ADR-0004 will name the USFM KJV as the display text source.
 
 ## goat-yard (lane G)

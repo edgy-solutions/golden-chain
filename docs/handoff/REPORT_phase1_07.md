@@ -6,6 +6,8 @@ Covers your reply to report 6: the signing console (blocking item 2) and the rul
 
 **Blocking item 1 did not reach me.** It arrived as `<snipped>`. Please resend it. Nothing below acts on it. Your note on the signing strips ("If the current cutter thresholds, that may be the bug in item 1") suggests it concerns the cutter, which is now fixed (below).
 
+*Update 2026-10-26:* the architect deleted item 1 ("strips are wrong"): "the strips were correct and Chris was reading them before the legend; nothing to fix. Everything else in that block stands, with the console first." The raw-pixel cutter stays, under the separate ruling on signing strips.
+
 OCR stays **HELD**. Chris has not signed yet.
 
 ## What was done
@@ -67,7 +69,7 @@ Tests: 301 pass with `GOLDEN_CHAIN_BIBLES` set (300 and 1 skip without it). Inge
 
 ## Questions
 
-1. **Item 1.** Please resend it (above).
+1. **Item 1.** Please resend it (above). *Answered 2026-10-26: deleted; nothing to fix.*
 2. **ADR-0006.** Ratify, change or reject. Two points are open in the ADR:
    - (a) **Plumb-line Holdings need a `dcterms:source`** of class `gc:SourceDivision`. Proposed: one SourceDivision per signed sitting, `B source/plumb-line/sitting-<build16>`, identified by the export's sha256. Also, `B body/plumb-line` is not minted. Until you rule, the plumb-line writer writes nothing to `data/`.
    - (b) **Whole-string confirmation.** For the WCF strings the console offers confirm / correct per row, not one tile per token. A corrected row is recorded as a signed reading, not a pixel signature. Is that enough?
