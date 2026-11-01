@@ -25,12 +25,17 @@ figcaption { color:var(--mut); font-size:13px; } .frame { font:12px ui-monospace
 .seeabove { color:var(--mut); font-size:13px; } button.armed { outline:2px solid var(--acc); }
 .status { position:sticky; bottom:0; background:var(--bg); border-top:1px solid var(--line); padding:8px 0; }
 footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
+#help { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:min(28em, 90vw); overflow:auto; box-sizing:border-box;
+  background:var(--bg); color:var(--fg); border-left:2px solid var(--acc); padding:12px 16px; z-index:10; }
+#help[hidden] { display:none; }
+#help details { margin:8px 0; } #help summary { cursor:pointer; font-weight:600; } #help p { margin:.4em 0; }
 </style>
 </head>
 <body>
 <header id="header">__HEADER__</header>
 <main id="main">__BODY__</main>
-<div class="status"><button type="button" id="export">Export verdicts</button> <span id="status"></span></div>
+__HELP__
+<div class="status"><button type="button" id="export">Export verdicts</button> <button type="button" id="helpbtn">Help</button> <span id="status"></span></div>
 <footer>The download is the record. The browser draft is a convenience only.</footer>
 <script type="application/json" id="data">__DATA__</script>
 <script>
@@ -56,14 +61,28 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
   }
   function rowState(rowEl) { return checkedVal(q(rowEl, ".rstate")) || "verdict"; }
 
+  function otherVal(fEl) { return { other: q(fEl, ".othertxt").value }; }
+  function isOther(x) { return x !== null && typeof x === "object" && !Array.isArray(x) && "other" in x; }
+  function otherOn(fEl) {
+    if (fEl.dataset.kind === "select") return q(fEl, "select").value === D.other;
+    return all(fEl, "input:checked").some(function (i) { return i.value === D.other; });
+  }
+  function enableOther(fEl, off) {
+    var o = q(fEl, ".othertxt");
+    if (o) o.disabled = off || !otherOn(fEl);
+  }
+
   function fieldValue(rowEl, fEl) {
     var kind = fEl.dataset.kind, sf = specField(rowEl.dataset.row, fEl.dataset.field);
     if (kind === "text") { var t = q(fEl, "input").value; return t === "" ? null : t; }
-    if (kind === "select") { var v = q(fEl, "select").value; return v === "" ? null : v; }
-    if (kind === "radio") return checkedVal(fEl);
+    if (kind === "select") { var v = q(fEl, "select").value; return v === "" ? null : (v === D.other ? otherVal(fEl) : v); }
+    if (kind === "radio") { var rv = checkedVal(fEl); return rv === D.other ? otherVal(fEl) : rv; }
     if (kind === "checkbox") {
       if (rowEl.dataset.touched !== "1") return null;
-      return all(fEl, "input:checked").map(function (i) { return i.value; });
+      var ticked = all(fEl, "input:checked").map(function (i) { return i.value; });
+      var plain = ticked.filter(function (x) { return x !== D.other; });
+      if (ticked.length > plain.length) plain.push(otherVal(fEl));
+      return plain;
     }
     if (kind === "proposal") {
       var a = checkedVal(fEl);
@@ -75,6 +94,12 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
   function answered(fEl, v) {
     if (v === null) return false;
     if (fEl.dataset.kind === "proposal" && v.action === "correct") return v.text.trim() !== "";
+    if (isOther(v)) return v.other.trim() !== "";
+    if (Array.isArray(v)) {
+      if (v.some(function (x) { return isOther(x) && x.other.trim() === ""; })) return false;
+      var sf = specField(fEl.closest(".row").dataset.row, fEl.dataset.field);
+      if (sf && sf.min_ticks && v.length < sf.min_ticks) return false;
+    }
     return true;
   }
   function collectRow(rowEl) {
@@ -118,7 +143,8 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
     var off = rowState(rowEl) !== "verdict";
     all(rowEl, ".field").forEach(function (f) {
       all(f, "input,select,button").forEach(function (c) { c.disabled = off; });
-      if (!off && f.dataset.kind === "proposal") q(f, ".corr").disabled = checkedVal(f) !== "correct";
+      if (f.dataset.kind === "proposal") { if (!off) q(f, ".corr").disabled = checkedVal(f) !== "correct"; }
+      else enableOther(f, off);
     });
   }
   function clearFields(rowEl) {
@@ -158,11 +184,16 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
     var id = fig.dataset.image, img = q(fig, "img"), svg = q(fig, "svg"), stack = q(fig, ".stack");
     var W = +fig.dataset.w, H = +fig.dataset.h;
     q(fig, ".ovtoggle").addEventListener("change", function (ev) { q(fig, ".rects").style.display = ev.target.checked ? "" : "none"; });
-    q(fig, ".zoom").addEventListener("change", function (ev) {
-      var z = +ev.target.value;
+    var zoomSel = q(fig, ".zoom"), box = q(fig, ".box");
+    function applyZoom() {
+      var z = zoomSel.value === "fit" ? box.clientWidth / W : +zoomSel.value;
+      if (!(z > 0)) return;
       [img, svg].forEach(function (n) { n.style.width = (W * z) + "px"; n.style.height = (H * z) + "px"; });
       stack.style.width = (W * z) + "px"; stack.style.height = (H * z) + "px";
-    });
+    }
+    zoomSel.addEventListener("change", applyZoom);
+    window.addEventListener("resize", function () { if (zoomSel.value === "fit") applyZoom(); });
+    applyZoom();
     stack.addEventListener("click", function (ev) {
       if (!armed || armed.dataset.image !== id) return;
       var r = img.getBoundingClientRect(), y = Math.floor((ev.clientY - r.top) * H / r.height);
@@ -191,6 +222,7 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
         r.dataset.touched = "1";
         var f = ev.target.closest(".field");
         if (f && f.dataset.kind === "proposal") q(f, ".corr").disabled = checkedVal(f) !== "correct";
+        else if (f) enableOther(f, false);
         changed();
       });
     });
@@ -213,9 +245,17 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
         if (v === null || v === undefined) return;
         r.dataset.touched = "1";
         if (k === "text") q(f, "input").value = v;
-        else if (k === "select") q(f, "select").value = v;
-        else if (k === "radio") all(f, "input").forEach(function (i) { i.checked = i.value === v; });
-        else if (k === "checkbox") all(f, "input").forEach(function (i) { i.checked = v.indexOf(i.value) >= 0; });
+        else if (k === "select") {
+          if (isOther(v)) { q(f, "select").value = D.other; q(f, ".othertxt").value = v.other; } else q(f, "select").value = v;
+        } else if (k === "radio") {
+          var rwant = isOther(v) ? D.other : v;
+          all(f, "input[type=radio]").forEach(function (i) { i.checked = i.value === rwant; });
+          if (isOther(v)) q(f, ".othertxt").value = v.other;
+        } else if (k === "checkbox") {
+          var od = v.filter(isOther)[0];
+          all(f, "input[type=checkbox]").forEach(function (i) { i.checked = i.value === D.other ? !!od : v.indexOf(i.value) >= 0; });
+          if (od) q(f, ".othertxt").value = od.other;
+        }
         else if (k === "proposal") {
           all(f, "input[type=radio]").forEach(function (i) { i.checked = i.value === v.action; });
           q(f, ".corr").value = v.text || "";
@@ -227,6 +267,10 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
     all(document, ".sigfield").forEach(function (i) { i.value = sg[i.id.replace("sig-", "")] || ""; });
     dirty = true;
   }
+
+  var helpEl = document.getElementById("help");
+  document.getElementById("helpbtn").addEventListener("click", function () { helpEl.hidden = !helpEl.hidden; });
+  document.getElementById("helpclose").addEventListener("click", function () { helpEl.hidden = true; });
 
   document.getElementById("export").addEventListener("click", function () {
     var out = {

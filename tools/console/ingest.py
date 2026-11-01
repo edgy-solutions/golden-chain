@@ -124,9 +124,25 @@ def spec_rows(spec):
     return [(s, r) for s in spec["sections"] for r in s["rows"]]
 
 
+def is_other(v):
+    return isinstance(v, dict) and "other" in v
+
+
+def other_ok(v):
+    return bool(str(v["other"] or "").strip())
+
+
 def answered(f, v):
     if v is None:
         return False
+    if is_other(v):
+        return other_ok(v)
+    if isinstance(v, list):
+        if any(is_other(x) and not other_ok(x) for x in v):
+            return False
+        n = f.get("min_ticks")
+        if n and len(v) < n:
+            return False
     if isinstance(v, dict) and v.get("action") == "correct":
         return bool(str(v.get("text") or "").strip())
     return True
@@ -194,8 +210,10 @@ def cell(s):
 def render_answer(v):
     if v is None:
         return "not answered"
+    if is_other(v):
+        return f'other, as written: "{v["other"]}"'
     if isinstance(v, list):
-        return ", ".join(v) if v else "(none ticked)"
+        return ", ".join(render_answer(x) for x in v) if v else "(none ticked)"
     if isinstance(v, dict) and "page_row" in v:
         return f"page row {v['page_row']} (frame {v['frame_wh'][0]}x{v['frame_wh'][1]})"
     if isinstance(v, dict) and v.get("action") == "correct":
@@ -246,7 +264,7 @@ def choice(v, allowed, what):
 def plumb_ttl(signed):
     """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting.
     Ruling, report 8 Q1: proposed by the build agent, ratified by Chris on the signature date."""
-    lines, loci, holds, holdings, skipped = [], [], [], [], []
+    lines, loci, holds, holdings, skipped, others = [], [], [], [], [], []
     src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
     day = str(signed["signature"].get("date") or "")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
@@ -261,13 +279,21 @@ def plumb_ttl(signed):
         locus, _, pos = r["row_id"].partition(".")
         if pos == "locus":
             slug_ok(locus)
-            t, c = choice(vals.get("tier"), TIERS, "tier"), choice(vals.get("clarity"), CLARITIES, "clarity")
+            tv, cv = vals.get("tier"), vals.get("clarity")
+            for fid, x in (("tier", tv), ("clarity", cv)):
+                if is_other(x):
+                    others.append(f"{r['row_id']}.{fid}")
+            t = None if is_other(tv) else choice(tv, TIERS, "tier")
+            c = None if is_other(cv) else choice(cv, CLARITIES, "clarity")
             bits = ([f"gc:tier <vocab/tier/{t}>"] if t else []) + ([f"gc:clarity <vocab/clarity/{c}>"] if c else [])
             if bits:
                 loci.append(f"<locus/{locus}> " + " ; ".join(bits) + " .")
             continue
         slug_ok(locus, pos)
         m = vals.get("modality")
+        if is_other(m):
+            others.append(f"{r['row_id']}.modality")
+            continue
         if m is None or m == "silent":
             continue
         choice(m, MODALITIES, "modality")
@@ -277,6 +303,8 @@ def plumb_ttl(signed):
                         f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n    " + status)
     lines += [LOCI_HEADER, "# Plumb-line sitting " + signed["build_hash"][:16] + " (ADR-0006 open point 1, ruled report 7 Q2a)."]
     lines.append("# abstain/fault rows, nothing written: " + (", ".join(skipped) if skipped else "none"))
+    lines.append("# other, as written, nothing written (the architect rules): "
+                 + ("; ".join(others) if others else "none"))
     lines += [""] + loci + [""] + holds + [""] + holdings + [""]
     lines.append(f'<{src}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
                  f'    dcterms:identifier "{signed["export_sha256"]}" ;\n    ' + status)

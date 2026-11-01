@@ -83,9 +83,9 @@ def test_empty_strips_spec_ids_and_build(tmp_path, monkeypatch):
     rows = {r["id"]: r for s in spec["sections"] for r in s["rows"]}
     assert [f["id"] for f in rows["h1.unruled"]["fields"]] == ["v", "from", "to"]
     assert [f["kind"] for f in rows["h1.unruled"]["fields"]] == ["radio", "pick-row", "pick-row"]
-    assert [f["id"] for f in rows["foot.896"]["fields"]] == ["rule_end", "to_foot", "faint", "inks", "other"]
+    assert [f["id"] for f in rows["foot.896"]["fields"]] == ["rule_end", "to_foot", "faint", "inks"]
     assert "4900–5077" in rows["foot.896"]["fields"][3]["label"]
-    assert rows["foot.896"]["fields"][3]["options"][-1] == "other page furniture"
+    assert rows["foot.896"]["fields"][3]["options"][-1] == "nothing"
     assert rows["foot.896"]["image_ids"] == ["p896-foot", "p896-foot-native"]
     assert rows["foot.902"]["image_ids"] == ["p902-foot"]
     assert rows["foot.hypothesis"]["fields"][0]["options"][0].startswith("refuted")
@@ -347,3 +347,50 @@ def test_wcf1647_markdown_renders_a_corrected_field_as_signed_reading(tmp_path, 
     assert 'corrected: "Rom. 4. 11, 12." (proposed "Rom. 4. 11."); signed reading' in t
     assert 'confirmed: "a"' in t and "Reading form: WCF 1647 proof notes as printed" in t
     assert t.count("signed reading") == 1
+
+
+def test_plumb_ttl_writes_nothing_for_other_as_written(plumb):
+    tmp, made, man, spec = plumb
+
+    def mutate(ex):
+        modalities(ex)
+        ex["rows"]["baptism-mode.immersion-only"]["values"]["modality"] = {"other": "x"}
+        ex["rows"]["johns-baptism.locus"]["values"]["tier"] = {"other": "y"}
+
+    d = tmp / "data"
+    d.mkdir()
+    for f in (ROOT / "data").glob("*.ttl"):
+        (d / f.name).write_bytes(f.read_bytes())
+    ttl = d / "plumb-line.ttl"
+    sign(tmp, made, man, spec, mutate, write=True, ttl_out=ttl)
+    g = Graph()
+    g.parse(ttl, format="turtle")
+    b = lambda s: URIRef(BASE + s)  # noqa: E731
+    assert b("holding/plumb-line/baptism-mode/immersion-only") not in set(g.subjects(RDF.type, GC.Holding))
+    assert (b("locus/johns-baptism"), GC.tier, None) not in g
+    assert (b("locus/johns-baptism"), GC.clarity, b("vocab/clarity/contested")) in g
+    text = ttl.read_text(encoding="utf-8")
+    line = [l for l in text.splitlines() if l.startswith("# other, as written, nothing written")][0]
+    assert "baptism-mode.immersion-only.modality" in line and "johns-baptism.locus.tier" in line
+    from goldenchain import ingest as gi
+
+    violations, _ = gi.shacl_report(gi.union(gi.load_dataset(d)))
+    assert violations == []
+
+
+def test_empty_strips_spec_v2_options(tmp_path):
+    spec = empty_strips.make_spec(strips_dir(tmp_path))
+    rows = {r["id"]: r for s in spec["sections"] for r in s["rows"]}
+    assert empty_strips.STOPS == ["yes", "no: it runs to the foot and is faint near it",
+                                  "no: it runs to the foot, solid"]
+    assert empty_strips.HYPOTHESIS == [
+        "refuted: the rule itself ends above the foot",
+        "confirmed: the rule reaches the foot; the extra ink is text edge or footnote ink",
+        "runs to the foot, solid: the extra ink is the rule itself"]
+    assert rows["foot.hypothesis"]["fields"][0]["options"] == empty_strips.HYPOTHESIS
+    assert rows["foot.stops"]["fields"][0]["options"] == empty_strips.STOPS
+    inks = rows["foot.896"]["fields"][3]
+    assert inks["id"] == "inks" and inks["min_ticks"] == 1 and inks["options"][-1] == "nothing"
+    abst = spec["sections"][2]
+    assert abst["title"].startswith("Run-1") and abst["text"].strip()
+    assert spec["help"]

@@ -358,3 +358,90 @@ def test_write_addressed_digest_check_removes_tmp(tmp_path, monkeypatch):
 def test_render_answer_never_says_unknown_for_a_blank():
     """Finding (b), WCF sitting 318910c8, accepted on report 8: a blank optional field is not "unknown"."""
     assert ingest.render_answer(None) == "not answered"
+
+
+# ---- console template v2 ---------------------------------------------------------------------------
+
+def test_fit_is_the_default_zoom(sitting):
+    t = page_text(sitting)
+    opts = re.findall(r'<select class="zoom">(.*?)</select>', t)
+    assert opts and all(o.startswith('<option value="fit" selected>') for o in opts)
+    assert opts[0].count("selected") == 1
+    assert 'addEventListener("resize"' in (build.HERE / "template.html").read_text(encoding="utf-8")
+
+
+def test_template_version_in_header_and_manifest(sitting):
+    assert "console template v2" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 2 == build.TEMPLATE_VERSION
+
+
+def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):
+    spec = make_spec(tmp_path)
+    spec["help"] = [{"q": "Spec question one?", "a": "Spec answer one."}, {"q": "Spec question two?", "a": "b"}]
+    made = do_build(tmp_path, spec, monkeypatch)
+    t = made["html"].read_text(encoding="utf-8")
+    qs = [build.e(x["q"]) for x in build.COMMON_HELP] + ["Spec question one?", "Spec question two?"]
+    assert len(build.COMMON_HELP) == 5
+    pos = [t.index(f"<summary>{q}</summary>") for q in qs]
+    assert pos == sorted(pos)
+    assert '<aside id="help" hidden>' in t and 'id="helpbtn">Help</button>' in t
+
+
+def test_check_spec_rejects_malformed_help(tmp_path):
+    spec = make_spec(tmp_path)
+    spec["help"] = [{"q": "only a question"}]
+    with pytest.raises(Fail, match="help"):
+        build.check_spec(spec)
+
+
+def test_every_choice_offers_other_as_written(sitting):
+    t = page_text(sitting)
+    sp = sitting["spec"]
+    fields = {f["id"]: f for r in sp["sections"][0]["rows"] for f in r["fields"]}
+    rad = build.field_html("s1.r1", fields["rad"])
+    sel = build.field_html("s1.r1", fields["sel"])
+    chk = build.field_html("s1.r1", fields["chk"])
+    prop = build.field_html("s1.r2", fields["prop"])
+    for h in (rad, sel, chk):
+        assert build.OTHER in h and 'class="txt othertxt" disabled' in h
+    assert f'type="radio" name="s1.r1::rad" value="{build.OTHER}"' in rad
+    assert f'<option value="{build.OTHER}">' in sel
+    assert build.OTHER not in prop and "othertxt" not in prop
+    assert t.count("othertxt\" disabled") == 3
+
+
+def test_check_spec_rejects_reserved_other_option(tmp_path):
+    spec = make_spec(tmp_path)
+    spec["sections"][0]["rows"][0]["fields"][0]["options"].append(build.OTHER)
+    with pytest.raises(Fail, match="reserved"):
+        build.check_spec(spec)
+
+
+def test_ingest_other_as_written_needs_text():
+    f = {"id": "c", "kind": "checkbox"}
+    assert ingest.answered(f, {"other": "  "}) is False
+    assert ingest.answered(f, {"other": "x"}) is True
+    assert ingest.answered(f, ["p", {"other": "  "}]) is False
+    assert ingest.answered(f, ["p", {"other": "x"}]) is True
+
+
+def test_render_answer_other_as_written():
+    assert ingest.render_answer({"other": "t"}) == 'other, as written: "t"'
+    assert ingest.render_answer(["p", {"other": "t"}]) == 'p, other, as written: "t"'
+
+
+def test_min_ticks_checkbox_needs_n_entries(tmp_path):
+    f1 = {"id": "c", "kind": "checkbox", "min_ticks": 1}
+    assert ingest.answered(f1, []) is False
+    assert ingest.answered(f1, ["rule"]) is True
+    assert ingest.answered(f1, [{"other": "x"}]) is True
+    assert ingest.answered({"id": "c", "kind": "checkbox"}, []) is True
+    spec = make_spec(tmp_path)
+    flds = spec["sections"][0]["rows"][0]["fields"]
+    flds[2]["min_ticks"] = 0
+    with pytest.raises(Fail, match="min_ticks"):
+        build.check_spec(spec)
+    flds[2]["min_ticks"] = 1
+    flds[0]["min_ticks"] = 1  # on a radio
+    with pytest.raises(Fail, match="min_ticks"):
+        build.check_spec(spec)

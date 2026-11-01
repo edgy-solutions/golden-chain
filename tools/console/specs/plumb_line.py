@@ -94,6 +94,16 @@ def section(l):
             "image_ids": [], "rows": rows}
 
 
+HELP = [
+    {"q": "Where are tier, clarity and modality defined?",
+     "a": "In the instruction at the top of this page, taken from the plumb-line form and ADR-0003 "
+          "sections 3 to 5a."},
+    {"q": "What if my stance is none of the modalities?",
+     "a": "Choose \"other, as written\" and write it. Nothing is written to the data for that entry; "
+          "the architect rules on it."},
+]
+
+
 def make_spec(ttl):
     ttl, form = Path(ttl), FORM.read_text(encoding="utf-8")
     loci = read_loci(ttl)
@@ -105,6 +115,7 @@ def make_spec(ttl):
             "signer": "Chris", "instruction": instruction,
             "sources": [{"path": str(p.resolve()), "sha256": build.sha256_file(p)} for p in (ttl, FORM)],
             "run_header": None, "images": [], "sections": [section(l) for l in loci], "withheld": [],
+            "help": HELP,
             "signature": {"fields": ["name", "date"]}}
 
 

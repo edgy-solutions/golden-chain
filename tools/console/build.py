@@ -17,6 +17,7 @@ an existing name with different bytes is refused; the same bytes are a no-op.
 
 The page is rendered here (images inline as data URIs, controls, sha256 beside each image); the
 template supplies the style and the script that wires the controls, export and draft.
+Console template v2 (TEMPLATE_VERSION): fit-to-window zoom, a help panel, "other, as written" on every choice.
 Fails loud (Fail) on a missing path, a sha256 mismatch, a repeated id, an unknown field kind,
 options missing, or a pick-row naming an unknown image.
 """
@@ -38,6 +39,27 @@ sys.path.insert(0, str(HERE.parent))
 from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 
 SPEC_FORMAT = "golden-chain-console-spec/1"
+TEMPLATE_VERSION = 2
+OTHER = "other, as written"
+COMMON_HELP = [
+    {"q": "What do verdict, abstain and fault mean?",
+     "a": "verdict: you are answering the row. abstain: you cannot tell from the image. fault: the image or "
+          "the question is wrong (wrong page, cut off, a question that does not fit). An abstain or fault "
+          "row records no answers, only your note."},
+    {"q": "How do I answer when none of the options fits?",
+     "a": "Choose \"other, as written\" and write what you see in the box beside it. That is a recorded "
+          "answer, not a wrong one. Every choice on this form has it."},
+    {"q": "How do I pick a row on an image?",
+     "a": "Press pick, then click the image at that height. The row is recorded and drawn as a magenta line. "
+          "clear undoes it."},
+    {"q": "The image is cut off or too small.",
+     "a": "Use zoom: fit (the default) fits the image to the window; 100% and 200% show more detail, and the "
+          "box scrolls. show overlay hides the drawn marks to show the bare page."},
+    {"q": "Can I ask someone mid-sitting?",
+     "a": "Everything the form needs is on this page. If something is still unclear, ask in words; do not "
+          "paste images from this console anywhere. If a question cannot be answered as asked, mark the row "
+          "fault and say why in the note."},
+]
 MANIFEST_FORMAT = "golden-chain-console-manifest/1"
 KINDS = ("empty-strips", "plumb-line", "wcf1647")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
@@ -118,6 +140,14 @@ def check_field(row_id, f, image_ids, seen):
         raise Fail(f"field {row_id}/{fid}: unknown kind {kind!r}")
     if kind in OPTION_KINDS and not f.get("options"):
         raise Fail(f"field {row_id}/{fid}: {kind} has no options")
+    if OTHER in (f.get("options") or []):
+        raise Fail(f"field {row_id}/{fid}: option {OTHER!r} is reserved (the console adds it)")
+    if "min_ticks" in f:
+        mt = f["min_ticks"]
+        if kind != "checkbox":
+            raise Fail(f"field {row_id}/{fid}: min_ticks is only for checkbox fields")
+        if not isinstance(mt, int) or isinstance(mt, bool) or mt < 1:
+            raise Fail(f"field {row_id}/{fid}: min_ticks {mt!r} is not an int >= 1")
     if kind == "pick-row" and f.get("image_id") not in image_ids:
         raise Fail(f"field {row_id}/{fid}: pick-row names unknown image {f.get('image_id')!r}")
 
@@ -156,6 +186,12 @@ def check_spec(spec):
     sig = need(need(spec, "signature", "spec"), "fields", "signature")
     if any(s not in SIGNATURE_FIELDS for s in sig):
         raise Fail(f"signature fields {sig}: only {list(SIGNATURE_FIELDS)} are known")
+    if "help" in spec:
+        h = spec["help"]
+        if not isinstance(h, list) or not all(
+                isinstance(x, dict) and set(x) == {"q", "a"}
+                and all(isinstance(x[k], str) and x[k].strip() for k in ("q", "a")) for x in h):
+            raise Fail("spec help: must be a list of {q, a} dicts with non-empty strings")
     sec_ids, row_ids = set(), set()
     for sec in need(spec, "sections", "spec"):
         unique(sec_ids, need(sec, "id", "section"), "section")
@@ -227,8 +263,9 @@ def figure(im, blob, sha):
     return (f'<figure class="fig" data-image="{e(im["id"])}" data-w="{w}" data-h="{h}">'
             f'<div class="figbar"><b>{e(im["id"])}</b> '
             f'<label><input type="checkbox" class="ovtoggle" checked> show overlay</label> '
-            f'<label>zoom <select class="zoom"><option value="0.25">25%</option><option value="0.5">50%</option>'
-            f'<option value="1" selected>100%</option><option value="2">200%</option></select></label></div>'
+            f'<label>zoom <select class="zoom"><option value="fit" selected>fit</option>'
+            f'<option value="0.25">25%</option><option value="0.5">50%</option>'
+            f'<option value="1">100%</option><option value="2">200%</option></select></label></div>'
             f'<div class="box"><div class="stack" style="width:{w}px;height:{h}px">'
             f'<img src="{uri}" width="{w}" height="{h}" alt="{e(im["id"])}">'
             f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}"><g class="rects">'
@@ -264,15 +301,21 @@ def field_html(row_id, f):
     if kind == "pick-row":
         attrs += f' data-image="{e(f["image_id"])}"'
     head = f'<span class="fl">{e(f.get("label", f["id"]))}{"" if req == "1" else " (optional)"}</span> '
+    other_txt = '<input type="text" class="txt othertxt" disabled placeholder="as written">'
     if kind == "text":
         body = f'<input type="text" name="{name}" class="txt">'
     elif kind == "select":
-        opts = "".join(f'<option value="{e(o)}">{e(o)}</option>' for o in f["options"])
-        body = f'<select name="{name}"><option value="">-</option>{opts}</select>'
+        opts = "".join(f'<option value="{e(o)}">{e(o)}</option>' for o in f["options"] + [OTHER])
+        body = f'<select name="{name}"><option value="">-</option>{opts}</select> {other_txt}'
     elif kind in ("radio", "checkbox"):
         t = "radio" if kind == "radio" else "checkbox"
+        # Proposal radios get no OTHER: "correct" plus the text of what is printed already records an
+        # as-written answer.
+        opt_list = f["options"] if proposal else f["options"] + [OTHER]
         body = "".join(f'<label class="opt"><input type="{t}" name="{name}" value="{e(o)}"> {e(o)}</label>'
-                       for o in f["options"])
+                       for o in opt_list)
+        if not proposal:
+            body += f" {other_txt}"
         if proposal:
             body = (f'<code class="prop">{e(f["proposed"])}</code> {body} '
                     f'<input type="text" class="txt corr" disabled placeholder="what is printed">')
@@ -321,6 +364,13 @@ def withheld_html(spec):
     return f'<section class="sec"><h2>Withheld</h2><ul>{items}</ul></section>'
 
 
+def help_html(spec):
+    items = "".join(f"<details><summary>{e(x['q'])}</summary><p>{e(x['a'])}</p></details>"
+                    for x in COMMON_HELP + spec.get("help", []))
+    return (f'<aside id="help" hidden><button type="button" id="helpclose">close</button>'
+            f'<h2>Help</h2>{items}</aside>')
+
+
 def header_html(spec, build_hash, provisional):
     banner = ('<div class="prov">PROVISIONAL: built from an uncommitted tree. Its verdicts cannot be cited '
               'unless the architect rules it.</div>' if provisional else "")
@@ -330,7 +380,7 @@ def header_html(spec, build_hash, provisional):
         git = (rh.get("golden_chain_git_start") or {}).get("commit", "not recorded")
         run = f'<div>run header: golden-chain commit {e(str(git))}, clean_run {e(str(rh.get("clean_run", "not recorded")))}</div>'
     return (f'{banner}<h1>{e(spec["title"])}</h1><div class="meta"><div>signer: {e(spec["signer"])}</div>'
-            f'<div>kind: {e(spec["kind"])}</div><div class="sha">build_hash {build_hash}</div>{run}</div>'
+            f'<div>kind: {e(spec["kind"])}</div><div>console template v{TEMPLATE_VERSION}</div><div class="sha">build_hash {build_hash}</div>{run}</div>'
             f'<div class="instruction">{paragraphs(spec["instruction"])}</div>')
 
 
@@ -347,10 +397,11 @@ def render(spec, blobs, shas, build_hash, spec_sha, code_sha, provisional, templ
     parts = {
         "__TITLE__": e(spec["title"]),
         "__HEADER__": header_html(spec, build_hash, provisional),
+        "__HELP__": help_html(spec),
         "__BODY__": extra + body + withheld_html(spec) + signature_html(spec),
         "__DATA__": data_json({"build_hash": build_hash, "build16": build_hash[:16], "kind": spec["kind"],
                                "spec_sha256": spec_sha, "code_sha256": code_sha, "images": shas,
-                               "provisional": provisional, "spec": spec}),
+                               "provisional": provisional, "other": OTHER, "spec": spec}),
     }
     return re.sub("|".join(parts), lambda m: parts[m.group(0)], template)
 
@@ -370,7 +421,7 @@ def build(spec_path, out_dir=None, now=None):
     page = render(spec, blobs, shas, bh, spec_sha, code_sha, provisional, template).encode("utf-8")
     manifest = {"format": MANIFEST_FORMAT, "kind": kind, "build_hash": bh, "build16": b16,
                 "spec_path": str(Path(spec_path).resolve()), "spec_sha256": spec_sha,
-                "code_sha256": code_sha, "html_sha256": sha256_bytes(page), "images": shas,
+                "code_sha256": code_sha, "template_version": TEMPLATE_VERSION, "html_sha256": sha256_bytes(page), "images": shas,
                 "golden_chain_git_start": start, "golden_chain_git_end": end, "provisional": provisional,
                 "utc": (now or datetime.datetime.now(datetime.timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ")}
     out = Path(out_dir) if out_dir else Path.home() / ".golden-chain" / "console" / kind

@@ -20,9 +20,22 @@ from build import Fail  # noqa: E402
 
 FORM = build.REPO / "docs" / "handoff" / "SIGNOFF_empty_strips.md"
 YN = ["yes", "no"]
-INKS = ["rule", "justified-text edge", "footnote text", "catchword", "signature mark", "other page furniture"]
-HYPOTHESIS = ["refuted: the rule itself ends above the foot", "confirmed: text edge or footnote ink", "other"]
-STOPS = ["yes, on every page", "no: it runs to the bottom and is faint near it"]
+INKS = ["rule", "justified-text edge", "footnote text", "catchword", "signature mark", "other page furniture",
+        "nothing"]
+HYPOTHESIS = ["refuted: the rule itself ends above the foot",
+              "confirmed: the rule reaches the foot; the extra ink is text edge or footnote ink",
+              "runs to the foot, solid: the extra ink is the rule itself"]
+STOPS = ["yes", "no: it runs to the foot and is faint near it", "no: it runs to the foot, solid"]
+HELP = [
+    {"q": "What do the coloured marks on the image mean?",
+     "a": "They are the run's result, drawn over the raw page: green ticks are strip boundaries; the magenta "
+          "(pink) line is y_end, one row drawn at the same height on every page, the run's estimate of where "
+          "the text ends, not the page's own last line; red marks the cluster centre in each strip; blue dots "
+          "are band edges. Judge against the page itself."},
+    {"q": "What counts as the rule ending above the foot?",
+     "a": "Where the vertical line between the columns stops, compared with the last line of the main text. "
+          "Judge it from the line itself, not from the pink line."},
+]
 ABST_PAGES = (897, 898)
 
 
@@ -78,7 +91,9 @@ def h1_section(data, form_text):
         {"id": "h1.rule_start", "label": "Where the rule starts", "context": [], "image_ids": [], "fields": [
             field("row", "pick-row", "Row where the column rule starts", image_id=run)]},
         {"id": "h1.unruled", "label": "Two-column text with no rule", "context": [], "image_ids": [], "fields": [
-            field("v", "radio", "Between the head and the rule's start, is there two-column text with no rule?", YN),
+            field("v", "radio", "Between the head and the rule's start, is there at least one full line of two-column "
+                  "text (about one line height) with no rule? A gap of a few rows between the first text line "
+                  "and the top of the rule does not count.", YN),
             field("from", "pick-row", "Rows from", required=False, image_id=run),
             field("to", "pick-row", "to", required=False, image_id=run)]},
         {"id": "h1.verdict", "label": "H1", "context": [], "image_ids": [], "fields": [
@@ -102,11 +117,10 @@ def foot_section(data):
             field("rule_end", "pick-row", "Row where the rule ends", image_id=run),
             field("to_foot", "radio", "Does it run to the text foot?", YN),
             field("faint", "radio", "Faint near the foot?", YN),
-            field("inks", "checkbox", f"What inks the gutter in the last strip (rows {y0}–{y1})?", INKS),
-            field("other", "text", "Other (say what)", required=False)]})
+            field("inks", "checkbox", f"What inks the gutter in the last strip (rows {y0}–{y1})?", INKS,
+                  min_ticks=1)]})
     rows.append({"id": "foot.hypothesis", "label": "The locked hypothesis", "context": [], "image_ids": [], "fields": [
-        field("v", "radio", "The locked hypothesis", HYPOTHESIS),
-        field("other", "text", "If other, what", required=False)]})
+        field("v", "radio", "The locked hypothesis", HYPOTHESIS)]})
     rows.append({"id": "foot.stops", "label": "Does the rule stop above the foot on every page?", "context": [],
                  "image_ids": [], "fields": [field("v", "radio", "Does the rule stop above the foot on every page?", STOPS)]})
     text = ("Two readings are on file. Your reading decides.\n\n"
@@ -122,7 +136,10 @@ def abst_section(data):
         rows.append({"id": f"abst.{p}", "label": f"p. {p}", "context": [], "image_ids": ids, "fields": [
             field("present", "radio", "Rule present?", YN), field("single", "radio", "Single?", YN),
             field("note", "text", "Note", required=False)]})
-    return {"id": "abst", "title": "Run-2 abstentions", "text": "", "image_ids": [], "rows": rows}
+    return {"id": "abst", "title": "Run-1 abstentions (pp. 897, 898)",
+            "text": ("An early run of the measuring tool (run 1) found no rule on these pages; that was a defect "
+                     "in the tool, since fixed, not a fault of the pages. Check by eye: is there a rule between "
+                     "the columns, and is it one line (single) rather than two (double)?"), "image_ids": [], "rows": rows}
 
 
 def instruction(data):
@@ -143,11 +160,11 @@ def make_spec(strips_dir):
     sources = [{"path": str(sj.resolve()), "sha256": build.sha256_file(sj)}, {"path": str(FORM), "sha256": build.sha256_file(FORM)}]
     sources += [{"path": i["path"], "sha256": i["sha256"]} for i in images]
     return {"format": build.SPEC_FORMAT, "kind": "empty-strips",
-            "title": "Sign-off: empty strips and the run-2 abstentions", "signer": "Chris",
+            "title": "Sign-off: empty strips and the run-1 abstentions", "signer": "Chris",
             "instruction": instruction(data), "sources": sources,
             "run_header": data["header"].get("run_header"), "images": images,
             "sections": [h1_section(data, FORM.read_text(encoding="utf-8")), foot_section(data), abst_section(data)],
-            "withheld": [], "signature": {"fields": ["name", "date"]}}
+            "withheld": [], "help": HELP, "signature": {"fields": ["name", "date"]}}
 
 
 def main(argv):

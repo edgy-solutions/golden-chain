@@ -413,9 +413,22 @@ The threshold measure and its numbers (F, L and the ruled fractions in § "Signi
 
 Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 
+### Signed from pixels (Chris, 2026-11-01, build `88d902a181ba64c1`)
+
+Record: [../handoff/SIGNED_empty_strips_88d902a181ba64c1.md](../handoff/SIGNED_empty_strips_88d902a181ba64c1.md). Rulings on report 10 (Q1, Q2):
+- **H1 confirmed.** p. 896 opens a chapter with a head across both columns. The rule starts at frame row 2089, which is the run's continuous ruled run. The empty strips 700–1900 are the chapter opening.
+- **The rule runs to the text foot on pp. 896, 902, 907 and 908, solid, not faint.** It ends at 4211, 4199, 4198 and 4215, against the scale-7.2 measure of 4199–4220.
+  - **The architect's locked foot hypothesis is REFUTED.** The last-strip peaks are the rule, which reaches y_end; they are not text edge or footnote ink after the rule ends.
+  - **Neither of the form's two planned outcomes happened.** The rule did not stop above the foot, and it did not fade. The third case, "runs to the foot, solid", is what Chris read.
+  - The `foot.stops` radio value reads "faint" only because the form offered no other "no". Chris's four per-page "faint: no" and his note govern (ruling Q1).
+- **pp. 897, 898:** the rule is present and single on both. Run 1's abstentions there were the method defect on record.
+- **No goat-yard request.** Nothing abstained and nothing faded. The 6.947 split holds to the foot. **OCR is unheld** (ruling Q1). OCR work begins on substrate-v1, once the re-pin is clean (ruling on report 9).
+- **Finding for the OCR column split: footnotes on p. 897.** Chris: "the rule here divides the footnote also contrary the the other pages". On p. 897 the column rule continues through the footnote area, so footnote ink there is divided by the rule, unlike the other pages Chris read in the sitting. A column split that assumes footnotes run full width will be wrong on such pages. No request (ruling Q1).
+- **The sitting stands** (ruling Q2). Mid-sitting, Chris pasted a screenshot of a foot strip into the build agent's chat. The agent did not describe the image or answer from it, and Chris's readings match the instrument on their own.
+
 ### Finding (open): two large gutter maxima at 6.947
 
-Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris signs** the empty-strips console. It matters only if a request file goes to goat-yard. The medians are in the band and the run passes.
+Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris signs** the empty-strips console (signed 2026-11-01; the Q11 crops console comes after the re-pin and the A2 fixture, in the architect's order on report 10). It matters only if a request file goes to goat-yard. The medians are in the band and the run passes.
 
 | Page | Slab (rows, 6.947 frame) | Gutter (px) | Left white | Right white | Page median |
 |---|---|---|---|---|---|
