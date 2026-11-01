@@ -11,7 +11,7 @@
 Every resource needs an IRI that never changes: user self-maps in Postgres,
 Neo4j nodes, Weaviate objects and other projects all key on it. The
 namespace `https://w3id.org/golden-chain/` is filed with w3id (PR #6977,
-awaiting merge; see `docs/identity.md`) and redirects path-preserving to
+merged 2026-10-26 (8b89818); see `docs/identity.md`) and redirects path-preserving to
 `https://golden-chain.org/id/`. **goat-yard-archive will adopt the Passage
 scheme**, so the Passage scheme is a public contract, not an internal
 detail.
@@ -202,6 +202,8 @@ Notes on each:
   - It may appear on a Source division or an Argument.
   - The edition it refers to is stated once on the work, as `gc:paginationOf` on `B source/gill-body`, with the value `"BSB 2019 (ISBN 9781579780234), reproducing the 1839 London pagination"`.
   - Another edition's pages are never written to `gc:pages`.
+
+- **Editorial correction (2026-11-01).** Context, w3id status: "awaiting merge" now reads "merged 2026-10-26 (8b89818)". A status-of-fact update, not a revision (architect, 2026-11-01). Nothing decided above changes.
 
 ## Open points (phase 1)
 
