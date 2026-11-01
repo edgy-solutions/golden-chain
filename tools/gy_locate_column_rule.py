@@ -2,9 +2,11 @@
 
 Usage: python tools/gy_locate_column_rule.py <gill.pdf> <first> <last> <out-dir> [--scale S] [--prediction TEXT]
 
-goat-yard is consumed from a worktree at tag substrate-v0, never copied
+goat-yard is consumed from a worktree at tag substrate-v1, never copied
 (docs/sources/goat-yard.md). The worktree is GOLDEN_CHAIN_GOATYARD, default
-../goatyard-substrate-v0. It must be clean and at PINNED, or the run fails.
+../goatyard-substrate-v1. It must be clean and at PINNED, or the run fails.
+Re-pinned from substrate-v0 (3d0b03e0) for column-split reproduction only
+(architect, 2026-11-01); ink_box is not used.
 
 Per page:
 - the page's single embedded image (5100 x 7650, 1 bpp), the same bitmap as
@@ -41,8 +43,8 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from column_rule import OFFSET, REPO, Fail, bitmap, clean_run, git_state, render  # noqa: E402
 
-PINNED = "3d0b03e0ac8d67b1e9e53947faf98205205082b5"
-TAG = "substrate-v0"
+PINNED = "301bde5c9742a8f4beee604eca5cafdf84abadf4"
+TAG = "substrate-v1"
 # Every worktree module we load, by path. Installed --no-deps (docs/sources/goat-yard.md):
 # a module outside this list, or one needing a skipped dependency, fails loud.
 SUBSTRATE_MODULES = frozenset({"build_page_geometry", "cv_footnote_presplit", "verse_regions",
@@ -58,7 +60,7 @@ def git(root, *args):
 
 def goatyard():
     root = Path(os.environ.get("GOLDEN_CHAIN_GOATYARD")
-                or Path(__file__).resolve().parents[2] / "goatyard-substrate-v0").resolve()
+                or Path(__file__).resolve().parents[2] / "goatyard-substrate-v1").resolve()
     head = git(root, "rev-parse", "HEAD")
     if head != PINNED:
         raise Fail(f"goat-yard worktree {root} is at {head}, not {TAG} ({PINNED})")
