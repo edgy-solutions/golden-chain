@@ -163,9 +163,10 @@ The notice was written by A2, and Chris had goat-yard's Lane B session relay it 
   - `substrate-v1` is tag object `841566a`, pointing at commit `301bde5c…`;
   - `substrate-v0` is `3d0b03e0`, and it is an ancestor of v1;
   - the three-dot diff touches 4 files, +691 / −1.
-- **Two points need correcting.** Both are already in [../handoff/NOTE_goatyard_substrate_v1.md](../handoff/NOTE_goatyard_substrate_v1.md), which is waiting for Chris to send:
-  - the tagged commit's message ends "(rerun-8 lock)", but the notice says "rerun 9";
-  - `analyze_page_s1` also gains `"median_line_h"`, so `ink_box` is not the only addition. Golden Chain reads that key.
+- **We raised two corrections; one was withdrawn.** The note is [../handoff/NOTE_goatyard_substrate_v1.md](../handoff/NOTE_goatyard_substrate_v1.md).
+  - **(1) Withdrawn** (architect, 2026-11-01). We said the tagged commit's message ends "(rerun-8 lock)" while the notice says "rerun 9". goat-yard's reply: there are two locks, and both labels are correct. The commit subject names the design lock it implements ("rerun-8 lock", `3fbcd95e`). The annotated tag names the run that validated it (rerun 9, lock `b213cb9d`). So there is no re-cut. The build agent checked the tag message: "Cut at 301bde5 on a rerun-9 pass (lock b213cb9d …)". Lock `3fbcd95e` is in goat-yard's private data repo and was not checked.
+  - **(2) Stands, and goat-yard accepted it.** `analyze_page_s1` also gains `"median_line_h"`, so `ink_box` is not the only addition. Golden Chain reads that key. A2 is amending the notice to list every added output field.
+- **The architect's scope for the re-pin:** substrate-v1 is used only to reproduce the column split. `ink_box` waits for v1.1 and its helper.
 - **Not relevant to us:** the 20-page identity claim. Golden Chain's runs are on the 1766 Exposition pp. 896–915, not those pages. The re-pin prediction rests on the code our runs use being unchanged, and it is tested by running them.
 
 ## Status (build agent, updated 2026-11-01, report 10)
