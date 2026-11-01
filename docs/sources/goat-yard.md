@@ -147,6 +147,27 @@ Relayed by the architect:
 - **Verse numbering:** goat-yard's *Exposition* follows KJV numbering, including superscriptions in verse 1. So their regions map to `B passage/kjv/…` with no mapping table.
 - **Gating:** their adoption of the scheme is gated on `substrate-v1` and their verse-region console, not on Golden Chain.
 
+## substrate-v1 notice (A2, dated 2026-10-25; received 2026-11-01)
+
+The notice was written by A2, and Chris had goat-yard's Lane B session relay it to us unedited. The relay says it verified none of the claims. Quoted here are only the parts addressed to Golden Chain and the parts that limit what the notice claims:
+
+- "Tag `substrate-v1` → commit **301bde5c9742a8f4beee604eca5cafdf84abadf4** (annotated tag object 841566a), pushed." "**Pin to the tag, not the branch.**"
+- "**Basis:** rerun 9 on D passed every locked prediction (P1–P14), with a clean tree at both ends."
+- "**Nothing outside these 20 pages was compared. This is not a volume-wide claim.**" (vol. 1 FILE pages 90, 91, 92, 126–130, 151, 197–200, 402–404, 745, 923–925)
+- "Pinning to v1 is safe: box is unchanged, and ink_box is the only addition."
+- "The DPI caveat stands. Vol.1 PNGs are 3584×5400 px, mode L, with **no DPI metadata**, and median line height is 49–61 px, so compare by pixels or by line height."
+- "**Adjacent ink_boxes can overlap,** by at most one measured descender."
+
+**Checked by the build agent against the tag (2026-11-01).**
+- **Holds:**
+  - `substrate-v1` is tag object `841566a`, pointing at commit `301bde5c…`;
+  - `substrate-v0` is `3d0b03e0`, and it is an ancestor of v1;
+  - the three-dot diff touches 4 files, +691 / −1.
+- **Two points need correcting.** Both are already in [../handoff/NOTE_goatyard_substrate_v1.md](../handoff/NOTE_goatyard_substrate_v1.md), which is waiting for Chris to send:
+  - the tagged commit's message ends "(rerun-8 lock)", but the notice says "rerun 9";
+  - `analyze_page_s1` also gains `"median_line_h"`, so `ink_box` is not the only addition. Golden Chain reads that key.
+- **Not relevant to us:** the 20-page identity claim. Golden Chain's runs are on the 1766 Exposition pp. 896–915, not those pages. The re-pin prediction rests on the code our runs use being unchanged, and it is tested by running them.
+
 ## Status (build agent, updated 2026-11-01, report 10)
 
 | Item | Status |
