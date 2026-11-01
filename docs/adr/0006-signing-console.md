@@ -1,8 +1,8 @@
 # ADR-0006: Sign from pixels in a self-contained console, bound by hashes
 
-- Status: Proposed
+- Status: Ratified provisionally, on report 7; the architect will read the text (ruling, report 7 Q2)
 - Date proposed: 2026-10-25
-- Date ratified:
+- Date ratified: 2026-10-26 (provisionally)
 - Proposed by: build agent
 - Ratified by: architect
 
@@ -99,8 +99,8 @@ point 1).
 10. **Instances and where the verdicts land:**
     - (i) the empty-strips sign-off (Chris) → `docs/handoff/SIGNED_empty_strips_<build16>.md`;
     - (ii) the plumb-line, as a loci × positions grid with tier, clarity
-      and modality selectors (the architect) → `data/plumb-line.ttl`,
-      after ratification (open point 1);
+      and modality selectors (Chris signs every sitting; ruling, report 7
+      Q2a) → `data/plumb-line.ttl`;
     - (iii) the WCF 1647 proof reading, with the build agent's proposed
       strings beside the page crops (Chris) →
       `docs/handoff/SIGNED_wcf1647_<build16>.md`. (Every instance is named
@@ -142,7 +142,16 @@ Tests in `tests/test_console*.py`, born with the code:
 - a same-name/different-bytes write is refused;
 - the three instance writers, on fixture exports.
 
-## Open points
+## Ratification (provisional, 2026-10-26)
+
+Ruled on report 7, Q2. The architect will read the text; this section records what was ruled.
+
+- **Open point 1, ruled (a): yes.** One `gc:SourceDivision` per signed sitting, `B source/plumb-line/sitting-<build16>`, identified by the export's sha256.
+  - `B body/plumb-line` is minted now, as its own subclass `gc:Editorial` of `gc:Body` (`ontology/core.ttl`), with one instance, ever. A shape enforces that (`ontology/shapes.ttl`, `shapes#Editorial`). The Body is declared in `data/agents.ttl`.
+  - **The signer of every plumb-line sitting is Chris.**
+- **Open point 2, ruled (b): enough.** Per-row confirm / correct is the right grain for a printed citation string. Per-token pixel signatures are for OCR truth sets. A corrected row is a signed reading with register `corrected`, per the form.
+
+## Open points (as proposed; ruled above)
 
 1. **Plumb-line Holdings need a source.** The shape requires a
    `dcterms:source` of class `gc:SourceDivision` on every Holding. Proposed:

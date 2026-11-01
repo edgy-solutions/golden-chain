@@ -244,7 +244,7 @@ def choice(v, allowed, what):
 
 
 def plumb_ttl(signed):
-    """Proposed mapping, ADR-0006 open point 1."""
+    """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting."""
     lines, loci, holds, holdings, skipped = [], [], [], [], []
     src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
     for r in signed["rows"]:
@@ -271,7 +271,7 @@ def plumb_ttl(signed):
                         f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n"
                         f"    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/architect> ; "
                         f"gc:ratifiedBy <agent/architect> .")
-    lines += [LOCI_HEADER, "# Plumb-line sitting " + signed["build_hash"][:16] + " (proposed mapping, ADR-0006 open point 1)."]
+    lines += [LOCI_HEADER, "# Plumb-line sitting " + signed["build_hash"][:16] + " (ADR-0006 open point 1, ruled report 7 Q2a)."]
     lines.append("# abstain/fault rows, nothing written: " + (", ".join(skipped) if skipped else "none"))
     lines += [""] + loci + [""] + holds + [""] + holdings + [""]
     lines.append(f'<{src}> a gc:SourceDivision ; dcterms:identifier "{signed["export_sha256"]}" ;\n'

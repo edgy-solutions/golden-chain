@@ -413,6 +413,19 @@ The threshold measure and its numbers (F, L and the ruled fractions in § "Signi
 
 Sign-off form: [../handoff/SIGNOFF_empty_strips.md](../handoff/SIGNOFF_empty_strips.md).
 
+### Finding (open): two large gutter maxima at 6.947
+
+Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris signs** the empty-strips console. It matters only if a request file goes to goat-yard. The medians are in the band and the run passes.
+
+| Page | Slab (rows, 6.947 frame) | Gutter (px) | Left white | Right white | Page median |
+|---|---|---|---|---|---|
+| 913 | 16 (3760–3995) | 277 | 237 | 29 | 76 |
+| 915 | 5 (1175–1410) | 320 | 276 | 35 | 78.5 |
+
+- **Locked prediction** (the architect's; `~/.golden-chain/gutter-maxima-predictions-locked.txt`, 2026-11-01T15:40:14Z): each slab contains a section head or a blank line on one side of the gutter. By the flank measures, that side is the left column in both.
+- **Refuted if** either slab shows full-measure text on both sides of the gutter across all its rows.
+- **How it is checked:** neither page is among the signing strips. After the empty-strips sitting, two raw-pixel crops (no threshold; the slab drawn as an overlay) go to Chris in a console of their own.
+
 ## Sign-off (architect, from pixels)
 
 - Gutter strips for pp. 896–915: band x ∈ [0.35 W, 0.65 W], full height, scaled 1:2, local viewing only. They are not in git: `C:\Users\cnogr\.golden-chain\column-rule-2026-10-25\strips\gutter-p{896..915}.png`.

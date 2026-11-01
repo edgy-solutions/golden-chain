@@ -53,6 +53,9 @@ gc:Systematic a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Systematic"@en
 gc:Collection a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Collection"@en ;
     rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord). It is not a parent: its members are dcterms:isPartOf it and inherit nothing from it (rulings Q7, Q8)."@en .
 
+gc:Editorial a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Editorial"@en ;
+    rdfs:comment "The project's own editorial Body: the plumb-line. One instance, ever: B body/plumb-line (ruling, report 7 Q2a)."@en .
+
 gc:Holding a owl:Class ; rdfs:label "Holding"@en ;
     rdfs:comment "The n-ary holds relation: Body, Position, modality, scope, source."@en .
 

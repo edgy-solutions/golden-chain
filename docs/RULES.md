@@ -3,6 +3,7 @@
 These rules come from the phase-0 brief, as amended by the architect. They bind every agent working in this repo.
 
 **Dates and times** (ratification of ADR-0002 Revision 1, 2026-10-25): dates in docs, ADRs and reports are America/Chicago local. Lock-file timestamps stay UTC, with a `Z` suffix, as written; lock files are never rewritten.
+The local-date convention took effect at commit `cc32fb0`; earlier dates are UTC and are not corrected (ruling, report 7 Q9).
 
 1. **TTL in git is the only truth.** Stores, indexes and derived graphs are rebuilt from it.
 2. **Every Position traces to a source chapter** and carries at least one Passage via an Argument.

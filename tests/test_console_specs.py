@@ -156,7 +156,7 @@ def test_plumb_line_spec_matches_form():
     assert len(locus_rows) == 9
     assert [f["id"] for f in locus_rows[0]["fields"]] == ["tier", "clarity"]
     assert pos_rows[0]["fields"][0]["options"] == ["required", "taught", "tolerated", "forbidden", "silent"]
-    assert spec["signer"] == "the architect" and spec["images"] == [] and spec["run_header"] is None
+    assert spec["signer"] == "Chris" and spec["images"] == []  # ruling, report 7 Q2a and spec["run_header"] is None
     assert "Modality" in spec["instruction"] and "Clarity" in spec["instruction"]
 
 

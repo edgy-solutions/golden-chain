@@ -225,6 +225,16 @@ def test_child_of_collection_fails():
     assert fails_on(g, U("body/gill"))
 
 
+def test_editorial_has_one_instance_ever():
+    """Ruling, report 7 Q2a: gc:Editorial is body/plumb-line only."""
+    g = minimal()
+    pl, other = U("body/plumb-line"), U("body/second-editorial")
+    for b in (pl, other):
+        g.add((b, RDF.type, GC.Editorial))
+        g.add((b, RDFS.label, Literal("Editorial")))
+    assert not fails_on(g, pl) and fails_on(g, other)
+
+
 def test_is_part_of_without_has_part_fails():
     g = minimal()
     boc = collection(g)

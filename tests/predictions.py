@@ -22,8 +22,10 @@
 # unchanged (Titus 3:5 already cited by 28.6), locked 2026-10-26T01:13:13Z; matched.
 # Ruling Q6 on report 2: Apology IX Argument 002 for necessary-means-of-grace (Matt 28:19), no
 # Holding: Argument/supports 44 -> 45, locked 2026-10-26T01:17:01Z; matched.
+# Ruling Q2a on report 7: body/plumb-line minted as gc:Editorial: Body 7 -> 8, all else unchanged,
+# locked 2026-11-01T15:37:19Z.
 PREDICTED = {
-    "Locus": 9, "Position": 15, "Argument": 45, "Passage": 86, "Body": 7, "Holding": 34,
+    "Locus": 9, "Position": 15, "Argument": 45, "Passage": 86, "Body": 8, "Holding": 34,
     "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 45, "childOf": 1,
     "effectivelyHolds": 35, "warnings": 9,
 }

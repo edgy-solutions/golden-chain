@@ -1,6 +1,6 @@
 # Plumb-line form: phase 1 (blank)
 
-- For: the architect, who supplies the plumb-line (Q17).
+- For: Chris, who signs every plumb-line sitting (ruling, report 7 Q2a). Q17 had named the architect.
 - Positions are as minted in [data/loci.ttl](../../data/loci.ttl). The draft is [positions-phase1-draft.md](positions-phase1-draft.md).
 - Revised 2026-10-25 after the rulings:
   - locus 33 is split into 33a and 33b (ruling 3);

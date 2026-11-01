@@ -204,6 +204,11 @@
             SELECT $this WHERE { $this dcterms:hasPart ?m .
                                  FILTER NOT EXISTS { ?m dcterms:isPartOf $this } }""" ] .
 
+# Ruling, report 7 Q2a: gc:Editorial has one instance, ever.
+<ontology/shapes#Editorial> a sh:NodeShape ;
+    sh:targetClass gc:Editorial ;
+    sh:pattern "^https://w3id\\.org/golden-chain/body/plumb-line$" .
+
 <ontology/shapes#Holding> a sh:NodeShape ;
     sh:targetClass gc:Holding ;
     sh:pattern "^https://w3id\\.org/golden-chain/holding/[a-z0-9-]+/[a-z0-9-]+/[a-z0-9-]+(/[a-z0-9-]+)?$" ;

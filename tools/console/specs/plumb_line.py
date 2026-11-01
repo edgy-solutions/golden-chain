@@ -1,4 +1,4 @@
-"""Spec builder, instance (ii): the plumb-line grid, loci x positions (the architect).
+"""Spec builder, instance (ii): the plumb-line grid, loci x positions (Chris signs every sitting: ruling, report 7 Q2a).
 
 Usage: python tools/console/specs/plumb_line.py <loci.ttl> <out-spec.json>
 
@@ -102,7 +102,7 @@ def make_spec(ttl):
     instruction = ("The plumb-line: your stance on each Position, and the tier and clarity of each locus "
                    "(ADR-0003 sections 3 to 5a). How the entries are used:\n\n" + "\n\n".join(bullets))
     return {"format": build.SPEC_FORMAT, "kind": "plumb-line", "title": "Plumb-line form: phase 1",
-            "signer": "the architect", "instruction": instruction,
+            "signer": "Chris", "instruction": instruction,
             "sources": [{"path": str(p.resolve()), "sha256": build.sha256_file(p)} for p in (ttl, FORM)],
             "run_header": None, "images": [], "sections": [section(l) for l in loci], "withheld": [],
             "signature": {"fields": ["name", "date"]}}

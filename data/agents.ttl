@@ -13,3 +13,8 @@
 <agent/architect> a gc:Agent ;
     rdfs:label "Architect"@en .
 
+# Ruling, report 7 Q2a: the plumb-line's Body (gc:Editorial, one instance, ever). Its Holdings come
+# only from signed plumb-line sittings (ADR-0006), written to data/plumb-line.ttl.
+<body/plumb-line> a gc:Editorial ;
+    rdfs:label "Plumb-line"@en .
+

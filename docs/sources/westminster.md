@@ -76,7 +76,7 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 - C: Edinburgh, Evan Tyler, 1647. IA `humbleadviceofas00west`, Princeton Theological Seminary scan, 76 images, `NOT_IN_COPYRIGHT`. [V]
 - It is the only 1647 printing with proofs that has been fetched. Whether it is a reprint of the London printing, and whether the two letter their notes identically, is [U].
 - If the London 1647 printing with proofs is found later, it is a **second witness, not a replacement**. Differences between them become findings.
-- Proposed `gc:secondaryLocator`: `"Edinburgh: Evan Tyler, 1647, p. (48)"`, in the same form as the LBC's.
+- Proposed `gc:secondaryLocator`: `"Edinburgh: Evan Tyler, 1647, p. (48)"`, in the same form as the LBC's. Superseded by the ruling on report 7 Q3: the locator uses the IA leaf number (below).
 
 **How the proofs are printed**
 - Lettered marginal notes keyed to clauses. [V from OCR letters only]
@@ -84,7 +84,7 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
   - The note texts cannot be recovered from it (long s, broken sigla). **No string comes from the OCR.**
 - **Where to read them in the scan.** One page per leaf. The page cited is the head **as printed** on that leaf. [V: pixels, 2026-10-25]
   - IA leaf − 8 was proposed from the OCR's page markers (e.g. (39) on leaf 47, (49) on leaf 57). It **fails** on the page images: leaf 23 prints [13], leaf 24 (14), leaf 25 (17); leaf 54 prints (56), leaf 55 (46), leaf 56 (48). The text runs on across 24→25 and 55→56, so the heads are misprinted, not leaves missing. [V: pixels]
-  - Whether a misprinted head is cited as printed or with a correction is open (report 7).
+  - Ruled (report 7 Q3): the head is cited as printed, in `gc:asPrinted`; the locator uses the IA leaf number, which is stable; the note carries "leaf − 8 gives N".
   - The IA viewer counts from 0: leaf n is `archive.org/details/humbleadviceofas00west/page/n{n−1}`. [R]
 
   | Division | IA leaf | Printed page | Basis |
