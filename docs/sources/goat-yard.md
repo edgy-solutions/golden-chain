@@ -173,7 +173,7 @@ The notice was written by A2, and Chris had goat-yard's Lane B session relay it 
 
 | Item | Status |
 |---|---|
-| Pin `substrate-v0` | **Pinned 2026-10-26.** Chris confirmed it on origin: annotated tag `2d695735` → commit `3d0b03e0`. Worktree `../goatyard-substrate-v0`, detached at the tag, clean. Installed with `pip install -e --no-deps`, accepted on report 4 (see Install above). OCR was unheld on 2026-11-01 (see Addition 2) and runs on substrate-v1 once Golden Chain re-pins (ruling on report 9). |
+| Pin `substrate-v1` | **Re-pinned 2026-11-01** (ruling on report 9; the architect's scope: column-split reproduction only, with `ink_box` at v1.1). Worktree `../goatyard-substrate-v1`, detached at tag `substrate-v1` (`841566a` → `301bde5c`), clean; editable install repointed with `pip install -e --no-deps`. Locked `substrate-v1-repin-predictions-locked.txt` (20:51:20Z): V1–V5 held. The three runs (native, 0.703, 6.947) reproduce v0 exactly, and all 60 page PNGs are byte-identical ([gill-column-rule.md](gill-column-rule.md)). OCR runs on v1. Before that, the v0 pin (2026-10-26): Chris confirmed it on origin (annotated tag `2d695735` → `3d0b03e0`), and worktree `../goatyard-substrate-v0` is kept unchanged. |
 | Endpoint allowlist | Golden Chain's own guard (Jena half) is built and tested; the goat-yard `endpoint_guard` is not yet consumed. |
 | Rule 10 | Added to [../RULES.md](../RULES.md). |
 | ADR-0002 revision | Revision 1 **ratified by both architects** (2026-10-25). Status set to Ratified. The future Anchor selector grammar must allow a quoted-phrase selector (rule 10). |

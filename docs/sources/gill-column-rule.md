@@ -439,6 +439,28 @@ Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris si
 - **Refuted if** either slab shows full-measure text on both sides of the gutter across all its rows.
 - **How it is checked:** neither page is among the signing strips. After the empty-strips sitting, two raw-pixel crops (no threshold; the slab drawn as an overlay) go to Chris in a console of their own.
 
+## Re-pin to substrate-v1 (2026-11-01, ruling on report 9)
+
+- **What.** `tools/gy_locate_column_rule.py` now pins `substrate-v1` (tag object `841566a`, commit `301bde5c`), from the worktree `../goatyard-substrate-v1`. The re-pin is committed at `e4b1435`. Per the architect, v1 is used only to reproduce the column split; `ink_box` waits for v1.1 and its helper. The v0 worktree is kept, unchanged.
+- **Lock.** `~/.golden-chain/substrate-v1-repin-predictions-locked.txt` (2026-11-01T20:51:20Z), with the baselines measured before locking. **V1–V5 held.**
+- **Runs.** Three runs, each clean at `e4b1435`, pp. 896–915. Results:
+  - `gy-locate-column-rule-v1-native-2026-11-01/`;
+  - `gy-locate-column-rule-v1-scale8.2963-2026-11-01/` (the 0.703 frame);
+  - `gy-locate-column-rule-v1-scale6.947-2026-11-01/`.
+- **Each run reproduces its v0 run of record exactly:**
+  - every page record is identical (for native: geometry, split and strip fractions; the v0 native run predates `line_h`);
+  - 20/20 ok, with max residuals 13.3, 9.8 and 6.7 px;
+  - the line-height summaries are identical at 0.703 and 6.947;
+  - all 60 page PNGs are byte-identical.
+- **Header differences are only the predicted ones:**
+  - utc, the script sha, prediction text and golden-chain git;
+  - the goat-yard tag, commit and `verse_regions.py` sha (`a9149f71…`);
+  - `geometry_config` git_head and hash;
+  - for native only, the keys the tool gained after `aa57288b`.
+- **New, not predicted:** the v1 native run is the first native run with `line_h`. The native page line height has median 90 px, range 81–98 (ratio 1.636 to 55), in the 5100-px frame. Nothing depends on it.
+- **Slip, mine:** my first comparison script hashed the PNG list with two spaces before each name. Git Bash's `sha256sum`, which made the locked hashes, writes ` *name`, so the hashes first disagreed. A byte comparison (`cmp`, 0 of 60 differ) and the locked method both match. This was my error in the check, not a difference in the data.
+- **Consequence:** the strips Chris signed (cut from the v0 6.947 run) rest on the same numbers under v1. OCR may begin on v1 (ruling on report 9).
+
 ## Sign-off (architect, from pixels)
 
 - Gutter strips for pp. 896–915: band x ∈ [0.35 W, 0.65 W], full height, scaled 1:2, local viewing only. They are not in git: `C:\Users\cnogr\.golden-chain\column-rule-2026-10-25\strips\gutter-p{896..915}.png`.
