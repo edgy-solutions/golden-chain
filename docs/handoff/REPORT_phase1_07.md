@@ -69,6 +69,8 @@ Tests: 301 pass with `GOLDEN_CHAIN_BIBLES` set (300 and 1 skip without it). Inge
 
 ## Questions
 
+*Answered: Q2–Q11 were ruled by the architect (written 2026-10-26, received 2026-11-01) and applied in [report 8](REPORT_phase1_08.md).*
+
 1. **Item 1.** Please resend it (above). *Answered 2026-10-26: deleted; nothing to fix.*
 2. **ADR-0006.** Ratify, change or reject. Two points are open in the ADR:
    - (a) **Plumb-line Holdings need a `dcterms:source`** of class `gc:SourceDivision`. Proposed: one SourceDivision per signed sitting, `B source/plumb-line/sitting-<build16>`, identified by the export's sha256. Also, `B body/plumb-line` is not minted. Until you rule, the plumb-line writer writes nothing to `data/`.

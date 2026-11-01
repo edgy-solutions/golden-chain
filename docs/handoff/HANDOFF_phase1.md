@@ -1,13 +1,14 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
-- Latest report: [REPORT_phase1_07.md](REPORT_phase1_07.md). It has eleven questions for the architect; Q1 is answered (item 1 of the reply to report 6 was deleted 2026-10-26: "the strips were correct and Chris was reading them before the legend; nothing to fix").
-- Waiting on Chris, in the signing consoles (ADR-0006, proposed), under `~/.golden-chain/console/<kind>/`:
-  - empty strips, build `88d902a181ba64c1` ([SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md); 6.947 frame, clean run, raw pixels with overlay): gates OCR and the A2 fixture. No model views these strips;
-  - WCF 1647 proofs, build `24f26ea83e4d6bc2` ([READING_wcf1647_proofs.md](READING_wcf1647_proofs.md); strings proposed by the build agent from the PD leaves): gates the Q16 `gc:asPrinted` strings.
-- Waiting on the architect: ADR-0006 ratification, then the plumb-line sitting (build `e61e4575347277b6`; writes nothing to `data/` until open point 1 is ruled).
+- Latest report: [REPORT_phase1_08.md](REPORT_phase1_08.md): the report 7 rulings (Q1–Q11) applied; five questions, none blocking Chris's next sitting. Report 7's questions are all answered.
+- Waiting on Chris, in the signing consoles (ADR-0006, ratified provisionally), under `~/.golden-chain/console/<kind>/`, in the architect's order:
+  1. empty strips, build `88d902a181ba64c1` ([SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md); 6.947 frame, clean run, raw pixels with overlay): gates OCR, the A2 fixture and the Q11 crops console. No model views these strips;
+  2. WCF 1647 proofs, build `318910c8f421e2e9` (replaces `24f26ea83e4d6bc2`; adds 28.4 note l and notes n–q; [READING_wcf1647_proofs.md](READING_wcf1647_proofs.md)): gates the Q16 `gc:asPrinted` strings and the Argument split;
+  3. plumb-line, build `0cffbb14753c1fa2` (replaces `e61e4575347277b6`; signer Chris). Writes to `data/plumb-line.ttl` only after report 8 Q1 (who is `gc:ratifiedBy`).
+- Then: the ADR ratification cards.
 - Console CLIs: `tools/console/specs/<kind>.py <input> <spec.json>`, then `tools/console/build.py <spec.json> --out-dir DIR` (DIR must exist), then `tools/console/ingest.py <verdicts.json> <manifest.json> [--write]`. Build from a clean tree, or the build is provisional.
-- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 301 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
+- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 302 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
 
 ## How to rebuild and check
 
@@ -26,6 +27,7 @@
 - Rulings on reports 3–5 and ADR-0002 Revision 1 (ratified by both architects; the date convention is at the top of `docs/RULES.md`) applied (report 6). Held: report 4 Q6 (the Gill provenance wording; report 6, Q5).
 - Reply to report 6 (frame, last strip, signing strips, console): applied in report 7. Item 1 deleted by the architect (2026-10-26); "Everything else in that block stands, with the console first."
 - w3id PR #6977 merged 2026-10-26 (merge commit `8b89818`); the IRI base is live ([../identity.md](../identity.md)). No data change.
+- Report 7 rulings (written 2026-10-26, received 2026-11-01), applied in report 8: ADR-0006 ratified provisionally; `body/plumb-line` minted as `gc:Editorial` (one instance, ever, enforced by a shape); Chris signs every plumb-line sitting; WCF page heads as printed, locator = IA leaf, note "leaf − 8 gives N"; spacing convention; 7.6 printed order; "Gal 3.91,4" as printed with Gal 3:9, 3:14 proposed; 28.1 note a is phase 2; local dates from commit `cc32fb0` (RULES.md).
 - Bible text: none stored or fetched. The USFM Bibles are read by `GOLDEN_CHAIN_BIBLES` only ([../sources/bibles-usfm.md](../sources/bibles-usfm.md)). ADR-0004 will name the USFM KJV as the display text source.
 
 ## goat-yard (lane G)
