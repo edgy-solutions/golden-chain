@@ -1,20 +1,20 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed 2026-10-26 on the architect's instruction.
-- Latest report: [REPORT_phase1_08.md](REPORT_phase1_08.md): the report 7 rulings (Q1–Q11) applied; five questions, none blocking Chris's next sitting. Report 7's questions are all answered.
+- Latest report: [REPORT_phase1_09.md](REPORT_phase1_09.md): the report 8 rulings applied, except the head in `gc:asPrinted` (Q4), the clause (Q3) and the console fix, which are held; six questions. Question 1 (has Chris opened the empty-strips console?) decides whether the empty strips are rebuilt.
 - **Signed 2026-11-01: WCF 1647 proofs**, build `318910c8f421e2e9`, by Chris: [SIGNED_wcf1647_318910c8f421e2e9.md](SIGNED_wcf1647_318910c8f421e2e9.md). Signed ahead of the empty strips, out of the architect's order; nothing depends on that order.
   - Recorded against `~/.golden-chain/wcf-signed-318910c8-predictions-locked.txt` (17:32:49Z); W1–W4 held. Export, signed JSON and the superseded `24f26ea83e4d6bc2` export are kept read-only beside the manifest.
   - 26 rows: 59 fields confirmed, 1 corrected (28.4 note l: `l Mark 16. 15, 16 Acts 8.37, 38.`; I had proposed `Act;`).
   - Rows l–p were checked by Chris against the whole IA leaf 57, not the console crop: the image box scrolls sideways and, at his window width, hid the right end of the margin notes. The crop files hold the whole margin.
   - Chris's notes: leaf 54's head (56) is a misprint for 46 (agrees with leaf − 8); the 1647 clause text reads "not necessary: but" (28.3), "annexed unto it, as that no person" (28.5 o), "or, that all…" (28.5 p), "moment of time, wherein" (28.6 q); "Gal 3.91,4" is likely 3.9, 14 (agrees with the ruling). On the superseded build only, unsigned: "v skipped on 38".
-  - Findings for the next report: (a) the console should fit each image to the window by default; (b) the signed form renders an unanswered optional text field as "unknown" (e.g. "If it differs, say how: unknown"), which reads like an answer.
-  - Next: write `gc:asPrinted` and split the Arguments for the 21 rows ruled in report 7; notes l and n–q wait on report 8 Q2–Q4.
+  - Findings, accepted on report 8: (a) fit each image to the window, with a zoom control: **held** until report 9 Q1, because a template change breaks `code_sha` for the two unsigned builds; (b) "not answered", not "unknown": done in `d476a43`.
+  - Recorded in `8ab5c87` (`report8-wcf-ttl-predictions-locked.txt`, 17:57:38Z; T1–T5 held): 20 WCF Arguments, one per signed note; Argument 54, Passage 100. Held: the head, the "leaf − 8" note, the n clause (report 9 Q2–Q3).
 - Waiting on Chris, in the signing consoles (ADR-0006, ratified provisionally), under `~/.golden-chain/console/<kind>/`:
   1. empty strips, build `88d902a181ba64c1` ([SIGNOFF_empty_strips.md](SIGNOFF_empty_strips.md); 6.947 frame, clean run, raw pixels with overlay): gates OCR, the A2 fixture and the Q11 crops console. No model views these strips;
-  2. plumb-line, build `0cffbb14753c1fa2` (replaces `e61e4575347277b6`; signer Chris). Writes to `data/plumb-line.ttl` only after report 8 Q1 (who is `gc:ratifiedBy`).
+  2. plumb-line, build `0cffbb14753c1fa2` (replaces `e61e4575347277b6`; signer Chris). The writer is unblocked (report 8 Q1, `d476a43`): `gc:ratifiedBy agent/chris`, `dcterms:dateAccepted` = signature date.
 - Then: the ADR ratification cards.
 - Console CLIs: `tools/console/specs/<kind>.py <input> <spec.json>`, then `tools/console/build.py <spec.json> --out-dir DIR` (DIR must exist), then `tools/console/ingest.py <verdicts.json> <manifest.json> [--write]`. Build from a clean tree, or the build is provisional.
-- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 302 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
+- State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 307 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
 
 ## How to rebuild and check
 
