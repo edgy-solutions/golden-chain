@@ -24,8 +24,11 @@
 # Holding: Argument/supports 44 -> 45, locked 2026-10-26T01:17:01Z; matched.
 # Ruling Q2a on report 7: body/plumb-line minted as gc:Editorial: Body 7 -> 8, all else unchanged,
 # locked 2026-11-01T15:37:19Z.
+# WCF sitting 318910c8 with report 8 Q2-Q4: one Argument per signed lettered note (28.1 b, e, f, g;
+# 28.4 l; 28.5 n, o, p; 28.6 q): Argument/supports 45 -> 54, Passage 86 -> 100 (14 new refs), all else
+# unchanged, locked 2026-11-01T17:57:38Z.
 PREDICTED = {
-    "Locus": 9, "Position": 15, "Argument": 45, "Passage": 86, "Body": 8, "Holding": 34,
-    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 45, "childOf": 1,
+    "Locus": 9, "Position": 15, "Argument": 54, "Passage": 100, "Body": 8, "Holding": 34,
+    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 54, "childOf": 1,
     "effectivelyHolds": 35, "warnings": 9,
 }

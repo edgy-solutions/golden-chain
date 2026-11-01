@@ -106,6 +106,11 @@ The phase-1 WCF Arguments cite Passages taken from Schaff's English proof appara
 - Some current Arguments group proofs that Schaff prints under different clauses. For example, `28/1/002` cites both the ingrafting note (Gal 3:27; Rom 6:5) and the newness-of-life note (Rom 6:3, 4). Under the rule those split.
 - Argument counts are predicted once the letters are known.
 - **Three 28.1 clauses not yet cited** (ruling on report 5, Q8): admission (1 Cor 12:13), regeneration (Tit 3:5) and remission (Mark 1:4). Once their letters are read and signed, each lettered note becomes an Argument supporting WCF's composite 33a Position, `union-with-christ`. They are on the reading form.
+
+**Recorded 2026-11-01**, from Chris's signed sitting `318910c8f421e2e9` ([../handoff/SIGNED_wcf1647_318910c8f421e2e9.md](../handoff/SIGNED_wcf1647_318910c8f421e2e9.md)), under report 8 Q2–Q4. This supersedes "Not yet recorded" above.
+- 20 WCF Arguments, one per lettered note. Each Argument's only `gc:asPrinted` is the signed string, and its `gc:secondaryLocator` is "IA humbleadviceofas00west leaf N". The edition is stated once, on `source/wcf`.
+- `28/1/002` keeps note d; note g is `28/1/007`. Notes b, e and f are `28/1/004`–`006` (33a). Note l is `28/4/002`. Notes n, o and p are `28/5/001`–`003`, and note q is `28/6/002` (33b). `source/wcf/28/5` is minted.
+- Held for the architect (report 9): the head as printed (in `gc:asPrinted`, as Q4 has it, the head would sit beside the lettered note, against the one-`asPrinted` rule above); the "leaf − 8 gives N" note; the 28.5 clause for note n (Q3).
 - **Who proposes, who signs** (ruling on report 3, Q1): the ruling asks the build agent to propose letters and strings from the IA images, and Chris to sign each row. Settled by the ruling on report 6, Q4: Golden Chain's rule is that public-domain page images may be viewed by the build agent for proposing. goat-yard's no-hosted-model law governs goat-yard crops, not these. Signing from pixels remains Chris's. Each row records who proposed it and who signed it.
 
 ## Phase-1 divisions
