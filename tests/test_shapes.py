@@ -235,6 +235,20 @@ def test_editorial_has_one_instance_ever():
     assert not fails_on(g, pl) and fails_on(g, other)
 
 
+@pytest.mark.parametrize("ratifier, ok", [("agent/chris", True), ("agent/architect", False)])
+def test_plumb_line_holding_is_ratified_by_chris(ratifier, ok):
+    """Ruling, report 8 Q1: Chris ratifies plumb-line Holdings; the architect never a doctrinal one."""
+    g = add(minimal(), f"""
+<agent/chris> a gc:Agent .
+<body/plumb-line> a gc:Editorial ; rdfs:label "Plumb-line" ; gc:holds <holding/plumb-line/baptism/immersion> .
+<holding/plumb-line/baptism/immersion> a gc:Holding ; gc:position <position/baptism/immersion> ;
+    gc:modality <vocab/modality/taught> ; dcterms:source <source/gill/ch1> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build> ;
+    gc:ratifiedBy <{ratifier}> ; dcterms:dateAccepted "2026-11-01"^^xsd:date .
+""")
+    assert fails_on(g, U("holding/plumb-line/baptism/immersion")) is not ok
+
+
 def test_is_part_of_without_has_part_fails():
     g = minimal()
     boc = collection(g)

@@ -211,6 +211,31 @@ def test_plumb_line_ttl_writer(plumb):
     assert str(g.value(src, DCTERMS.identifier)) == rec["export_sha256"]
     text = ttl.read_text(encoding="utf-8")
     assert text.startswith("@base <https://w3id.org/golden-chain/> .") and "baptism-efficacy.sign-only" in text
+    for s in (h, src):  # ruling, report 8 Q1
+        assert (s, GC.proposedBy, b("agent/build-agent")) in g and (s, GC.ratifiedBy, b("agent/chris")) in g
+    assert str(g.value(h, DCTERMS.dateAccepted)) == "2026-10-26"  # the signature date
+    assert (src, DCTERMS.isPartOf, b("source/plumb-line")) in g
+
+
+def test_plumb_line_ttl_conforms_with_the_real_data(plumb):
+    """The writer's output, loaded beside data/*.ttl as graph/plumb-line, has no SHACL violation."""
+    from goldenchain import ingest as gi
+
+    tmp, made, man, spec = plumb
+    d = tmp / "data"
+    d.mkdir()
+    for f in (ROOT / "data").glob("*.ttl"):
+        (d / f.name).write_bytes(f.read_bytes())
+    sign(tmp, made, man, spec, modalities, write=True, ttl_out=d / "plumb-line.ttl")
+    violations, _ = gi.shacl_report(gi.union(gi.load_dataset(d)))
+    assert violations == []
+
+
+def test_plumb_line_ttl_refuses_a_signature_date_that_is_not_iso(plumb):
+    tmp, made, man, spec = plumb
+    with pytest.raises(Fail, match="signature date"):
+        sign(tmp, made, man, spec, lambda ex: ex["signature"].update(date="1 Nov 2026"),
+             write=True, ttl_out=tmp / "x.ttl")
 
 
 def test_plumb_line_refuses_data_while_adr_proposed(plumb, monkeypatch):

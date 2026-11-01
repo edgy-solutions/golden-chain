@@ -353,3 +353,8 @@ def test_write_addressed_digest_check_removes_tmp(tmp_path, monkeypatch):
     with pytest.raises(Fail, match="digest"):
         build.write_addressed(tmp_path / "x.json", b"abc")
     assert not list(tmp_path.iterdir())
+
+
+def test_render_answer_never_says_unknown_for_a_blank():
+    """Finding (b), WCF sitting 318910c8, accepted on report 8: a blank optional field is not "unknown"."""
+    assert ingest.render_answer(None) == "not answered"

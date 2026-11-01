@@ -193,7 +193,7 @@ def cell(s):
 
 def render_answer(v):
     if v is None:
-        return "unknown"
+        return "not answered"
     if isinstance(v, list):
         return ", ".join(v) if v else "(none ticked)"
     if isinstance(v, dict) and "page_row" in v:
@@ -244,9 +244,15 @@ def choice(v, allowed, what):
 
 
 def plumb_ttl(signed):
-    """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting."""
+    """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting.
+    Ruling, report 8 Q1: proposed by the build agent, ratified by Chris on the signature date."""
     lines, loci, holds, holdings, skipped = [], [], [], [], []
     src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
+    day = str(signed["signature"].get("date") or "")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
+        raise Fail(f"plumb-line: signature date {day!r} is not YYYY-MM-DD")
+    status = (f"gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;\n"
+              f'    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "{day}"^^xsd:date .')
     for r in signed["rows"]:
         vals = {f["id"]: f["value"] for f in r["fields"]}
         if r["state"] != "verdict":
@@ -268,14 +274,12 @@ def plumb_ttl(signed):
         h = f"holding/plumb-line/{locus}/{pos}"
         holds.append(f"<body/plumb-line> gc:holds <{h}> .")
         holdings.append(f"<{h}> a gc:Holding ; gc:position <position/{locus}/{pos}> ;\n"
-                        f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n"
-                        f"    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/architect> ; "
-                        f"gc:ratifiedBy <agent/architect> .")
+                        f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n    " + status)
     lines += [LOCI_HEADER, "# Plumb-line sitting " + signed["build_hash"][:16] + " (ADR-0006 open point 1, ruled report 7 Q2a)."]
     lines.append("# abstain/fault rows, nothing written: " + (", ".join(skipped) if skipped else "none"))
     lines += [""] + loci + [""] + holds + [""] + holdings + [""]
-    lines.append(f'<{src}> a gc:SourceDivision ; dcterms:identifier "{signed["export_sha256"]}" ;\n'
-                 f"    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/architect> ; gc:ratifiedBy <agent/architect> .")
+    lines.append(f'<{src}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
+                 f'    dcterms:identifier "{signed["export_sha256"]}" ;\n    ' + status)
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 

@@ -40,7 +40,7 @@
 
 - Terms, additions and responses are verbatim in [../sources/goat-yard.md](../sources/goat-yard.md).
 - Pinned: worktree `../goatyard-substrate-v0` at tag `substrate-v0` (3d0b03e0), installed with `pip install -e --no-deps`. Tool: `tools/gy_locate_column_rule.py`.
-- `locate_column_rule` (2026-10-26). The native run PASSES goat-yard's criteria, 20/20, but was "made at the wrong scale"; its "every strip" clause is FALSIFIED and is never edited. Reruns at 7.2 and at the architect's 0.703 frame both pass 20/20, and were rerun **clean** at `d32f888`. **The line-height-matched frame governs** (ruling on report 6): scale 6.947, median 55, clean at `6a7c5d1`, L1–L6 held. The strips to sign are cut from it.
+- `locate_column_rule` (2026-10-26, UTC). The native run PASSES goat-yard's criteria, 20/20, but was "made at the wrong scale"; its "every strip" clause is FALSIFIED and is never edited. Reruns at 7.2 and at the architect's 0.703 frame both pass 20/20, and were rerun **clean** at `d32f888`. **The line-height-matched frame governs** (ruling on report 6): scale 6.947, median 55, clean at `6a7c5d1`, L1–L6 held. The strips to sign are cut from it.
 - Run headers record golden-chain `git_start` / `git_end` / `clean_run`. A run is citable only if it is clean: commit first, then run.
 - **OCR is HELD** until Chris signs the 6.947 strips, with the outcome as in the form. The A2 fixture waits for the same (report 5, Q4).
 - Addition 1: any 1766 Exposition page is cited by goat-yard FILE page number with the line "printed = file − 88". None cited yet.

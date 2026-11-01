@@ -18,3 +18,12 @@
 <body/plumb-line> a gc:Editorial ;
     rdfs:label "Plumb-line"@en .
 
+
+# Ruling, report 8 Q1: Chris ratifies every plumb-line sitting (its SourceDivision and Holdings).
+# The architect ratifies ADRs, schema and data rulings, never a doctrinal Holding.
+<agent/chris> a gc:Agent ;
+    rdfs:label "Chris"@en .
+
+# The work each signed plumb-line sitting (source/plumb-line/sitting-<build16>, ADR-0006) is part of.
+<source/plumb-line> a gc:SourceWork ;
+    rdfs:label "Plumb-line sittings (signed, ADR-0006)"@en .

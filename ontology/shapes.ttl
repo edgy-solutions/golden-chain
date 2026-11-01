@@ -84,8 +84,8 @@
     sh:property [ sh:path gc:status ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( <vocab/status/proposed> <vocab/status/ratified> ) ] ;
     sh:property [ sh:path gc:proposedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Agent ] ;
-    # Only the architect ratifies.
-    sh:property [ sh:path gc:ratifiedBy ; sh:maxCount 1 ; sh:in ( <agent/architect> ) ] ;
+    # Only the architect or Chris ratifies (Chris: plumb-line sittings, ruling report 8 Q1).
+    sh:property [ sh:path gc:ratifiedBy ; sh:maxCount 1 ; sh:in ( <agent/architect> <agent/chris> ) ] ;
     sh:property [ sh:path dcterms:dateAccepted ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
     sh:xone (
         [ sh:property [ sh:path gc:status ; sh:hasValue <vocab/status/proposed> ] ;
@@ -208,6 +208,18 @@
 <ontology/shapes#Editorial> a sh:NodeShape ;
     sh:targetClass gc:Editorial ;
     sh:pattern "^https://w3id\\.org/golden-chain/body/plumb-line$" .
+
+# Ruling, report 8 Q1: a plumb-line Holding is ratified by Chris, who signs every plumb-line sitting.
+<ontology/shapes#PlumbLineHolding> a sh:NodeShape ;
+    sh:targetClass gc:Holding ;
+    sh:sparql [
+        sh:message "Ruling, report 8 Q1: a Holding of body/plumb-line must have gc:ratifiedBy agent/chris." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                <https://w3id.org/golden-chain/body/plumb-line> gc:holds $this .
+                FILTER NOT EXISTS { $this gc:ratifiedBy <https://w3id.org/golden-chain/agent/chris> }
+            }""" ] .
 
 <ontology/shapes#Holding> a sh:NodeShape ;
     sh:targetClass gc:Holding ;
