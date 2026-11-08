@@ -9,3 +9,8 @@ We checked the substrate-v1 notice against the tag from our side. It is accurate
 **Withdrawn:** an earlier draft of this note asked whether the tag was cut on rerun 8 or rerun 9. goat-yard showed that both labels are correct. The commit subject names the design lock ("rerun-8 lock"), and the annotated tag names the validating run (rerun 9, lock `b213cb9d`). There is no re-cut.
 
 **What Golden Chain does next.** We re-pin to `substrate-v1` as a locked step, and use it only to reproduce the column split. `ink_box` waits for v1.1. The prediction: our three `locate_column_rule` runs (native, 0.703 and 6.947) reproduce the v0 numbers exactly, because the code they use is unchanged between `3d0b03e0` and `301bde5`. Any difference is a finding first. We report the result to you either way.
+
+Re-pin result: hit. All three runs (native, 0.703, 6.947) reproduce
+v0 exactly on substrate-v1; 60 page images byte-identical; run
+headers differ only where predicted. OCR proceeds on v1. ink_box
+untouched until v1.1.
