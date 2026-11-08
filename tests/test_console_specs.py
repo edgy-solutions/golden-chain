@@ -217,6 +217,43 @@ def test_plumb_line_ttl_writer(plumb):
     assert (src, DCTERMS.isPartOf, b("source/plumb-line")) in g
 
 
+def silence(ex):  # the 2026-11-08 sitting: one modality left empty, so console v2 exports complete false
+    ex["rows"]["johns-baptism.same-ordinance"]["values"]["modality"] = None
+    ex["complete"] = False
+
+
+def test_plumb_line_null_modality_is_silence(plumb):
+    """Ruling, dispatch 2026-11-08 §1: a modality left empty is deliberate silence, a complete verdict."""
+    tmp, made, man, spec = plumb
+    ttl = tmp / "pl.ttl"
+    sign(tmp, made, man, spec, silence, write=True, ttl_out=ttl)
+    g = Graph()
+    g.parse(ttl, format="turtle")
+    assert len(set(g.subjects(RDF.type, GC.Holding))) == 15 - 1
+    assert URIRef(BASE + "holding/plumb-line/johns-baptism/same-ordinance") not in set(g.subjects())
+    assert "read as silent (dispatch 2026-11-08 §1), nothing written: johns-baptism.same-ordinance\n" \
+        in ttl.read_text(encoding="utf-8")
+
+
+def test_plumb_line_silence_does_not_excuse_another_gap(plumb):
+    tmp, made, man, spec = plumb
+    with pytest.raises(Fail, match="row johns-baptism.locus: required field tier is unanswered"):
+        sign(tmp, made, man, spec, lambda ex: (silence(ex), ex["rows"]["johns-baptism.locus"]["values"]
+                                               .update(tier=None)), write=True, ttl_out=tmp / "x.ttl")
+    with pytest.raises(Fail, match="export is not complete"):
+        sign(tmp, made, man, spec, lambda ex: ex.update(complete=False), write=True, ttl_out=tmp / "x.ttl")
+    assert not (tmp / "signed").exists() and not (tmp / "x.ttl").exists()
+
+
+def test_null_modality_is_silence_on_the_plumb_line_only(plumb):
+    tmp, made, man, spec = plumb
+    ex = tc.make_export(spec, man)
+    silence(ex)
+    with pytest.raises(Fail, match="export is not complete"):
+        ingest.check_complete(dict(spec, kind="wcf1647"), ex)
+    ingest.check_complete(spec, ex)
+
+
 def test_plumb_line_ttl_conforms_with_the_real_data(plumb):
     """The writer's output, loaded beside data/*.ttl as graph/plumb-line, has no SHACL violation."""
     from goldenchain import ingest as gi
@@ -225,7 +262,8 @@ def test_plumb_line_ttl_conforms_with_the_real_data(plumb):
     d = tmp / "data"
     d.mkdir()
     for f in (ROOT / "data").glob("*.ttl"):
-        (d / f.name).write_bytes(f.read_bytes())
+        if f.name != "plumb-line.ttl":  # the signed sitting; this test's own sitting stands in for it
+            (d / f.name).write_bytes(f.read_bytes())
     sign(tmp, made, man, spec, modalities, write=True, ttl_out=d / "plumb-line.ttl")
     violations, _ = gi.shacl_report(gi.union(gi.load_dataset(d)))
     assert violations == []
@@ -360,7 +398,8 @@ def test_plumb_ttl_writes_nothing_for_other_as_written(plumb):
     d = tmp / "data"
     d.mkdir()
     for f in (ROOT / "data").glob("*.ttl"):
-        (d / f.name).write_bytes(f.read_bytes())
+        if f.name != "plumb-line.ttl":  # the signed sitting; this test's own sitting stands in for it
+            (d / f.name).write_bytes(f.read_bytes())
     ttl = d / "plumb-line.ttl"
     sign(tmp, made, man, spec, mutate, write=True, ttl_out=ttl)
     g = Graph()

@@ -27,8 +27,11 @@
 # WCF sitting 318910c8 with report 8 Q2-Q4: one Argument per signed lettered note (28.1 b, e, f, g;
 # 28.4 l; 28.5 n, o, p; 28.6 q): Argument/supports 45 -> 54, Passage 86 -> 100 (14 new refs), all else
 # unchanged, locked 2026-11-01T17:57:38Z.
+# Plumb-line sitting 7b23646b signed 2026-11-08 (dispatch §1): data/plumb-line.ttl, 13 Holdings and a tier
+# on all nine loci: Holding/holds 34 -> 47, effectivelyHolds 35 -> 48, warnings 9 -> 0, all else
+# unchanged, locked 2026-11-08T20:32:20Z.
 PREDICTED = {
-    "Locus": 9, "Position": 15, "Argument": 54, "Passage": 100, "Body": 8, "Holding": 34,
-    "excludes": 5, "entails": 1, "holds": 34, "answers": 15, "supports": 54, "childOf": 1,
-    "effectivelyHolds": 35, "warnings": 9,
+    "Locus": 9, "Position": 15, "Argument": 54, "Passage": 100, "Body": 8, "Holding": 47,
+    "excludes": 5, "entails": 1, "holds": 47, "answers": 15, "supports": 54, "childOf": 1,
+    "effectivelyHolds": 48, "warnings": 0,
 }

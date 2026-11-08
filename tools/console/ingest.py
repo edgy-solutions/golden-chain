@@ -8,7 +8,8 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   1. formats; kinds agree
   2. recomputation from the files: the spec copy next to the manifest (spec_<kind>_<build16>.json),
      the CURRENT build.py + template.html, and every image file, against the manifest and the export
-  3. export.complete is true and the spec's required fields are answered (rechecked here)
+  3. export.complete is true and the spec's required fields are answered (rechecked here); on the
+     plumb-line a modality left empty is silence, a complete verdict (dispatch 2026-11-08 §1)
   4. no abstain/fault row holds a value
   5. signature name and date
   6. manifest.provisional is false, unless --provisional
@@ -159,14 +160,27 @@ def check_rows(spec, ex):
             raise Fail(f"row {r['id']}: unknown state {got[r['id']].get('state')!r}")
 
 
+def silent_rows(spec, ex):
+    """Plumb-line verdict rows whose modality was left empty. Ruling, dispatch 2026-11-08 §1: that is
+    deliberate silence and a complete verdict (console v2 wrongly reports the export incomplete)."""
+    if spec["kind"] != "plumb-line":
+        return []
+    return [r["id"] for _, r in spec_rows(spec) if ex["rows"][r["id"]]["state"] == "verdict"
+            and any(f["id"] == "modality" for f in r["fields"])
+            and (ex["rows"][r["id"]].get("values") or {}).get("modality") is None]
+
+
 def check_complete(spec, ex):
-    if ex.get("complete") is not True:
+    silent = set(silent_rows(spec, ex))
+    if ex.get("complete") is not True and not silent:
         raise Fail("export is not complete")
     for _, r in spec_rows(spec):
         row = ex["rows"][r["id"]]
         if row["state"] != "verdict":
             continue
         for f in r["fields"]:
+            if r["id"] in silent and f["id"] == "modality":
+                continue
             if f.get("required", True) and not answered(f, (row.get("values") or {}).get(f["id"])):
                 raise Fail(f"row {r['id']}: required field {f['id']} is unanswered")
 
@@ -264,7 +278,7 @@ def choice(v, allowed, what):
 def plumb_ttl(signed):
     """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting.
     Ruling, report 8 Q1: proposed by the build agent, ratified by Chris on the signature date."""
-    lines, loci, holds, holdings, skipped, others = [], [], [], [], [], []
+    lines, loci, holds, holdings, skipped, others, silent = [], [], [], [], [], [], []
     src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
     day = str(signed["signature"].get("date") or "")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
@@ -295,6 +309,8 @@ def plumb_ttl(signed):
             others.append(f"{r['row_id']}.modality")
             continue
         if m is None or m == "silent":
+            if m is None:
+                silent.append(r["row_id"])
             continue
         choice(m, MODALITIES, "modality")
         h = f"holding/plumb-line/{locus}/{pos}"
@@ -305,6 +321,8 @@ def plumb_ttl(signed):
     lines.append("# abstain/fault rows, nothing written: " + (", ".join(skipped) if skipped else "none"))
     lines.append("# other, as written, nothing written (the architect rules): "
                  + ("; ".join(others) if others else "none"))
+    lines.append("# modality left empty, read as silent (dispatch 2026-11-08 §1), nothing written: "
+                 + (", ".join(silent) if silent else "none"))
     lines += [""] + loci + [""] + holds + [""] + holdings + [""]
     lines.append(f'<{src}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
                  f'    dcterms:identifier "{signed["export_sha256"]}" ;\n    ' + status)
