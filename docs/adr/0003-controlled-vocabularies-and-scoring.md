@@ -1,6 +1,6 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled
+- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled; Revision 2 (2026-11-08) proposed
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -268,3 +268,138 @@ on {required, taught}², and entails on P ∈ {required, taught} with Q forbidde
        Body that has the two parents, not its descendants.
    - IRI: `B inconsistency/{body}/parents-differ/{locus}`. `gc:involves`
      names the differing Positions.
+
+## Revision 2 (2026-11-08; proposed, not ratified)
+
+Drafted by the build agent from the architect's dispatch of 2026-11-08, §§2, 3, 4 and 8, together with the §4 addendum and the revised §4 test cases relayed the same day ([../handoff/DISPATCH_architect_2026-11-08.md](../handoff/DISPATCH_architect_2026-11-08.md)). Nothing in it is built until it is ratified (rule 5). Text quoted from the dispatch is verbatim. Everything else is the build agent's proposal, and each choice the architect has not already made is listed under R2.6.
+
+### R2.1 Tier semantics (replaces the definitions in §3)
+
+Who asserts tier is unchanged: one `gc:tier` per Locus, only in `data/plumb-line.ttl`. The definitions in §3 ("bears on the gospel itself", and so on) are replaced by the plumb-line's own, which also go into the console help (ADR-0006):
+
+> - first:  disagreement means one party is not a Christian. Chris's test: salvation by works, or no profession at all.
+> - second: both Christians, but fellowship in one church is broken.
+> - third:  both Christians, difference forbearable within one church.
+>
+> Tier measures where disagreement separates PEOPLE. It is not importance, and it is not modality: a third-tier locus can still be a wall if a body requires what the user forbids.
+
+The weigh arithmetic in §5 is unchanged. In particular, walls are found on every tier, third included, as §5 already says ("whatever the tier").
+
+### R2.2 Modality semantics for the plumb-line (console help text)
+
+> - required:  a church must hold this for Chris to be a member; a condition of membership or office.
+> - taught:    held as true and taught; not by itself a condition of membership. Scores as obligatory, same as required; the difference is what the site says.
+> - tolerated: not held, but Chris could belong to a church that holds it.
+> - forbidden: sin or error such that Chris cannot participate or sit under it. The wall.
+> - silent:    no stance; contributes nothing to scoring; pairs with clarity open but is independent of it.
+
+How this fits what is already ratified:
+
+- **These are the plumb-line's answers, in the first person.** §1's table still defines Body modality by what a Body's source commits it to. The four concepts are the same `B vocab/modality/` concepts. §5a's mapping (required and taught → obligatory) is unchanged, and the "taught" line above restates it.
+- **Silent writes nothing.** On a Body, silence is not a modality and no Holding is written (§1). The same holds on the plumb-line: a silent row writes no Holding. In §5 the plumb-line, read as the user, then has no stance on that Position, so it "contributes nothing to scoring" by construction. It is not the Body-side `silent` column of §5, which means *unknown*.
+- **Silent is independent of clarity.** A silent Position may sit on a settled or contested Locus. An open Locus scores 0 by `clarityW` whatever its Positions say.
+- **Silent is a complete verdict.** The console must export it as complete (the console v2 defect; [../handoff/SIGNED_plumb_line_7b23646b2c763ae0.md](../handoff/SIGNED_plumb_line_7b23646b2c763ae0.md)).
+
+### R2.3 `unchurches`: a category, not a score
+
+Two separations had been conflated under tier. "Not a Christian" is about persons: that is tier first. "Not a church" is about bodies: that is this flag.
+
+**Vocabulary and assertion.** `gc:unchurches` is a per-Position boolean, set only by `body/plumb-line`. Proposed form:
+
+- an `owl:DatatypeProperty` with domain `gc:Position`;
+- asserted only in the plumb-line graph, and so only in `data/plumb-line.ttl`. As with tier, this is checked in `goldenchain/ingest.py`, not in SHACL;
+- written only as `true`, at most once per Position; absence means not flagged.
+
+The sitting writes it from the console v3 checkbox (ADR-0006; dispatch §13), and nothing else may write it.
+
+**Shapes (proposed).** Ingest rejects a Position flagged `unchurches` unless both of these hold:
+
+1. **The plumb-line holds it `forbidden`.** A Body cannot be unchurched for holding what the plumb-line tolerates, teaches or is silent on.
+2. **Its Locus is not tier third.** This follows the addendum: "unchurches implies a tier-2 break; a tier-2 break does not imply unchurches." A third-tier difference is by definition "forbearable within one church", so it cannot unchurch.
+
+**Semantics (the dispatch's words).** A Body that holds or practises a Position flagged unchurches:
+
+> is excluded from the candidate set as "not a church by this plumb-line's standard", independent of tier and of conscience walls; its members' standing as Christians is not asserted either way.
+
+**Derivation (proposed).**
+
+- **What triggers it.** A Body is excluded when one of its *effective* Holdings is on a flagged Position with modality `required` or `taught`. Effective means after `childOf` inheritance (§7); a Body's own Holdings override its parent's, as §7 rules. "Holds" is read as `required` or `taught`, the same pair on which `excludes` fires (Revision 1). `tolerated` is R2.6 (1).
+- **What does not trigger it.** A §6 derived stance never triggers exclusion, while §6 remains a proposal.
+- **Scope.** Any scope triggers it.
+- **Where it runs.** The exclusion is computed before walls and cost.
+
+**Display.** The excluded Body is not ranked and shows no cost and no walls. It is listed under its own heading, "Not a church by this plumb-line's standard", and the listing gives:
+
+- the exact wording above;
+- for each triggering Holding: the Position, its modality and its `dcterms:source`;
+- the plumb-line's flag and its sitting;
+- the sentence "Its members' standing as Christians is not asserted either way."
+
+No number is shown for it.
+
+**The consequence, stated plainly.** The flags from the sitting are on `baptism-subjects.believers-and-their-infants` and `baptism-subjects.infants`. When the non-triune formula Positions are minted, they carry the flag too (`triune-name` stays required). By this plumb-line's standard, the following are not churches, though full of Christians:
+
+- every Body that requires or teaches infant baptism. Chris has affirmed that this means Westminster, Heidelberg/Belgic and Protestant Reformed bodies.
+- **In the data as it stands, the derivation reaches further than that list.** WCF requires believers-and-their-infants (WCF 28.4), and it is excluded. *The Augsburg Confession teaches infants (AC IX), and so does the Apology (1531) in its own Holding. Both are excluded on the same rule.* That reach follows from "holds or practises" and was not in the list Chris affirmed. It is stated here so that he reads it before ratification.
+
+**What tier-2 break means for display (proposed).** For one Body against the plumb-line, a Locus is a *break* when either of these holds:
+
+- some cell on it is WALL;
+- some cell on it costs 0.25 or more, which happens only where the plumb-line's stance is obligatory or forbidden.
+
+The permitted row (0.1, 0.05) is liberty, not disagreement, and never makes a break. A *tier-2 break* is a break on a second-tier Locus.
+
+The addendum's implication then holds by construction, and a test can check it. An unchurches Position is plumb-line `forbidden` (shape 1) on a Locus that is not third tier (shape 2). A triggering Holding is `required` (WALL) or `taught` (0.75). So every excluded Body has a break on that Locus, at tier second or first.
+
+**Test cases (the revised addendum; all three must render differently).**
+
+| Case | Expected rendering |
+|---|---|
+| (a) a 1689 Reformed Baptist church with hymns and instruments | Ranked. A tier-2 break on worship; no baptism wall; is a church. |
+| (b) a Presbyterian church | Not ranked. Listed as "not a church by this plumb-line's standard", with its derivation. It has a tier-2 break, which is implied. |
+| (c) a Strict or Primitive Baptist church demanding rebaptism | Ranked, with its wall listed first (§5 ordering). A tier-2 break and a repetition wall; is a church under validity position 3. |
+
+These cases are synthetic test fixtures under `tests/`, not data. Case (a) needs a worship Locus, which is not minted. Case (c) depends on how the validity and repetition Positions are minted (step 3): its wall arises where the Body requires a Position the plumb-line forbids. The fixtures follow the minted shapes. The tests assert three distinct renderings and the implication above.
+
+### R2.4 Instrumentality as a Locus (dispatch §8)
+
+The Dutch-Baptist line runs through three questions, not through efficacy:
+
+- what baptism *is*: the significance Locus, sign or sign-and-seal;
+- *how* it works: instrumentality, a new Locus;
+- *whom* it is for: the subjects Locus.
+
+The new Locus is "How does baptism benefit the one baptized?", tier second. Its Positions are:
+
+- (a) instrumental (Heidelberg 65–66; WCF 27.3; Belgic 33);
+- (b) representational (Gill, Practical III.1);
+- (c) ex opere operato, deferred to phase 2.
+
+Minting is step 3, with locked counts. For scoring and vocabulary, Revision 2 records:
+
+- **One Argument per passage per Position**, with the interpretation on the Argument: 1 Pet 3:21 (with Peter's qualifier), Titus 3:5, Acts 22:16, Rom 6:3–4, Col 2:12 and Gal 3:27. No new vocabulary is needed; this is the ADR-0005 Argument.
+- **The plumb-line stance is not yet signed.** (b) is to be confirmed as taught. (a) is open between tolerated and forbidden and goes on the follow-up console (dispatch §13).
+- **Until (a) is signed, the Locus scores on (b) alone.** The plumb-line is silent on (a), so a Body that holds (a) is scored only through its stance on (b). If that Body is silent on (b), the Locus is *unknown* for it: it lowers coverage and adds no cost. This holds unless an edge between (a) and (b) is minted and §6 is ratified. See R2.6 (5).
+- **The tier is not yet in data.** The new Locus has no `gc:tier` until a signed sitting writes it, so ingest warns "Locus has no tier yet" on it. The same applies to 23a, 23b and the validity Locus.
+
+### R2.5 Verification (once ratified)
+
+- **Ingest:**
+  - `gc:unchurches` only in the plumb-line graph, only `true`, at most one per Position, and only on gc:Position subjects;
+  - shape 1 (plumb-line `forbidden`) and shape 2 (Locus not third tier), each with a refusing test.
+- **Weigh:**
+  - exclusion before walls and cost;
+  - inherited Holdings trigger it, and a child's own Holding on the Locus overrides its parent's;
+  - a §6-derived stance never triggers it;
+  - each of the three cases renders distinctly;
+  - every excluded Body has a tier-2 or tier-1 break on the flagged Locus.
+- **Plumb-line silence:** a silent row writes no Holding and changes neither cost nor coverage. This is already tested at ingest, in `tests/test_console_specs.py`.
+
+### R2.6 Open points for the architect
+
+1. **Tolerated.** Does a Body that *tolerates* a flagged Position "practise" it? An example is a Body that administers infant baptism on request without teaching it. Proposed: no, only `required` and `taught` trigger exclusion.
+2. **First tier.** May a first-tier Locus carry `unchurches`? Shape 2 allows it, because it forbids only third tier. The addendum speaks only of tier 2.
+3. **Bodies that are not churches.** Bodies in the data are documents (Confession, Catechism, Systematic), and from phase 3 there will be Teachers. Proposed: apply the exclusion to every Body class with the exact wording, since a confession speaks for the churches that hold it. Alternatively, Systematic and Teacher Bodies could take a different label.
+4. **Tier-2 break.** Is "break" as defined in R2.3 (WALL, or a cell of 0.25 or more) the intended reading for display?
+5. **Instrumentality.** Should (a) and (b) be an `excludes` pair, given that §6 is still a proposal?
+6. **Other users.** `unchurches` is the plumb-line's standard. Whether it excludes Bodies for other users (user stances, a later phase) is not decided here.
