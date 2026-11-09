@@ -1,6 +1,6 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled; Revision 2 (2026-11-08) proposed
+- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled; Revision 2 (2026-11-08) ratified 2026-11-08 with the R2.6 answers
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -269,9 +269,11 @@ on {required, taught}², and entails on P ∈ {required, taught} with Q forbidde
    - IRI: `B inconsistency/{body}/parents-differ/{locus}`. `gc:involves`
      names the differing Positions.
 
-## Revision 2 (2026-11-08; proposed, not ratified)
+## Revision 2 (2026-11-08; ratified 2026-11-08 with the R2.6 answers in R2.7)
 
-Drafted by the build agent from the architect's dispatch of 2026-11-08, §§2, 3, 4 and 8, together with the §4 addendum and the revised §4 test cases relayed the same day ([../handoff/DISPATCH_architect_2026-11-08.md](../handoff/DISPATCH_architect_2026-11-08.md)). Nothing in it is built until it is ratified (rule 5). Text quoted from the dispatch is verbatim. Everything else is the build agent's proposal, and each choice the architect has not already made is listed under R2.6.
+Drafted by the build agent from the architect's dispatch of 2026-11-08, §§2, 3, 4 and 8, together with the §4 addendum and the revised §4 test cases relayed the same day ([../handoff/DISPATCH_architect_2026-11-08.md](../handoff/DISPATCH_architect_2026-11-08.md)). Text quoted from the dispatch is verbatim. Everything else began as the build agent's proposal, and each choice the architect had not already made was listed under R2.6.
+
+The architect ratified R2.1–R2.5 as drafted, with the answers to R2.6 ([../handoff/RULING_report_11.md](../handoff/RULING_report_11.md)). Chris confirmed the two doctrinal points in it. R2.7 records the answers. Where an answer changes the draft, the passage is marked "(ruled, R2.7)" and the draft's wording is kept beside it.
 
 ### R2.1 Tier semantics (replaces the definitions in §3)
 
@@ -323,14 +325,16 @@ The sitting writes it from the console v3 checkbox (ADR-0006; dispatch §13), an
 
 **Derivation (proposed).**
 
-- **What triggers it.** A Body is excluded when one of its *effective* Holdings is on a flagged Position with modality `required` or `taught`. Effective means after `childOf` inheritance (§7); a Body's own Holdings override its parent's, as §7 rules. "Holds" is read as `required` or `taught`, the same pair on which `excludes` fires (Revision 1). `tolerated` is R2.6 (1).
+- **What triggers it (ruled, R2.7 (1)).** A Body is excluded when one of its *effective* Holdings is on a flagged Position with modality `required`, `taught` or `tolerated`. Effective means after `childOf` inheritance (§7); a Body's own Holdings override its parent's, as §7 rules.
+  - "Holds or practises" is read as practice-inclusive.
+  - The draft had proposed `required` or `taught` only, the pair on which `excludes` fires (Revision 1).
 - **What does not trigger it.** A §6 derived stance never triggers exclusion, while §6 remains a proposal.
 - **Scope.** Any scope triggers it.
 - **Where it runs.** The exclusion is computed before walls and cost.
 
 **Display.** The excluded Body is not ranked and shows no cost and no walls. It is listed under its own heading, "Not a church by this plumb-line's standard", and the listing gives:
 
-- the exact wording above;
+- the wording for its class (ruled, R2.7 (3); the draft had the one wording above for every class);
 - for each triggering Holding: the Position, its modality and its `dcterms:source`;
 - the plumb-line's flag and its sitting;
 - the sentence "Its members' standing as Christians is not asserted either way."
@@ -339,8 +343,9 @@ No number is shown for it.
 
 **The consequence, stated plainly.** The flags from the sitting are on `baptism-subjects.believers-and-their-infants` and `baptism-subjects.infants`. When the non-triune formula Positions are minted, they carry the flag too (`triune-name` stays required). By this plumb-line's standard, the following are not churches, though full of Christians:
 
-- every Body that requires or teaches infant baptism. Chris has affirmed that this means Westminster, Heidelberg/Belgic and Protestant Reformed bodies.
-- **In the data as it stands, the derivation reaches further than that list.** WCF requires believers-and-their-infants (WCF 28.4), and it is excluded. *The Augsburg Confession teaches infants (AC IX), and so does the Apology (1531) in its own Holding. Both are excluded on the same rule.* That reach follows from "holds or practises" and was not in the list Chris affirmed. It is stated here so that he reads it before ratification.
+- every Body that requires, teaches or tolerates infant baptism (ruled, R2.7 (1); the draft had "requires or teaches"). Chris has affirmed that this means Westminster, Heidelberg/Belgic and Protestant Reformed bodies.
+- **In the data as it stands, the derivation reaches further than that list.** WCF requires believers-and-their-infants (WCF 28.4), and it is excluded. *The Augsburg Confession teaches infants (AC IX), and so does the Apology (1531) in its own Holding. Both are excluded on the same rule.* That reach follows from "holds or practises" and was not in the list Chris affirmed. It was stated here so that he would read it before ratification.
+  - **Chris confirmed it on 2026-11-08.** Lutheran bodies that teach infant baptism are not churches by this plumb-line's standard, on the same rule. Their members' standing as Christians is not asserted either way.
 
 **What tier-2 break means for display (proposed).** For one Body against the plumb-line, a Locus is a *break* when either of these holds:
 
@@ -372,7 +377,7 @@ The Dutch-Baptist line runs through three questions, not through efficacy:
 The new Locus is "How does baptism benefit the one baptized?", tier second. Its Positions are:
 
 - (a) instrumental (Heidelberg 65–66; WCF 27.3; Belgic 33);
-- (b) representational (Gill, Practical III.1);
+- (b) representational (Gill, Practical III.1). Ruled, R2.7 (5): this is "representational ONLY", so that (a) and (b) are contradictories, joined by an `excludes` edge;
 - (c) ex opere operato, deferred to phase 2.
 
 Minting is step 3, with locked counts. For scoring and vocabulary, Revision 2 records:
@@ -403,3 +408,27 @@ Minting is step 3, with locked counts. For scoring and vocabulary, Revision 2 re
 4. **Tier-2 break.** Is "break" as defined in R2.3 (WALL, or a cell of 0.25 or more) the intended reading for display?
 5. **Instrumentality.** Should (a) and (b) be an `excludes` pair, given that §6 is still a proposal?
 6. **Other users.** `unchurches` is the plumb-line's standard. Whether it excludes Bodies for other users (user stances, a later phase) is not decided here.
+
+### R2.7 Answers to R2.6 (architect, 2026-11-08; ratified with R2.1–R2.5)
+
+The architect's text is in [../handoff/RULING_report_11.md](../handoff/RULING_report_11.md).
+
+1. **Tolerated triggers exclusion.** The trigger is {`required`, `taught`, `tolerated`}, for the flagged Positions in phase 1.
+   - "Holds or practises" is practice-inclusive: a Body that administers infant baptism on request practises it, whatever it teaches.
+   - A Body that merely admits members baptized as infants elsewhere is not caught. That is a different Position (membership or validity), not this one.
+   - Chris confirmed this reading as his own.
+2. **First tier may unchurch.** A first-tier Position may carry `unchurches`; denial of the Trinity, when minted, will. Shape 2 stands as written: only third tier is excluded.
+3. **One derivation, with wording by class.** Wording is a display concern, not a vocabulary. The derivation, the listing and the closing sentence about members' standing are the same for every class.
+
+   | Body class | Wording |
+   |---|---|
+   | Congregation, Denomination | "not a church by this plumb-line's standard." |
+   | Confession, Catechism, Collection | "churches subscribing to this standard are not churches by this plumb-line's standard." |
+   | Systematic, Teacher | "teaches what, where practised, makes a body no church by this plumb-line's standard." |
+
+4. **Break accepted as defined.** A break is a WALL or a cell ≥ 0.25. The permitted row never breaks.
+5. **Instrumentality.**
+   - (b) is defined as "representational ONLY", so (a) and (b) are contradictories. The `excludes` edge between them is minted, as a fact about the Positions: both sides treat them as alternatives.
+   - The edge carries a note: (a), as Reformed theology holds it, includes representation. The exclusion is between "instrument" and "representation only".
+   - §6 remains unratified, so nothing is derived from the edge. Chris signs his stance on (a) explicitly on the follow-up console.
+6. **Other users: deferred.** `unchurches` is the plumb-line's standard only. Whether a later user may set their own is a phase-3 question, under a future Revision 3.
