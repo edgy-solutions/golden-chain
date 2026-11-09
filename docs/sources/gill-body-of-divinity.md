@@ -167,3 +167,10 @@ the 1769–70 first edition (D) once.**
 - Passage references Gill cites, as OSIS ranges.
 - Optional short verbatim quotation per Argument, checked against B.
 - **No** wholesale text. No CCEL files. No OCR dumps.
+
+## Practical III.1 "Of Baptism" in the Tegg 1839 scan (checked 2026-11-08)
+
+- **Scan:** Tegg 1839, vol. 2, archive.org. The leaf map near pp. 621–640 is n = p − 1 (the page-number JSON's pageNumber equals the leaf number). [V]
+- **Pagination:** BSB does not reprint these pages (finding 1). The chapter runs from Tegg ii. 621, about 40 pages, against BSB 896–915. PD locators cite Tegg; a BSB page is given only where checked (the chapter opens on BSB p. 896).
+- **The administrator, Tegg ii. 621–622 [V]:** baptism is not a church ordinance; admission to it rests with the administrator alone, as when Ananias baptized Saul without the church's knowledge (Acts ix. 18–28). This reads against validity (3)'s "administrator is a church" ([../handoff/REPORT_phase1_12.md](../handoff/REPORT_phase1_12.md) B-Q2). "Matt. iii. 1" on p. 622 is about John as the first administrator, under head I.
+- **Head IV, mode, Tegg ii. 640 [V]:** sprinkling is not properly a mode of baptism; no Scripture is printed on that sentence. No Eph 4:5 appears in the chapter (from the OCR).

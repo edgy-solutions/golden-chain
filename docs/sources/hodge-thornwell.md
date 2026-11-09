@@ -32,8 +32,10 @@ No Scripture is cited formally in the "Romish Baptism" section; the argument is 
 
 ### Systematic Theology vol. 3 (secondary, not the verdict)
 
-- **Edition:** *Systematic Theology*, vol. 3 (New York: Scribner; London: Nelson, 1872–73). Hodge died in 1878. Public domain. Scan `systematictheolo03hodguoft`. Leaf map from archive.org's page numbers: `n` = printed page + 12. [R; map not checked]
-- Pt. III, ch. XX, §6 "Validity of the Sacraments", pp. 523–525: matter, form and intention suffice; heretical baptism is generally held valid; an unordained administrator is irregular and wrong but not invalid (pp. 524–525). No Scripture is cited in §6. [R]
+- **Edition:** *Systematic Theology*, vol. 3 (New York: Scribner; London: Nelson, 1872–73). Hodge died in 1878. Public domain. Scan `systematictheolo03hodguoft`. **Leaf map:** archive.org leaf `n` = printed page + 11, checked at pp. 523–526 (n534–n537). The + 12 from archive.org's page numbers was wrong. [V]
+- Pt. III, ch. XX, §6 "Validity of the Sacraments", pp. 523–525: matter, form and intention suffice; heretical baptism is generally held valid; an unordained administrator is irregular and wrong but not invalid (pp. 524–525). **No Scripture is printed in §6.** The only reference on these pages is Gal. iii. 26 on p. 523, which closes §5 on the Lutherans. [V]
+- §7 "Baptism", pp. 526–539 (subheads: mode; the word in the Classics, the Septuagint and Apocrypha, the New Testament and the Fathers; the catholicity of the Gospel; the design of the ordinance). It does not discuss validity. Its Scripture is all on mode. §8 "The Formula of Baptism" begins on p. 539. [V p. 526; rest R, from the OCR]
+- **Consequence (ruling M5 on the step-3 plan):** no Hodge source that prints Scripture holds validity (1). (1) is deferred to phase 2, with its American Presbyterian Body. Batch B mints (2), (3) and (4) only.
 - **§6 does not name Rome.** It must not be cited for the verdict that Romish baptism is valid. Use the 1845 article for that. [R]
 
 ## Thornwell: against (1)
