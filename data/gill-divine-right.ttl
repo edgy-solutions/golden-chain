@@ -6,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # Gill, The Divine Right of Infant-Baptism (docs/sources/gill-divine-right.md). Reference only; no quotation.
-# Not the Body's work (PLAN_step3_minting M5), so no body/gill Holding here; the Arguments carry the evidence.
+# A work of body/gill (a gc:Teacher; ruling M5, ADR-0002 Revision 2). The Holding below is from ch. IV; the Arguments carry the evidence.
 
 <source/gill-divine-right> a gc:SourceWork ;
     rdfs:label "John Gill, The Divine Right of Infant-Baptism, Examined and Disproved (London, 1749)"@en ;
@@ -15,6 +15,17 @@
 <source/gill-divine-right/4> a gc:SourceDivision ;
     rdfs:label "Divine Right, ch. IV"@en ;
     dcterms:isPartOf <source/gill-divine-right> .
+
+# ---------------------------------------------------------------- holdings
+
+<body/gill> gc:holds <holding/gill/circumcision-covenant/not-an-administration-of-grace> .
+
+<holding/gill/circumcision-covenant/not-an-administration-of-grace> a gc:Holding ;
+    gc:position <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-divine-right/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
 
 # ---------------------------------------------------------------- arguments
 

@@ -6,8 +6,8 @@ from rdflib.namespace import RDF, SKOS
 
 B = "https://w3id.org/golden-chain/"
 VOCAB = Path(__file__).resolve().parent.parent / "ontology" / "vocab.ttl"
-# status (proposed, ratified) added with ADR-0005, ratified provisionally 2026-10-25.
-COUNTS = {"modality": 4, "user-modality": 3, "tier": 3, "clarity": 3, "scope": 3, "status": 2}
+# status (proposed, ratified) added with ADR-0005, ratified provisionally 2026-10-25; rejected added in Batch A' (ADR-0002 Revision 2).
+COUNTS = {"modality": 4, "user-modality": 3, "tier": 3, "clarity": 3, "scope": 3, "status": 3}
 
 
 def load():

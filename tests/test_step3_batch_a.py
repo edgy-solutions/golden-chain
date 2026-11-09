@@ -31,11 +31,12 @@ ARGS = {
     "coxe-covenants/2/11/001": (CG_II, ["Gen.3.15"]),
     "wcf/7/3/001": (CG_III, ["Gal.3.21", "Rom.8.3", "Rom.3.20-Rom.3.21", "Gen.3.15", "Isa.42.6"]),
     "wcf/7/5/002": (CG_III, ["2Cor.3.6-2Cor.3.9"]),
-    "wcf/7/5/003": (CIRC_YES, ["Rom.4.11", "Col.2.11-Col.2.12", "1Cor.5.7"]),
+    "wcf/7/5/003": (CIRC_YES, ["Rom.4.11", "Col.2.11-Col.2.12", "1Cor.5.7", "Heb.8.1-Heb.10.39"]),
     "wcf/28/4/003": (CIRC_YES, ["Gen.17.7", "Gen.17.9", "Gal.3.9", "Gal.3.14", "Col.2.11-Col.2.12",
                                 "Acts.2.38-Acts.2.39", "Rom.4.11-Rom.4.12", "1Cor.7.14", "Matt.28.19",
                                 "Mark.10.13-Mark.10.16", "Luke.18.15"]),
-    "coxe-covenants/5/8/001": (CIRC_NO, ["Gen.17.4-Gen.17.5", "Rom.4.17", "Rom.4.11"]),
+    "coxe-covenants/5/8/001": (CIRC_NO, ["Gen.17.4-Gen.17.5", "Rom.4.17", "Rom.4.11", "Rom.4.1-Rom.4.25",
+                                        "Gal.3.1-Gal.3.29", "Gen.17.1-Gen.17.27"]),
     "gill-divine-right/4/001": (CIRC_NO, ["Acts.7.8", "Gal.5.2-Gal.5.4"]),
     "gill-divine-right/4/002": (CIRC_NO, ["Gen.17.9-Gen.17.14"]),
     "gill-divine-right/4/003": (CIRC_NO, ["Gen.17.14", "Ps.89.34"]),
@@ -77,9 +78,10 @@ def test_resolution_note_present(aid):
     assert G.value(U("argument/" + aid), GC.resolutionNote) is not None
 
 
-def test_no_holding_on_circumcision_no():
+def test_only_gill_holds_circumcision_no():
+    # Batch A had no Holding here; Batch A' adds Gill's (ruling M5).
     pos = U("position/" + CIRC_NO)
-    assert list(G.subjects(GC.position, pos)) == []
+    assert list(G.subjects(GC.position, pos)) == [U("holding/gill/" + CIRC_NO)]
 
 
 @pytest.mark.parametrize("slug", ["covenant-of-grace", "circumcision-covenant"])

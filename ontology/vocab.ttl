@@ -122,6 +122,12 @@
     skos:prefLabel "proposed"@en ;
     skos:definition "Put forward by the build agent; not yet ruled on by the architect. Loaded and shown, but marked."@en .
 
+<vocab/status/rejected> a skos:Concept ;
+    skos:inScheme <vocab/status> ;
+    skos:topConceptOf <vocab/status> ;
+    skos:prefLabel "rejected"@en ;
+    skos:definition "Ruled against by the architect. Kept as a record; never asserted, never deleted."@en .
+
 <vocab/status/ratified> a skos:Concept ;
     skos:inScheme <vocab/status> ;
     skos:topConceptOf <vocab/status> ;

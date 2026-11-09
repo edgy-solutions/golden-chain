@@ -2,7 +2,7 @@
 
 import pytest
 from rdflib import URIRef
-from rdflib.namespace import RDF
+from rdflib.namespace import OWL, RDF
 
 from goldenchain import ingest
 from gcfix import GC, U, inconsistencies
@@ -51,10 +51,11 @@ def actual_counts() -> dict:
     out = {c: len(set(UNION.subjects(RDF.type, GC[c]))) for c in
            ("Locus", "Position", "Argument", "Passage", "Holding")}
     # Bodies are typed by their subclass only (ontology/core.ttl); no inference runs here.
-    out["Body"] = len({s for c in ("Body", "Confession", "Catechism", "Systematic", "Collection", "Editorial")
+    out["Body"] = len({s for c in ("Body", "Confession", "Catechism", "Systematic", "Teacher", "Collection", "Editorial")
                        for s in UNION.subjects(RDF.type, GC[c])})
     for p in ("excludes", "entails", "holds", "answers", "supports", "childOf"):
         out[p] = len(list(UNION.triples((None, GC[p], None))))
+    out["Axiom"] = len(set(UNION.subjects(RDF.type, OWL.Axiom)))
     out["effectivelyHolds"] = len(list(ingest.union(DERIVED).triples((None, GC.effectivelyHolds, None))))
     out["warnings"] = len(ingest.validate(DS)[1])
     return out

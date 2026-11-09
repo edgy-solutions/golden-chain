@@ -15,6 +15,10 @@
     rdfs:label "A Confession of Faith (1677/1689), with proof texts"@en ;
     dcterms:bibliographicCitation "Witness: the 1677 first printing, facsimile edition (2000). Slug kept as lbc-1689 (architect ruling, 2026-10-25)." .
 
+<source/lbc-1689/7/3> a gc:SourceDivision ;
+    rdfs:label "LBC 7.3"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
 <source/lbc-1689/28/1> a gc:SourceDivision ;
     rdfs:label "LBC 28.1"@en ;
     dcterms:isPartOf <source/lbc-1689> .
@@ -83,7 +87,50 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+<body/lbc-1689> gc:holds <holding/lbc-1689/covenant-of-grace/established-in-new-covenant> .
+
+<holding/lbc-1689/covenant-of-grace/established-in-new-covenant> a gc:Holding ;
+    gc:position <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/7/3> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- arguments
+
+# LBC 7.3, one Argument per note. Note g (salvation of the OT saints) is deliberately not minted:
+# note g — salvation of the OT saints — does not separate (ii) from (iii); not cited.
+
+<argument/lbc-1689/7/3/001> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Gen.3.15> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "e Gen. 3.15." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/7/3/002> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Heb.1.1> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "f Heb. 1.1." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/7/3/003> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/2Tim.1.9> ,
+        <passage/kjv/Titus.1.2> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "* 2 Tim. 1.9. Tit. 1.2." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
 
 <argument/lbc-1689/28/1/001> a gc:Argument ;
     gc:source <source/lbc-1689/28/1> ;
@@ -222,3 +269,19 @@
 <passage/kjv/Rom.6.4> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4" ;
     gc:startOrdinal 142 ; gc:endOrdinal 142 .
+
+<passage/kjv/Gen.3.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.3.15" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Heb.1.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.1.1" ;
+    gc:startOrdinal 1 ; gc:endOrdinal 1 .
+
+<passage/kjv/2Tim.1.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Tim" ; gc:osisRef "2Tim.1.9" ;
+    gc:startOrdinal 9 ; gc:endOrdinal 9 .
+
+<passage/kjv/Titus.1.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.2" ;
+    gc:startOrdinal 2 ; gc:endOrdinal 2 .

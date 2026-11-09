@@ -50,6 +50,9 @@ gc:Catechism a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Catechism"@en .
 gc:Systematic a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Systematic"@en ;
     rdfs:comment "A systematic theology. It teaches; it is not a subscription standard."@en .
 
+gc:Teacher a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Teacher"@en ;
+    rdfs:comment "One person's teaching, expressed in one or more works."@en .
+
 gc:Collection a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Collection"@en ;
     rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord). It is not a parent: its members are dcterms:isPartOf it and inherit nothing from it (rulings Q7, Q8)."@en .
 

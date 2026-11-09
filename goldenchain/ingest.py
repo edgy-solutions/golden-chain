@@ -13,7 +13,7 @@ from pathlib import Path
 import pyshacl
 import rdflib
 from rdflib import Dataset, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import RDF, SH
+from rdflib.namespace import OWL, RDF, SH
 
 from goldenchain import jena, passage
 
@@ -124,6 +124,16 @@ def code_checks(ds: Dataset) -> None:
                 continue
             for s, o in ng.subject_objects(pred):
                 errs.append(f"c. {s} {pred.split('#')[1]} {o} asserted in {ng.identifier}, not plumb-line")
+    rejected = URIRef(B + "vocab/status/rejected")
+    for ax in sorted(u.subjects(RDF.type, OWL.Axiom)):
+        s, p, o = (u.value(ax, OWL.annotatedSource), u.value(ax, OWL.annotatedProperty),
+                   u.value(ax, OWL.annotatedTarget))
+        asserted = (s, p, o) in u
+        if (ax, GC.status, rejected) in u:
+            if asserted:
+                errs.append(f"d. {ax}: rejected axiom's triple {s} {p} {o} is asserted")
+        elif not asserted:
+            errs.append(f"d. {ax}: axiom's triple {s} {p} {o} is not asserted (and the axiom is not rejected)")
     if errs:
         raise IngestError(f"{len(errs)} code-check failure(s):\n" + "\n".join(errs))
 

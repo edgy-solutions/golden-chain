@@ -9,9 +9,9 @@
 # no quotation until OCR is verified (OCR HELD). Primary gc:locator is Gill's printed division;
 # pages and asPrinted strings read from CCEL and the pre-hold OCR (discarded from the run output folders; not searched machine-wide); to be signed from pixels.
 
-<body/gill> a gc:Systematic ;
-    rdfs:label "John Gill, A Body of Doctrinal and Practical Divinity"@en ;
-    gc:expressedIn <source/gill-body> .
+<body/gill> a gc:Teacher ;
+    rdfs:label "John Gill (1697–1771)"@en ;
+    gc:expressedIn <source/gill-body> , <source/gill-divine-right> .
 
 <source/gill-body> a gc:SourceWork ;
     rdfs:label "John Gill, A Complete Body of Doctrinal and Practical Divinity (1769-70)"@en ;

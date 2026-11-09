@@ -192,7 +192,7 @@
     gc:proposedBy <agent/build-agent> .
 
 <position/covenant-of-grace/established-in-new-covenant> a gc:Position ;
-    rdfs:label "Promised in eternity, formally established in the new covenant; the covenant of redemption distinct."@en ;
+    rdfs:label "An eternal covenant of redemption between the Father and the Son; in pursuance of it, grace revealed to fallen man by promise from the fall."@en ;
     gc:answers <locus/covenant-of-grace> ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
@@ -222,7 +222,20 @@
 <position/baptism-mode/immersion-only> gc:excludes <position/baptism-mode/mode-indifferent> .
 <position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/grace-conferred-in-right-use> .
 <position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/necessary-means-of-grace> .
+# Ruling M9 on the step-3 plan: 23b yes and no; 23a (i)-(ii), (i)-(iii), (ii)-(iii). Nothing is derived.
+<position/circumcision-covenant/administration-of-grace> gc:excludes <position/circumcision-covenant/not-an-administration-of-grace> .
+<position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/established-in-new-covenant> .
+<position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
+<position/covenant-of-grace/established-in-new-covenant> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
 
 # E1, ratified 2026-10-25; direction reversed by the ruling on report 11 (direction (ii), infants entail one covenant,
 # was refuted by Augsburg). The entails count stays 1.
 <position/circumcision-covenant/administration-of-grace> gc:entails <position/baptism-subjects/believers-and-their-infants> .
+
+# Rejected direction of E1 (ruling M6 on the step-3 plan; ADR-0002 Revision 2 item 3). Its triple is never asserted.
+<axiom/entails/baptism-subjects/believers-and-their-infants/to/circumcision-covenant/administration-of-grace> a owl:Axiom ;
+    owl:annotatedSource <position/baptism-subjects/believers-and-their-infants> ;
+    owl:annotatedProperty gc:entails ;
+    owl:annotatedTarget <position/circumcision-covenant/administration-of-grace> ;
+    gc:status <vocab/status/rejected> ;
+    rdfs:comment "Rejected direction of E1 (ruling M6 on the step-3 plan). Refuted by holding/augsburg/baptism-subjects/infants (taught): Augsburg baptizes infants and holds no position on the circumcision covenant. Never asserted; never deleted."@en .

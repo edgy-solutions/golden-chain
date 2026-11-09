@@ -66,12 +66,15 @@
     gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
     gc:cites <passage/kjv/Gen.17.4-Gen.17.5> ,
         <passage/kjv/Rom.4.17> ,
-        <passage/kjv/Rom.4.11> ;
+        <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Rom.4.1-Rom.4.25> ,
+        <passage/kjv/Gal.3.1-Gal.3.29> ,
+        <passage/kjv/Gen.17.1-Gen.17.27> ;
     gc:locator "V §8" ;
-    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaves 114-116" ;
-    gc:pages "105-107" ;
-    gc:asPrinted "Gen. 17. 4, 5. Rom. 4. 17. Rom. 4. 11." ;
-    gc:resolutionNote "The chapter-level \"Rom. 4.\" (p. 106) and the margin \"Read diligently Gal. 3.\" (p. 106) are not cited, pending the architect's ruling on chapter-level references (PLAN_step3_minting M8). The \"Rom\" of \"Rom. 4. 11.\" (p. 107) looks like \"Rcm\" on leaf 116; Chris signs from the leaf." ;
+    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaves 114-118" ;
+    gc:pages "105-109" ;
+    gc:asPrinted "Gen. 17. 4, 5. Rom. 4. 17. Rom. 4. Read diligently Gal. 3. Rom. 4. 11. Gen. 17." ;
+    gc:resolutionNote "Chapter-level \"Rom. 4.\" (p. 106), the margin \"Read diligently Gal. 3.\" (p. 106) and \"Gen. 17.\" closing §8 (p. 109) are cited as whole chapters (ruling M8 on the step-3 plan). The \"Rom\" of \"Rom. 4. 11.\" (p. 107) looks like \"Rcm\" on leaf 116; Chris signs from the leaf." ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
@@ -104,3 +107,15 @@
 <passage/kjv/Titus.1.1-Titus.1.2> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.1-Titus.1.2" ;
     gc:startOrdinal 1 ; gc:endOrdinal 2 .
+
+<passage/kjv/Rom.4.1-Rom.4.25> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.1-Rom.4.25" ;
+    gc:startOrdinal 93 ; gc:endOrdinal 117 .
+
+<passage/kjv/Gal.3.1-Gal.3.29> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.1-Gal.3.29" ;
+    gc:startOrdinal 46 ; gc:endOrdinal 74 .
+
+<passage/kjv/Gen.17.1-Gen.17.27> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.1-Gen.17.27" ;
+    gc:startOrdinal 399 ; gc:endOrdinal 425 .

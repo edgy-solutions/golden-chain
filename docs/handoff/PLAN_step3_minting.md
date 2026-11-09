@@ -6,9 +6,10 @@ The architect's order: "Mint positions as their sources land; lock counts per ba
 
 | Batch | Loci | State |
 |---|---|---|
-| A | 23a covenant of grace; 23b circumcision covenant; retire 23 | Sources verified on page images. Minting now. |
-| B | repetition; validity | Waits on M1, M2, M5. |
-| C | instrumentality | Waits on M3, M4. |
+| A | 23a covenant of grace; 23b circumcision covenant; retire 23 | Minted `00e7a8e`; accepted (ruling on this plan). |
+| A′ | The ruling's follow-ups to A: F-A, M5, M6, M8, M9, M10, M11 | Spec below. |
+| B | repetition; validity (2)–(4), and (1) only if Hodge prints Scripture | After A′. |
+| C | instrumentality | After Chris answers F-B on the follow-up console. |
 
 ## Batch A
 
@@ -108,6 +109,44 @@ No Gill Holding is minted on 23b no. The *Divine Right* is not the Body's work (
 | violations | 0 | 0 |
 
 Locked in `~/.golden-chain/step3-batchA-predictions-locked.txt` before the change.
+
+## Batch A′: the ruling's follow-ups to Batch A
+
+Rulings: [RULING_step3_plan.md](RULING_step3_plan.md). Terms: [ADR-0002 Revision 2](../adr/0002-identity-iri-patterns.md).
+
+- **F-A.** The label of `position/covenant-of-grace/established-in-new-covenant` becomes the wording proposed from Coxe II §§10–11 (pp. 36–38, re-read on the scan): "An eternal covenant of redemption between the Father and the Son; in pursuance of it, grace revealed to fallen man by promise from the fall." The IRI is unchanged (ADR-0002 rule 3). The follow-up console offers both this and the dispatch wording.
+  - **Flag.** Coxe's pages do not say "covenant of grace" or "established in the new covenant". Those come from V §7 (p. 105) and LBC 7.3. Without them, (ii) and (iii) differ only on the covenant of redemption. The pairwise excludes edges (M9) are minted as ruled, but the console should ask Chris whether the (ii)–(iii) exclusion holds under the wording he signs.
+- **M5.** Add `gc:Teacher` (core.ttl). `body/gill` becomes a `gc:Teacher`, labelled "John Gill (1697–1771)", and is `gc:expressedIn` both `source/gill-body` and `source/gill-divine-right`. Add `holding/gill/circumcision-covenant/not-an-administration-of-grace`: taught, with `dcterms:source` `source/gill-divine-right/4`.
+- **M6.** Add `vocab/status/rejected`. Add the rejected axiom `axiom/entails/baptism-subjects/believers-and-their-infants/to/circumcision-covenant/administration-of-grace`.
+  - **Its comment** names the refuting Holding as it is in the data: `holding/augsburg/baptism-subjects/infants` (taught), while Augsburg holds nothing on 23b.
+  - **Flag.** The ruling says "Augsburg on believers-and-their-infants". Augsburg's Holding is on `infants`, not `believers-and-their-infants`, so the refutation in the data rests on `infants`.
+  - **Checks.** SHACL gets an `owl:Axiom` shape. Ingest fails if a rejected axiom's triple is asserted, or if a non-rejected axiom's triple is missing.
+- **M8.** Whole-chapter Passages, expanded by the canonicaliser (ADR-0002 Revision 2 item 5):
+  - `Heb.8.1-Heb.10.39` on wcf/7/5/003;
+  - `Rom.4.1-Rom.4.25` and `Gal.3.1-Gal.3.29` on coxe-covenants/5/8/001;
+  - also `Gen.17.1-Gen.17.27`, for the "Gen. 17." that closes §8 on p. 109. Pages become "105-109" and asPrinted gains it.
+  - The resolutionNotes are rewritten: the chapters are now cited, and the "Rcm" flag stays.
+- **M9.** Excludes: 23b yes and no; 23a (i)–(ii), (i)–(iii) and (ii)–(iii). Nothing is derived.
+- **M10.** Add `source/lbc-1689/7/3`. Add `holding/lbc-1689/covenant-of-grace/established-in-new-covenant`: taught, with source LBC 7.3.
+  - **Arguments, one per note**, from the reading transcription (bible-researcher.com, after CCEL; two independent reads agree), each flagged in `rdfs:comment` until Chris reads the 1677 margin letters:
+    - 7/3/001: "e Gen. 3.15.";
+    - 7/3/002: "f Heb. 1.1.";
+    - 7/3/003: "* 2 Tim. 1.9. Tit. 1.2." (the note is unlettered).
+  - **Note g** ("g Heb, 11.6.13. Rom. 4.1,2, & c. Act. 4.12. Joh. 8.56.") is about the salvation of the Old Testament saints by the covenant. It does not separate (ii) from (iii), so it is not cited. This is recorded, not padded.
+- **M11.** Add wcf/7/6/002 → 23a(iii), from 7.6 note n on leaf 24: asPrinted "n Gal, 2, 17", cites Col 2:17. The resolutionNote says the middle numeral is damaged on the leaf, and the reference is resolved by ruling M11 because the clause is Christ the substance. 7.6 note o is not minted (not ruled).
+
+### Predicted counts (A′)
+
+| | Before | After |
+|---|---|---|
+| Argument, supports | 70 | 74 |
+| Passage | 130 | 136 (Heb 1:1, Col 2:17, four whole-chapter spans) |
+| Holding, holds | 50 | 52 |
+| effectivelyHolds | 51 | 53 |
+| excludes | 5 | 9 |
+| Axiom (new count key) | — | 1 |
+| Locus, Position, answers, entails, childOf, Body, warnings | 11, 20, 20, 1, 1, 8, 2 | unchanged |
+| violations | 0 | 0 |
 
 ## Batch B: repetition and validity (outline)
 

@@ -12,7 +12,8 @@
 # Validated over the union of ontology/core.ttl, ontology/vocab.ttl and data/*.ttl.
 # Checks that need code rather than SHACL live in goldenchain/ingest.py:
 #   - every Passage IRI is canonical (goldenchain.passage.parse) and its triples match it;
-#   - gc:tier and gc:clarity appear only in the plumb-line graph (ADR-0003 §3).
+#   - gc:tier and gc:clarity appear only in the plumb-line graph (ADR-0003 §3);
+#   - a rejected owl:Axiom's triple is never asserted; any other axiom's triple always is (ADR-0002 Revision 2).
 
 <ontology/shapes> a owl:Ontology ;
     sh:declare
@@ -113,6 +114,7 @@
     sh:property [ sh:path gc:pages ; sh:datatype xsd:string ] ;
     sh:property [ sh:path gc:asPrinted ; sh:datatype xsd:string ] ;
     sh:property [ sh:path gc:resolutionNote ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path rdfs:comment ; sh:datatype rdf:langString ] ;
     sh:property [ sh:path gc:quotationCheckedAgainst ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     # Cap: at most 3 sentences. A display choice, not a legal one (ADR-0005 §3).
     # A sentence break is [.!?] followed by whitespace and a capital; 3 sentences = at most 2 breaks.
@@ -148,6 +150,17 @@
                 $this gc:asPrinted ?a , ?b .
                 FILTER (REGEX(STR(?a), "^[(][a-z][)] ") && ?a != ?b)
             }""" ] .
+
+# Notes on edges (ADR-0002 Revision 2 item 2): an annotated axiom naming one excludes or entails triple.
+# Its triple's presence (or, if rejected, absence) is checked in code: goldenchain/ingest.py check d.
+<ontology/shapes#Axiom> a sh:NodeShape ;
+    sh:targetClass owl:Axiom ;
+    sh:property [ sh:path owl:annotatedSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path owl:annotatedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:in ( gc:excludes gc:entails ) ] ;
+    sh:property [ sh:path owl:annotatedTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path rdfs:comment ; sh:minCount 1 ] ;
+    sh:property [ sh:path gc:status ; sh:maxCount 1 ] .
 
 # ---------------------------------------------------------------- passages (ADR-0002, revised)
 

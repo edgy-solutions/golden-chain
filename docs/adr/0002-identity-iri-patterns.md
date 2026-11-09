@@ -1,6 +1,6 @@
 # ADR-0002: Identity: IRI patterns under https://w3id.org/golden-chain/
 
-- Status: Ratified. **Revision 1 ratified by both architects (2026-10-25)**: the Golden Chain architect, and goat-yard's on (a) the `kjv` segment, (b) the reserved Anchor and (c) Passage IRIs naming locations only.
+- Status: Ratified. **Revision 2 (2026-11-08)** records the ruling on the step-3 plan (M3, M5, M6, M8); its axiom IRI pattern is proposed. **Revision 1 ratified by both architects (2026-10-25)**: the Golden Chain architect, and goat-yard's on (a) the `kjv` segment, (b) the reserved Anchor and (c) Passage IRIs naming locations only.
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -234,3 +234,16 @@ Nothing is migrated: general rule 6 (standard vocabulary first) is forward-looki
 - **`gc:quotationCheckedAgainst`**: no standard term.
 - **`gc:pages`**: `bibo:pages` exists and was considered. Adding a vocabulary for one term fails the spirit of rule 6.
 - **`gc:locator` and `gc:secondaryLocator`**: no standard term.
+
+## Revision 2 (2026-11-08; ruled by the architect on the step-3 plan, M3, M5, M6, M8)
+
+Written up by the build agent from [RULING_step3_plan.md](../handoff/RULING_step3_plan.md). Items 1–4 are the architect's rulings. Item 2's IRI pattern is the build agent's proposal and stays proposed until ruled.
+
+1. **Notes on Arguments: `rdfs:comment`** (M3). No `gc:note` is minted (general rule 6). The closed Argument shape admits `rdfs:comment`.
+2. **Notes on edges: an OWL annotated axiom** (M3). An `excludes` or `entails` edge stays a bare triple. A note on it is an `owl:Axiom` with `owl:annotatedSource`, `owl:annotatedProperty` and `owl:annotatedTarget` naming the triple, at least one `rdfs:comment`, and, where needed, `gc:status` and `gc:proposedBy`.
+   - **IRI (proposed):** `B axiom/{property}/{source locus}/{source position}/to/{target locus}/{target position}`, e.g. `B axiom/entails/baptism-subjects/believers-and-their-infants/to/circumcision-covenant/administration-of-grace`. One axiom per triple.
+   - An axiom whose status is not `rejected` annotates an asserted triple; ingest fails if the triple is absent.
+3. **Rejected edges are data** (M6). A refused direction is an `owl:Axiom` with `gc:status <vocab/status/rejected>` and an `rdfs:comment` naming the refuting Holding. Its triple is never asserted: ingest fails if it is. Rejected axioms never fire and are never deleted. `vocab/status/rejected` joins the status scheme (ADR-0005): "Ruled against by the architect. Kept as a record; never asserted, never deleted."
+4. **`gc:Teacher`** (M5; the class from dispatch 2026-11-08 §12). A subclass of `gc:Body`: one person's teaching across his works. Each work is a `gc:SourceWork` that the Teacher is `gc:expressedIn`. `body/gill` is reclassified from `gc:Systematic` to `gc:Teacher`; its IRI is unchanged, and it is expressed in the *Body of Divinity* and the *Divine Right*. This is a new `gc:` term, minted on the architect's ruling.
+5. **Chapter references (M8): no change to the Passage contract.** The ruling's example IRI `passage/kjv/Heb.8-Heb.10` is a chapter-only form, which rule 2 of the Passage scheme forbids (ratified with goat-yard's architect). The ruling's own mechanism keeps the contract: the canonicaliser takes `Heb.8-Heb.10` as input and expands it to `B passage/kjv/Heb.8.1-Heb.10.39`, from verse 1 to the last verse. `goldenchain.passage.canonical` already does this, and a test pins it.
+
