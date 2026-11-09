@@ -63,3 +63,38 @@
 - Doctrinal VII.8, pp. 643–667: the millennium.
 
 The first matters here. Instrumentality (b), representational, cites Gill Practical III.1, the same chapter the publisher found confusing. That does not change the locator, but Chris may want to see it before he signs (b).
+
+## Ruling (2026-11-08)
+
+Chris answered in session: **(3), and cite it.** The foreword holds validity position (3). It is cited now as the published source division for (3): pp. vii–viii, props. 1 and 7. It is modelled as a Body only in phase 3 (§12).
+
+Chris then sent this, filed verbatim:
+
+```
+BSB foreword: (3), and cite it. Testimony from Chris, who knew the
+author: Pastor Lee followed Gill on the administrator, so validity
+rests on Christ's institution and the church's warrant, not
+succession; a church may be constituted de novo by sound believers,
+who appoint an administrator; he baptizes by the church's warrant
+though unbaptized, then is baptized by one of them (Spilsbury's
+answer, 1640s; Gill follows it). This resolves the props 3+7
+recursion: it bottoms out in the Word and a gathered church. The
+"origin in Roman baptism" ramification is doctrinal genealogy (the
+infant rite is Rome's in kind), not lineage. Record Chris's
+testimony as testimony (dcterms:source is still the foreword's
+pages). Phase-2 source for the administrator question: Gill,
+Practical III.1 on the administrator; Spilsbury, A Treatise
+Concerning the Lawful Subject of Baptism (1643, PD) if a scan exists.
+```
+
+**How it is recorded.**
+
+- **Chris's account is testimony, not a source.**
+  - Lee followed Gill on the administrator.
+  - A church may be gathered de novo, and its appointed administrator baptizes by the church's warrant though unbaptized.
+  - The foreword's origin ramification is doctrinal genealogy, not lineage.
+- **The source for (3) is still the foreword's pages.** Any Argument for (3) that cites the foreword has `dcterms:source` on its pages, and the testimony goes in the Argument's note.
+- **The flag above is answered.** The props. 3 + 7 recursion ends in the Word and a gathered church. The church-Locus dependency stays for phase 2, as §7 requires.
+- **Phase-2 sources for the administrator question** go on the §11 phase-2 list:
+  - Gill, Practical III.1 on the administrator;
+  - Spilsbury, *A Treatise Concerning the Lawful Subject of Baptism* (1643, PD), if a scan exists.

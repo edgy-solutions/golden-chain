@@ -1,11 +1,21 @@
 # Handoff: phase 1 (in flight)
 
-- Branch: `phase-0`, pushed through `455d9cf` on 2026-11-08. The architect says "Push as you go".
+- Branch: `phase-0`, pushed through `4cf8a84` on 2026-11-08. The architect says "Push as you go".
 - **The architect's order (dispatch 2026-11-08 §15; [DISPATCH_architect_2026-11-08.md](DISPATCH_architect_2026-11-08.md), with its §4 addendum):** (1) ingest the signed plumb-line sitting as is and record the console defect: **done**; (2) draft ADR-0003 Revision 2 (tier §2, modality §3, unchurches §4 with the addendum, instrumentality §8), proposed, then **stop and report**: **ratified 2026-11-08** with the R2.6 answers ([RULING_report_11.md](RULING_report_11.md)). Chris confirmed the Augsburg/Apology exclusion and that tolerated triggers; (3) mint 23a/23b, the repetition position, the validity locus and the instrumentality locus, with proofs and locked counts, all proposed. Rulings for it ([RULING_report_11.md](RULING_report_11.md)): retire the fused covenant Locus (keep its IRI, `dcterms:isReplacedBy` 23a and 23b, out of scoring); its signed tier (second) carries to 23a and 23b as proposed values; E1 is retired with it and re-examined in both directions, with the refutation check locked ((i) 23b-yes → believers-and-their-infants survives; (ii) the reverse is refuted by Augsburg); instrumentality (b) is "representational ONLY", with an `excludes` edge to (a) carrying its note; tier warnings 0 → 4 are expected; (4) console v3 and the follow-up sitting (Chris signs); (5) ingest, then the first real `weigh` of the plumb-line against Gill, WCF, LBC and Augsburg, then **stop and report**. Weigh is built here from ADR-0003 as the spec, with the three R2.3 cases as its first tests and their renderings locked before the code exists; (6) standing items: the Q11 crops console, then OCR of the baptism chapters on v1 with the italic-flag baseline. The lone-narrow-glyph measurement on pp. 896–915 comes before OCR: lock a count first, then measure from pixels in code. Predict counts before every step.
   - **Step 3 sources (Chris chose "add the PD sources now"; the architect's order, relayed 2026-11-08):**
-    - **First, the four that unblock phase-1 Positions:** Coxe 1681; Gill, *Divine Right of Infant Baptism*; Booth, *Paedobaptism Examined*; Graves, *Old Landmarkism* 1880. Reviews started 2026-11-08.
-    - **Then** Heidelberg and Belgic (instrumentality (a), significance).
-    - **Then** Hodge and Thornwell (validity position 1).
+    - **First, the four that unblock phase-1 Positions:** Coxe 1681; Gill, *Divine Right of Infant Baptism*; Booth, *Paedobaptism Examined*; Graves, *Old Landmarkism* 1880. **Reviewed 2026-11-08:** [coxe-covenants](../sources/coxe-covenants.md), [gill-divine-right](../sources/gill-divine-right.md), [booth-paedobaptism-examined](../sources/booth-paedobaptism-examined.md), [graves-old-landmarkism](../sources/graves-old-landmarkism.md).
+    - **Then** Heidelberg and Belgic (instrumentality (a), significance). **Reviewed 2026-11-08:** [heidelberg-belgic](../sources/heidelberg-belgic.md).
+    - **Then** Hodge and Thornwell (validity position 1). **Reviewed 2026-11-08:** [hodge-thornwell](../sources/hodge-thornwell.md).
+    - **BSB foreword, ruled 2026-11-08:** it holds validity (3) and is cited for it, pp. vii–viii, props. 1 and 7. Chris's testimony (Lee followed Gill and Spilsbury on the administrator; a church may be gathered de novo) is recorded as testimony, not as the source ([PROPOSAL_validity_bsb_foreword.md](PROPOSAL_validity_bsb_foreword.md)). The §12 rule is in [../sources/lee-bsb.md](../sources/lee-bsb.md).
+    - **Next: plan the minting batches**, measure baselines, lock counts per batch, then mint, all proposed.
+    - **Step-3 findings for the next report** (against the architect, §14 style; none acted on):
+      1. Gill does speak of one covenant "administered" under both testaments (the dispatch's own finding, to record).
+      2. Acts 19:5: Gill reads vv. 4–5 as Paul's words, not Luke's report. The dispatch has the speaker wrong and the conclusion right ([gill-divine-right](../sources/gill-divine-right.md)).
+      3. 23a(ii)'s wording outruns Coxe; a closer label is proposed ([coxe-covenants](../sources/coxe-covenants.md)).
+      4. Coxe's "dual-aspect reading of Gen 17" is the architect's paraphrase; Coxe's term is a covenant of peculiarity.
+      5. Hodge's *Systematic Theology* does not name Rome. The verdict is in the 1845 Princeton Review article, whose Hodge authorship is attributed, not printed ([hodge-thornwell](../sources/hodge-thornwell.md)).
+      6. Validity (1), "subject and formula suffice", omits the administrator that both the 1845 article and WCF 28.2 require.
+      7. Schaff's Heidelberg prints no proofs, so 23b-yes from Q.74 needs Passages from elsewhere ([heidelberg-belgic](../sources/heidelberg-belgic.md)).
     - **Each review gives:** the edition, a public-domain check, the scan location and the proposed locators. No text is stored.
     - **Minting:** Positions are minted as their sources land, with counts locked per batch.
     - **The follow-up console goes out only when every step-3 Position is minted.**
@@ -73,3 +83,4 @@
   1. Gill, *The Divine Right of Infant Baptism Examined and Disproved*;
   2. Gill, *Exposition* at Acts 19:5, in goat-yard's corpus, cited by its region IRI.
 - LBC 26 is phase 2.
+- **§11 phase-2 additions (Chris, 2026-11-08), for the administrator question:** Gill, Practical III.1 on the administrator; Spilsbury, *A Treatise Concerning the Lawful Subject of Baptism* (1643, PD), if a scan exists. Validity (3) depends on the church Locus (phase 2); the foreword's prop. 3 (no baptism, no church) lands there.
