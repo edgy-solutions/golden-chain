@@ -3,7 +3,7 @@
 Usage: python tools/console/specs/plumb_line.py <loci.ttl> <out-spec.json>
 
 One section per gc:Locus that has at least one gc:Position (gc:answers), ordered by skos:notation
-(23, 28, ... 33a, 33b, 33c). Rows: <locus-slug>.locus (tier, clarity selects) and
+(23a, 23b, 28, ... 33c; a locus with owl:deprecated true is skipped). Rows: <locus-slug>.locus (tier, clarity selects) and
 <locus-slug>.<position-slug> (modality select, silent included). The slug is the last IRI segment.
 The loci and positions must match docs/loci/plumb-line-form-phase1.md (the "(not minted)" row aside),
 else Fail. The instruction copies that form's "How the entries are used" bullets.
@@ -13,7 +13,7 @@ import re
 import sys
 from pathlib import Path
 
-from rdflib import RDF, RDFS, Graph, Namespace
+from rdflib import RDF, RDFS, Graph, Namespace, URIRef
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
@@ -23,6 +23,7 @@ from build import Fail  # noqa: E402
 FORM = build.REPO / "docs" / "loci" / "plumb-line-form-phase1.md"
 GC = Namespace("https://w3id.org/golden-chain/ontology#")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
+DEPRECATED = URIRef("http://www.w3.org/2002/07/owl#deprecated")
 TIERS = ["first", "second", "third"]
 CLARITIES = ["settled", "contested", "open"]
 MODALITIES = ["required", "taught", "tolerated", "forbidden", "silent"]
@@ -44,6 +45,8 @@ def read_loci(ttl):
     g.parse(ttl, format="turtle")
     loci = []
     for loc in g.subjects(RDF.type, GC.Locus):
+        if g.value(loc, DEPRECATED) is not None and g.value(loc, DEPRECATED).toPython() is True:
+            continue  # retired locus (owl:deprecated true): excluded from the form
         poss = sorted(g.subjects(GC.answers, loc))
         if not poss:
             continue
@@ -71,11 +74,23 @@ def read_form(form_text):
     return order, pos, bullets
 
 
-def check_against_form(loci, order, pos):
-    got = [(l["notation"], l["slug"]) for l in loci]
-    if got != order:
-        raise Fail(f"loci differ from the form: ttl {got}, form {order}")
+def retired_slugs(ttl):
+    g = Graph()
+    g.parse(ttl, format="turtle")
+    return {tail(s) for s, o in g.subject_objects(DEPRECATED) if o.toPython() is True}
+
+
+def check_against_form(loci, order, pos, retired=frozenset()):
+    """Loci in the form must match the ttl, except retired ones (owl:deprecated); loci the form lacks
+    (minted after it was signed, e.g. 23a/23b) are not checked against it."""
+    in_form = {slug for _, slug in order}
+    got = [(l["notation"], l["slug"]) for l in loci if l["slug"] in in_form]
+    want = [(n, s) for n, s in order if s not in retired]
+    if got != want:
+        raise Fail(f"loci differ from the form: ttl {got}, form {want}")
     for l in loci:
+        if l["slug"] not in in_form:
+            continue
         if sorted(p["slug"] for p in l["positions"]) != sorted(pos[l["slug"]]):
             raise Fail(f"{l['slug']}: positions differ from the form")
 
@@ -108,7 +123,7 @@ def make_spec(ttl):
     ttl, form = Path(ttl), FORM.read_text(encoding="utf-8")
     loci = read_loci(ttl)
     order, pos, bullets = read_form(form)
-    check_against_form(loci, order, pos)
+    check_against_form(loci, order, pos, retired_slugs(ttl))
     instruction = ("The plumb-line: your stance on each Position, and the tier and clarity of each locus "
                    "(ADR-0003 sections 3 to 5a). How the entries are used:\n\n" + "\n\n".join(bullets))
     return {"format": build.SPEC_FORMAT, "kind": "plumb-line", "title": "Plumb-line form: phase 1",

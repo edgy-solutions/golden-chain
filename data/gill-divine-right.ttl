@@ -1,0 +1,117 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Gill, The Divine Right of Infant-Baptism (docs/sources/gill-divine-right.md). Reference only; no quotation.
+# Not the Body's work (PLAN_step3_minting M5), so no body/gill Holding here; the Arguments carry the evidence.
+
+<source/gill-divine-right> a gc:SourceWork ;
+    rdfs:label "John Gill, The Divine Right of Infant-Baptism, Examined and Disproved (London, 1749)"@en ;
+    dcterms:bibliographicCitation "London, 1749. ESTC T67557. Scan: archive.org bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 (leaf n = printed page + 3)." .
+
+<source/gill-divine-right/4> a gc:SourceDivision ;
+    rdfs:label "Divine Right, ch. IV"@en ;
+    dcterms:isPartOf <source/gill-divine-right> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/gill-divine-right/4/001> a gc:Argument ;
+    gc:source <source/gill-divine-right/4> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Acts.7.8> ,
+        <passage/kjv/Gal.5.2-Gal.5.4> ;
+    gc:locator "First, 1." ;
+    gc:secondaryLocator "IA bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 leaf 48" ;
+    gc:pages "45" ;
+    gc:asPrinted "Acts vii. 8. Gal. v. 2, 3, 4." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-divine-right/4/002> a gc:Argument ;
+    gc:source <source/gill-divine-right/4> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.9-Gen.17.14> ;
+    gc:locator "First, 2." ;
+    gc:secondaryLocator "IA bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 leaf 48" ;
+    gc:pages "45" ;
+    gc:asPrinted "Gen. xvii. 9, 10, 11, 12, 13, 14." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-divine-right/4/003> a gc:Argument ;
+    gc:source <source/gill-divine-right/4> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.14> ,
+        <passage/kjv/Ps.89.34> ;
+    gc:locator "First, 3." ;
+    gc:secondaryLocator "IA bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 leaf 49" ;
+    gc:pages "46" ;
+    gc:asPrinted "Gen. xvii. 14. Ps. lxxxix. 34." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-divine-right/4/004> a gc:Argument ;
+    gc:source <source/gill-divine-right/4> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.6> ,
+        <passage/kjv/Gen.17.8> ,
+        <passage/kjv/Gen.17.5> ;
+    gc:locator "First, 4." ;
+    gc:secondaryLocator "IA bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 leaf 49" ;
+    gc:pages "46" ;
+    gc:asPrinted "Gen. xvii. 6, 8. ver. 5." ;
+    gc:resolutionNote "\"ver. 5.\" is cited as Gen 17:5, the chapter of the head's other references." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-divine-right/4/005> a gc:Argument ;
+    gc:source <source/gill-divine-right/4> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Gal.3.16> ;
+    gc:locator "First, 6." ;
+    gc:secondaryLocator "IA bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 leaf 50" ;
+    gc:pages "47" ;
+    gc:asPrinted "Gal. iii. 16." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/Acts.7.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.7.8" ;
+    gc:startOrdinal 201 ; gc:endOrdinal 201 .
+
+<passage/kjv/Gal.3.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.16" ;
+    gc:startOrdinal 61 ; gc:endOrdinal 61 .
+
+<passage/kjv/Gal.5.2-Gal.5.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.5.2-Gal.5.4" ;
+    gc:startOrdinal 107 ; gc:endOrdinal 109 .
+
+<passage/kjv/Gen.17.14> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.14" ;
+    gc:startOrdinal 412 ; gc:endOrdinal 412 .
+
+<passage/kjv/Gen.17.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.5" ;
+    gc:startOrdinal 403 ; gc:endOrdinal 403 .
+
+<passage/kjv/Gen.17.6> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.6" ;
+    gc:startOrdinal 404 ; gc:endOrdinal 404 .
+
+<passage/kjv/Gen.17.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.8" ;
+    gc:startOrdinal 406 ; gc:endOrdinal 406 .
+
+<passage/kjv/Gen.17.9-Gen.17.14> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.9-Gen.17.14" ;
+    gc:startOrdinal 407 ; gc:endOrdinal 412 .
+
+<passage/kjv/Ps.89.34> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Ps" ; gc:osisRef "Ps.89.34" ;
+    gc:startOrdinal 1421 ; gc:endOrdinal 1421 .

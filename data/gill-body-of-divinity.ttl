@@ -17,6 +17,10 @@
     rdfs:label "John Gill, A Complete Body of Doctrinal and Practical Divinity (1769-70)"@en ;
     gc:paginationOf "BSB 2019 (ISBN 9781579780234), reproducing the 1839 London pagination" .
 
+<source/gill-body/doctrinal/2/15> a gc:SourceDivision ;
+    rdfs:label "Doctrinal Divinity, Book II, Chap. XV: Of the Properties of the Covenant of Grace"@en ;
+    dcterms:isPartOf <source/gill-body> .
+
 <source/gill-body/doctrinal/4/1> a gc:SourceDivision ;
     rdfs:label "Doctrinal Divinity, Book IV, Chap. I"@en ;
     dcterms:isPartOf <source/gill-body> .
@@ -31,6 +35,15 @@
     dcterms:isPartOf <source/gill-body> .
 
 # ---------------------------------------------------------------- holdings (ruling 1: taught, or forbidden where Gill argues against)
+
+<body/gill> gc:holds <holding/gill/covenant-of-grace/eternal-with-christ> .
+
+<holding/gill/covenant-of-grace/eternal-with-christ> a gc:Holding ;
+    gc:position <position/covenant-of-grace/eternal-with-christ> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-body/doctrinal/2/15> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
 
 <body/gill> gc:holds <holding/gill/covenant-administrations/one-covenant-two-administrations> .
 
@@ -492,6 +505,48 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+# Step 3 Batch A (PLAN_step3_minting, ruling on report 11).
+<argument/gill-body/doctrinal/2/15/001> a gc:Argument ;
+    gc:source <source/gill-body/doctrinal/2/15> ;
+    gc:supports <position/covenant-of-grace/eternal-with-christ> ;
+    gc:cites <passage/kjv/Eph.1.3-Eph.1.4> ,
+        <passage/kjv/2Tim.1.9> ;
+    gc:locator "1." ;
+    gc:secondaryLocator "BSB 2019 p. 247" ;
+    gc:pages "247" ;
+    gc:asPrinted "Eph. i. 3, 4. 2 Tim. i. 9." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/doctrinal/2/15/002> a gc:Argument ;
+    gc:source <source/gill-body/doctrinal/2/15> ;
+    gc:supports <position/covenant-of-grace/eternal-with-christ> ;
+    gc:cites <passage/kjv/Titus.1.2> ,
+        <passage/kjv/2Tim.1.1> ;
+    gc:locator "1." ;
+    gc:secondaryLocator "BSB 2019 p. 247" ;
+    gc:pages "247" ;
+    gc:asPrinted "Tit. i. 2. 2 Tim. i. 1." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/gill-body/doctrinal/2/15/003> a gc:Argument ;
+    gc:source <source/gill-body/doctrinal/2/15> ;
+    gc:supports <position/covenant-of-grace/eternal-with-christ> ;
+    gc:cites <passage/kjv/Ps.89.2-Ps.89.3> ,
+        <passage/kjv/Ps.89.28> ,
+        <passage/kjv/Ps.103.17> ,
+        <passage/kjv/John.17.23-John.17.24> ,
+        <passage/kjv/Eph.1.4> ,
+        <passage/kjv/Prov.8.23> ,
+        <passage/kjv/Mic.5.2> ;
+    gc:locator "1." ;
+    gc:secondaryLocator "BSB 2019 p. 247" ;
+    gc:pages "247" ;
+    gc:asPrinted "Psalm lxxxix. 2, 3, 28. and ciii. 17. John xvii. 23, 24. Eph. i. 4. Prov. viii. 23. Mic. v. 2." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- passages cited here
 
 <passage/kjv/1Cor.10.1-1Cor.10.2> a gc:Passage ;
@@ -689,3 +744,47 @@
 <passage/kjv/Rom.6.4-Rom.6.5> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4-Rom.6.5" ;
     gc:startOrdinal 142 ; gc:endOrdinal 143 .
+
+<passage/kjv/2Tim.1.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Tim" ; gc:osisRef "2Tim.1.1" ;
+    gc:startOrdinal 1 ; gc:endOrdinal 1 .
+
+<passage/kjv/2Tim.1.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Tim" ; gc:osisRef "2Tim.1.9" ;
+    gc:startOrdinal 9 ; gc:endOrdinal 9 .
+
+<passage/kjv/Eph.1.3-Eph.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.1.3-Eph.1.4" ;
+    gc:startOrdinal 3 ; gc:endOrdinal 4 .
+
+<passage/kjv/Eph.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.1.4" ;
+    gc:startOrdinal 4 ; gc:endOrdinal 4 .
+
+<passage/kjv/John.17.23-John.17.24> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.17.23-John.17.24" ;
+    gc:startOrdinal 738 ; gc:endOrdinal 739 .
+
+<passage/kjv/Mic.5.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mic" ; gc:osisRef "Mic.5.2" ;
+    gc:startOrdinal 56 ; gc:endOrdinal 56 .
+
+<passage/kjv/Prov.8.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Prov" ; gc:osisRef "Prov.8.23" ;
+    gc:startOrdinal 225 ; gc:endOrdinal 225 .
+
+<passage/kjv/Ps.103.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Ps" ; gc:osisRef "Ps.103.17" ;
+    gc:startOrdinal 1627 ; gc:endOrdinal 1627 .
+
+<passage/kjv/Ps.89.2-Ps.89.3> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Ps" ; gc:osisRef "Ps.89.2-Ps.89.3" ;
+    gc:startOrdinal 1389 ; gc:endOrdinal 1390 .
+
+<passage/kjv/Ps.89.28> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Ps" ; gc:osisRef "Ps.89.28" ;
+    gc:startOrdinal 1415 ; gc:endOrdinal 1415 .
+
+<passage/kjv/Titus.1.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.2" ;
+    gc:startOrdinal 2 ; gc:endOrdinal 2 .

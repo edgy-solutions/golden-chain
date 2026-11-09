@@ -1,0 +1,106 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Nehemiah Coxe, A Discourse of the Covenants (docs/sources/coxe-covenants.md). Reference only; no quotation.
+# Coxe is not a phase-1 Body, so there is no Body or Holding here; the Arguments carry the evidence (PLAN_step3_minting Batch A).
+
+<source/coxe-covenants> a gc:SourceWork ;
+    rdfs:label "Nehemiah Coxe, A Discourse of the Covenants that God made with Men before the Law (London, 1681), Wing C6717"@en ;
+    dcterms:bibliographicCitation "London, 1681. Wing C6717; ESTC R7196. Scan: archive.org bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 (leaf n = printed page + 9)." .
+
+<source/coxe-covenants/2/10> a gc:SourceDivision ;
+    rdfs:label "Coxe, ch. II §10"@en ;
+    dcterms:isPartOf <source/coxe-covenants> .
+
+<source/coxe-covenants/2/11> a gc:SourceDivision ;
+    rdfs:label "Coxe, ch. II §11"@en ;
+    dcterms:isPartOf <source/coxe-covenants> .
+
+<source/coxe-covenants/5/8> a gc:SourceDivision ;
+    rdfs:label "Coxe, ch. V §8"@en ;
+    dcterms:isPartOf <source/coxe-covenants> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/coxe-covenants/2/10/001> a gc:Argument ;
+    gc:source <source/coxe-covenants/2/10> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/2Tim.1.9-2Tim.1.10> ,
+        <passage/kjv/Titus.1.1-Titus.1.2> ;
+    gc:locator "II §10" ;
+    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaf 45" ;
+    gc:pages "36" ;
+    gc:asPrinted "2 Tim. 1. 9, 10. Tit. 1. 1, 2." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/coxe-covenants/2/10/002> a gc:Argument ;
+    gc:source <source/coxe-covenants/2/10> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Prov.8.22-Prov.8.31> ;
+    gc:locator "II §10" ;
+    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaf 46" ;
+    gc:pages "37" ;
+    gc:asPrinted "Prov. 8. 22,—31." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/coxe-covenants/2/11/001> a gc:Argument ;
+    gc:source <source/coxe-covenants/2/11> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Gen.3.15> ;
+    gc:locator "II §11" ;
+    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaf 47" ;
+    gc:pages "38" ;
+    gc:asPrinted "Gen. 3. 5." ;
+    gc:resolutionNote "Printed \"Gen. 3. 5.\"; cited as Gen 3:15 from the context (the serpent and her Seed). Proposed; Chris signs from the leaf." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/coxe-covenants/5/8/001> a gc:Argument ;
+    gc:source <source/coxe-covenants/5/8> ;
+    gc:supports <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.4-Gen.17.5> ,
+        <passage/kjv/Rom.4.17> ,
+        <passage/kjv/Rom.4.11> ;
+    gc:locator "V §8" ;
+    gc:secondaryLocator "IA bim_early-english-books-1641-1700_a-discourse-of-the-coven_coxe-nehemiah_1681 leaves 114-116" ;
+    gc:pages "105-107" ;
+    gc:asPrinted "Gen. 17. 4, 5. Rom. 4. 17. Rom. 4. 11." ;
+    gc:resolutionNote "The chapter-level \"Rom. 4.\" (p. 106) and the margin \"Read diligently Gal. 3.\" (p. 106) are not cited, pending the architect's ruling on chapter-level references (PLAN_step3_minting M8). The \"Rom\" of \"Rom. 4. 11.\" (p. 107) looks like \"Rcm\" on leaf 116; Chris signs from the leaf." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/2Tim.1.9-2Tim.1.10> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Tim" ; gc:osisRef "2Tim.1.9-2Tim.1.10" ;
+    gc:startOrdinal 9 ; gc:endOrdinal 10 .
+
+<passage/kjv/Gen.17.4-Gen.17.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.4-Gen.17.5" ;
+    gc:startOrdinal 402 ; gc:endOrdinal 403 .
+
+<passage/kjv/Gen.3.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.3.15" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Prov.8.22-Prov.8.31> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Prov" ; gc:osisRef "Prov.8.22-Prov.8.31" ;
+    gc:startOrdinal 224 ; gc:endOrdinal 233 .
+
+<passage/kjv/Rom.4.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.11" ;
+    gc:startOrdinal 103 ; gc:endOrdinal 103 .
+
+<passage/kjv/Rom.4.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.17" ;
+    gc:startOrdinal 109 ; gc:endOrdinal 109 .
+
+<passage/kjv/Titus.1.1-Titus.1.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.1-Titus.1.2" ;
+    gc:startOrdinal 1 ; gc:endOrdinal 2 .

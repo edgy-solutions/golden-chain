@@ -3,6 +3,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # Phase-1 headings, loci, Positions and the edges between them.
@@ -20,7 +21,23 @@
     rdfs:label "Covenant administrations"@en ;
     skos:notation "23" ;
     gc:underHeading <heading/salvation> ;
-    gc:question "Are the old and new covenants two administrations of one covenant of grace?"@en .
+    gc:question "Are the old and new covenants two administrations of one covenant of grace?"@en ;
+    # Retired by the ruling on report 11 (ADR-0002 rule 3): split into 23a and 23b. The IRI, its Position,
+    # Holdings and Arguments stay; it is excluded from scoring.
+    owl:deprecated true ;
+    dcterms:isReplacedBy <locus/covenant-of-grace> , <locus/circumcision-covenant> .
+
+<locus/covenant-of-grace> a gc:Locus ;
+    rdfs:label "Covenant of grace"@en ;
+    skos:notation "23a" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "What is the covenant of grace, and when was it made?"@en .
+
+<locus/circumcision-covenant> a gc:Locus ;
+    rdfs:label "Covenant of circumcision"@en ;
+    skos:notation "23b" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "Was the covenant of circumcision an administration of the covenant of grace, such that the infant seed are in the covenant?"@en .
 
 <locus/baptism-perpetuity> a gc:Locus ;
     rdfs:label "Perpetuity of baptism"@en ;
@@ -167,6 +184,37 @@
 # Q5's second Position ("infant baptism is no baptism, so believer's baptism of one baptized in
 # infancy is not repetition"; Gill, LBC) is not minted: no Argument in the text yet (rule 2; report 5).
 
+# Step 3 Batch A Positions (PLAN_step3_minting, ruling on report 11).
+<position/covenant-of-grace/eternal-with-christ> a gc:Position ;
+    rdfs:label "Eternal, made with Christ as head of the elect, one with the covenant of redemption, manifested in time."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/covenant-of-grace/established-in-new-covenant> a gc:Position ;
+    rdfs:label "Promised in eternity, formally established in the new covenant; the covenant of redemption distinct."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/covenant-of-grace/made-in-time-after-fall> a gc:Position ;
+    rdfs:label "Made in time after the fall, administered under law and gospel."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/circumcision-covenant/administration-of-grace> a gc:Position ;
+    rdfs:label "Yes: the covenant of circumcision was an administration of the covenant of grace, and the infant seed are in the covenant."@en ;
+    gc:answers <locus/circumcision-covenant> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/circumcision-covenant/not-an-administration-of-grace> a gc:Position ;
+    rdfs:label "No: the covenant of circumcision was not an administration of the covenant of grace."@en ;
+    gc:answers <locus/circumcision-covenant> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- edges (ADR-0003 §6; as ratified as the weaker Position, ADR-0005 §4)
 
 <position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/believers-and-their-infants> .
@@ -175,5 +223,6 @@
 <position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/grace-conferred-in-right-use> .
 <position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/necessary-means-of-grace> .
 
-# E1, ratified 2026-10-25.
-<position/baptism-subjects/believers-and-their-infants> gc:entails <position/covenant-administrations/one-covenant-two-administrations> .
+# E1, ratified 2026-10-25; direction reversed by the ruling on report 11 (direction (ii), infants entail one covenant,
+# was refuted by Augsburg). The entails count stays 1.
+<position/circumcision-covenant/administration-of-grace> gc:entails <position/baptism-subjects/believers-and-their-infants> .

@@ -16,6 +16,10 @@
     rdfs:label "Westminster Confession of Faith (1647), with proof texts"@en ;
     dcterms:bibliographicCitation "Witness: Edinburgh: Evan Tyler, 1647 (ruling on report 5 Q7; edition stated once, ruling on report 8 Q4)." .
 
+<source/wcf/7/3> a gc:SourceDivision ;
+    rdfs:label "WCF 7.3"@en ;
+    dcterms:isPartOf <source/wcf> .
+
 <source/wcf/7/5> a gc:SourceDivision ;
     rdfs:label "WCF 7.5"@en ;
     dcterms:isPartOf <source/wcf> .
@@ -64,6 +68,24 @@
     gc:position <position/covenant-administrations/one-covenant-two-administrations> ;
     gc:modality <vocab/modality/taught> ;
     dcterms:source <source/wcf/7/5> , <source/wcf/7/6> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/covenant-of-grace/made-in-time-after-fall> .
+
+<holding/wcf/covenant-of-grace/made-in-time-after-fall> a gc:Holding ;
+    gc:position <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/7/3> , <source/wcf/7/5> , <source/wcf/7/6> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/circumcision-covenant/administration-of-grace> .
+
+<holding/wcf/circumcision-covenant/administration-of-grace> a gc:Holding ;
+    gc:position <position/circumcision-covenant/administration-of-grace> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/7/5> , <source/wcf/28/4> ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
@@ -428,6 +450,65 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+# Step 3 Batch A (PLAN_step3_minting, ruling on report 11). 28.4 note m also supports 23b yes.
+<argument/wcf/7/3/001> a gc:Argument ;
+    gc:source <source/wcf/7/3> ;
+    gc:supports <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:cites <passage/kjv/Gal.3.21> ,
+        <passage/kjv/Rom.8.3> ,
+        <passage/kjv/Rom.3.20-Rom.3.21> ,
+        <passage/kjv/Gen.3.15> ,
+        <passage/kjv/Isa.42.6> ;
+    gc:locator "7.3" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "e Gal.3,21 Rom.8,3 Rom.3,20,21 Gen.3,15 Isa.42,6" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/5/002> a gc:Argument ;
+    gc:source <source/wcf/7/5> ;
+    gc:supports <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:cites <passage/kjv/2Cor.3.6-2Cor.3.9> ;
+    gc:locator "7.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "i 2 Cor.3, 6,7 8,9" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/5/003> a gc:Argument ;
+    gc:source <source/wcf/7/5> ;
+    gc:supports <position/circumcision-covenant/administration-of-grace> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Col.2.11-Col.2.12> ,
+        <passage/kjv/1Cor.5.7> ;
+    gc:locator "7.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "k Heb.8, 9, 10 chapters Rom.4, 11 Col.2,11,12 1 Cor.5,7" ;
+    gc:resolutionNote "\"Heb.8, 9, 10 chapters\" is a chapter-level reference and is not cited, pending the architect's ruling on chapter-level references (PLAN_step3_minting M8)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/4/003> a gc:Argument ;
+    gc:source <source/wcf/28/4> ;
+    gc:supports <position/circumcision-covenant/administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.7> ,
+        <passage/kjv/Gen.17.9> ,
+        <passage/kjv/Gal.3.9> ,
+        <passage/kjv/Gal.3.14> ,
+        <passage/kjv/Col.2.11-Col.2.12> ,
+        <passage/kjv/Acts.2.38-Acts.2.39> ,
+        <passage/kjv/Rom.4.11-Rom.4.12> ,
+        <passage/kjv/1Cor.7.14> ,
+        <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Mark.10.13-Mark.10.16> ,
+        <passage/kjv/Luke.18.15> ;
+    gc:locator "28.4" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "m Gen.17.7. 9. with Gal 3.91,4 & Col 2 11.12. & Acts 2 38. 39. & Rom.4.11, 12. 1 Cor.7.14. Mat.28.19. Mark 10.13, 14, 15.16. Luke 18.15." ;
+    gc:resolutionNote "\"Gal 3.91,4\" is as printed (signed from the leaf by Chris, 2026-11-01). Cited as Gal 3:9 and 3:14, as Schaff prints it (Gal. iii. 9, 14): ruling on report 7 Q6, status proposed. Chris's note at signing: likely 3.9, 14." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- passages cited here
 
 <passage/kjv/1Cor.7.14> a gc:Passage ;
@@ -645,3 +726,27 @@
 <passage/kjv/Titus.3.5> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.3.5" ;
     gc:startOrdinal 36 ; gc:endOrdinal 36 .
+
+<passage/kjv/1Cor.5.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.5.7" ;
+    gc:startOrdinal 98 ; gc:endOrdinal 98 .
+
+<passage/kjv/Gal.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.21" ;
+    gc:startOrdinal 66 ; gc:endOrdinal 66 .
+
+<passage/kjv/Gen.3.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.3.15" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Isa.42.6> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Isa" ; gc:osisRef "Isa.42.6" ;
+    gc:startOrdinal 832 ; gc:endOrdinal 832 .
+
+<passage/kjv/Rom.3.20-Rom.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.3.20-Rom.3.21" ;
+    gc:startOrdinal 81 ; gc:endOrdinal 82 .
+
+<passage/kjv/Rom.8.3> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.8.3" ;
+    gc:startOrdinal 189 ; gc:endOrdinal 189 .

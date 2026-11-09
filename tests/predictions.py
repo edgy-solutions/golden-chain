@@ -30,8 +30,9 @@
 # Plumb-line sitting 7b23646b signed 2026-11-08 (dispatch §1): data/plumb-line.ttl, 13 Holdings and a tier
 # on all nine loci: Holding/holds 34 -> 47, effectivelyHolds 35 -> 48, warnings 9 -> 0, all else
 # unchanged, locked 2026-11-08T20:32:20Z.
+# Step 3 Batch A (PLAN_step3_minting, ruling on report 11): loci 23a/23b minted, 23 retired (owl:deprecated), E1 moved; Locus 9->11, Position/answers 15->20, Argument/supports 54->70, Passage 100->130, Holding/holds 47->50, effectivelyHolds 48->51, warnings 0->2 (tier on 23a, 23b), locked 2026-11-09T02:36:51Z; matched.
 PREDICTED = {
-    "Locus": 9, "Position": 15, "Argument": 54, "Passage": 100, "Body": 8, "Holding": 47,
-    "excludes": 5, "entails": 1, "holds": 47, "answers": 15, "supports": 54, "childOf": 1,
-    "effectivelyHolds": 48, "warnings": 0,
+    "Locus": 11, "Position": 20, "Argument": 70, "Passage": 130, "Body": 8, "Holding": 50,
+    "excludes": 5, "entails": 1, "holds": 50, "answers": 20, "supports": 70, "childOf": 1,
+    "effectivelyHolds": 51, "warnings": 2,
 }

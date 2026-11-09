@@ -8,6 +8,7 @@ Tags: **[V]** checked on the page image; **[R]** located from OCR only; **[U]** 
 
 - **Edition:** London, 1749 (ESTC T67557). Gill died in 1771, so it is public domain. [R]
 - **Scan:** archive.org `bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749`. Its djvu OCR is noisy but serves for locating. [R]
+- **Leaf map:** archive.org leaf `n` = printed page + 3. Checked at pp. 44–47 (n47–n50). [V]
 - **Not used:**
   - *Sermons and Tracts* (1814–15) was not checked;
   - transcriptions at reformedreader.org and sermonindex.net carry no licence and were used for locating only.
@@ -28,6 +29,7 @@ The headings of Chs. I, V and VII are garbled in the OCR. [R]
 
 | Position | Locator | What it carries | Tag |
 |---|---|---|---|
+| 23b-no | Ch. IV, First Enquiry, pp. 44–47 | Is Gen 17 the pure covenant of grace? Denied, under seven heads. Printed proofs: 1, Acts vii. 8; Gal. v. 2, 3, 4 (p. 45). 2, Gen. xvii. 9–14 (p. 45). 3, Gen. xvii. 14; Ps. lxxxix. 34 (p. 46). 4, Gen. xvii. 6, 8, and "ver. 5." (p. 46). 5, no references (p. 46). 6, Gal. iii. 16 (p. 47). 7, the covenant of grace was made with Christ from everlasting, no references (p. 47). | [V] |
 | 23b-no | Ch. IV, pp. 44–62 | Gill denies that the Gen 17 covenant is the pure covenant of grace (Enquiry 1, pp. 44–47). He denies that circumcision sealed it to the natural seed; Rom 4:11 sealed it to Abraham personally (Enquiry 3, pp. 56–58). Baptism did not succeed circumcision (Enquiry 4, pp. 58–62). Scripture cited: Gen 17; Acts 7:8; Gal 5:2–4; Rom 4:11–17; Rom 9:6–7. | [R] |
 | repetition (secondary) | Ch. II, pp. 5–6 | The charge is that one who adopts believers' baptism renounces his baptism. Gill replies that infant baptism must first be proved to be baptism, and that it has no warrant. This is a burden-of-proof argument, weaker than Booth's. | [R] |
 
