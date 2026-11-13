@@ -13,7 +13,7 @@ from pathlib import Path
 import pyshacl
 import rdflib
 from rdflib import Dataset, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import OWL, RDF, SH
+from rdflib.namespace import OWL, RDF, SH, XSD
 
 from goldenchain import jena, passage
 
@@ -134,6 +134,35 @@ def code_checks(ds: Dataset) -> None:
                 errs.append(f"d. {ax}: rejected axiom's triple {s} {p} {o} is asserted")
         elif not asserted:
             errs.append(f"d. {ax}: axiom's triple {s} {p} {o} is not asserted (and the axiom is not rejected)")
+    # e. gc:unchurches (ADR-0003 R2.3): plumb-line graph only, only true, once per Position,
+    #    the plumb-line holds it forbidden (shape 1), its Locus is not tier third (shape 2).
+    pl = ds.graph(PLUMB_LINE)
+    plumb_body = URIRef(B + "body/plumb-line")
+    forbidden = URIRef(B + "vocab/modality/forbidden")
+    tier_third = URIRef(B + "vocab/tier/third")
+    for ng in ds.graphs():
+        for s, o in ng.subject_objects(GC.unchurches):
+            if ng.identifier != PLUMB_LINE:
+                errs.append(f"e. {s} unchurches asserted in {ng.identifier}, not plumb-line")
+            if not (isinstance(o, Literal) and o.datatype == XSD.boolean and o.toPython() is True):
+                errs.append(f'e. {s} unchurches {o!r}: only "true"^^xsd:boolean may be written')
+            if (s, RDF.type, GC.Position) not in u:
+                errs.append(f"e. {s} unchurches on a subject that is not a gc:Position")
+    for s in sorted(set(u.subjects(GC.unchurches, None))):
+        objs = set(u.objects(s, GC.unchurches))
+        if len(objs) > 1:
+            errs.append(f"e. {s} unchurches written {len(objs)} times")
+        if not any(
+            (h, GC.position, s) in u and (h, GC.modality, forbidden) in u
+            for h in u.objects(plumb_body, GC.holds)
+        ):
+            errs.append(f"e. {s} unchurches: the plumb-line does not hold it forbidden (shape 1)")
+        locus = u.value(s, GC.answers)
+        tier = pl.value(locus, GC.tier) if locus is not None else None
+        if tier is None:
+            errs.append(f"e. {s} unchurches: its Locus {locus} has no tier (shape 2 cannot be checked)")
+        elif tier == tier_third:
+            errs.append(f"e. {s} unchurches: its Locus {locus} is tier third (shape 2)")
     if errs:
         raise IngestError(f"{len(errs)} code-check failure(s):\n" + "\n".join(errs))
 

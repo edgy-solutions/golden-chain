@@ -92,6 +92,9 @@ gc:tier a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Locus ;
 gc:clarity a owl:ObjectProperty, owl:FunctionalProperty ; rdfs:domain gc:Locus ;
     rdfs:comment "Asserted only in the plumb-line graph (ADR-0003 §4)."@en .
 
+gc:unchurches a owl:DatatypeProperty ; rdfs:domain gc:Position ; rdfs:range xsd:boolean ;
+    rdfs:comment "Asserted only in the plumb-line graph, only as true, at most once per Position (ADR-0003 R2.3). A Body whose effective Holding on the Position is required, taught or tolerated is not a church by the plumb-line's standard; its members' standing as Christians is not asserted either way."@en .
+
 # ---------------------------------------------------------------- arguments
 
 gc:supports a owl:ObjectProperty, owl:FunctionalProperty ;
