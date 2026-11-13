@@ -1,0 +1,18 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# The Baptist Standard Bearer, foreword (dated 20 October 1984) to its edition of Gill's Body of Divinity (docs/sources/lee-bsb.md).
+# NOT public domain: cited by page only, nothing quoted. No Body, Holding, Argument or gc:quotation here.
+
+<source/bsb-gill-1984> a gc:SourceWork ;
+    rdfs:label "The Baptist Standard Bearer, foreword to Gill's Body of Divinity (1984)"@en ;
+    dcterms:bibliographicCitation "The Baptist Standard Bearer edition of Gill's Body of Divinity; foreword dated 20 October 1984. Not public domain; cited by page only." .
+
+# Foreword pp. vii-viii, propositions 1 and 7 (ruling B-Q4). Nothing links to it yet; source/plumb-line/validity-3 will link by rdfs:seeAlso when the sitting writes it.
+<source/bsb-gill-1984/foreword/vii-viii> a gc:SourceDivision ;
+    rdfs:label "BSB foreword, pp. vii-viii, propositions 1 and 7"@en ;
+    dcterms:isPartOf <source/bsb-gill-1984> .

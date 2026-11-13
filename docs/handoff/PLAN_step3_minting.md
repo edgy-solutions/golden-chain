@@ -7,8 +7,8 @@ The architect's order: "Mint positions as their sources land; lock counts per ba
 | Batch | Loci | State |
 |---|---|---|
 | A | 23a covenant of grace; 23b circumcision covenant; retire 23 | Minted `00e7a8e`; accepted (ruling on this plan). |
-| A′ | The ruling's follow-ups to A: F-A, M5, M6, M8, M9, M10, M11 | Spec below. |
-| B | repetition; validity (2)–(4), and (1) only if Hodge prints Scripture | After A′. |
+| A′ | The ruling's follow-ups to A: F-A, M5, M6, M8, M9, M10, M11 | Minted `1093740`. |
+| B | repetition; validity (2)–(4); (1) deferred to phase 2 | Spec below (ruling on report 12). |
 | C | instrumentality | After Chris answers F-B on the follow-up console. |
 
 ## Batch A
@@ -148,14 +148,81 @@ Rulings: [RULING_step3_plan.md](RULING_step3_plan.md). Terms: [ADR-0002 Revision
 | Locus, Position, answers, entails, childOf, Body, warnings | 11, 20, 20, 1, 1, 8, 2 | unchanged |
 | violations | 0 | 0 |
 
-## Batch B: repetition and validity (outline)
+## Batch B: repetition and validity (as ruled on report 12)
 
-- **Repetition, taught.** Eph 4:5 (Belgic XXXIV, p. 427, proofs). Booth or Gill *Divine Right* for "infant sprinkling is not baptism". Acts 19:3–5 only with the reading stated.
-- **Validity.**
-  - (3): Chris's Argument text. Its proofs are LBC 28.2's notes (Matt 28:19; 1 Cor 4:1) and Gill Practical III.1. The BSB foreword, pp. vii–viii, props. 1 and 7, is cited as a source division, with Chris's testimony recorded as testimony.
-  - (1): BRPR 1845, p. 469. It prints no Scripture (M1).
-  - (2): Booth vol. 2.
-  - (4): Graves, ch. X, p. 124.
+Rulings: [RULING_report_12.md](RULING_report_12.md), with M1, M2 and M5 of [RULING_step3_plan.md](RULING_step3_plan.md). Everything new is `gc:status proposed`, `gc:proposedBy agent/build-agent`. Proofs were read on the page images by the build agent, except the LBC notes, which the architect read from the 1677 facsimile.
+
+### Locus and Positions (data/loci.ttl)
+
+- `locus/baptism-validity`: label "Validity of baptism", notation "33d" (the 33a–33c family), heading worship, question "What makes a baptism valid?" (dispatch §7). It has no tier in data: the sitting sets it (dispatch: second), so +1 warning.
+
+| IRI under `position/` | Label |
+|---|---|
+| baptism-validity/subject-mode-formula | (2) Subject, mode and formula: a professing believer, immersed, in the triune name. |
+| baptism-validity/church-of-gospel-order | (3) Subject, mode and formula, and the administrator a church of gospel order, defined by doctrine, not by identity or succession. |
+| baptism-validity/church-of-our-order | (4) Subject, mode and formula, and the administrator a church of our own order, by identity or succession. |
+| baptism-repetition/infant-sprinkling-not-baptism | Baptism is administered once. The sprinkling of an infant is not baptism, so the baptism of a professing believer who was sprinkled in infancy is his first baptism, not a repetition. (Dispatch §6, verbatim.) |
+
+- (1) is deferred to phase 2 (M5: Hodge ST3 §6 prints no Scripture).
+- No excludes or entails among these (not ruled; M9 precedent). (2)–(3)–(4) read as exclusive ("suffice" against "plus"); that is a question, not an edge.
+- Gill's administrator wording (B-Q2) is a console item beside (3), not a Position.
+
+### Sources
+
+| IRI under `source/` | Kind | Label / citation |
+|---|---|---|
+| lbc-1689/28/2 | division | LBC 28.2 |
+| graves-old-landmarkism | work | J. R. Graves, *Old Landmarkism: What Is It?* (Memphis, 1880); scan `oldlandmarkismw00gravgoog`, leaf n = p + 6 |
+| graves-old-landmarkism/10 | division | Graves, ch. X |
+| belgic-confession | work | The Belgic Confession (1561), in Schaff, *Creeds of Christendom* vol. 3 (Harper, 1878 printing); scan `creedsofchristen187803scha`, leaf n = p + 15 |
+| belgic-confession/34 | division | Belgic Confession, Art. XXXIV |
+| gill-divine-right/2 | division | *Divine Right*, ch. II |
+| bsb-gill-1984 | work | The Baptist Standard Bearer, foreword (dated 20 October 1984) to its edition of Gill's *Body of Divinity*. Not PD: cited by page only, nothing quoted ([../sources/lee-bsb.md](../sources/lee-bsb.md)). |
+| bsb-gill-1984/foreword/vii-viii | division | BSB foreword, pp. vii–viii, propositions 1 and 7 (B-Q4). Linked by `rdfs:seeAlso` from `source/plumb-line/validity-3` when the sitting writes it; nothing links to it yet. |
+
+### Arguments (6)
+
+| Argument | Supports | Locator; pages | asPrinted | Cites |
+|---|---|---|---|---|
+| lbc-1689/29/2/002 | (2) | "29.2" | (f) Mar. 16.16; Act. 8.36,37 | Mark 16:16; Acts 8:36–37 |
+| lbc-1689/29/3/002 | (2) | "29.3" | (g) Mat. 28. 19, 20. with Act. 8. 38. | Matt 28:19–20; Acts 8:38 |
+| lbc-1689/29/4/002 | (2) | "29.4" | (h) Mat. 3. 16. Joh. 3. 23. | Matt 3:16; John 3:23 |
+| lbc-1689/28/2/001 | (3) | "28.2" | (b) Mat. 28. 19. 1 Cor. 4. 1. | Matt 28:19; 1 Cor 4:1 |
+| graves-old-landmarkism/10/001 | (4) | "Ch. X"; p. 124 (leaf 130); secondary ch. VI p. 64 (leaf 70) | (Matt. 16: 18) … (Heb. 12: 28) … Daniel (2: 44) | Matt 16:18; Heb 12:28; Dan 2:44 |
+| belgic-confession/34/001 | repetition | "Art. XXXIV"; p. 427 (leaf 442), note 1 | 1 Marc xvi. 16; Matt. xxviii. 19; Eph. iv. 5; Héb. vi. 2. | Mark 16:16; Matt 28:19; Eph 4:5; Heb 6:2 |
+
+- **Comments (`rdfs:comment`@en):**
+  - Each LBC Argument says it is cited without an LBC Holding (B-Q1; M5).
+  - 29.4/002 also carries Booth 1829 vol. 2 Part II p. 280 note ‡ (cont. p. 281; leaf 289), paraphrased, as B-Q1 rules.
+  - The Belgic Argument says note 1 is keyed to "once baptized … without ever repeating the same", so it supports only the Position's first clause. Belgic baptizes infants (same article, note 3), so there is no Belgic Holding (B-Q3).
+  - The Graves Argument gives the reading: (4) because the kingdom stood unbroken and no unbaptized man may originate a church *de novo*. Graves disclaims proving each link (pp. 122–125).
+- **Flags.**
+  - 29.3 note (g) and Belgic note 1 are cited whole, as printed (one Argument per note, the repo's convention). The ruling names only Matt 28:19–20 for (g), and B-Q3 named Eph 4:5.
+  - The 29.x notes are already cited, once each, for subjects, formula and mode. The new Arguments are second uses of the same notes.
+
+### Holding (+1, taught)
+
+- `holding/gill/baptism-repetition/infant-sprinkling-not-baptism`, with `dcterms:source` `source/gill-divine-right/2` (pp. 5–6, leaves 8–9).
+- Its `rdfs:comment` carries three things:
+  - Gill III.1 head IV (Tegg 1839 ii. 640): sprinkling "cannot, with any propriety, be called a mode of baptism";
+  - Chris's B-Q3 ruling that the Holding grounds the second clause (M1);
+  - the phase-2 search: Booth, *Apology* (1778); Gill's baptism tracts; Keach.
+
+### Predicted counts (B)
+
+Locked in `step3-batchB-predictions-locked.txt` (2026-11-13T05:37:39Z) before any data change.
+
+| | Before | After |
+|---|---|---|
+| Locus | 11 | 12 |
+| Position, answers | 20 | 24 |
+| Argument, supports | 74 | 80 |
+| Passage | 136 | 142 (1 Cor 4:1, Matt 16:18, Heb 12:28, Dan 2:44, Eph 4:5, Heb 6:2) |
+| Holding, holds | 52 | 53 |
+| effectivelyHolds | 53 | 54 |
+| warnings | 2 | 3 (tier on 33d) |
+| Body, excludes, entails, childOf, Axiom | 8, 9, 1, 1, 1 | unchanged |
+| SourceWork / SourceDivision added | | 3 / 5 |
 
 ## Batch C: instrumentality (outline)
 

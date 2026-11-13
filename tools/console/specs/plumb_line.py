@@ -81,8 +81,8 @@ def retired_slugs(ttl):
 
 
 def check_against_form(loci, order, pos, retired=frozenset()):
-    """Loci in the form must match the ttl, except retired ones (owl:deprecated); loci the form lacks
-    (minted after it was signed, e.g. 23a/23b) are not checked against it."""
+    """Loci in the form must match the ttl, except retired ones (owl:deprecated); loci and Positions the
+    form lacks (minted after it was signed, e.g. 23a/23b) are not checked against it."""
     in_form = {slug for _, slug in order}
     got = [(l["notation"], l["slug"]) for l in loci if l["slug"] in in_form]
     want = [(n, s) for n, s in order if s not in retired]
@@ -91,7 +91,9 @@ def check_against_form(loci, order, pos, retired=frozenset()):
     for l in loci:
         if l["slug"] not in in_form:
             continue
-        if sorted(p["slug"] for p in l["positions"]) != sorted(pos[l["slug"]]):
+        # every Position on the form must still be in the ttl; a Position minted after the form was signed
+        # (e.g. baptism-repetition/infant-sprinkling-not-baptism, Batch B) is not checked against it
+        if not set(pos[l["slug"]]) <= {p["slug"] for p in l["positions"]}:
             raise Fail(f"{l['slug']}: positions differ from the form")
 
 

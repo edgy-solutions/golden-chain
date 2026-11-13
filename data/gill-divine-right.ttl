@@ -12,6 +12,10 @@
     rdfs:label "John Gill, The Divine Right of Infant-Baptism, Examined and Disproved (London, 1749)"@en ;
     dcterms:bibliographicCitation "London, 1749. ESTC T67557. Scan: archive.org bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749 (leaf n = printed page + 3)." .
 
+<source/gill-divine-right/2> a gc:SourceDivision ;
+    rdfs:label "Divine Right, ch. II"@en ;
+    dcterms:isPartOf <source/gill-divine-right> .
+
 <source/gill-divine-right/4> a gc:SourceDivision ;
     rdfs:label "Divine Right, ch. IV"@en ;
     dcterms:isPartOf <source/gill-divine-right> .
@@ -24,6 +28,16 @@
     gc:position <position/circumcision-covenant/not-an-administration-of-grace> ;
     gc:modality <vocab/modality/taught> ;
     dcterms:source <source/gill-divine-right/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/gill> gc:holds <holding/gill/baptism-repetition/infant-sprinkling-not-baptism> .
+
+<holding/gill/baptism-repetition/infant-sprinkling-not-baptism> a gc:Holding ;
+    gc:position <position/baptism-repetition/infant-sprinkling-not-baptism> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/gill-divine-right/2> ;
+    rdfs:comment "Divine Right ch. II pp. 5-6 (leaves 8-9): Gill answers the charge that one who embraces believers' baptism renounces his baptism; infant baptism must first be proved to be baptism. This grounds the Position's second clause as a Holding (ruling B-Q3; M1). Gill, Body of Divinity, Practical III.1, head IV (Tegg 1839 vol. 2 p. 640): sprinkling \"cannot, with any propriety, be called a mode of baptism\". Phase-2 search for a Scripture-printing Baptist source: Booth, Apology (1778); Gill's baptism tracts; Keach."@en ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 

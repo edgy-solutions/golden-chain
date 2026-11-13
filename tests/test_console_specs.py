@@ -149,17 +149,20 @@ def test_plumb_line_spec_matches_form():
     # 23 is retired (owl:deprecated) and replaced by 23a and 23b (ruling on report 11)
     assert [s["id"] for s in secs] == ["covenant-of-grace", "circumcision-covenant", "baptism-perpetuity",
                                        "johns-baptism", "baptism-subjects", "baptism-mode", "baptism-formula",
-                                       "baptism-significance", "baptism-efficacy", "baptism-repetition"]
+                                       "baptism-significance", "baptism-efficacy", "baptism-repetition",
+                                       "baptism-validity"]  # 33d, Batch B
     assert [s["title"].split(" ")[0] for s in secs] == ["23a", "23b", "28", "29", "30", "31", "32", "33a",
-                                                        "33b", "33c"]
+                                                        "33b", "33c", "33d"]
     pos_rows = [r for s in secs for r in s["rows"] if not r["id"].endswith(".locus")]
-    assert len(pos_rows) == 19 and form_position_rows() == 15
+    assert len(pos_rows) == 23 and form_position_rows() == 15  # Batch B: +1 repetition, +3 validity
     locus_rows = [r for s in secs for r in s["rows"] if r["id"].endswith(".locus")]
-    assert len(locus_rows) == 10
+    assert len(locus_rows) == 11
     order, form_pos, _ = plumb_line.read_form(FORM.read_text(encoding="utf-8"))
-    for s in secs:  # every locus the form knows (all but 23a, 23b) matches it row for row
+    for s in secs:  # every locus the form knows (all but 23a, 23b) carries its rows; Batch B adds one after it
         if s["id"] in form_pos:
-            assert sorted(r["id"].split(".", 1)[1] for r in s["rows"][1:]) == sorted(form_pos[s["id"]])
+            got = sorted(r["id"].split(".", 1)[1] for r in s["rows"][1:])
+            extra = ["infant-sprinkling-not-baptism"] if s["id"] == "baptism-repetition" else []
+            assert got == sorted(form_pos[s["id"]] + extra)
     by_id = {s["id"]: [r["id"].split(".", 1)[1] for r in s["rows"][1:]] for s in secs}
     assert "covenant-administrations" not in by_id
     assert sorted(by_id["covenant-of-grace"]) == sorted(["eternal-with-christ", "established-in-new-covenant",
@@ -204,14 +207,14 @@ def test_plumb_line_ttl_writer(plumb):
     g.parse(ttl, format="turtle")
     b = lambda s: URIRef(BASE + s)  # noqa: E731
     holdings = set(g.subjects(RDF.type, GC.Holding))
-    assert len(holdings) == 19 - 1 - 1  # one silent, one abstained
+    assert len(holdings) == 23 - 1 - 1  # one silent, one abstained
     assert b("holding/plumb-line/baptism-subjects/infants") not in holdings
     assert b("holding/plumb-line/baptism-efficacy/sign-only") not in holdings
-    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == 17
+    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == 21
     assert (b("locus/johns-baptism"), GC.tier, b("vocab/tier/third")) in g
     assert (b("locus/johns-baptism"), GC.clarity, b("vocab/clarity/contested")) in g
     assert (b("locus/baptism-perpetuity"), GC.tier, b("vocab/tier/first")) in g
-    assert len(list(g.subject_objects(GC.tier))) == 9  # baptism-efficacy locus row was a fault
+    assert len(list(g.subject_objects(GC.tier))) == 10  # baptism-efficacy locus row was a fault
     h = b("holding/plumb-line/baptism-mode/immersion-only")
     assert (h, GC.modality, b("vocab/modality/forbidden")) in g
     assert (h, GC.position, b("position/baptism-mode/immersion-only")) in g
@@ -239,7 +242,7 @@ def test_plumb_line_null_modality_is_silence(plumb):
     sign(tmp, made, man, spec, silence, write=True, ttl_out=ttl)
     g = Graph()
     g.parse(ttl, format="turtle")
-    assert len(set(g.subjects(RDF.type, GC.Holding))) == 19 - 1
+    assert len(set(g.subjects(RDF.type, GC.Holding))) == 23 - 1
     assert URIRef(BASE + "holding/plumb-line/johns-baptism/same-ordinance") not in set(g.subjects())
     assert "read as silent (dispatch 2026-11-08 §1), nothing written: johns-baptism.same-ordinance\n" \
         in ttl.read_text(encoding="utf-8")

@@ -23,6 +23,10 @@
     rdfs:label "LBC 28.1"@en ;
     dcterms:isPartOf <source/lbc-1689> .
 
+<source/lbc-1689/28/2> a gc:SourceDivision ;
+    rdfs:label "LBC 28.2"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
 <source/lbc-1689/29/1> a gc:SourceDivision ;
     rdfs:label "LBC 29.1"@en ;
     dcterms:isPartOf <source/lbc-1689> .
@@ -212,6 +216,54 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+<argument/lbc-1689/29/2/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/2> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36-Acts.8.37> ;
+    gc:locator "29.2" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(f) Mar. 16.16; Act. 8.36,37" ;
+    rdfs:comment "Note (f) again, as evidence for the subject element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/3/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/3> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/Acts.8.38> ;
+    gc:locator "29.3" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    rdfs:comment "Note (g) again, as evidence for the formula element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/4/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/4> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ;
+    gc:locator "29.4" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(h) Mat. 3. 16. Joh. 3. 23." ;
+    rdfs:comment "Note (h) again, as evidence for the mode element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5). Booth, Paedobaptism Examined (London, 1829) vol. 2, Part II, p. 280 note ‡, continued p. 281 (archive.org pdobaptismexamin02boot leaf 289), paraphrased: a ceremony essentially different from what Christ appointed is not baptism, so one who received it may afterwards be baptized without the charge of Anabaptism. Booth prints no Scripture there, so he enters as a note, not an Argument (M1)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/28/2/001> a gc:Argument ;
+    gc:source <source/lbc-1689/28/2> ;
+    gc:supports <position/baptism-validity/church-of-gospel-order> ;
+    gc:cites <passage/kjv/Matt.28.19> ,
+        <passage/kjv/1Cor.4.1> ;
+    gc:locator "28.2" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), \"Of Baptism and the Lords Supper\"" ;
+    gc:asPrinted "(b) Mat. 28. 19. 1 Cor. 4. 1." ;
+    rdfs:comment "Note (b) of 28.2, as evidence for the administrator element of the validity Position (a church of gospel order). This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5). No page is recorded for the secondary locator."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- passages cited here
 
 <passage/kjv/1Cor.11.26> a gc:Passage ;
@@ -285,3 +337,11 @@
 <passage/kjv/Titus.1.2> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.2" ;
     gc:startOrdinal 2 ; gc:endOrdinal 2 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/1Cor.4.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.4.1" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .

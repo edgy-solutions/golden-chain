@@ -32,8 +32,11 @@
 # unchanged, locked 2026-11-08T20:32:20Z.
 # Step 3 Batch A (PLAN_step3_minting, ruling on report 11): loci 23a/23b minted, 23 retired (owl:deprecated), E1 moved; Locus 9->11, Position/answers 15->20, Argument/supports 54->70, Passage 100->130, Holding/holds 47->50, effectivelyHolds 48->51, warnings 0->2 (tier on 23a, 23b), locked 2026-11-09T02:36:51Z; matched.
 # Batch A′ locked 2026-11-09T03:36:32Z (~/.golden-chain/step3-batchA2-predictions-locked.txt); matched (P1-P6 held; pytest 380).
+# Step 3 Batch B (RULING_report_12) locked 2026-11-13T05:37:39Z (~/.golden-chain/step3-batchB-predictions-locked.txt). B1-B7 matched; B8 MISSED: the first full run had 1 failure + 9 errors, because the plumb-line
+# form check refused a Position minted after the form was signed. The check now requires the form's Positions to be a
+# subset of the ttl's (as for loci); pytest 402 passed.
 PREDICTED = {
-    "Locus": 11, "Position": 20, "Argument": 74, "Passage": 136, "Body": 8, "Holding": 52,
-    "excludes": 9, "entails": 1, "holds": 52, "answers": 20, "supports": 74, "childOf": 1,
-    "effectivelyHolds": 53, "warnings": 2, "Axiom": 1,
+    "Locus": 12, "Position": 24, "Argument": 80, "Passage": 142, "Body": 8, "Holding": 53,
+    "excludes": 9, "entails": 1, "holds": 53, "answers": 24, "supports": 80, "childOf": 1,
+    "effectivelyHolds": 54, "warnings": 3, "Axiom": 1,
 }

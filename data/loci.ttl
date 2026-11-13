@@ -89,6 +89,13 @@
     gc:underHeading <heading/worship> ;
     gc:question "May baptism be repeated?"@en .
 
+# Step 3 Batch B (ruling on report 12). No gc:tier here: tier is asserted only in data/plumb-line.ttl (the sitting sets it).
+<locus/baptism-validity> a gc:Locus ;
+    rdfs:label "Validity of baptism"@en ;
+    skos:notation "33d" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What makes a baptism valid?"@en .
+
 # ---------------------------------------------------------------- positions
 
 <position/covenant-administrations/one-covenant-two-administrations> a gc:Position ;
@@ -212,6 +219,32 @@
 <position/circumcision-covenant/not-an-administration-of-grace> a gc:Position ;
     rdfs:label "No: the covenant of circumcision was not an administration of the covenant of grace."@en ;
     gc:answers <locus/circumcision-covenant> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Phase-2 search for the repetition Position's Scripture: Booth, Apology (1778); Gill's baptism tracts; Keach.
+# Position (1) of the validity family (dispatch section 6) is deferred to phase 2 (M5: Hodge ST3 sec. 6 prints no Scripture).
+<position/baptism-repetition/infant-sprinkling-not-baptism> a gc:Position ;
+    rdfs:label "Baptism is administered once. The sprinkling of an infant is not baptism, so the baptism of a professing believer who was sprinkled in infancy is his first baptism, not a repetition."@en ;
+    gc:answers <locus/baptism-repetition> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/subject-mode-formula> a gc:Position ;
+    rdfs:label "Subject, mode and formula: a professing believer, immersed, in the triune name."@en ;
+    gc:answers <locus/baptism-validity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/church-of-gospel-order> a gc:Position ;
+    rdfs:label "Subject, mode and formula, and the administrator a church of gospel order, defined by doctrine, not by identity or succession."@en ;
+    gc:answers <locus/baptism-validity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/church-of-our-order> a gc:Position ;
+    rdfs:label "Subject, mode and formula, and the administrator a church of our own order, by identity or succession."@en ;
+    gc:answers <locus/baptism-validity> ;
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
