@@ -9,13 +9,14 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   2. recomputation from the files: the spec copy next to the manifest (spec_<kind>_<build16>.json),
      the CURRENT build.py + template.html, and every image file, against the manifest and the export
   3. export.complete is true and the spec's required fields are answered (rechecked here); on the
-     plumb-line a modality left empty is silence, a complete verdict (dispatch 2026-11-08 §1)
+     plumb-line a modality left empty is silence, a complete verdict (dispatch 2026-11-08 §1); from console
+     v3 any select field with empty_means "silent" is the same (silent_rows)
   4. no abstain/fault row holds a value
   5. signature name and date
   6. manifest.provisional is false, unless --provisional
   7. the export's rows are the spec's rows
 Writes signed_<kind>_<build16>.json. With --write also the instance record: a Markdown file under
-docs/handoff/ (empty-strips, wcf1647) or TTL for the plumb-line, written to data/plumb-line.ttl only
+docs/handoff/ (empty-strips, plumb-line-followup, wcf1647) or TTL for the plumb-line, written to data/plumb-line.ttl only
 once ADR-0006 says "- Status: Ratified" (else Fail before anything is written; --ttl-out PATH writes
 the TTL there instead).
 
@@ -40,7 +41,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "wcf1647")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .
@@ -160,18 +161,30 @@ def check_rows(spec, ex):
             raise Fail(f"row {r['id']}: unknown state {got[r['id']].get('state')!r}")
 
 
+def silent_fields(spec, ex):
+    """{row id: [field ids]}: verdict rows' fields left empty that count as silence. A field is silent when
+    its spec field has empty_means "silent", or (legacy v2 plumb-line specs) it is the modality field.
+    Ruling, dispatch 2026-11-08 §1: that is deliberate silence and a complete verdict."""
+    out = {}
+    for _, r in spec_rows(spec):
+        row = ex["rows"][r["id"]]
+        if row["state"] != "verdict":
+            continue
+        vals = row.get("values") or {}
+        ids = [f["id"] for f in r["fields"]
+               if (f.get("empty_means") == "silent" or (spec["kind"] == "plumb-line" and f["id"] == "modality"))
+               and vals.get(f["id"]) is None]
+        if ids:
+            out[r["id"]] = ids
+    return out
+
+
 def silent_rows(spec, ex):
-    """Plumb-line verdict rows whose modality was left empty. Ruling, dispatch 2026-11-08 §1: that is
-    deliberate silence and a complete verdict (console v2 wrongly reports the export incomplete)."""
-    if spec["kind"] != "plumb-line":
-        return []
-    return [r["id"] for _, r in spec_rows(spec) if ex["rows"][r["id"]]["state"] == "verdict"
-            and any(f["id"] == "modality" for f in r["fields"])
-            and (ex["rows"][r["id"]].get("values") or {}).get("modality") is None]
+    return list(silent_fields(spec, ex))
 
 
 def check_complete(spec, ex):
-    silent = set(silent_rows(spec, ex))
+    silent = silent_fields(spec, ex)
     if ex.get("complete") is not True and not silent:
         raise Fail("export is not complete")
     for _, r in spec_rows(spec):
@@ -179,7 +192,7 @@ def check_complete(spec, ex):
         if row["state"] != "verdict":
             continue
         for f in r["fields"]:
-            if r["id"] in silent and f["id"] == "modality":
+            if f["id"] in silent.get(r["id"], []):
                 continue
             if f.get("required", True) and not answered(f, (row.get("values") or {}).get(f["id"])):
                 raise Fail(f"row {r['id']}: required field {f['id']} is unanswered")
@@ -237,7 +250,14 @@ def render_answer(v):
     return str(v)
 
 
+def _export_of(signed):
+    """The export-shaped view of a signed record, for silent_fields."""
+    return {"rows": {r["row_id"]: {"state": r["state"], "values": {f["id"]: f["value"] for f in r["fields"]}}
+                     for r in signed["rows"]}}
+
+
 def markdown(signed, spec):
+    silent = {(rid, fid) for rid, fids in silent_fields(spec, _export_of(signed)).items() for fid in fids}
     sig = signed["signature"]
     out = [f"# {spec['title']}", "", "## Provenance", "",
            f"- Signer: {signed['signer']} ({sig.get('name', '')}), {sig.get('date', '')}",
@@ -259,7 +279,8 @@ def markdown(signed, spec):
             for n, f in enumerate(r["fields"]):
                 q = f["label"] if not r["label"] else f"{r['label']}: {f['label']}"
                 out.append("| " + " | ".join(cell(x) for x in (
-                    r["row_id"], q, render_answer(f["value"]), r["state"], r["note"] if n == 0 else "")) + " |")
+                    r["row_id"], q, ("left empty, read as silent" if (r["row_id"], f["id"]) in silent else render_answer(f["value"])),
+                    r["state"], r["note"] if n == 0 else "")) + " |")
     return ("\n".join(out)).encode("utf-8")
 
 
@@ -279,6 +300,9 @@ def plumb_ttl(signed):
     """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting.
     Ruling, report 8 Q1: proposed by the build agent, ratified by Chris on the signature date."""
     lines, loci, holds, holdings, skipped, others, silent = [], [], [], [], [], [], []
+    flagged = []
+    tiers = {r["row_id"].partition(".")[0]: {f["id"]: f["value"] for f in r["fields"]}.get("tier")
+             for r in signed["rows"] if r["row_id"].endswith(".locus") and r["state"] == "verdict"}
     src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
     day = str(signed["signature"].get("date") or "")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
@@ -305,6 +329,16 @@ def plumb_ttl(signed):
             continue
         slug_ok(locus, pos)
         m = vals.get("modality")
+        flag = vals.get("unchurches") or []
+        if any(is_other(x) for x in flag):
+            others.append(f"{r['row_id']}.unchurches")
+        if "unchurches" in [x for x in flag if not is_other(x)]:
+            if m != "forbidden":
+                raise Fail(f"plumb-line: {r['row_id']} unchurches ticked but modality is {m!r}; "
+                           "only forbidden may be flagged (ADR-0003 R2.3)")
+            if tiers.get(locus) == "third":
+                raise Fail(f"plumb-line: {r['row_id']} unchurches ticked on a tier-third locus (ADR-0003 R2.3)")
+            flagged.append(f"<position/{locus}/{pos}> gc:unchurches true .")
         if is_other(m):
             others.append(f"{r['row_id']}.modality")
             continue
@@ -324,6 +358,8 @@ def plumb_ttl(signed):
     lines.append("# modality left empty, read as silent (dispatch 2026-11-08 §1), nothing written: "
                  + (", ".join(silent) if silent else "none"))
     lines += [""] + loci + [""] + holds + [""] + holdings + [""]
+    if flagged:
+        lines += ["# unchurches (ADR-0003 R2.3)"] + flagged + [""]
     lines.append(f'<{src}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
                  f'    dcterms:identifier "{signed["export_sha256"]}" ;\n    ' + status)
     return ("\n".join(lines) + "\n").encode("utf-8")

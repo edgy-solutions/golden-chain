@@ -7,6 +7,8 @@ One section per gc:Locus that has at least one gc:Position (gc:answers), ordered
 <locus-slug>.<position-slug> (modality select, silent included). The slug is the last IRI segment.
 The loci and positions must match docs/loci/plumb-line-form-phase1.md (the "(not minted)" row aside),
 else Fail. The instruction copies that form's "How the entries are used" bullets.
+A modality left empty is silence, a complete answer (console v3: empty_means "silent"). Each Position row also
+has an "unchurches" checkbox (ADR-0003 R2.3). The help carries the R2.1 and R2.2 definitions from ADR-0003.
 """
 
 import re
@@ -20,6 +22,7 @@ sys.path.insert(0, str(HERE.parent))
 import build  # noqa: E402
 from build import Fail  # noqa: E402
 
+ADR3 = build.REPO / "docs" / "adr" / "0003-controlled-vocabularies-and-scoring.md"
 FORM = build.REPO / "docs" / "loci" / "plumb-line-form-phase1.md"
 GC = Namespace("https://w3id.org/golden-chain/ontology#")
 SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
@@ -101,12 +104,19 @@ def sel(fid, label, options):
     return {"id": fid, "kind": "select", "label": label, "options": options, "required": True, "proposed": None}
 
 
+def position_fields():
+    """The two fields of a Position row: modality (empty is silence) and the unchurches checkbox."""
+    return [{**sel("modality", "Modality", MODALITIES), "empty_means": "silent"},
+            {"id": "unchurches", "kind": "checkbox", "label": "Unchurches (ADR-0003 R2.3)",
+             "options": ["unchurches"], "required": False}]
+
+
 def section(l):
     rows = [{"id": f"{l['slug']}.locus", "label": f"{l['notation']} {l['label']}", "context": [], "image_ids": [],
              "fields": [sel("tier", "Tier", TIERS), sel("clarity", "Clarity", CLARITIES)]}]
     for p in l["positions"]:
         rows.append({"id": f"{l['slug']}.{p['slug']}", "label": p["label"], "context": [], "image_ids": [],
-                     "fields": [sel("modality", "Modality", MODALITIES)]})
+                     "fields": position_fields()})
     return {"id": l["slug"], "title": f"{l['notation']} {l['slug']}: {l['question']}", "text": "",
             "image_ids": [], "rows": rows}
 
@@ -121,6 +131,41 @@ HELP = [
 ]
 
 
+def adr_quote(lines, heading):
+    """The blockquote under the heading line, "> " prefix removed, blank quote lines kept."""
+    idx = [n for n, l in enumerate(lines) if l.startswith(heading + " ")]
+    if not idx:
+        raise Fail(f"{ADR3}: no heading {heading!r}")
+    i = idx[0]
+    out, started = [], False
+    for line in lines[i + 1:]:
+        if line.startswith("#"):
+            break
+        if line.startswith(">"):
+            started = True
+            out.append(line[2:] if line.startswith("> ") else line[1:])
+        elif started:
+            break
+    text = "\n".join(out).strip()
+    if not text:
+        raise Fail(f"{ADR3}: no blockquote under {heading!r}")
+    return text
+
+
+def adr_help():
+    lines = ADR3.read_text(encoding="utf-8").splitlines()
+    return [
+        {"q": "Tier: what do first, second and third mean? (ADR-0003 R2.1)", "a": adr_quote(lines, "### R2.1")},
+        {"q": "Modality: what do required, taught, tolerated, forbidden and silent mean? (ADR-0003 R2.2)",
+         "a": adr_quote(lines, "### R2.2")},
+        {"q": "When may I tick unchurches?",
+         "a": "Only on a Position you hold forbidden, on a locus that is not tier third (ADR-0003 R2.3). A Body "
+              "that holds the Position required, taught or tolerated is then shown as not a church by this "
+              "plumb-line's standard, apart from any score; its members' standing as Christians is not asserted "
+              "either way. Leave it unticked otherwise."},
+    ]
+
+
 def make_spec(ttl):
     ttl, form = Path(ttl), FORM.read_text(encoding="utf-8")
     loci = read_loci(ttl)
@@ -130,9 +175,9 @@ def make_spec(ttl):
                    "(ADR-0003 sections 3 to 5a). How the entries are used:\n\n" + "\n\n".join(bullets))
     return {"format": build.SPEC_FORMAT, "kind": "plumb-line", "title": "Plumb-line form: phase 1",
             "signer": "Chris", "instruction": instruction,
-            "sources": [{"path": str(p.resolve()), "sha256": build.sha256_file(p)} for p in (ttl, FORM)],
+            "sources": [{"path": str(p.resolve()), "sha256": build.sha256_file(p)} for p in (ttl, FORM, ADR3)],
             "run_header": None, "images": [], "sections": [section(l) for l in loci], "withheld": [],
-            "help": HELP,
+            "help": HELP + adr_help(),
             "signature": {"fields": ["name", "date"]}}
 
 

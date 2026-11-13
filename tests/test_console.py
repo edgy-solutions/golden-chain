@@ -3,6 +3,7 @@ import hashlib
 import json
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -371,8 +372,8 @@ def test_fit_is_the_default_zoom(sitting):
 
 
 def test_template_version_in_header_and_manifest(sitting):
-    assert "console template v2" in page_text(sitting)
-    assert sitting["man"]["template_version"] == 2 == build.TEMPLATE_VERSION
+    assert "console template v3" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 3 == build.TEMPLATE_VERSION
 
 
 def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):
@@ -445,3 +446,162 @@ def test_min_ticks_checkbox_needs_n_entries(tmp_path):
     flds[0]["min_ticks"] = 1  # on a radio
     with pytest.raises(Fail, match="min_ticks"):
         build.check_spec(spec)
+
+
+# ---- console v3: silence is complete (empty_means), the follow-up kind ----------------------------------
+
+def silent_spec(tmp_path, kind="plumb-line-followup"):
+    sil = field("modality", "select", ["required", "taught", "forbidden", "silent"], empty_means="silent")
+    return {
+        "format": build.SPEC_FORMAT, "kind": kind, "title": "Follow-up fixture", "signer": "Chris",
+        "instruction": "Sign.", "sources": [], "run_header": None, "images": [], "withheld": [],
+        "signature": {"fields": ["name", "date"]},
+        "sections": [{"id": "loc", "title": "Locus", "text": "", "image_ids": [], "rows": [
+            {"id": "loc.locus", "label": "locus", "context": [], "image_ids": [], "fields": [
+                field("tier", "select", ["first", "second", "third"]),
+                field("clarity", "select", ["settled", "contested", "open"])]},
+            {"id": "loc.pa", "label": "Pa", "context": [], "image_ids": [], "fields": [
+                dict(sil), field("unchurches", "checkbox", ["unchurches"], required=False)]},
+            {"id": "loc.pb", "label": "Pb", "context": [], "image_ids": [], "fields": [
+                dict(sil), field("unchurches", "checkbox", ["unchurches"], required=False)]}]}],
+    }
+
+
+def test_check_spec_refuses_empty_means_on_a_radio_or_with_another_value(tmp_path):
+    spec = make_spec(tmp_path)
+    flds = spec["sections"][0]["rows"][0]["fields"]
+    flds[0]["empty_means"] = "silent"  # a radio
+    with pytest.raises(Fail, match=r"field s1\.r1/rad: empty_means"):
+        build.check_spec(spec)
+    del flds[0]["empty_means"]
+    flds[1]["empty_means"] = "loud"  # a select, wrong value
+    with pytest.raises(Fail, match=r"field s1\.r1/sel: empty_means"):
+        build.check_spec(spec)
+    flds[1]["empty_means"] = "silent"
+    build.check_spec(spec)
+
+
+def test_select_with_empty_means_renders_data_empty(tmp_path, monkeypatch):
+    made = do_build(tmp_path, silent_spec(tmp_path), monkeypatch)
+    t = made["html"].read_text(encoding="utf-8")
+    assert t.count('data-empty="silent"') == 2
+    assert 'data-field="tier" data-kind="select" data-required="1">' in t
+
+
+def test_followup_export_with_empty_modalities_is_accepted_and_read_as_silent(tmp_path, monkeypatch):
+    spec = silent_spec(tmp_path)
+    made = do_build(tmp_path, spec, monkeypatch)
+    man = json.loads(made["manifest"].read_text(encoding="utf-8"))
+    for complete in (True, False):
+        ho = tmp_path / f"handoff_{complete}"  # the record names the build, and the export differs per loop
+        ho.mkdir()
+        monkeypatch.setattr(ingest, "HANDOFF", ho)
+        ex = make_export(spec, man)
+        ex["complete"] = complete
+        for rid in ("loc.pa", "loc.pb"):
+            ex["rows"][rid]["values"] = {"modality": None, "unchurches": []}
+        p = tmp_path / f"verdicts_{complete}.json"
+        p.write_text(json.dumps(ex), encoding="utf-8")
+        out = ingest.ingest(p, made["manifest"], out_dir=tmp_path / f"signed_{complete}", write=True)
+        md = ho / f"SIGNED_plumb_line_followup_{man['build16']}.md"
+        assert out[1] == md
+        t = md.read_text(encoding="utf-8")
+        assert t.count("left empty, read as silent") == 2 and "not answered" not in t
+    # an empty required non-silent field still refuses
+    ex = make_export(spec, man)
+    ex["rows"]["loc.locus"]["values"]["tier"] = None
+    p = tmp_path / "bad.json"
+    p.write_text(json.dumps(ex), encoding="utf-8")
+    with pytest.raises(Fail, match="required field tier is unanswered"):
+        ingest.ingest(p, made["manifest"], out_dir=tmp_path / "signed_bad")
+
+
+def signed_plumb(rows):
+    """A minimal signed record for plumb_ttl: rows = {row_id: {field: value}}."""
+    return {"build_hash": "a" * 64, "export_sha256": "b" * 64, "signature": {"name": "Chris", "date": "2026-11-12"},
+            "rows": [{"row_id": rid, "section": rid.split(".")[0], "label": "", "state": "verdict", "note": "",
+                      "fields": [{"id": k, "label": k, "kind": "x", "value": v} for k, v in vals.items()]}
+                     for rid, vals in rows.items()]}
+
+
+def ttl_graph(signed):
+    from rdflib import Graph
+    g = Graph()
+    g.parse(data=ingest.plumb_ttl(signed).decode("utf-8"), format="turtle")
+    return g
+
+
+def unchurches_triples(g):
+    from rdflib import URIRef
+    return list(g.triples((None, URIRef("https://w3id.org/golden-chain/ontology#unchurches"), None)))
+
+
+def test_plumb_ttl_unchurches_ticked_on_forbidden_writes_one_triple():
+    g = ttl_graph(signed_plumb({"loc.locus": {"tier": "second", "clarity": "settled"},
+                                "loc.pa": {"modality": "forbidden", "unchurches": ["unchurches"]},
+                                "loc.pb": {"modality": "forbidden", "unchurches": []}}))
+    tr = unchurches_triples(g)
+    assert len(tr) == 1 and str(tr[0][0]).endswith("position/loc/pa") and tr[0][2].toPython() is True
+
+
+def test_plumb_ttl_unchurches_refusals_and_silences():
+    loc = {"loc.locus": {"tier": "second", "clarity": "settled"}}
+    with pytest.raises(Fail, match=r"modality is 'taught'; only forbidden may be flagged \(ADR-0003 R2.3\)"):
+        ingest.plumb_ttl(signed_plumb({**loc, "loc.pa": {"modality": "taught", "unchurches": ["unchurches"]}}))
+    with pytest.raises(Fail, match="tier-third locus"):
+        ingest.plumb_ttl(signed_plumb({"loc.locus": {"tier": "third", "clarity": "settled"},
+                                       "loc.pa": {"modality": "forbidden", "unchurches": ["unchurches"]}}))
+    other = signed_plumb({**loc, "loc.pa": {"modality": "forbidden", "unchurches": [{"other": "maybe"}]}})
+    t = ingest.plumb_ttl(other).decode("utf-8")
+    assert "loc.pa.unchurches" in [l for l in t.splitlines() if l.startswith("# other, as written")][0]
+    assert not unchurches_triples(ttl_graph(other))
+    for v in (None, []):
+        assert not unchurches_triples(ttl_graph(signed_plumb(
+            {**loc, "loc.pa": {"modality": "forbidden", "unchurches": v}})))
+
+
+NODE_DRIVER = r"""
+const puppeteer = require('puppeteer');
+(async () => {
+  const b = await puppeteer.launch({headless: true, args: ['--no-sandbox']});
+  const pg = await b.newPage();
+  await pg.goto(process.argv[2]);
+  const out = await pg.evaluate(() => {
+    const set = (sel, v) => { const e = document.querySelector(sel); e.value = v; e.dispatchEvent(new Event('input', {bubbles: true})); };
+    set('.row[data-row="loc.locus"] [data-field="tier"] select', 'second');
+    set('.row[data-row="loc.locus"] [data-field="clarity"] select', 'settled');
+    document.getElementById('sig-name').value = 'Chris';
+    document.getElementById('sig-date').value = '2026-11-12';
+    document.getElementById('sig-name').dispatchEvent(new Event('input', {bubbles: true}));
+    const first = document.getElementById('status').textContent;
+    set('.row[data-row="loc.pa"] [data-field="modality"] select', 'forbidden');
+    return [first, document.getElementById('status').textContent];
+  });
+  console.log(JSON.stringify(out));
+  await b.close();
+})().catch(e => { console.error(e); process.exit(1); });
+"""
+
+
+def test_headless_status_counts_rows_left_empty_as_silent(tmp_path, monkeypatch):
+    import os
+
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node is not on PATH")
+    root = subprocess.run(["npm", "root", "-g"], capture_output=True, text=True, timeout=60,
+                          shell=True).stdout.strip()
+    env = dict(os.environ, NODE_PATH=os.pathsep.join(x for x in (os.environ.get("NODE_PATH"), root) if x))
+    chk = subprocess.run([node, "-e", "require('puppeteer')"], capture_output=True, text=True, env=env, timeout=60)
+    if chk.returncode != 0:
+        pytest.skip("the puppeteer module is not available to node (npm root -g: %s)" % root)
+    spec = silent_spec(tmp_path, kind="plumb-line")
+    made = do_build(tmp_path, spec, monkeypatch)
+    drv = tmp_path / "drive.js"
+    drv.write_text(NODE_DRIVER, encoding="utf-8", newline="\n")
+    r = subprocess.run([node, str(drv), made["html"].resolve().as_uri()], capture_output=True, text=True,
+                       env=env, timeout=120)
+    assert r.returncode == 0, r.stderr[-500:]
+    first, second = json.loads(r.stdout.strip().splitlines()[-1])
+    assert first.startswith("complete; 2 left empty, read as silent")
+    assert second.startswith("complete; 1 left empty")

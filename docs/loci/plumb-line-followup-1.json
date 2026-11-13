@@ -1,0 +1,96 @@
+{
+ "format": "golden-chain-followup-content/1",
+ "title": "Plumb-line follow-up: sitting 1",
+ "instruction": "Sitting 1 of two (ruling B-Q5 on report 12). It asks for your stance on everything minted in step 3, the two wording questions (F-A, F-B), the administrator question beside validity (3), your unchurches flags, and the 1677 margin letters of LBC 7.3.\n\nWhere a row shows \"Recorded in the dispatch\", that is the architect's record of your earlier words (dispatch of 2026-11-08), shown so you can check it. Nothing is preselected. The build agent proposes nothing doctrinal: every stance on this page is yours to give.\n\nA modality left empty is silence, a complete answer. Tick unchurches only on a Position you hold forbidden on a Locus that is not tier third (ADR-0003 R2.3). Tier, clarity and modality are defined in Help.\n\nThis sitting is recorded as a signed Markdown file. The data is written from it after the architect rules how a second sitting enters data/plumb-line.ttl.",
+ "images": [
+  {"id": "gill-p896-left", "file": "crop_p896_left.png",
+   "caption": "Gill, Body of Divinity, Practical Book III ch. I \"Of Baptism\", opening (left column). BSB 1984 reprint p. 896."},
+  {"id": "gill-p914-sixthly", "file": "crop_p914_sixthly.png",
+   "caption": "Gill, Practical III.1, foot of the left column: \"Sixthly, The ends and uses for which...\". BSB p. 914."},
+  {"id": "gill-p914-right", "file": "crop_p914_right.png",
+   "caption": "Gill, Practical III.1, Sixthly continued: ends 1 to 5 (right column). BSB p. 914."},
+  {"id": "gill-p915-end6", "file": "crop_p915_end6.png",
+   "caption": "Gill, Practical III.1, Sixthly, end 6 (top of the left column). BSB p. 915."}
+ ],
+ "sections": [
+  {"id": "covenant-of-grace", "locus": "covenant-of-grace", "text": "",
+   "rows": [
+    {"type": "locus", "context": ["Recorded in the dispatch (§5): tier second; clarity contested (\"between Gill and the federalists, to settle after reading Witsius\")."]},
+    {"type": "position", "position": "eternal-with-christ", "context": ["Recorded in the dispatch (§5): taught."]},
+    {"type": "position", "position": "established-in-new-covenant", "context": ["Recorded in the dispatch (§5): tolerated. That stance was given against the dispatch wording of (ii); the label above is now Coxe's wording (F-A)."]},
+    {"type": "position", "position": "made-in-time-after-fall", "context": ["Recorded in the dispatch (§5): tolerated."]},
+    {"type": "radio", "id": "fa-wording", "label": "F-A: which wording of (ii) is the Position?",
+     "context": ["Coxe's wording (Discourse of the Covenants, 1681, ch. II §§10-11, pp. 36-38), now the label: \"An eternal covenant of redemption between the Father and the Son; in pursuance of it, grace revealed to fallen man by promise from the fall.\"",
+                 "The dispatch wording (the architect's paraphrase): \"promised in eternity, formally established in the new covenant; covenant of redemption distinct.\"",
+                 "Ruling F-A: the Position must say what the source says. Coxe's text never says \"covenant of grace\" or \"established in the new covenant\"."],
+     "options": ["Coxe's wording", "the dispatch wording"]},
+    {"type": "radio", "id": "ii-iii", "label": "With Coxe's wording, do (ii) and (iii) differ in substance, or only on whether an eternal pact precedes the promise?",
+     "context": ["The architect's framing (ruling on report 12): many Westminster divines held an eternal covenant of redemption before the promise too (Witsius among the Dutch).",
+                 "If they differ in substance, the minted exclusion between (ii) and (iii) stands. If they differ only on the eternal pact, they collapse and the locus is re-cut by the architect."],
+     "options": ["they differ in substance", "they differ only on the eternal pact"]}
+   ]},
+  {"id": "circumcision-covenant", "locus": "circumcision-covenant", "text": "",
+   "rows": [
+    {"type": "locus", "context": ["Recorded in the dispatch (§5): tier second; clarity settled."]},
+    {"type": "position", "position": "administration-of-grace", "context": ["Recorded in the dispatch (§5): forbidden."]},
+    {"type": "position", "position": "not-an-administration-of-grace", "context": ["Recorded in the dispatch (§5): taught."]}
+   ]},
+  {"id": "baptism-repetition", "locus": "baptism-repetition", "text": "The tier and clarity of this locus, and your stance on once-only, were signed at the first sitting. Only the new Position is asked.",
+   "rows": [
+    {"type": "position", "position": "infant-sprinkling-not-baptism", "context": ["Recorded in the dispatch (§6): taught."]}
+   ]},
+  {"id": "baptism-validity", "locus": "baptism-validity", "text": "Position (1), \"subject and formula suffice; Romish baptism valid\" (WCF 28; Hodge), is not minted yet (phase 2). The dispatch records it as tolerated.",
+   "rows": [
+    {"type": "locus", "context": ["Recorded in the dispatch (§7): tier second. No clarity was recorded."]},
+    {"type": "position", "position": "subject-mode-formula", "context": ["Recorded in the dispatch (§7): tolerated."]},
+    {"type": "position", "position": "church-of-gospel-order", "context": ["Recorded in the dispatch (§7): taught. This is (3)."]},
+    {"type": "position", "position": "church-of-our-order", "context": ["Recorded in the dispatch (§7): forbidden."]},
+    {"type": "proposal", "id": "validity-3-statement", "label": "Your statement, as the Argument text for (3) (source/plumb-line/validity-3, ruling M2)",
+     "context": ["Taken verbatim from the dispatch (§7). Confirm it, or correct it to the words you want recorded."],
+     "proposed": "A baptism is valid when three things hold: the subject is a professing believer; the administration is according to the Word (immersion, in the triune name); and the administrator is a church of gospel order, not identity or succession. A baptism lacking any of the three is no baptism."},
+    {"type": "radio", "id": "validity-3-administrator", "label": "Is (3) yours, Gill's, or do both exist?",
+     "image_ids": ["gill-p896-left"],
+     "context": ["The architect's finding (ruling B-Q2 on report 12): Gill's opening paragraph (beside: \"not a church-ordinance\"; admission \"lies solely in the breast of the administrator\"; Saul baptized by Ananias) may be a distinct Position on the administrator clause.",
+                 "The alternative wording: \"the administrator is a qualified, called minister acting on his own judgment\", not \"a church of gospel order\".",
+                 "If both exist, the alternative is minted as its own Position under this locus and asked on sitting 2."],
+     "options": ["(3) is mine; Gill's is the alternative", "(3) is Gill's too", "both exist: mint the alternative"]},
+    {"type": "radio", "id": "validity-3-testimony", "label": "Your testimony on the BSB foreword: which stands?",
+     "context": ["Your words as recorded (docs/handoff/PROPOSAL_validity_bsb_foreword.md): \"Pastor Lee followed Gill on the administrator, so validity rests on Christ's institution and the church's warrant, not succession; a church may be constituted de novo by sound believers, who appoint an administrator; he baptizes by the church's warrant though unbaptized, then is baptized by one of them (Spilsbury's answer, 1640s; Gill follows it).\"",
+                 "The ruling on report 12 paraphrases this as Lee \"followed Gill to the tee\", and notes that Gill's printed administrator view is less churchly than the foreword's proposition 7.",
+                 "Nothing from the foreword is quoted here (not public domain)."],
+     "options": ["my recorded words stand", "my recorded words stand, amended in the note"]}
+   ]},
+  {"id": "instrumentality-fb", "locus": null,
+   "title": "F-B: Gill, Practical III.1, \"Sixthly, The ends and uses\" (BSB pp. 914-915)",
+   "image_ids": ["gill-p914-sixthly", "gill-p914-right", "gill-p915-end6"],
+   "text": "Ruling F-B: ends 2 to 4 read \"by means of it, be led, directed, and encouraged to expect it from Christ\" (2), \"a means of directing to Christ\" (3), \"by leading the faith of the person baptized to Christ\" (4). Read ends 1 to 6 on the crops. Your answer decides the wording of (b) and the excludes edge between (a) and (b). The instrumentality locus is not minted yet; your stances on (a) and (b) are asked on sitting 2. The dispatch (§8) records (b) taught and (a) undecided between tolerated and forbidden.",
+   "rows": [
+    {"type": "radio", "id": "fb-reading", "label": "Is Gill's \"means\" the Spirit working through the rite (a), or the rite setting Christ before faith, the Spirit working by the Word (b)?",
+     "context": ["(a) instrumental: the Spirit works through the rite to confirm faith (Heidelberg 65-66; WCF 27.3; Belgic 33).",
+                 "(b) representational: the rite sets the reality before faith; faith exercised on the reality is strengthened; the Spirit works by the Word and the water represents (the dispatch's draft, §8)."],
+     "options": ["(a) the Spirit works through the rite", "(b) the rite sets Christ before faith; the Spirit works by the Word"]},
+    {"type": "text", "id": "fb-b-wording", "label": "If (b): the wording of (b) as you would have it", "required": false,
+     "context": ["Leave empty to keep the dispatch's draft of (b), shown above."]}
+   ]},
+  {"id": "unchurches", "locus": null,
+   "title": "Unchurches: your flags from the first sitting (dispatch §4)",
+   "text": "A Body that holds or practises a flagged Position (required, taught or tolerated) is shown as \"Not a church by this plumb-line's standard\", apart from any score. Its members' standing as Christians is not asserted either way. The dispatch records the consequence you affirmed: under this plumb-line, Westminster, Heidelberg/Belgic and Protestant Reformed bodies are not churches, though full of Christians. On the data as it stands, the two flags exclude body/wcf, body/augsburg and body/apology-1531 (ADR-0003 R2.3; tested, not yet signed).",
+   "rows": [
+    {"type": "flag", "id": "baptism-subjects.believers-and-their-infants", "position": "baptism-subjects/believers-and-their-infants",
+     "context": ["Signed at the first sitting: forbidden; the locus is tier second."]},
+    {"type": "flag", "id": "baptism-subjects.infants", "position": "baptism-subjects/infants",
+     "context": ["Signed at the first sitting: forbidden; the locus is tier second."]},
+    {"type": "flag", "id": "baptism-formula.non-triune", "position": null,
+     "label": "Every non-triune-name Position under baptism-formula, when minted, unchurches; triune-name stays required.",
+     "context": ["No such Position is minted yet. Confirming records the rule; each Position is flagged at the sitting after it is minted."]}
+   ]},
+  {"id": "lbc-7-3", "locus": null,
+   "title": "LBC 7.3: margin letters as printed in 1677",
+   "text": "Read from your copy of the 1677 facsimile (2000), ch. 7 para. 3, margin. These strings come from a reading transcription (bible-researcher.com, after CCEL), not from the facsimile (ruling M10). There is no image: the witness is your copy. Keep the original spelling and punctuation.",
+   "rows": [
+    {"type": "proposal", "id": "argument-001", "label": "argument/lbc-1689/7/3/001 (cited as Gen 3:15)", "proposed": "e Gen. 3.15."},
+    {"type": "proposal", "id": "argument-002", "label": "argument/lbc-1689/7/3/002 (cited as Heb 1:1)", "proposed": "f Heb. 1.1."},
+    {"type": "proposal", "id": "argument-003", "label": "argument/lbc-1689/7/3/003 (cited as 2 Tim 1:9; Titus 1:2)", "proposed": "* 2 Tim. 1.9. Tit. 1.2."}
+   ]}
+ ]
+}

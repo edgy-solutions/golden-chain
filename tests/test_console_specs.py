@@ -31,6 +31,9 @@ def built(tmp_path, monkeypatch, spec_path):
 
 def sign(tmp_path, made, man, spec, mutate=None, **kw):
     ex = tc.make_export(spec, man)
+    for r in ex["rows"].values():  # the fixture ticks every checkbox; unchurches is ticked only where a test says
+        if "unchurches" in r["values"] and spec["kind"] == "plumb-line":
+            r["values"]["unchurches"] = []
     if mutate:
         mutate(ex)
     p = tmp_path / "verdicts.json"
@@ -262,8 +265,14 @@ def test_null_modality_is_silence_on_the_plumb_line_only(plumb):
     tmp, made, man, spec = plumb
     ex = tc.make_export(spec, man)
     silence(ex)
+    legacy = json.loads(json.dumps(spec))  # a v2 spec: no empty_means; only the plumb-line kind reads modality as silent
+    for s_ in legacy["sections"]:
+        for r_ in s_["rows"]:
+            for f_ in r_["fields"]:
+                f_.pop("empty_means", None)
     with pytest.raises(Fail, match="export is not complete"):
-        ingest.check_complete(dict(spec, kind="wcf1647"), ex)
+        ingest.check_complete(dict(legacy, kind="wcf1647"), ex)
+    ingest.check_complete(legacy, ex)
     ingest.check_complete(spec, ex)
 
 
@@ -446,3 +455,82 @@ def test_empty_strips_spec_v2_options(tmp_path):
     abst = spec["sections"][2]
     assert abst["title"].startswith("Run-1") and abst["text"].strip()
     assert spec["help"]
+
+
+# ---- console v3: the plumb-line's new fields and help; the follow-up builder ---------------------------
+
+ADR3 = ROOT / "docs" / "adr" / "0003-controlled-vocabularies-and-scoring.md"
+CONTENT = ROOT / "docs" / "loci" / "plumb-line-followup-1.json"
+
+
+def adr_blockquote(heading):
+    """Read independently of plumb_line.adr_quote: the quote lines between the heading and the next heading."""
+    text = ADR3.read_text(encoding="utf-8")
+    body = re.search(r"^### " + re.escape(heading) + r" .*?\n(.*?)(?=^#)", text, re.M | re.S).group(1)
+    quote = [l for l in body.splitlines() if l.startswith(">")]
+    return "\n".join(re.sub(r"^> ?", "", l) for l in quote).strip()
+
+
+def test_plumb_line_position_rows_have_modality_and_unchurches_and_help():
+    spec = plumb_line.make_spec(LOCI)
+    pos_rows = [r for s in spec["sections"] for r in s["rows"] if not r["id"].endswith(".locus")]
+    assert pos_rows
+    for r in pos_rows:
+        mod, unc = r["fields"]
+        assert [f["id"] for f in r["fields"]] == ["modality", "unchurches"]
+        assert mod["empty_means"] == "silent" and mod["kind"] == "select"
+        assert unc["kind"] == "checkbox" and unc["options"] == ["unchurches"] and unc["required"] is False
+    assert len(spec["help"]) == 5
+    assert spec["help"][2]["a"] == adr_blockquote("R2.1") and spec["help"][3]["a"] == adr_blockquote("R2.2")
+    assert "R2.1" in spec["help"][2]["q"] and "R2.2" in spec["help"][3]["q"]
+    assert any(s["path"] == str(ADR3.resolve()) for s in spec["sources"])
+    build.check_spec(spec)
+
+
+@pytest.fixture
+def followup_images(tmp_path):
+    d = tmp_path / "imgs"
+    d.mkdir()
+    for n, im in enumerate(json.loads(CONTENT.read_text(encoding="utf-8"))["images"]):
+        tc.png(d / im["file"], 8, 4, shade=50 + n)
+    return d
+
+
+def test_followup_spec_on_the_real_content(followup_images):
+    import plumb_line_followup as pf
+
+    spec = pf.make_spec(CONTENT, LOCI, followup_images)
+    secs = spec["sections"]
+    assert spec["kind"] == "plumb-line-followup" and spec["signer"] == "Chris"
+    assert len(secs) == 7
+    assert sum(len(s["rows"]) for s in secs) == 25
+    # C1 locked 39 fields: MISSED. The content gives 3 locus x 2 + 9 position x 2 + 5 radio + 4 proposal
+    # + 1 text + 3 flag = 37; the lock miscounted (~/.golden-chain/item2-console-v3-predictions-locked.txt).
+    assert sum(len(r["fields"]) for s in secs for r in s["rows"]) == 37
+    assert len(spec["images"]) == 4
+    assert [len(s["rows"]) for s in secs] == [6, 3, 1, 7, 2, 3, 3]
+    build.check_spec(spec)
+
+
+def content_with(tmp_path, mutate):
+    c = json.loads(CONTENT.read_text(encoding="utf-8"))
+    mutate(c)
+    p = tmp_path / "content.json"
+    p.write_text(json.dumps(c), encoding="utf-8")
+    return p
+
+
+def test_followup_refusals(tmp_path, followup_images):
+    import plumb_line_followup as pf
+
+    def mk(mutate):
+        return pf.make_spec(content_with(tmp_path, mutate), LOCI, followup_images)
+
+    with pytest.raises(Fail, match="unknown row type 'blob'"):
+        mk(lambda c: c["sections"][4]["rows"][0].update(type="blob"))
+    with pytest.raises(Fail, match="does not answer the Locus"):
+        mk(lambda c: c["sections"][1]["rows"][1].update(position="eternal-with-christ"))
+    with pytest.raises(Fail, match="positions without a row"):
+        mk(lambda c: c["sections"][0]["rows"].pop(3))
+    with pytest.raises(Fail, match="content format"):
+        mk(lambda c: c.update(format="other/1"))
