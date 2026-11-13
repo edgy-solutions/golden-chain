@@ -16,7 +16,7 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   6. manifest.provisional is false, unless --provisional
   7. the export's rows are the spec's rows
 Writes signed_<kind>_<build16>.json. With --write also the instance record: a Markdown file under
-docs/handoff/ (empty-strips, plumb-line-followup, wcf1647) or TTL for the plumb-line, written to data/plumb-line.ttl only
+docs/handoff/ (empty-strips, plumb-line-followup, wcf1647, q11-crops) or TTL for the plumb-line, written to data/plumb-line.ttl only
 once ADR-0006 says "- Status: Ratified" (else Fail before anything is written; --ttl-out PATH writes
 the TTL there instead).
 
@@ -41,7 +41,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .

@@ -534,3 +534,50 @@ def test_followup_refusals(tmp_path, followup_images):
         mk(lambda c: c["sections"][0]["rows"].pop(3))
     with pytest.raises(Fail, match="content format"):
         mk(lambda c: c.update(format="other/1"))
+
+
+# ---- (v) q11-crops --------------------------------------------------------------------------------
+
+def _q11_spec_module():
+    import importlib.util
+    s = importlib.util.spec_from_file_location("q11_crops_spec", ROOT / "tools" / "console" / "specs" / "q11_crops.py")
+    m = importlib.util.module_from_spec(s)
+    s.loader.exec_module(m)
+    return m
+
+
+def q11_dir(tmp_path):
+    crops = []
+    for p, n in ((913, 16), (915, 5)):
+        name = f"q11-p{p}-slab{n}.png"
+        tc.png(tmp_path / name, 20, 10)
+        crops.append({"file": name, "sha256": build.sha256_file(tmp_path / name), "page": p, "slab": n,
+                      "rows": [0, 10], "cols": [0, 20], "frame_wh": [20, 30], "slab_rows_in_frame": [3, 6],
+                      "measured": {"gutter": 277, "left_white": 237, "right_white": 29},
+                      "overlay": [{"x": 0, "y": 1, "w": 20, "h": 2, "colour": "#ff00ff", "what": "top"}]})
+    (tmp_path / "q11_crops.json").write_text(json.dumps({"header": {"run": "q11-crops"}, "crops": crops}),
+                                             encoding="utf-8")
+    return tmp_path
+
+
+def test_q11_spec_shape(tmp_path):
+    spec = _q11_spec_module().make_spec(q11_dir(tmp_path))
+    build.check_spec(spec)
+    assert spec["kind"] == "q11-crops" and len(spec["images"]) == 2
+    assert len(spec["sections"]) == 1 and len(spec["sections"][0]["rows"]) == 2
+    assert sum(len(r["fields"]) for r in spec["sections"][0]["rows"]) == 6
+
+
+def test_q11_spec_fails(tmp_path):
+    m = _q11_spec_module()
+    d = q11_dir(tmp_path)
+    tc.png(d / "q11-p913-slab16.png", 21, 10)  # sha differs from q11_crops.json
+    with pytest.raises(Fail):
+        m.make_spec(d)
+    (d / "q11-p915-slab5.png").unlink()
+    with pytest.raises(Fail):
+        m.make_spec(d)
+
+
+def test_q11_kind_registered():
+    assert "q11-crops" in build.KINDS and "q11-crops" in ingest.KINDS

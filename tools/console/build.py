@@ -63,7 +63,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/1"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
