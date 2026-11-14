@@ -56,6 +56,12 @@ gc:Teacher a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Teacher"@en ;
 gc:Collection a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Collection"@en ;
     rdfs:comment "A recognised collection of confessional texts (e.g. the Book of Concord). It is not a parent: its members are dcterms:isPartOf it and inherit nothing from it (rulings Q7, Q8)."@en .
 
+gc:Denomination a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Denomination"@en ;
+    rdfs:comment "A body of churches under one order. In the domain model from the first brief; minted with no instances (ruling on report 13, item 8)."@en .
+
+gc:Congregation a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Congregation"@en ;
+    rdfs:comment "One local church. In the domain model from the first brief; minted with no instances (ruling on report 13, item 8)."@en .
+
 gc:Editorial a owl:Class ; rdfs:subClassOf gc:Body ; rdfs:label "Editorial"@en ;
     rdfs:comment "The project's own editorial Body: the plumb-line. One instance, ever: B body/plumb-line (ruling, report 7 Q2a)."@en .
 

@@ -46,6 +46,11 @@ SCOPES = {
     "officers": {None, URIRef(B + "vocab/scope/all"), URIRef(B + "vocab/scope/officers")},
 }
 PLUMB = unchurches.PLUMB_BODY
+# Ruled consequence wording, shown under a WALL cell on the Position (ruling on report 13, item 7).
+CONSEQUENCE = {
+    URIRef(B + "position/baptism-validity/church-of-our-order"):
+        "requires the baptism of one already validly baptized (repetition)",
+}
 
 
 def rel(iri) -> str:
@@ -195,6 +200,8 @@ def render_body(g, body, scope="members") -> str:
         for pos, bm, pm in wl["cells"]:
             lines.append(f"    - {rel(wl['locus'])} (tier {wl['tier']}): {rel(pos)} {bm} "
                          f"against plumb-line {pm}")
+            if pos in CONSEQUENCE:
+                lines.append(f"      consequence: {CONSEQUENCE[pos]}")
     lines.append(f"  cost: {_fmt(s['cost'])} over {s['n_cost']} loci; coverage: {_fmt(s['coverage'])}")
     lines.append(f"  breaks: {len(s['breaks'])}")
     for locus, tier, v in s["breaks"]:

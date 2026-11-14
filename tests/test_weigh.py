@@ -83,6 +83,7 @@ W2 = """body/case-b [Confession] not ranked
 W3 = """body/case-c [Confession] ranked
   walls: 1
     - locus/baptism-validity (tier second): position/baptism-validity/church-of-our-order required against plumb-line forbidden
+      consequence: requires the baptism of one already validly baptized (repetition)
   cost: 0.0000 over 3 loci; coverage: 1.0000
   breaks: 1
     - locus/baptism-validity (tier second): WALL"""
@@ -93,6 +94,18 @@ def test_w1_w2_w3():
     assert weigh.render_body(g, U("body/case-a")) == W1
     assert weigh.render_body(g, U("body/case-b")) == W2
     assert weigh.render_body(g, U("body/case-c")) == W3
+
+
+def test_consequence_only_under_a_wall():
+    """Ruling on report 13, item 7: the consequence words show under a WALL cell only."""
+    line = "      consequence: requires the baptism of one already validly baptized (repetition)"
+    walled = weigh.render_body(build(), U("body/case-c")).splitlines()
+    assert walled.count(line) == 1
+    assert walled[walled.index(line) - 1].endswith("church-of-our-order required against plumb-line forbidden")
+    g = build(bodies={"soft": [("baptism-validity", "church-of-our-order", "taught")]})
+    s = weigh.score(g, U("body/soft"))
+    assert s["walls"] == [] and s["breaks"] == [(U("locus/baptism-validity"), "second", 0.75)]
+    assert "consequence:" not in weigh.render_body(g, U("body/soft"))
 
 
 def test_w4_distinct_and_order():

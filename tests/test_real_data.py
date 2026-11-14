@@ -51,7 +51,8 @@ def actual_counts() -> dict:
     out = {c: len(set(UNION.subjects(RDF.type, GC[c]))) for c in
            ("Locus", "Position", "Argument", "Passage", "Holding")}
     # Bodies are typed by their subclass only (ontology/core.ttl); no inference runs here.
-    out["Body"] = len({s for c in ("Body", "Confession", "Catechism", "Systematic", "Teacher", "Collection", "Editorial")
+    out["Body"] = len({s for c in ("Body", "Confession", "Catechism", "Systematic", "Teacher", "Collection", "Editorial",
+                                    "Denomination", "Congregation")
                        for s in UNION.subjects(RDF.type, GC[c])})
     for p in ("excludes", "entails", "holds", "answers", "supports", "childOf"):
         out[p] = len(list(UNION.triples((None, GC[p], None))))

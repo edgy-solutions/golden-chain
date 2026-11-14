@@ -179,3 +179,15 @@ def test_real_data_with_flags():
         if own is not None:
             assert row["own"] is own
         assert unchurches.wording(d, U(b)) == unchurches.WORDING["Confession"]
+
+
+def test_wording_classes_are_body_subclasses_without_instances():
+    """Ruling on report 13, item 8: Denomination and Congregation are minted as Body subclasses,
+    with no instances; every WORDING class is then a Body subclass in the ontology."""
+    from rdflib.namespace import OWL, RDFS
+    onto = Graph().parse(ingest.ONTOLOGY / "core.ttl")
+    subs = set(onto.subjects(RDFS.subClassOf, GC.Body))
+    assert {GC[n] for n in unchurches.WORDING} <= subs
+    for n in ("Denomination", "Congregation"):
+        assert (GC[n], RDF.type, OWL.Class) in onto
+        assert not set(ingest.union(ingest.load_dataset()).subjects(RDF.type, GC[n]))
