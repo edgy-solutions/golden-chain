@@ -47,7 +47,11 @@ Scope: the (a)-source divisions of RULING_step3_plan M4, which are Heidelberg 65
 ### Heidelberg: Harbaugh
 
 - **Edition:** *The Heidelberg Catechism, with Proof-texts and Explanations as used in the Palatinate*, translated by Rev. H. Harbaugh, D.D. Reading, Pa.: Daniel Miller.
-  - The date (1889) comes from the catalogue only. The title page was not viewed. [R]
+  - **Date, read from the title-page image (leaf n4; ruling on report 13, item 12):** no date is printed. [V]
+    - Below the imprint the leaf carries a Library of Congress copyright stamp, "JAN 7 1892", and a pencilled "(1889)".
+    - The verso (n5) carries a pencilled shelfmark, "BX9428 .A3 1889a".
+    - The pencilled dates are a cataloguer's hand, so they are not provenance. The printing existed by 7 January 1892.
+    - **Cite as:** Harbaugh, Reading, Pa.: Daniel Miller, n.d. (LC copyright stamp, 7 Jan. 1892).
   - Henry Harbaugh (1817–1867). Any printing is PD: the author died in 1867, and the printing predates 1929.
 - **Scan:** archive.org `heidelbergcatech00harb`.
 - **Leaf map:** leaf `n` = printed page + 3. Checked on every leaf from n110 (p. 107) to n122 (p. 119). [V]
@@ -120,3 +124,24 @@ The researcher had marked p. 427 fn2 and fn5 as doubtful in placement. Both are 
    - Col 2:11: B34 p. 425 fn3, which is a partly-efficacy clause. Col 2:11–12 together appear only at p. 427 fn5, a subjects clause.
 5. **Passages printed by both Heidelberg and Belgic** (one Argument each, or one Argument with two sources?):
    - Acts 22:16, Tit 3:5, Gal 3:27, 1 Pet 3:21, 1 Cor 6:11, 1 John 1:7, Eph 4:22–24, John 19:34 and Rom 4:11.
+
+### Rulings on report 13 (2026-11-14), applied here
+
+[RULING_report_13.md](../handoff/RULING_report_13.md), items 12–16. Nothing is minted: Batch C waits on F-B.
+
+- **12. Harbaugh is confirmed** as the Heidelberg proof source. Its date is read from the title-page image, above. The catalogue's 1889 is not provenance.
+- **13. Admission is by clause, accepted as marked.** The "Efficacy clause?" column above is the admission test:
+  - "yes" is admitted;
+  - "no (…)" is not;
+  - p. 425 fn3 is marked "partly". It is not decided here; it is put to the architect in report 14.
+- **14. Acts 22:16.** The (a)-sources print it (Harbaugh Q.69 p. 114, Q.71 p. 116; Belgic XXXIV p. 426 fn4), so (a) carries an Argument on it. The architect's expectation that no (a)-source prints it is recorded as falsified (finding 1).
+- **15. Misprinted references, as a general rule** (the same as LBC "Act. 26. 16"):
+  - cite the corrected reference;
+  - keep `gc:asPrinted` with the string as printed;
+  - add a `resolutionNote`, with status proposed.
+  - **Applied now only to Schaff p. 426 fn1:** "Apoc. i. 6" is cited as Rev 1:5, with `gc:asPrinted "Apoc. i. 6"`. The clause is the blood of Christ cleansing the soul, and Rev 1:5 is "washed us from our sins in his own blood".
+  - Harbaugh p. 109 "Rom. v. 11" and Schaff p. 425 "Matt. xxvi. 36" stay as printed. Neither is in an admitted clause.
+- **16. One Argument per source.** An Argument cites one note of one division.
+  - The nine passages printed by both Heidelberg and Belgic (finding 5) are therefore at least eighteen Arguments.
+  - Harbaugh prints Acts 22:16 and Tit 3:5 under both Q.69 and Q.71, which are two divisions, so each of those is one Argument more again.
+  - The count for Batch C is locked before it is minted, in the form "n Arguments, k misprints expected" (ruling on report 13, the habit).
