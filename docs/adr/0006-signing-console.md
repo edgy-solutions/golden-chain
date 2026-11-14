@@ -164,3 +164,41 @@ Ruled on report 7, Q2. The architect will read the text; this section records wh
 2. **Per-tile signing.** For the WCF strings the console offers `confirm` /
    `correct` per row, not one tile per token. Is a whole-string confirmation
    enough, given that a corrected row is recorded as a signed reading?
+
+## Revision 1 (2026-11-14; ruled on report 13, item 6): how a later plumb-line sitting enters the data
+
+Ruled: option A of [PROPOSAL_adr0006_r1_second_sitting.md](../handoff/PROPOSAL_adr0006_r1_second_sitting.md), with two additions (replay; provenance as data) and the silence rule. Ruling text: [RULING_report_13.md](../handoff/RULING_report_13.md). Points marked *(reading)* are the build agent's, for the architect to confirm.
+
+1. **The record.**
+   - Every signed `plumb-line` and `plumb-line-followup` record is committed. That is the `signed_<kind>_<build16>.json` the ingest writes, which carries the export's sha256.
+   - It goes under `docs/sittings/plumb-line/` as `NNNN_signed_<kind>_<build16>.json`, numbered in signing order from `0001`, and is never overwritten.
+   - *(reading)* The directory is outside `data/` because the pre-commit hook admits only `.ttl`, `.py` and `.md` there.
+2. **The product.**
+   - `data/plumb-line.ttl` is the deterministic product of replaying the records in order, starting from an empty file. One function does it: `replay(records) -> bytes`.
+   - Born test: replaying the committed records gives the committed file, byte for byte.
+3. **The merge, row by row.** The newer sitting wins row by row. A row that is not on a later form is untouched.
+   - **Locus row (verdict):** a given tier or clarity replaces the earlier one; `other` leaves the earlier one standing.
+   - **Position row, modality:**
+     - A modality writes or replaces the Holding. A new or changed Holding takes this sitting as its `dcterms:source` and its signature date as `dcterms:dateAccepted`; an unchanged one keeps its earlier source and date.
+     - `silent`, chosen, is **verdict: silent**. It removes the Holding and any `gc:unchurches` on that Position.
+     - Left empty is **unanswered**, and nothing changes.
+     - `other` leaves the earlier answer standing.
+   - **Position row, unchurches checkbox (console v3):** when the row's modality is answered, ticked writes the flag and unticked removes it. Ticked on an unanswered modality: the merge fails.
+   - **Flag row (follow-up):** `confirm` writes the flag and `withdraw` removes it. On a Position the plumb-line does not hold after the merge, nothing is written, and the header says so.
+   - **Abstain and fault rows:** untouched.
+   - **Radio, proposal and text rows:** these are not data. They stay in the SIGNED Markdown record.
+   - **After the merge:** every flag must stand on a Position the plumb-line holds forbidden, at a Locus whose tier is not third (ADR-0003 R2.3; ingest check e). Otherwise the merge fails and nothing is written.
+4. **Provenance as data.**
+   - Each `gc:tier`, `gc:clarity` and `gc:unchurches` triple has one `owl:Axiom` (the ADR-0002 R2 pattern) naming the sitting that set it, by `dcterms:source`, with an `rdfs:comment`.
+   - The IRIs are `axiom/tier/<locus>/to/<tier>`, `axiom/clarity/<locus>/to/<clarity>` and `axiom/unchurches/<locus>/<position>/to/true`.
+   - Holdings carry `dcterms:source` as before. Nothing else is annotated.
+5. **The overwrite guard.**
+   - The merge is the only path that writes `data/plumb-line.ttl`.
+   - Before merging, it replays the committed records and refuses unless the result equals the committed file. So a hand edit is never merged over.
+   - The file's header lists every sitting in order: build16, kind, signature date, export sha256, and the sha256 of the product it replaced.
+6. **Silence and unanswered** *(reading)*.
+   - "Verdict: silent" is the modality option `silent`, chosen on a verdict row.
+   - "Unanswered" is a modality left empty, or a row in abstain or fault.
+   - Dispatch 2026-11-08 §1 still holds for completeness: an empty field does not make an export incomplete. The two differ only in the merge, where unanswered never removes.
+   - The follow-up form `c89256e734a61e4f` re-asks no Position that sitting 1 holds, so this reading changes nothing on it.
+   - Any later form that re-asks a held Position must say, in its help, that empty leaves the earlier answer standing and that `silent` removes it.

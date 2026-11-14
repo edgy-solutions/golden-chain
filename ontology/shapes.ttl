@@ -153,12 +153,14 @@
 
 # Notes on edges (ADR-0002 Revision 2 item 2): an annotated axiom naming one excludes or entails triple.
 # Its triple's presence (or, if rejected, absence) is checked in code: goldenchain/ingest.py check d.
+# ADR-0006 R1: also the provenance of a plumb-line triple (gc:tier, gc:clarity, gc:unchurches), which may be a
+# literal target (unchurches true).
 <ontology/shapes#Axiom> a sh:NodeShape ;
     sh:targetClass owl:Axiom ;
     sh:property [ sh:path owl:annotatedSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path owl:annotatedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
-        sh:in ( gc:excludes gc:entails ) ] ;
-    sh:property [ sh:path owl:annotatedTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+        sh:in ( gc:excludes gc:entails gc:tier gc:clarity gc:unchurches ) ] ;
+    sh:property [ sh:path owl:annotatedTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRIOrLiteral ] ;
     sh:property [ sh:path rdfs:comment ; sh:minCount 1 ] ;
     sh:property [ sh:path gc:status ; sh:maxCount 1 ] .
 

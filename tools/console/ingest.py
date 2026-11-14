@@ -1,7 +1,7 @@
 """Signing console ingest: a verdicts export + its manifest -> the signed record (ADR-0006).
 
 Usage: python tools/console/ingest.py <verdicts.json> <manifest.json> [--provisional]
-                                      [--out-dir DIR] [--write] [--ttl-out PATH]
+                                      [--out-dir DIR] [--write] [--ttl-out PATH] [--records-dir DIR]
        out-dir defaults to the manifest's directory.
 
 Checks, each a Fail with nothing written (ADR-0006 item 8):
@@ -16,9 +16,12 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   6. manifest.provisional is false, unless --provisional
   7. the export's rows are the spec's rows
 Writes signed_<kind>_<build16>.json. With --write also the instance record: a Markdown file under
-docs/handoff/ (empty-strips, plumb-line-followup, wcf1647, q11-crops) or TTL for the plumb-line, written to data/plumb-line.ttl only
-once ADR-0006 says "- Status: Ratified" (else Fail before anything is written; --ttl-out PATH writes
-the TTL there instead).
+docs/handoff/ (empty-strips, wcf1647, q11-crops; plumb-line-followup also). For the plumb-line kinds
+(plumb-line, plumb-line-followup) the merge (plumb_merge.merge, ADR-0006 R1) writes the numbered record
+docs/sittings/plumb-line/NNNN_signed_<kind>_<build16>.json and replaces data/plumb-line.ttl with the replay of
+all records, only once ADR-0006 says "- Status: Ratified" (else Fail before anything is written; --ttl-out PATH
+writes the TTL there instead, with its records in --records-dir, default PATH's directory/sittings). The merge
+refuses if the committed TTL is not the replay of its records.
 
 The build hash is recomputed here by its own code, not imported from build.py (truth-set form 8.5):
 the rule is spelled out at the check site.
@@ -297,72 +300,9 @@ def choice(v, allowed, what):
 
 
 def plumb_ttl(signed):
-    """ADR-0006 open point 1, as ruled (report 7 Q2a): one SourceDivision per signed sitting.
-    Ruling, report 8 Q1: proposed by the build agent, ratified by Chris on the signature date."""
-    lines, loci, holds, holdings, skipped, others, silent = [], [], [], [], [], [], []
-    flagged = []
-    tiers = {r["row_id"].partition(".")[0]: {f["id"]: f["value"] for f in r["fields"]}.get("tier")
-             for r in signed["rows"] if r["row_id"].endswith(".locus") and r["state"] == "verdict"}
-    src = f"source/plumb-line/sitting-{signed['build_hash'][:16]}"
-    day = str(signed["signature"].get("date") or "")
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
-        raise Fail(f"plumb-line: signature date {day!r} is not YYYY-MM-DD")
-    status = (f"gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;\n"
-              f'    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "{day}"^^xsd:date .')
-    for r in signed["rows"]:
-        vals = {f["id"]: f["value"] for f in r["fields"]}
-        if r["state"] != "verdict":
-            skipped.append(r["row_id"])
-            continue
-        locus, _, pos = r["row_id"].partition(".")
-        if pos == "locus":
-            slug_ok(locus)
-            tv, cv = vals.get("tier"), vals.get("clarity")
-            for fid, x in (("tier", tv), ("clarity", cv)):
-                if is_other(x):
-                    others.append(f"{r['row_id']}.{fid}")
-            t = None if is_other(tv) else choice(tv, TIERS, "tier")
-            c = None if is_other(cv) else choice(cv, CLARITIES, "clarity")
-            bits = ([f"gc:tier <vocab/tier/{t}>"] if t else []) + ([f"gc:clarity <vocab/clarity/{c}>"] if c else [])
-            if bits:
-                loci.append(f"<locus/{locus}> " + " ; ".join(bits) + " .")
-            continue
-        slug_ok(locus, pos)
-        m = vals.get("modality")
-        flag = vals.get("unchurches") or []
-        if any(is_other(x) for x in flag):
-            others.append(f"{r['row_id']}.unchurches")
-        if "unchurches" in [x for x in flag if not is_other(x)]:
-            if m != "forbidden":
-                raise Fail(f"plumb-line: {r['row_id']} unchurches ticked but modality is {m!r}; "
-                           "only forbidden may be flagged (ADR-0003 R2.3)")
-            if tiers.get(locus) == "third":
-                raise Fail(f"plumb-line: {r['row_id']} unchurches ticked on a tier-third locus (ADR-0003 R2.3)")
-            flagged.append(f"<position/{locus}/{pos}> gc:unchurches true .")
-        if is_other(m):
-            others.append(f"{r['row_id']}.modality")
-            continue
-        if m is None or m == "silent":
-            if m is None:
-                silent.append(r["row_id"])
-            continue
-        choice(m, MODALITIES, "modality")
-        h = f"holding/plumb-line/{locus}/{pos}"
-        holds.append(f"<body/plumb-line> gc:holds <{h}> .")
-        holdings.append(f"<{h}> a gc:Holding ; gc:position <position/{locus}/{pos}> ;\n"
-                        f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n    " + status)
-    lines += [LOCI_HEADER, "# Plumb-line sitting " + signed["build_hash"][:16] + " (ADR-0006 open point 1, ruled report 7 Q2a)."]
-    lines.append("# abstain/fault rows, nothing written: " + (", ".join(skipped) if skipped else "none"))
-    lines.append("# other, as written, nothing written (the architect rules): "
-                 + ("; ".join(others) if others else "none"))
-    lines.append("# modality left empty, read as silent (dispatch 2026-11-08 §1), nothing written: "
-                 + (", ".join(silent) if silent else "none"))
-    lines += [""] + loci + [""] + holds + [""] + holdings + [""]
-    if flagged:
-        lines += ["# unchurches (ADR-0003 R2.3)"] + flagged + [""]
-    lines.append(f'<{src}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
-                 f'    dcterms:identifier "{signed["export_sha256"]}" ;\n    ' + status)
-    return ("\n".join(lines) + "\n").encode("utf-8")
+    """The plumb-line TTL of one signed record alone: the replay of [signed] (ADR-0006 R1)."""
+    import plumb_merge
+    return plumb_merge.replay([signed])
 
 
 def adr_ratified():
@@ -372,14 +312,24 @@ def adr_ratified():
         return False
 
 
-def instance_output(signed, spec, ttl_out):
-    """(path, bytes) of the instance record; Fails before anything is written if it may not be."""
-    if signed["kind"] == "plumb-line":
+def instance_output(signed, spec, ttl_out, records_dir=None):
+    """[(path, bytes)] of the instance record(s); Fails before anything is written if it may not be.
+    Plumb-line kinds merge: the numbered record file, then the replayed TTL (which replaces the old one)."""
+    if signed["kind"] in ("plumb-line", "plumb-line-followup"):
+        import plumb_merge
         if ttl_out is None and not adr_ratified():
             raise Fail("ADR-0006 not ratified: plumb-line TTL not written")
-        return Path(ttl_out) if ttl_out else Path(PLUMB_TTL), plumb_ttl(signed)
+        ttl_path = Path(ttl_out) if ttl_out else Path(PLUMB_TTL)
+        if records_dir is None:
+            records_dir = plumb_merge.RECORDS if ttl_out is None else ttl_path.parent / "sittings"
+        rec, rec_bytes, ttl_bytes = plumb_merge.merge(signed, ttl_path, records_dir)
+        out = [(rec, rec_bytes), (ttl_path, ttl_bytes)]
+        if signed["kind"] == "plumb-line-followup":
+            name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
+            out.append((Path(HANDOFF) / name, markdown(signed, spec)))
+        return out
     name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
-    return Path(HANDOFF) / name, markdown(signed, spec)
+    return [(Path(HANDOFF) / name, markdown(signed, spec))]
 
 
 def write_addressed(path, data):
@@ -400,7 +350,23 @@ def write_addressed(path, data):
     return path
 
 
-def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl_out=None, now=None):
+def write_replace(path, data):
+    """Atomic overwrite (tmp + os.replace, digest re-checked): the plumb-line merge's TTL only."""
+    path = Path(path)
+    tmp = path.with_name(path.name + ".tmp")
+    try:
+        tmp.write_bytes(data)
+        if sha(tmp.read_bytes()) != sha(data):
+            raise Fail(f"{tmp}: staged bytes do not match their digest")
+        os.replace(tmp, path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
+    return path
+
+
+def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl_out=None, now=None,
+           records_dir=None):
     ex_raw, ex = load(verdicts, "export")
     man_raw, man = load(manifest, "manifest")
     check_formats(ex, man)
@@ -418,14 +384,17 @@ def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl
     signed_bytes = json.dumps(signed, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")
     plan = [(signed_path, signed_bytes)]
     if write:
-        plan.append(instance_output(signed, spec, ttl_out))
+        plan += instance_output(signed, spec, ttl_out, records_dir)
+    merged_ttl = None
+    if write and signed["kind"] in ("plumb-line", "plumb-line-followup"):
+        merged_ttl = plan[2][0]  # the TTL: the one file the merge may overwrite
     for p, data in plan:  # refuse every collision before writing anything
-        if p.exists() and p.read_bytes() != data:
+        if p != merged_ttl and p.exists() and p.read_bytes() != data:
             raise Fail(f"{p} exists with different bytes; content-addressed names are never overwritten")
     made = []
     for p, data in plan:
         p.parent.mkdir(parents=True, exist_ok=True)
-        made.append(write_addressed(p, data))
+        made.append(write_replace(p, data) if p == merged_ttl else write_addressed(p, data))
     return made
 
 
@@ -437,9 +406,10 @@ def main(argv):
     ap.add_argument("--out-dir")
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--ttl-out")
+    ap.add_argument("--records-dir")
     a = ap.parse_args(argv)
     try:
-        made = ingest(a.verdicts, a.manifest, a.provisional, a.out_dir, a.write, a.ttl_out)
+        made = ingest(a.verdicts, a.manifest, a.provisional, a.out_dir, a.write, a.ttl_out, records_dir=a.records_dir)
     except Fail as ex:
         print(f"FAIL: {ex}", file=sys.stderr)
         return 1

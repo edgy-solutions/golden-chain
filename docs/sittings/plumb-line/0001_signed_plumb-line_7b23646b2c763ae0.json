@@ -1,0 +1,434 @@
+{
+ "build_hash": "7b23646b2c763ae09ecfdd02d8b98b14accc3f69ebe57215ff2c84cba6e3081e",
+ "export_sha256": "5177fca1de7490a4baa038dc4b6dc94aa566c1d7c721e7c16a54b5dace116d47",
+ "format": "golden-chain-console-signed/1",
+ "kind": "plumb-line",
+ "manifest_sha256": "e6b95f6f41fa8f5fed0f0619ad983357d7ba906a1bd1de7e3f47ab0e634aa734",
+ "provisional": false,
+ "rows": [
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": {
+      "other": "23a clarity contested; 23b settled."
+     }
+    }
+   ],
+   "label": "23 Covenant administrations",
+   "note": "",
+   "row_id": "covenant-administrations.locus",
+   "section": "covenant-administrations",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": {
+      "other": "split into 23a (Gill’s position, taught) and 23b (circumcision as administration including infants, forbidden)."
+     }
+    }
+   ],
+   "label": "One covenant of grace in substance, administered in two ways: before Christ and after.",
+   "note": "",
+   "row_id": "covenant-administrations.one-covenant-two-administrations",
+   "section": "covenant-administrations",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "28 Perpetuity of baptism",
+   "note": "",
+   "row_id": "baptism-perpetuity.locus",
+   "section": "baptism-perpetuity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "Water baptism is a standing ordinance, to continue until the end of the world.",
+   "note": "",
+   "row_id": "baptism-perpetuity.standing-ordinance-to-the-end",
+   "section": "baptism-perpetuity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "third"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "open"
+    }
+   ],
+   "label": "29 John's baptism",
+   "note": "",
+   "row_id": "johns-baptism.locus",
+   "section": "johns-baptism",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": null
+    }
+   ],
+   "label": "John's baptism and the apostles' baptism are one and the same ordinance.",
+   "note": "",
+   "row_id": "johns-baptism.same-ordinance",
+   "section": "johns-baptism",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "30 Subjects of baptism",
+   "note": "",
+   "row_id": "baptism-subjects.locus",
+   "section": "baptism-subjects",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "Professing believers, and the infants of one or both believing parents.",
+   "note": "unchurches: a body practicing this is not a church; its members may be Christians",
+   "row_id": "baptism-subjects.believers-and-their-infants",
+   "section": "baptism-subjects",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "Children are to be baptized; no parental condition is stated.",
+   "note": "unchurches: a body practicing this is not a church; its members may be Christians",
+   "row_id": "baptism-subjects.infants",
+   "section": "baptism-subjects",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "Only those who profess repentance and faith are to be baptized.",
+   "note": "",
+   "row_id": "baptism-subjects.professing-believers-only",
+   "section": "baptism-subjects",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "31 Mode of baptism",
+   "note": "",
+   "row_id": "baptism-mode.locus",
+   "section": "baptism-mode",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "Baptism is immersion; immersion is necessary to its due administration.",
+   "note": "",
+   "row_id": "baptism-mode.immersion-only",
+   "section": "baptism-mode",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "Dipping is not necessary; baptism is rightly administered by pouring or sprinkling.",
+   "note": "",
+   "row_id": "baptism-mode.mode-indifferent",
+   "section": "baptism-mode",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "32 Formula of baptism",
+   "note": "tier second; non-triune formula positions unchurches",
+   "row_id": "baptism-formula.locus",
+   "section": "baptism-formula",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "In the name of the Father, and of the Son, and of the Holy Spirit.",
+   "note": "",
+   "row_id": "baptism-formula.triune-name",
+   "section": "baptism-formula",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "33a Significance of baptism",
+   "note": "",
+   "row_id": "baptism-significance.locus",
+   "section": "baptism-significance",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "Baptism is a sign and seal of the covenant of grace.",
+   "note": "",
+   "row_id": "baptism-significance.sign-and-seal-of-the-covenant",
+   "section": "baptism-significance",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "Baptism signifies union with Christ: fellowship in his death and resurrection, ingrafting, remission of sins, newness of life.",
+   "note": "",
+   "row_id": "baptism-significance.union-with-christ",
+   "section": "baptism-significance",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "33b Efficacy of baptism",
+   "note": "",
+   "row_id": "baptism-efficacy.locus",
+   "section": "baptism-efficacy",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "By the right use of baptism, the grace promised is conferred by the Holy Spirit to those to whom it belongs, in God's time.",
+   "note": "",
+   "row_id": "baptism-efficacy.grace-conferred-in-right-use",
+   "section": "baptism-efficacy",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    }
+   ],
+   "label": "Baptism is necessary to salvation; by it God's grace is offered and forgiveness of sins is given.",
+   "note": "",
+   "row_id": "baptism-efficacy.necessary-means-of-grace",
+   "section": "baptism-efficacy",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    }
+   ],
+   "label": "Baptism signifies; it does not of itself confer or effect what it signifies.",
+   "note": "",
+   "row_id": "baptism-efficacy.sign-only",
+   "section": "baptism-efficacy",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "33c Repetition of baptism",
+   "note": "a baptism is valid when the subject is a professing believer, the administration is according to the Word (immersion, triune name), and the administrator is a church of gospel order defined by doctrine, not identity or succession. Positions: (1) subject and formula suffice (WCF); (2) subject, mode, formula; (3) plus church of gospel order by doctrine; (4) plus church of our order by identity/succession (Landmark). Plumb-line: 3 taught, 1 and 2 tolerated, 4 forbidden.",
+   "row_id": "baptism-repetition.locus",
+   "section": "baptism-repetition",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "taught"
+    }
+   ],
+   "label": "Baptism is administered but once to any person; it is never repeated.",
+   "note": "Baptism is administered once. The sprinkling of an infant is not baptism, so the baptism of a professing believer who was sprinkled in infancy is his first baptism, not a repetition",
+   "row_id": "baptism-repetition.once-only",
+   "section": "baptism-repetition",
+   "state": "verdict"
+  }
+ ],
+ "signature": {
+  "date": "2026-11-08",
+  "name": "Chris Nogradi"
+ },
+ "signed_utc": "2026-11-08T20:33:40Z",
+ "signer": "Chris"
+}

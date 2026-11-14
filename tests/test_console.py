@@ -502,9 +502,10 @@ def test_followup_export_with_empty_modalities_is_accepted_and_read_as_silent(tm
             ex["rows"][rid]["values"] = {"modality": None, "unchurches": []}
         p = tmp_path / f"verdicts_{complete}.json"
         p.write_text(json.dumps(ex), encoding="utf-8")
-        out = ingest.ingest(p, made["manifest"], out_dir=tmp_path / f"signed_{complete}", write=True)
+        out = ingest.ingest(p, made["manifest"], out_dir=tmp_path / f"signed_{complete}", write=True,
+                            ttl_out=tmp_path / f"pl_{complete}" / "plumb-line.ttl")
         md = ho / f"SIGNED_plumb_line_followup_{man['build16']}.md"
-        assert out[1] == md
+        assert out[3] == md  # signed json, sitting record, ttl, then the SIGNED Markdown
         t = md.read_text(encoding="utf-8")
         assert t.count("left empty, read as silent") == 2 and "not answered" not in t
     # an empty required non-silent field still refuses
@@ -518,7 +519,7 @@ def test_followup_export_with_empty_modalities_is_accepted_and_read_as_silent(tm
 
 def signed_plumb(rows):
     """A minimal signed record for plumb_ttl: rows = {row_id: {field: value}}."""
-    return {"build_hash": "a" * 64, "export_sha256": "b" * 64, "signature": {"name": "Chris", "date": "2026-11-12"},
+    return {"kind": "plumb-line", "build_hash": "a" * 64, "export_sha256": "b" * 64, "signature": {"name": "Chris", "date": "2026-11-12"},
             "rows": [{"row_id": rid, "section": rid.split(".")[0], "label": "", "state": "verdict", "note": "",
                       "fields": [{"id": k, "label": k, "kind": "x", "value": v} for k, v in vals.items()]}
                      for rid, vals in rows.items()]}
@@ -553,7 +554,7 @@ def test_plumb_ttl_unchurches_refusals_and_silences():
                                        "loc.pa": {"modality": "forbidden", "unchurches": ["unchurches"]}}))
     other = signed_plumb({**loc, "loc.pa": {"modality": "forbidden", "unchurches": [{"other": "maybe"}]}})
     t = ingest.plumb_ttl(other).decode("utf-8")
-    assert "loc.pa.unchurches" in [l for l in t.splitlines() if l.startswith("# other, as written")][0]
+    assert "loc.pa.unchurches" in [l for l in t.splitlines() if l.startswith("#   other, as written")][0]
     assert not unchurches_triples(ttl_graph(other))
     for v in (None, []):
         assert not unchurches_triples(ttl_graph(signed_plumb(

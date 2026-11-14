@@ -14,6 +14,7 @@ import build  # noqa: E402
 import empty_strips  # noqa: E402
 import ingest  # noqa: E402
 import plumb_line  # noqa: E402
+import plumb_merge  # noqa: E402
 import test_console as tc  # noqa: E402
 import wcf1647  # noqa: E402
 from column_rule import Fail  # noqa: E402
@@ -205,7 +206,7 @@ def test_plumb_line_ttl_writer(plumb):
     tmp, made, man, spec = plumb
     ttl = tmp / "pl.ttl"
     res = sign(tmp, made, man, spec, modalities, write=True, ttl_out=ttl)
-    assert res[1] == ttl
+    assert res[2] == ttl  # signed json, sitting record, ttl
     g = Graph()
     g.parse(ttl, format="turtle")
     b = lambda s: URIRef(BASE + s)  # noqa: E731
@@ -247,7 +248,7 @@ def test_plumb_line_null_modality_is_silence(plumb):
     g.parse(ttl, format="turtle")
     assert len(set(g.subjects(RDF.type, GC.Holding))) == 23 - 1
     assert URIRef(BASE + "holding/plumb-line/johns-baptism/same-ordinance") not in set(g.subjects())
-    assert "read as silent (dispatch 2026-11-08 §1), nothing written: johns-baptism.same-ordinance\n" \
+    assert "modality left empty, unanswered, untouched: johns-baptism.same-ordinance\n" \
         in ttl.read_text(encoding="utf-8")
 
 
@@ -305,6 +306,7 @@ def test_plumb_line_refuses_data_while_adr_proposed(plumb, monkeypatch):
     target = tmp / "data" / "plumb-line.ttl"
     monkeypatch.setattr(ingest, "ADR", adr)
     monkeypatch.setattr(ingest, "PLUMB_TTL", target)
+    monkeypatch.setattr(plumb_merge, "RECORDS", tmp / "sittings")  # never the real records
     with pytest.raises(Fail, match="ADR-0006 not ratified: plumb-line TTL not written"):
         sign(tmp, made, man, spec, write=True)
     assert not target.exists() and not (tmp / "signed").exists()
@@ -431,7 +433,7 @@ def test_plumb_ttl_writes_nothing_for_other_as_written(plumb):
     assert (b("locus/johns-baptism"), GC.tier, None) not in g
     assert (b("locus/johns-baptism"), GC.clarity, b("vocab/clarity/contested")) in g
     text = ttl.read_text(encoding="utf-8")
-    line = [l for l in text.splitlines() if l.startswith("# other, as written, nothing written")][0]
+    line = [l for l in text.splitlines() if l.startswith("#   other, as written, untouched")][0]
     assert "baptism-mode.immersion-only.modality" in line and "johns-baptism.locus.tier" in line
     from goldenchain import ingest as gi
 
