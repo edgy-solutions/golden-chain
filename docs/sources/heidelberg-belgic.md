@@ -156,3 +156,13 @@ The researcher had marked p. 427 fn2 and fn5 as doubtful in placement. Both are 
   - *sign of the covenant*.
   Nothing is minted from it now.
 - **1 Pet 3:21 enters (a) only from an efficacy clause.** For Belgic that is p. 426 fn4 (admitted); for Heidelberg, Harbaugh Q.72 (n120). It does not enter through p. 425 fn3.
+
+### Ruling on report 15 (2026-11-14), applied here
+
+[RULING_report_15.md](../handoff/RULING_report_15.md), Q-C1 and Q-C2.
+
+- **The Argument unit is one note of one division** (ruling 16; variant N of the Batch C lock).
+  - Belgic gives 8 Arguments, one per admitted note. Each passage the note prints is its own `gc:cites` edge.
+  - Harbaugh gives 25, one per printed proof answer. Gill (b) gives 4.
+  - In all: 117 Arguments if F-B = (b), 113 if F-B = (a).
+- **If F-B = (a):** mint the Locus, Position (a) and its Arguments only, and stop. (b)'s wording, Gill's four references and the excludes edge wait for a ruling.

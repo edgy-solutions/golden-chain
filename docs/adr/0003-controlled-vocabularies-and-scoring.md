@@ -383,6 +383,7 @@ The new Locus is "How does baptism benefit the one baptized?", tier second. Its 
 Minting is step 3, with locked counts. For scoring and vocabulary, Revision 2 records:
 
 - **One Argument per passage per Position**, with the interpretation on the Argument: 1 Pet 3:21 (with Peter's qualifier), Titus 3:5, Acts 22:16, Rom 6:3–4, Col 2:12 and Gal 3:27. No new vocabulary is needed; this is the ADR-0005 Argument.
+  - *Superseded 2026-11-14 ([ruling on report 15](../handoff/RULING_report_15.md), Q-C1), recorded against the architect:* an Argument cites one note of one division (ruling 16). Each passage the note prints is its own `gc:cites` edge on that Argument; a per-passage interpretive comment is an annotated axiom on that edge (ADR-0002 R2), not a separate Argument.
 - **The plumb-line stance is not yet signed.** (b) is to be confirmed as taught. (a) is open between tolerated and forbidden and goes on the follow-up console (dispatch §13).
 - **Until (a) is signed, the Locus scores on (b) alone.** The plumb-line is silent on (a), so a Body that holds (a) is scored only through its stance on (b). If that Body is silent on (b), the Locus is *unknown* for it: it lowers coverage and adds no cost. This holds unless an edge between (a) and (b) is minted and §6 is ratified. See R2.6 (5).
 - **The tier is not yet in data.** The new Locus has no `gc:tier` until a signed sitting writes it, so ingest warns "Locus has no tier yet" on it. The same applies to 23a, 23b and the validity Locus.

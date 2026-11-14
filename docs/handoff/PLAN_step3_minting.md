@@ -229,6 +229,7 @@ Locked in `step3-batchB-predictions-locked.txt` (2026-11-13T05:37:39Z) before an
 - Mint (a) "grace conferred by the Spirit through the sign" and (b) "representational only". (c) ex opere operato is deferred to phase 2.
 - Mint the excludes edge between (a) and (b), with the note that (a) as Reformed theology holds it includes representation. Nothing is derived from the edge.
 - One Argument per passage per position.
+  - *Superseded 2026-11-14 ([ruling on report 15](RULING_report_15.md), Q-C1), recorded against the architect:* an Argument cites one note of one division (ruling 16). Each passage the note prints is its own `gc:cites` edge on that Argument; a per-passage interpretive comment is an annotated axiom on that edge (ADR-0002 R2), not a separate Argument.
   - (b), from Gill Practical III.1, Sixthly, p. 914: Rom 6:4–5, Col 2:12, Acts 22:16, 1 Pet 3:21.
   - Gill does not cite Titus 3:5, Rom 6:3 or Gal 3:27 in the chapter. His heads 2–4 say baptism is a means of leading faith to Christ. That reads close to (a) and is flagged for Chris before he signs (b).
   - (a): see M4.
