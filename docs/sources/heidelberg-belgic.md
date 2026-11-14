@@ -145,3 +145,14 @@ The researcher had marked p. 427 fn2 and fn5 as doubtful in placement. Both are 
   - The nine passages printed by both Heidelberg and Belgic (finding 5) are therefore at least eighteen Arguments.
   - Harbaugh prints Acts 22:16 and Tit 3:5 under both Q.69 and Q.71, which are two divisions, so each of those is one Argument more again.
   - The count for Batch C is locked before it is minted, in the form "n Arguments, k misprints expected" (ruling on report 13, the habit).
+
+### Rulings on report 14 (2026-11-14), applied here
+
+[RULING_report_14.md](../handoff/RULING_report_14.md), Q1.
+
+- **Belgic XXXIV p. 425 fn3 is out of instrumentality (a).** The clause is succession and admission (baptism in place of circumcision; received into the Church), not efficacy. Its row above stays "partly" as it was marked; the ruling decides it as "no".
+- **It is recorded as a phase-2 source** for two things, for when Belgic enters as a Body:
+  - *23b-yes* (baptism succeeds circumcision);
+  - *sign of the covenant*.
+  Nothing is minted from it now.
+- **1 Pet 3:21 enters (a) only from an efficacy clause.** For Belgic that is p. 426 fn4 (admitted); for Heidelberg, Harbaugh Q.72 (n120). It does not enter through p. 425 fn3.
