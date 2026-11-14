@@ -58,6 +58,21 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+# Ruling on report 14, Q2: Apology IX, read on the page (Triglot pp. 244-245), condemns the Anabaptists'
+# rejection of infant baptism (Latin §52 "damnamus"; §53 "impie sentiunt, qui damnant baptismum parvulorum"),
+# as Augsburg IX does. Its own Holding on this Locus overrides the inherited one (ADR-0003 §7), so the
+# condemnation is minted here. No Argument: the condemnation cites no Scripture.
+# Lock: ~/.golden-chain/r14-q2-apology-ix-predictions-locked.txt.
+<body/apology-1531> gc:holds <holding/apology-1531/baptism-subjects/professing-believers-only> .
+
+<holding/apology-1531/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/apology-1531/ix> ;
+    gc:locator "Art. IX §52-53 (Triglot p. 244, Latin; p. 245, English)" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 <body/small-catechism-1529> gc:holds <holding/small-catechism-1529/baptism-efficacy/necessary-means-of-grace> .
 
 <holding/small-catechism-1529/baptism-efficacy/necessary-means-of-grace> a gc:Holding ;
