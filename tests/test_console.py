@@ -372,8 +372,8 @@ def test_fit_is_the_default_zoom(sitting):
 
 
 def test_template_version_in_header_and_manifest(sitting):
-    assert "console template v3" in page_text(sitting)
-    assert sitting["man"]["template_version"] == 3 == build.TEMPLATE_VERSION
+    assert "console template v4" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 4 == build.TEMPLATE_VERSION
 
 
 def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):
@@ -450,8 +450,8 @@ def test_min_ticks_checkbox_needs_n_entries(tmp_path):
 
 # ---- console v3: silence is complete (empty_means), the follow-up kind ----------------------------------
 
-def silent_spec(tmp_path, kind="plumb-line-followup"):
-    sil = field("modality", "select", ["required", "taught", "forbidden", "silent"], empty_means="silent")
+def silent_spec(tmp_path, kind="plumb-line-followup", means="silent"):
+    sil = field("modality", "select", ["required", "taught", "forbidden", "silent"], empty_means=means)
     return {
         "format": build.SPEC_FORMAT, "kind": kind, "title": "Follow-up fixture", "signer": "Chris",
         "instruction": "Sign.", "sources": [], "run_header": None, "images": [], "withheld": [],
@@ -584,7 +584,7 @@ const puppeteer = require('puppeteer');
 """
 
 
-def test_headless_status_counts_rows_left_empty_as_silent(tmp_path, monkeypatch):
+def headless_status(tmp_path, monkeypatch, means):
     import os
 
     node = shutil.which("node")
@@ -596,13 +596,108 @@ def test_headless_status_counts_rows_left_empty_as_silent(tmp_path, monkeypatch)
     chk = subprocess.run([node, "-e", "require('puppeteer')"], capture_output=True, text=True, env=env, timeout=60)
     if chk.returncode != 0:
         pytest.skip("the puppeteer module is not available to node (npm root -g: %s)" % root)
-    spec = silent_spec(tmp_path, kind="plumb-line")
+    spec = silent_spec(tmp_path, kind="plumb-line", means=means)
     made = do_build(tmp_path, spec, monkeypatch)
     drv = tmp_path / "drive.js"
     drv.write_text(NODE_DRIVER, encoding="utf-8", newline="\n")
     r = subprocess.run([node, str(drv), made["html"].resolve().as_uri()], capture_output=True, text=True,
                        env=env, timeout=120)
     assert r.returncode == 0, r.stderr[-500:]
-    first, second = json.loads(r.stdout.strip().splitlines()[-1])
+    return json.loads(r.stdout.strip().splitlines()[-1])
+
+
+def test_headless_status_counts_rows_left_empty_as_silent(tmp_path, monkeypatch):
+    """Legacy v3 wording, empty_means "silent"."""
+    first, second = headless_status(tmp_path, monkeypatch, "silent")
     assert first.startswith("complete; 2 left empty, read as silent")
     assert second.startswith("complete; 1 left empty")
+
+
+def test_headless_status_counts_rows_left_empty_as_unanswered(tmp_path, monkeypatch):
+    first, second = headless_status(tmp_path, monkeypatch, "unanswered")
+    assert first.startswith("complete; 2 left empty, unanswered (earlier answers stand)")
+    assert "read as silent" not in first
+    assert second.startswith("complete; 1 left empty, unanswered (earlier answers stand)")
+
+
+# ---- console v4: empty is unanswered (ADR-0006 R1 section 6) ---------------------------------------------
+
+def test_v4_unanswered_field_renders_and_check_spec_accepts_both_values(tmp_path, monkeypatch):
+    made = do_build(tmp_path, silent_spec(tmp_path, means="unanswered"), monkeypatch)
+    t = made["html"].read_text(encoding="utf-8")
+    assert t.count('data-empty="unanswered"') == 2 and 'data-empty="silent"' not in t
+    spec = make_spec(tmp_path)
+    flds = spec["sections"][0]["rows"][0]["fields"]
+    for v in ("unanswered", "silent"):
+        flds[1]["empty_means"] = v  # a select
+        build.check_spec(spec)
+    flds[1]["empty_means"] = "loud"
+    with pytest.raises(Fail, match=r"field s1\.r1/sel: empty_means"):
+        build.check_spec(spec)
+    flds[1]["empty_means"] = "unanswered"
+    flds[0]["empty_means"] = "unanswered"  # a radio
+    with pytest.raises(Fail, match=r"field s1\.r1/rad: empty_means"):
+        build.check_spec(spec)
+
+
+def test_v4_export_with_unanswered_modalities_is_complete_and_says_unanswered(tmp_path, monkeypatch):
+    spec = silent_spec(tmp_path, means="unanswered")
+    made = do_build(tmp_path, spec, monkeypatch)
+    man = json.loads(made["manifest"].read_text(encoding="utf-8"))
+    ho = tmp_path / "handoff"
+    ho.mkdir()
+    monkeypatch.setattr(ingest, "HANDOFF", ho)
+    ex = make_export(spec, man)
+    for rid in ("loc.pa", "loc.pb"):
+        ex["rows"][rid]["values"] = {"modality": None, "unchurches": []}
+    p = tmp_path / "v.json"
+    p.write_text(json.dumps(ex), encoding="utf-8")
+    ingest.ingest(p, made["manifest"], out_dir=tmp_path / "signed", write=True,
+                  ttl_out=tmp_path / "pl" / "plumb-line.ttl")
+    t = (ho / f"SIGNED_plumb_line_followup_{man['build16']}.md").read_text(encoding="utf-8")
+    assert t.count("left empty: unanswered, the earlier answer stands") == 2
+    assert "read as silent" not in t and "not answered" not in t
+
+
+def test_v3_legacy_silent_spec_still_checks_and_renders_the_old_wording(tmp_path, monkeypatch):
+    spec = silent_spec(tmp_path, means="silent")
+    build.check_spec(spec)
+    made = do_build(tmp_path, spec, monkeypatch)
+    man = json.loads(made["manifest"].read_text(encoding="utf-8"))
+    ho = tmp_path / "handoff"
+    ho.mkdir()
+    monkeypatch.setattr(ingest, "HANDOFF", ho)
+    ex = make_export(spec, man)
+    ex["rows"]["loc.pa"]["values"] = {"modality": None, "unchurches": []}
+    ex["rows"]["loc.pb"]["values"] = {"modality": "taught", "unchurches": []}
+    p = tmp_path / "v.json"
+    p.write_text(json.dumps(ex), encoding="utf-8")
+    ingest.ingest(p, made["manifest"], out_dir=tmp_path / "signed", write=True,
+                  ttl_out=tmp_path / "pl" / "plumb-line.ttl")
+    t = (ho / f"SIGNED_plumb_line_followup_{man['build16']}.md").read_text(encoding="utf-8")
+    assert t.count("left empty, read as silent") == 1 and "unanswered, the earlier answer" not in t
+
+
+def test_v4_followup_shaped_export_empty_stands_and_silent_removes(tmp_path, monkeypatch):
+    """End to end: ingest + plumb_merge into a tmp ttl. pa is left empty (unanswered), pb is chosen silent."""
+    import plumb_merge as pm
+    import test_plumb_merge as tpm
+
+    spec = silent_spec(tmp_path, means="unanswered")
+    made = do_build(tmp_path, spec, monkeypatch)
+    man = json.loads(made["manifest"].read_text(encoding="utf-8"))
+    ho = tmp_path / "handoff"
+    ho.mkdir()
+    monkeypatch.setattr(ingest, "HANDOFF", ho)
+    d, ttl = tmp_path / "pl" / "sittings", tmp_path / "pl" / "plumb-line.ttl"
+    r1 = tpm.rec(1, {**tpm.LOC, "loc.pa": {"modality": "taught"}, "loc.pb": {"modality": "taught"}})
+    tpm.write_records(d, [r1])
+    ttl.write_bytes(pm.replay([r1]))
+    ex = make_export(spec, man)
+    ex["rows"]["loc.pa"]["values"] = {"modality": None, "unchurches": []}
+    ex["rows"]["loc.pb"]["values"] = {"modality": "silent", "unchurches": []}
+    p = tmp_path / "v.json"
+    p.write_text(json.dumps(ex), encoding="utf-8")
+    ingest.ingest(p, made["manifest"], out_dir=tmp_path / "signed", write=True, ttl_out=ttl)
+    t = ttl.read_text(encoding="utf-8")
+    assert "holding/plumb-line/loc/pa" in t and "holding/plumb-line/loc/pb" not in t

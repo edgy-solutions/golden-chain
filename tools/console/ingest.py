@@ -164,10 +164,11 @@ def check_rows(spec, ex):
             raise Fail(f"row {r['id']}: unknown state {got[r['id']].get('state')!r}")
 
 
-def silent_fields(spec, ex):
-    """{row id: [field ids]}: verdict rows' fields left empty that count as silence. A field is silent when
-    its spec field has empty_means "silent", or (legacy v2 plumb-line specs) it is the modality field.
-    Ruling, dispatch 2026-11-08 §1: that is deliberate silence and a complete verdict."""
+def empty_fields(spec, ex, means=("silent", "unanswered")):
+    """{row id: [field ids]}: verdict rows' fields left empty that are allowed to be (complete). A field is
+    allowed when its spec field has empty_means in `means` ("silent", legacy v3; "unanswered", v4), or (legacy
+    v2 plumb-line specs) it is the modality field, read as "silent". Dispatch 2026-11-08 §1 and ADR-0006 R1 §6:
+    an empty field does not make an export incomplete."""
     out = {}
     for _, r in spec_rows(spec):
         row = ex["rows"][r["id"]]
@@ -175,19 +176,25 @@ def silent_fields(spec, ex):
             continue
         vals = row.get("values") or {}
         ids = [f["id"] for f in r["fields"]
-               if (f.get("empty_means") == "silent" or (spec["kind"] == "plumb-line" and f["id"] == "modality"))
+               if (f.get("empty_means") in means
+                   or ("silent" in means and spec["kind"] == "plumb-line" and f["id"] == "modality" and "empty_means" not in f))
                and vals.get(f["id"]) is None]
         if ids:
             out[r["id"]] = ids
     return out
 
 
+def silent_fields(spec, ex):
+    """Legacy alias: the empty fields read as silence (v3 / v2 specs)."""
+    return empty_fields(spec, ex, ("silent",))
+
+
 def silent_rows(spec, ex):
-    return list(silent_fields(spec, ex))
+    return list(empty_fields(spec, ex))
 
 
 def check_complete(spec, ex):
-    silent = silent_fields(spec, ex)
+    silent = empty_fields(spec, ex)
     if ex.get("complete") is not True and not silent:
         raise Fail("export is not complete")
     for _, r in spec_rows(spec):
@@ -254,13 +261,15 @@ def render_answer(v):
 
 
 def _export_of(signed):
-    """The export-shaped view of a signed record, for silent_fields."""
+    """The export-shaped view of a signed record, for empty_fields."""
     return {"rows": {r["row_id"]: {"state": r["state"], "values": {f["id"]: f["value"] for f in r["fields"]}}
                      for r in signed["rows"]}}
 
 
 def markdown(signed, spec):
-    silent = {(rid, fid) for rid, fids in silent_fields(spec, _export_of(signed)).items() for fid in fids}
+    ex = _export_of(signed)
+    silent = {(rid, fid) for rid, fids in empty_fields(spec, ex, ("silent",)).items() for fid in fids}
+    unans = {(rid, fid) for rid, fids in empty_fields(spec, ex, ("unanswered",)).items() for fid in fids}
     sig = signed["signature"]
     out = [f"# {spec['title']}", "", "## Provenance", "",
            f"- Signer: {signed['signer']} ({sig.get('name', '')}), {sig.get('date', '')}",
@@ -282,7 +291,9 @@ def markdown(signed, spec):
             for n, f in enumerate(r["fields"]):
                 q = f["label"] if not r["label"] else f"{r['label']}: {f['label']}"
                 out.append("| " + " | ".join(cell(x) for x in (
-                    r["row_id"], q, ("left empty, read as silent" if (r["row_id"], f["id"]) in silent else render_answer(f["value"])),
+                    r["row_id"], q, ("left empty, read as silent" if (r["row_id"], f["id"]) in silent
+                                  else "left empty: unanswered, the earlier answer stands" if (r["row_id"], f["id"]) in unans
+                                  else render_answer(f["value"])),
                     r["state"], r["note"] if n == 0 else "")) + " |")
     return ("\n".join(out)).encode("utf-8")
 

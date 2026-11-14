@@ -111,15 +111,15 @@ __HELP__
     if (rowState(rowEl) !== "verdict") return true;
     return all(rowEl, ".field").every(function (f) {
       var v = fieldValue(rowEl, f);
-      if (f.dataset.empty === "silent" && v === null) return true;  // silence is a complete answer
+      if ((f.dataset.empty === "silent" || f.dataset.empty === "unanswered") && v === null) return true;  // empty is a complete answer
       return f.dataset.required !== "1" || answered(f, v);
     });
   }
-  function silentRows() {
+  function emptyRows(kind) {
     return Object.keys(rows).filter(function (id) {
       var r = rows[id];
       return rowState(r) === "verdict" && all(r, ".field").some(function (f) {
-        return f.dataset.empty === "silent" && fieldValue(r, f) === null;
+        return f.dataset.empty === kind && fieldValue(r, f) === null;
       });
     }).length;
   }
@@ -142,8 +142,8 @@ __HELP__
 
   function status() {
     var el = document.getElementById("status");
-    var done = isComplete(), n = done ? silentRows() : 0;
-    el.textContent = (done ? "complete" + (n ? "; " + n + " left empty, read as silent" : "") : "incomplete") + (dirty ? "; changes not exported" : "; nothing unexported");
+    var done = isComplete(), n = done ? emptyRows("silent") : 0, u = done ? emptyRows("unanswered") : 0;
+    el.textContent = (done ? "complete" + (n ? "; " + n + " left empty, read as silent" : "") + (u ? "; " + u + " left empty, unanswered (earlier answers stand)" : "") : "incomplete") + (dirty ? "; changes not exported" : "; nothing unexported");
   }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify({ build_hash: D.build_hash, rows: collect(), signature: signature() })); } catch (e) { /* draft only */ }

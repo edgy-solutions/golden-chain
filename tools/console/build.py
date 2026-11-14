@@ -20,6 +20,8 @@ template supplies the style and the script that wires the controls, export and d
 Console template v3 (TEMPLATE_VERSION): fit-to-window zoom, a help panel, "other, as written" on every choice;
 v3 adds silence is complete (a select field with "empty_means": "silent" may be left empty and still counts as
 answered; the status line says how many rows were left empty) and the plumb-line-followup kind.
+v4: an empty select with empty_means "unanswered" is complete and is unanswered: it changes nothing in the
+merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" stays for legacy v3 specs.
 Fails loud (Fail) on a missing path, a sha256 mismatch, a repeated id, an unknown field kind,
 options missing, or a pick-row naming an unknown image.
 """
@@ -41,7 +43,7 @@ sys.path.insert(0, str(HERE.parent))
 from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 
 SPEC_FORMAT = "golden-chain-console-spec/1"
-TEMPLATE_VERSION = 3
+TEMPLATE_VERSION = 4
 OTHER = "other, as written"
 COMMON_HELP = [
     {"q": "What do verdict, abstain and fault mean?",
@@ -150,8 +152,8 @@ def check_field(row_id, f, image_ids, seen):
             raise Fail(f"field {row_id}/{fid}: min_ticks is only for checkbox fields")
         if not isinstance(mt, int) or isinstance(mt, bool) or mt < 1:
             raise Fail(f"field {row_id}/{fid}: min_ticks {mt!r} is not an int >= 1")
-    if "empty_means" in f and (kind != "select" or f["empty_means"] != "silent"):
-        raise Fail(f"field {row_id}/{fid}: empty_means {f['empty_means']!r} is only allowed as 'silent' on a select")
+    if "empty_means" in f and (kind != "select" or f["empty_means"] not in ("silent", "unanswered")):
+        raise Fail(f"field {row_id}/{fid}: empty_means {f['empty_means']!r} is only allowed as 'unanswered' (or legacy 'silent') on a select")
     if kind == "pick-row" and f.get("image_id") not in image_ids:
         raise Fail(f"field {row_id}/{fid}: pick-row names unknown image {f.get('image_id')!r}")
 
@@ -302,8 +304,8 @@ def field_html(row_id, f):
     kind = f["kind"]
     proposal = kind == "radio" and f.get("proposed") is not None
     attrs = f'data-field="{e(f["id"])}" data-kind="{"proposal" if proposal else kind}" data-required="{req}"'
-    if f.get("empty_means") == "silent":
-        attrs += ' data-empty="silent"'
+    if f.get("empty_means") in ("silent", "unanswered"):
+        attrs += f' data-empty="{f["empty_means"]}"'
     if kind == "pick-row":
         attrs += f' data-image="{e(f["image_id"])}"'
     head = f'<span class="fl">{e(f.get("label", f["id"]))}{"" if req == "1" else " (optional)"}</span> '

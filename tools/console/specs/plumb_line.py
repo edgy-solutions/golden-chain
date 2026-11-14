@@ -7,7 +7,8 @@ One section per gc:Locus that has at least one gc:Position (gc:answers), ordered
 <locus-slug>.<position-slug> (modality select, silent included). The slug is the last IRI segment.
 The loci and positions must match docs/loci/plumb-line-form-phase1.md (the "(not minted)" row aside),
 else Fail. The instruction copies that form's "How the entries are used" bullets.
-A modality left empty is silence, a complete answer (console v3: empty_means "silent"). Each Position row also
+A modality left empty is unanswered, a complete answer that changes nothing in the merge; the option "silent",
+chosen, is silence and removes the Holding (console v4: empty_means "unanswered"; ADR-0006 R1 §6). Each Position row also
 has an "unchurches" checkbox (ADR-0003 R2.3). The help carries the R2.1 and R2.2 definitions from ADR-0003.
 """
 
@@ -105,8 +106,8 @@ def sel(fid, label, options):
 
 
 def position_fields():
-    """The two fields of a Position row: modality (empty is silence) and the unchurches checkbox."""
-    return [{**sel("modality", "Modality", MODALITIES), "empty_means": "silent"},
+    """The two fields of a Position row: modality (empty is unanswered) and the unchurches checkbox."""
+    return [{**sel("modality", "Modality", MODALITIES), "empty_means": "unanswered"},
             {"id": "unchurches", "kind": "checkbox", "label": "Unchurches (ADR-0003 R2.3)",
              "options": ["unchurches"], "required": False}]
 
@@ -128,6 +129,10 @@ HELP = [
     {"q": "What if my stance is none of the modalities?",
      "a": "Choose \"other, as written\" and write it. Nothing is written to the data for that entry; "
           "the architect rules on it."},
+    {"q": "What if I leave a modality empty, or choose silent?",
+     "a": "Left empty, the row is unanswered: an earlier answer for that Position stands, and nothing is written. "
+          "Choose silent to say the Body is silent on it: that removes the Holding, and any unchurches on it "
+          "(ADR-0006 R1). Unchurches may be ticked only when the modality is answered."},
 ]
 
 

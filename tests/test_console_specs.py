@@ -480,11 +480,11 @@ def test_plumb_line_position_rows_have_modality_and_unchurches_and_help():
     for r in pos_rows:
         mod, unc = r["fields"]
         assert [f["id"] for f in r["fields"]] == ["modality", "unchurches"]
-        assert mod["empty_means"] == "silent" and mod["kind"] == "select"
+        assert mod["empty_means"] == "unanswered" and mod["kind"] == "select"
         assert unc["kind"] == "checkbox" and unc["options"] == ["unchurches"] and unc["required"] is False
-    assert len(spec["help"]) == 5
-    assert spec["help"][2]["a"] == adr_blockquote("R2.1") and spec["help"][3]["a"] == adr_blockquote("R2.2")
-    assert "R2.1" in spec["help"][2]["q"] and "R2.2" in spec["help"][3]["q"]
+    assert len(spec["help"]) == 6
+    assert spec["help"][3]["a"] == adr_blockquote("R2.1") and spec["help"][4]["a"] == adr_blockquote("R2.2")
+    assert "R2.1" in spec["help"][3]["q"] and "R2.2" in spec["help"][4]["q"]
     assert any(s["path"] == str(ADR3.resolve()) for s in spec["sources"])
     build.check_spec(spec)
 
@@ -583,3 +583,17 @@ def test_q11_spec_fails(tmp_path):
 
 def test_q11_kind_registered():
     assert "q11-crops" in build.KINDS and "q11-crops" in ingest.KINDS
+
+
+def test_v4_plumb_line_and_followup_builders_mark_modalities_unanswered_with_help(followup_images):
+    import plumb_line_followup as pf
+
+    specs = [plumb_line.make_spec(LOCI), pf.make_spec(CONTENT, LOCI, followup_images)]
+    for spec in specs:
+        mods = [f for s in spec["sections"] for r in s["rows"] for f in r["fields"] if f["id"] == "modality"]
+        assert mods
+        for f in mods:
+            assert f["empty_means"] == "unanswered" and "silent" in f["options"]
+        h = [x for x in spec["help"] if x["q"] == "What if I leave a modality empty, or choose silent?"]
+        assert len(h) == 1 and "earlier answer" in h[0]["a"] and "silent" in h[0]["a"]
+        build.check_spec(spec)
