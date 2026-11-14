@@ -66,13 +66,6 @@ def test_match_threshold():
     assert O.match(lstm, [])[0]["italic"] is None
 
 
-def test_ccel_flags():
-    assert O.ccel_flags(["One,", "two", "x", "four"], ["one", "two", "three", "four"]) == \
-        ["agree", "agree", "differ", "agree"]
-    assert O.ccel_flags(["a", "b", "c"], ["a", "c"]) == ["agree", "unaligned", "agree"]
-    assert O.ccel_flags(["a", "--", "b"], ["a", "b"]) == ["agree", None, "agree"]
-
-
 def words(n_true, n_false):
     out = []
     for i in range(n_true + n_false):

@@ -7,8 +7,8 @@ locate_column_rule (consumed unchanged through tools/gy_locate_column_rule.goaty
 ink_box is not used). The page is cut into head, left, right and foot regions around the located rule
 (left/right with the rule side whitened along the slanted edge). Each region is read twice by Tesseract:
 stock LSTM (text, TSV) and the legacy 4.1.0 engine (italic flag, hOCR with font info); words are matched
-by bbox IoU. Column words get an agree/differ/unaligned flag against the CCEL text (flag only; the CCEL
-text is never stored). 100 flagged-italic and 100 unflagged words are drawn by sha256(key) as the
+by bbox IoU. Column words get a CCEL flag (hyphen-joined, per page, block-move tolerant, via tools/ccel_align.py;
+agree/moved/differ/unaligned; flag only, the CCEL text is never stored). 100 flagged-italic and 100 unflagged words are drawn by sha256(key) as the
 candidate truth set (rows unsigned).
 Prediction: ~/.golden-chain/item6-ocr-baptism-predictions-locked.txt
 Outputs hold corpus text: local only, never commit.
@@ -16,7 +16,6 @@ Outputs hold corpus text: local only, never commit.
 
 import argparse
 import datetime
-import difflib
 import hashlib
 import html
 import json
@@ -34,6 +33,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from column_rule import OFFSET, REPO, Fail, bitmap, clean_run, git_state  # noqa: E402
 import gy_locate_column_rule as G  # noqa: E402
+import ccel_align  # noqa: E402
 
 TESSERACT = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 LEGACY_DIR = Path.home() / ".golden-chain" / "tessdata-4.1.0"
@@ -183,18 +183,8 @@ def norm(s):
     return re.sub(r"^[^0-9A-Za-z]+|[^0-9A-Za-z]+$", "", s.lower())
 
 
-def ccel_flags(ocr_tokens, ccel_tokens):
-    """agree / differ / unaligned per OCR token; None for tokens empty after norm."""
-    idx = [i for i, t in enumerate(ocr_tokens) if norm(t)]
-    a = [norm(ocr_tokens[i]) for i in idx]
-    b = [n for n in (norm(t) for t in ccel_tokens) if n]
-    flags = [None] * len(ocr_tokens)
-    kind = {"equal": "agree", "replace": "differ", "delete": "unaligned"}
-    for tag, i1, i2, _j1, _j2 in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
-        if tag in kind:
-            for k in range(i1, i2):
-                flags[idx[k]] = kind[tag]
-    return flags
+def _line_id(w):
+    return (w["page"], w["region"], w["block"], w["par"], w["line"])
 
 
 def candidates(words, n):
@@ -294,13 +284,18 @@ def main(pdf_path, first, last, ccel_path, out, workers=6):
                               "italic": w["italic"], "legacy_iou": w["legacy_iou"],
                               "legacy_text": w["legacy_text"], "ccel": None})
     lines = Path(ccel_path).read_text(encoding="utf-8", errors="replace").splitlines()
-    ccel_tokens = " ".join(lines[CCEL_LINES[0] - 1:CCEL_LINES[1]]).split()
+    ends = {id(w): (i + 1 >= len(words) or _line_id(words[i + 1]) != _line_id(w))
+            for i, w in enumerate(words)}
     col = [w for w in words if w["region"] in ("left", "right")]
-    for w, f in zip(col, ccel_flags([w["text"] for w in col], ccel_tokens)):
+    pcol = [(p, [w for w in col if w["page"] == p]) for p in sorted({w["page"] for w in col})]
+    flags, _rep = ccel_align.align(
+        [(p, [(w["key"], w["text"], ends[id(w)]) for w in ws]) for p, ws in pcol],
+        lines[CCEL_LINES[0] - 1:CCEL_LINES[1]])
+    for w, f in zip([w for _p, ws in pcol for w in ws], flags):
         w["ccel"] = f
     cand = candidates(words, N_CANDIDATES)
 
-    cc = {k: sum(1 for w in col if w["ccel"] == k) for k in ("agree", "differ", "unaligned")}
+    cc = {k: sum(1 for w in col if w["ccel"] == k) for k in ("agree", "moved", "differ", "unaligned")}
     cc["none"] = sum(1 for w in col if w["ccel"] is None)
     fl = [w for w in col if w["italic"] is True and w["ccel"] is not None]
     matched = sum(1 for w in words if w["italic"] is not None)
@@ -309,9 +304,9 @@ def main(pdf_path, first, last, ccel_path, out, workers=6):
         "pages": last - first + 1, "split_ok": len(splits), "words_total": len(words),
         "words_by_region": {n: sum(1 for w in words if w["region"] == n) for n in REGIONS},
         "column_words": len(col),
-        "ccel_agree": cc["agree"], "ccel_differ": cc["differ"], "ccel_unaligned": cc["unaligned"],
+        "ccel_agree": cc["agree"], "ccel_moved": cc["moved"], "ccel_differ": cc["differ"], "ccel_unaligned": cc["unaligned"],
         "ccel_none": cc["none"],
-        "agree_frac": round(sum(1 for w in fl if w["ccel"] == "agree") / len(fl), 4) if fl else None,
+        "agree_frac": round(sum(1 for w in fl if w["ccel"] in ("agree", "moved")) / len(fl), 4) if fl else None,
         "legacy_matched": matched, "match_frac": round(matched / len(words), 4) if words else None,
         "italic_true": ital, "italic_rate": round(ital / matched, 4) if matched else None,
         "candidates_flagged": sum(1 for r in cand if r["stratum"] == "flagged"),
