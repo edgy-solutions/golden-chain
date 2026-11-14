@@ -28,6 +28,7 @@ footer { color:var(--mut); margin:24px 0; } .bad { color:var(--bad); }
 #help { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:min(28em, 90vw); overflow:auto; box-sizing:border-box;
   background:var(--bg); color:var(--fg); border-left:2px solid var(--acc); padding:12px 16px; z-index:10; }
 #help[hidden] { display:none; }
+.row.cur { outline:3px solid var(--acc); outline-offset:2px; }
 #help details { margin:8px 0; } #help summary { cursor:pointer; font-weight:600; } #help p { margin:.4em 0; white-space:pre-line; }
 </style>
 </head>
@@ -304,6 +305,60 @@ __HELP__
   restore();
   Object.keys(rows).forEach(function (id) { applyEnable(rows[id]); });
   status();
+
+  // keyboard signing (v5): only when the spec carries a "keyboard" block
+  (function () {
+    var kb = D.spec.keyboard;
+    if (!kb) return;
+    var order = all(document, ".row"), cur = 0;
+    function kbField(r) { return q(r, ".field[data-field='" + kb.field + "']"); }
+    function isTyping(t) {
+      if (!t || !t.tagName) return false;
+      if (t.tagName === "SELECT" || t.tagName === "TEXTAREA") return true;
+      return t.tagName === "INPUT" && ["radio", "checkbox", "button"].indexOf(t.type) < 0;
+    }
+    function setCur(i, scroll) {
+      cur = Math.max(0, Math.min(order.length - 1, i));
+      order.forEach(function (r, k) { r.classList.toggle("cur", k === cur); });
+      if (scroll && order[cur].scrollIntoView) order[cur].scrollIntoView({ block: "center" });
+    }
+    function unanswered(r) {
+      var f = kbField(r);
+      return !!f && rowState(r) === "verdict" && !answered(f, fieldValue(r, f));
+    }
+    function optionInput(f, value) {
+      return all(f, "input[type=radio]").filter(function (i) { return i.value === value; })[0] || null;
+    }
+    function sign(r, f, inp) {
+      var v = all(r, ".rstate input[type=radio]").filter(function (i) { return i.value === "verdict"; })[0];
+      if (rowState(r) !== "verdict") { v.checked = true; v.dispatchEvent(new Event("change", { bubbles: true })); }
+      inp.checked = true;
+      inp.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    document.addEventListener("keydown", function (ev) {
+      if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+      var t = ev.target, r = order[cur], f = kbField(r), k = ev.key;
+      if (isTyping(t)) {
+        if (k === "Enter" && f && t.classList.contains("othertxt") && f.contains(t) && r.contains(t)) {
+          ev.preventDefault(); t.blur(); setCur(cur + 1, true);
+        }
+        return;
+      }
+      if (k === "Backspace" || k === "ArrowLeft") { ev.preventDefault(); setCur(cur - 1, true); return; }
+      if (k === "ArrowRight") { ev.preventDefault(); setCur(cur + 1, true); return; }
+      if (!f || !Object.prototype.hasOwnProperty.call(kb.keys, k)) return;
+      var want = kb.keys[k], inp = optionInput(f, want === D.other ? D.other : want);
+      if (!inp) return;  // this row's field has no such option
+      ev.preventDefault();
+      sign(r, f, inp);
+      if (want === D.other) { var o = q(f, ".othertxt"); if (o) o.focus(); }
+      else { var ot = q(f, ".othertxt"); if (ot) ot.value = ""; setCur(cur + 1, true); }
+    });
+    order.forEach(function (r, i) { r.addEventListener("click", function () { setCur(i, false); }); });
+    var first = 0;
+    for (var i = 0; i < order.length; i++) if (unanswered(order[i])) { first = i; break; }
+    setCur(first, true);
+  })();
 })();
 </script>
 </body>

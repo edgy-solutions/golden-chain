@@ -16,7 +16,7 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   6. manifest.provisional is false, unless --provisional
   7. the export's rows are the spec's rows
 Writes signed_<kind>_<build16>.json. With --write also the instance record: a Markdown file under
-docs/handoff/ (empty-strips, wcf1647, q11-crops; plumb-line-followup also). For the plumb-line kinds
+docs/handoff/ (empty-strips, wcf1647, q11-crops, truthset-italic; plumb-line-followup also). For the plumb-line kinds
 (plumb-line, plumb-line-followup) the merge (plumb_merge.merge, ADR-0006 R1) writes the numbered record
 docs/sittings/plumb-line/NNNN_signed_<kind>_<build16>.json and replaces data/plumb-line.ttl with the replay of
 all records, only once ADR-0006 says "- Status: Ratified" (else Fail before anything is written; --ttl-out PATH
@@ -44,7 +44,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops", "truthset-italic")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .
@@ -260,6 +260,38 @@ def render_answer(v):
     return str(v)
 
 
+def answer_text(v):
+    """italic / roman / other: note; for the truthset-italic record."""
+    if v is None:
+        return "not answered"
+    if is_other(v):
+        return f"other: {v['other']}"
+    return str(v)
+
+
+def markdown_truthset(signed, spec):
+    """Keys and answers only (no word text, no image): the truth-set v2 record."""
+    keys = {r["id"]: r.get("key", "") for s in spec["sections"] for r in s["rows"]}
+    sig = signed["signature"]
+    ans = {r["row_id"]: {f["id"]: f["value"] for f in r["fields"]} for r in signed["rows"]}
+    state = {r["row_id"]: r["state"] for r in signed["rows"]}
+    out = [f"# {spec['title']}", "", "## Provenance", "",
+           f"- Signer: {signed['signer']} ({sig.get('name', '')}), {sig.get('date', '')}",
+           f"- build_hash: {signed['build_hash']}", f"- export sha256: {signed['export_sha256']}",
+           f"- manifest sha256: {signed['manifest_sha256']}",
+           f"- provisional: {str(signed['provisional']).lower()}", "", "## Words", "",
+           "| id | key | answer |", "|---|---|---|"]
+
+    def one(rid, fid):
+        return answer_text(ans[rid].get(fid)) if state[rid] == "verdict" else state[rid]
+    for r in next(s for s in spec["sections"] if s["id"] == "words")["rows"]:
+        out.append("| " + " | ".join(cell(x) for x in (r["id"], keys[r["id"]], one(r["id"], "v"))) + " |")
+    out += ["", "## Page rows", "", f"- p912.left face: {cell(one('p912.left', 'face'))}",
+            f"- p912.left what: {cell(one('p912.left', 'what'))}",
+            f"- ccel.p914-foot footnotes: {cell(one('ccel.p914-foot', 'v'))}"]
+    return ("\n".join(out) + "\n").encode("utf-8")
+
+
 def _export_of(signed):
     """The export-shaped view of a signed record, for empty_fields."""
     return {"rows": {r["row_id"]: {"state": r["state"], "values": {f["id"]: f["value"] for f in r["fields"]}}
@@ -340,7 +372,8 @@ def instance_output(signed, spec, ttl_out, records_dir=None):
             out.append((Path(HANDOFF) / name, markdown(signed, spec)))
         return out
     name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
-    return [(Path(HANDOFF) / name, markdown(signed, spec))]
+    md = markdown_truthset if signed["kind"] == "truthset-italic" else markdown
+    return [(Path(HANDOFF) / name, md(signed, spec))]
 
 
 def write_addressed(path, data):

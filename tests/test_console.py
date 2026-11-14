@@ -372,8 +372,8 @@ def test_fit_is_the_default_zoom(sitting):
 
 
 def test_template_version_in_header_and_manifest(sitting):
-    assert "console template v4" in page_text(sitting)
-    assert sitting["man"]["template_version"] == 4 == build.TEMPLATE_VERSION
+    assert "console template v5" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 5 == build.TEMPLATE_VERSION
 
 
 def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):
@@ -701,3 +701,123 @@ def test_v4_followup_shaped_export_empty_stands_and_silent_removes(tmp_path, mon
     ingest.ingest(p, made["manifest"], out_dir=tmp_path / "signed", write=True, ttl_out=ttl)
     t = ttl.read_text(encoding="utf-8")
     assert "holding/plumb-line/loc/pa" in t and "holding/plumb-line/loc/pb" not in t
+
+
+# ---- console v5: keyboard signing --------------------------------------------------------------------
+
+def kb_spec(tmp_path, keys=None, **over):
+    keys = keys or {"i": "italic", "r": "roman", "o": build.OTHER}
+
+    def row(rid, opts):
+        return {"id": rid, "label": rid, "context": [], "image_ids": [], "fields": [field("v", "radio", opts)]}
+    spec = {
+        "format": build.SPEC_FORMAT, "kind": "truthset-italic", "title": "Keyboard fixture", "signer": "Chris",
+        "instruction": "Sign.", "sources": [], "images": [], "withheld": [], "signature": {"fields": ["name", "date"]},
+        "keyboard": {"field": "v", "keys": keys},
+        "sections": [{"id": "words", "title": "Words", "image_ids": [], "rows": [
+            row("w1", ["italic", "roman"]), row("w2", ["italic", "roman"]), row("w3", ["italic", "roman"]),
+            row("w4", ["italic", "roman"])]},
+            {"id": "ccel", "title": "Foot", "image_ids": [], "rows": [row("c1", ["yes", "no"])]}]}
+    spec.update(over)
+    return spec
+
+
+@pytest.mark.parametrize("kb,msg", [
+    ({"field": "nope", "keys": {"i": "italic"}}, "not a radio"),
+    ({"field": "v", "keys": {"I": "italic"}}, "single lowercase"),
+    ({"field": "v", "keys": {"ii": "italic"}}, "single lowercase"),
+    ({"field": "v", "keys": {"i": "kursiv"}}, "not an option"),
+    ({"field": "v", "keys": {}}, "non-empty"),
+    ({"field": "v"}, "keys"),
+])
+def test_check_spec_keyboard_validation(tmp_path, kb, msg):
+    spec = kb_spec(tmp_path)
+    spec["keyboard"] = kb
+    with pytest.raises(Fail, match=msg):
+        build.check_spec(spec)
+
+
+def test_check_spec_keyboard_field_must_be_a_radio(tmp_path):
+    spec = kb_spec(tmp_path)
+    for s in spec["sections"]:
+        for r in s["rows"]:
+            r["fields"] = [field("v", "select", r["fields"][0]["options"])]
+    with pytest.raises(Fail, match="not a radio"):
+        build.check_spec(spec)
+
+
+def test_check_spec_keyboard_accepts_the_block_and_its_absence(tmp_path):
+    spec = kb_spec(tmp_path)
+    build.check_spec(spec)
+    del spec["keyboard"]
+    build.check_spec(spec)
+
+
+KB_DRIVER = r"""
+const puppeteer = require('puppeteer');
+(async () => {
+  const b = await puppeteer.launch({headless: true, args: ['--no-sandbox']});
+  const pg = await b.newPage();
+  await pg.goto(process.argv[2]);
+  const snap = () => pg.evaluate(() => {
+    const cur = Array.from(document.querySelectorAll('.row.cur')).map(r => r.dataset.row);
+    const vals = {};
+    document.querySelectorAll('.row').forEach(r => {
+      const c = r.querySelector('.field input[type=radio]:checked');
+      vals[r.dataset.row] = [c ? c.value : null, r.querySelector('.othertxt').value];
+    });
+    return {cur, vals, focus: document.activeElement.className, status: document.getElementById('status').textContent};
+  });
+  const out = [await snap()];
+  for (const k of ['i', 'r']) { await pg.keyboard.press(k); out.push(await snap()); }
+  await pg.keyboard.press('o'); out.push(await snap());
+  await pg.keyboard.type('small caps'); out.push(await snap());
+  await pg.keyboard.press('Enter'); out.push(await snap());
+  await pg.keyboard.press('Backspace'); out.push(await snap());
+  await pg.keyboard.press('ArrowRight'); out.push(await snap());
+  await pg.keyboard.press('ArrowRight'); out.push(await snap());
+  await pg.keyboard.press('ArrowRight'); out.push(await snap());
+  await pg.keyboard.press('i'); out.push(await snap());
+  await pg.keyboard.press('ArrowLeft'); out.push(await snap());
+  console.log(JSON.stringify(out));
+  await b.close();
+})().catch(e => { console.error(e); process.exit(1); });
+"""
+
+
+def node_env():
+    import os
+
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node is not on PATH")
+    root = subprocess.run(["npm", "root", "-g"], capture_output=True, text=True, timeout=60,
+                          shell=True).stdout.strip()
+    env = dict(os.environ, NODE_PATH=os.pathsep.join(x for x in (os.environ.get("NODE_PATH"), root) if x))
+    chk = subprocess.run([node, "-e", "require('puppeteer')"], capture_output=True, text=True, env=env, timeout=60)
+    if chk.returncode != 0:
+        pytest.skip("the puppeteer module is not available to node (npm root -g: %s)" % root)
+    return node, env
+
+
+def test_headless_keyboard_signing(tmp_path, monkeypatch):
+    node, env = node_env()
+    made = do_build(tmp_path, kb_spec(tmp_path), monkeypatch)
+    drv = tmp_path / "kb.js"
+    drv.write_text(KB_DRIVER, encoding="utf-8", newline="\n")
+    r = subprocess.run([node, str(drv), made["html"].resolve().as_uri()], capture_output=True, text=True,
+                       env=env, timeout=120)
+    assert r.returncode == 0, r.stderr[-500:]
+    s = json.loads(r.stdout.strip().splitlines()[-1])
+    cur = [x["cur"] for x in s]
+    assert cur[0] == ["w1"]                                   # starts at the first unanswered row
+    assert s[1]["vals"]["w1"][0] == "italic" and cur[1] == ["w2"]   # i signs and advances
+    assert s[2]["vals"]["w2"][0] == "roman" and cur[2] == ["w3"]    # r signs and advances
+    assert s[3]["vals"]["w3"][0] == build.OTHER and cur[3] == ["w3"]  # o stays and focuses the note
+    assert "othertxt" in s[3]["focus"]
+    assert s[4]["vals"]["w3"][1] == "small caps" and s[4]["vals"]["w1"][0] == "italic"  # typing is not a key
+    assert cur[5] == ["w4"]                                   # Enter advances
+    assert cur[6] == ["w3"]                                   # Backspace goes back
+    assert cur[7] == ["w4"] and cur[8] == ["c1"] and cur[9] == ["c1"]  # ArrowRight; end of the list holds
+    assert s[10]["vals"]["c1"][0] is None and cur[10] == ["c1"]  # i on a row without that option is ignored
+    assert cur[11] == ["w4"]                                  # ArrowLeft

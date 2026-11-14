@@ -597,3 +597,93 @@ def test_v4_plumb_line_and_followup_builders_mark_modalities_unanswered_with_hel
         h = [x for x in spec["help"] if x["q"] == "What if I leave a modality empty, or choose silent?"]
         assert len(h) == 1 and "earlier answer" in h[0]["a"] and "silent" in h[0]["a"]
         build.check_spec(spec)
+
+
+# ---- (vi) truthset-italic -------------------------------------------------------------------------
+
+def _ts_spec_module():
+    import importlib.util
+    s = importlib.util.spec_from_file_location("ts_italic_spec", ROOT / "tools" / "console" / "specs" / "truthset_italic.py")
+    m = importlib.util.module_from_spec(s)
+    s.loader.exec_module(m)
+    return m
+
+
+def ts_dir(tmp_path, n=3):
+    rows = []
+    for i in range(1, n + 1):
+        i_ = f"w{i:03d}"
+        tc.png(tmp_path / f"{i_}_word.png", 20, 10, shade=60 + i)
+        tc.png(tmp_path / f"{i_}_line.png", 80, 24, shade=120 + i)
+        rows.append({"id": i_, "key": f"913/left/1.1.{i}.0", "page": 913, "region": "left",
+                     "word_png": f"{i_}_word.png", "word_sha256": build.sha256_file(tmp_path / f"{i_}_word.png"),
+                     "word_size": [20, 10], "line_png": f"{i_}_line.png",
+                     "line_sha256": build.sha256_file(tmp_path / f"{i_}_line.png"), "box": [12, 7, 32, 17]})
+    extra = {}
+    for k, name in (("p912_left", "p912_left.png"), ("p914_left_foot", "p914_left_foot.png")):
+        tc.png(tmp_path / name, 90, 40, shade=30)
+        extra[k] = {"png": name, "sha256": build.sha256_file(tmp_path / name)}
+    (tmp_path / "crops.json").write_text(json.dumps({"rows": rows, "extra": extra}), encoding="utf-8")
+    return tmp_path
+
+
+def test_truthset_spec_shape_and_blind(tmp_path):
+    d = ts_dir(tmp_path)
+    spec = _ts_spec_module().make_spec(d)
+    build.check_spec(spec)
+    assert spec["kind"] == "truthset-italic" and [s["id"] for s in spec["sections"]] == ["words", "p912", "ccel"]
+    rows = [r for s in spec["sections"] for r in s["rows"]]
+    assert len(rows) == 3 + 2 and [r["id"] for r in rows[:3]] == ["w001", "w002", "w003"]
+    assert len(spec["images"]) == 2 * 3 + 2
+    lines = [i for i in spec["images"] if i["id"].endswith("_line")]
+    assert len(lines) == 3 and all(len(i["overlay"]) == 1 for i in lines)
+    assert lines[0]["overlay"][0]["x"] == 12 and lines[0]["overlay"][0]["w"] == 20
+    assert spec["keyboard"] == {"field": "v", "keys": {"i": "italic", "r": "roman", "o": build.OTHER}}
+    assert any("keys" in h["q"] or "key" in h["q"] for h in spec["help"])
+    blob = json.dumps(spec).lower()
+    for bad in ("stratum", "slant", "slanted", "upright", "edge"):
+        assert bad not in blob
+    assert rows[0]["label"] == "w001 · p. 913, left column · 913/left/1.1.1.0"
+
+
+def test_truthset_spec_fails(tmp_path):
+    m = _ts_spec_module()
+    d = ts_dir(tmp_path)
+    tc.png(d / "w002_line.png", 81, 24)  # sha differs from crops.json
+    with pytest.raises(Fail):
+        m.make_spec(d)
+    d2 = ts_dir(tmp_path / "x" if (tmp_path / "x").mkdir() is None else tmp_path)
+    (d2 / "p912_left.png").unlink()
+    with pytest.raises(Fail):
+        m.make_spec(d2)
+
+
+def test_truthset_kind_registered():
+    assert "truthset-italic" in build.KINDS and "truthset-italic" in ingest.KINDS
+
+
+def test_truthset_ingest_write_records_keys_and_answers(tmp_path, monkeypatch):
+    spec_in = _ts_spec_module().make_spec(ts_dir(tmp_path))
+    out = tmp_path / "spec.json"
+    build.write_spec(out, spec_in)
+    made, man = built(tmp_path, monkeypatch, out)
+    spec = json.loads(made["spec"].read_text(encoding="utf-8"))
+    ho = tmp_path / "handoff"
+    ho.mkdir()
+    monkeypatch.setattr(ingest, "HANDOFF", ho)
+
+    def answers(ex):
+        ex["rows"]["w001"]["values"]["v"] = "italic"
+        ex["rows"]["w002"]["values"]["v"] = "roman"
+        ex["rows"]["w003"]["values"]["v"] = {"other": "small caps"}
+        ex["rows"]["p912.left"]["values"] = {"face": "mixed", "what": "a creed"}
+        ex["rows"]["ccel.p914-foot"]["values"]["v"] = "yes"
+    res = sign(tmp_path, made, man, spec, answers, write=True)
+    md = ho / f"SIGNED_truthset_italic_{man['build16']}.md"
+    assert res[1] == md
+    t = md.read_text(encoding="utf-8")
+    assert "| id | key | answer |" in t
+    assert "| w001 | 913/left/1.1.1.0 | italic |" in t and "| w002 | 913/left/1.1.2.0 | roman |" in t
+    assert "| w003 | 913/left/1.1.3.0 | other: small caps |" in t
+    assert "p912.left face: mixed" in t and "p912.left what: a creed" in t and "footnotes: yes" in t
+    assert man["build_hash"] in t and "\r" not in t

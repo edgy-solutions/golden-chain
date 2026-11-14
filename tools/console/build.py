@@ -22,6 +22,7 @@ v3 adds silence is complete (a select field with "empty_means": "silent" may be 
 answered; the status line says how many rows were left empty) and the plumb-line-followup kind.
 v4: an empty select with empty_means "unanswered" is complete and is unanswered: it changes nothing in the
 merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" stays for legacy v3 specs.
+v5: an optional spec "keyboard" block for one-key signing.
 Fails loud (Fail) on a missing path, a sha256 mismatch, a repeated id, an unknown field kind,
 options missing, or a pick-row naming an unknown image.
 """
@@ -43,7 +44,7 @@ sys.path.insert(0, str(HERE.parent))
 from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 
 SPEC_FORMAT = "golden-chain-console-spec/1"
-TEMPLATE_VERSION = 4
+TEMPLATE_VERSION = 5
 OTHER = "other, as written"
 COMMON_HELP = [
     {"q": "What do verdict, abstain and fault mean?",
@@ -65,7 +66,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/1"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops", "truthset-italic")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
@@ -208,10 +209,28 @@ def check_spec(spec):
             seen = set()
             for f in need(row, "fields", f"row {row['id']}"):
                 check_field(row["id"], f, ids, seen)
+    if "keyboard" in spec:
+        check_keyboard(spec)
     for f_img in (f for s in spec["sections"] for r in s["rows"] for f in r["fields"]
                   if f["kind"] == "pick-row"):
         if not next(i for i in spec["images"] if i["id"] == f_img["image_id"]).get("frame"):
             raise Fail(f"pick-row {f_img['id']}: image {f_img['image_id']} has no frame")
+
+
+def check_keyboard(spec):
+    """The optional one-key block: {"field": id, "keys": {char: option or OTHER}}."""
+    kb = spec["keyboard"]
+    if not isinstance(kb, dict) or set(kb) != {"field", "keys"} or not isinstance(kb["keys"], dict) or not kb["keys"]:
+        raise Fail("spec keyboard: must be {field, keys} with a non-empty keys dict")
+    fields = [f for s in spec["sections"] for r in s["rows"] for f in r["fields"] if f["id"] == kb["field"]]
+    radios = [f for f in fields if f["kind"] == "radio"]
+    if not radios:
+        raise Fail(f"spec keyboard: field {kb['field']!r} is not a radio on any row")
+    for k, v in kb["keys"].items():
+        if not (isinstance(k, str) and len(k) == 1 and k.islower()):
+            raise Fail(f"spec keyboard: key {k!r} is not a single lowercase character")
+        if v != OTHER and not any(v in f["options"] for f in radios):
+            raise Fail(f"spec keyboard: key {k!r} maps to {v!r}, not an option of field {kb['field']!r}")
 
 
 def hash_images(spec):
