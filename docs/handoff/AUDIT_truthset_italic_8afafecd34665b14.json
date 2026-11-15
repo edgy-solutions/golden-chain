@@ -1,0 +1,41 @@
+{
+  "format": "golden-chain-audit-standoff/1",
+  "about": {
+    "kind": "truthset-italic",
+    "build_hash": "8afafecd34665b147d9266fc0d57c2db9aedbf9872dce8ff5339123fa5a8fa46",
+    "signed_json_sha256": "41e86f3d9dab0e68aba08efb8a69bdf068bf9ffda6cf1034ffb83cbfb324b311",
+    "export_sha256": "f7fd95ece12e842927a57bee6d3e6585f5e6d1d76642ea5949e198cf8f623c43",
+    "signed_record_md": "docs/handoff/SIGNED_truthset_italic_8afafecd34665b14.md"
+  },
+  "written": "2026-11-15",
+  "entries": [
+    {
+      "row_id": "ccel.p914-foot",
+      "signed": {"v": "no", "note": "I might be wrong - can see the rest of the page"},
+      "disposition": "fault",
+      "verdict_usable": false,
+      "basis": "Chris, 2026-11-15, relayed: the note means 'cannot see the rest of the page'; the crop did not show enough to judge. It begins at the small type (30 px above the CCEL-moved blocks) with no body text above for comparison and no note number in view.",
+      "consequence": "Report 16 Q-1 superseded; F-1 stands as a finding from numbers, unconfirmed from pixels; re-asked on a one-row whole-column console.",
+      "not_evidence": "A model outside this repo viewed this crop after signing; its reading is not used."
+    }
+  ],
+  "notes_omitted_from_md": {
+    "w017": "crop cut off at the bottom.",
+    "w019": "crop cut off at the bottom.",
+    "w041": "crop cut off at the bottom.",
+    "w043": "crop cuts off top of 't'",
+    "w059": "hyphenated word",
+    "w061": "hyphenated word",
+    "w067": "crop chopped top of word",
+    "w074": "word hyphenated",
+    "w091": "word hyphenated",
+    "w121": "word hyphenated",
+    "w153": "word hyphenated",
+    "w154": "top of word clipped",
+    "w155": "hyphenated word",
+    "w166": "cropped goes into adjacent line",
+    "w172": "clipped top of word",
+    "w182": "top of word clipped",
+    "w193": "clipped word top"
+  }
+}
