@@ -45,3 +45,16 @@ is a good touch.
   - The expected misprint (Rev 1:5) stays a `gc:resolutionNote` on its Argument, as before.
 - **Q-C2.** Applied as the lock's C3.
 - **Apology IX and the truth-set console:** accepted. Nothing changes.
+
+## Addendum: the architect on the two readings (2026-11-14), filed verbatim
+
+```
+Both readings confirmed. gc:cites is the passage-to-Argument edge;
+my "supports edge" meant that. Follow the Belgic 34/001 pattern. On
+per-passage comments: propose the axiom naming pattern only if a
+note actually needs one; do not mint a pattern for a case that has
+not arisen.
+```
+
+- Applied: Batch C follows `argument/belgic-confession/34/001` (one Argument per note, one `gc:cites` per passage).
+- No axiom naming pattern for `gc:cites` edges is proposed unless a Batch C note turns out to need one at mint time.
