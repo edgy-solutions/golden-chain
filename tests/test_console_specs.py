@@ -678,12 +678,105 @@ def test_truthset_ingest_write_records_keys_and_answers(tmp_path, monkeypatch):
         ex["rows"]["w003"]["values"]["v"] = {"other": "small caps"}
         ex["rows"]["p912.left"]["values"] = {"face": "mixed", "what": "a creed"}
         ex["rows"]["ccel.p914-foot"]["values"]["v"] = "yes"
+        ex["rows"]["w001"]["note"] = "a note"
+        ex["rows"]["ccel.p914-foot"]["note"] = "crop fault | here"
     res = sign(tmp_path, made, man, spec, answers, write=True)
     md = ho / f"SIGNED_truthset_italic_{man['build16']}.md"
     assert res[1] == md
     t = md.read_text(encoding="utf-8")
-    assert "| id | key | answer |" in t
-    assert "| w001 | 913/left/1.1.1.0 | italic |" in t and "| w002 | 913/left/1.1.2.0 | roman |" in t
-    assert "| w003 | 913/left/1.1.3.0 | other: small caps |" in t
+    assert "| id | key | answer | note |" in t
+    assert "| w001 | 913/left/1.1.1.0 | italic | a note |" in t and "| w002 | 913/left/1.1.2.0 | roman |  |" in t
+    assert "| w003 | 913/left/1.1.3.0 | other: small caps |  |" in t
     assert "p912.left face: mixed" in t and "p912.left what: a creed" in t and "footnotes: yes" in t
+    assert "ccel.p914-foot note: crop fault \| here" in t
     assert man["build_hash"] in t and "\r" not in t
+
+
+# ---- (vii) region-reask and the region-question check ------------------------------------------------
+
+def _rr_module():
+    import importlib.util
+    s = importlib.util.spec_from_file_location("region_reask_spec", ROOT / "tools" / "console" / "specs" / "region_reask.py")
+    m = importlib.util.module_from_spec(s)
+    s.loader.exec_module(m)
+    return m
+
+
+def rr_dirs(tmp_path, w=40, h=120, box_y0=70):
+    crops, ocr = tmp_path / "crops", tmp_path / "ocr"
+    (ocr / "regions").mkdir(parents=True)
+    crops.mkdir()
+    sha = tc.png(ocr / "regions" / "p914-left.png", w, h)
+    (crops / "crops.json").write_text(json.dumps({
+        "extra": {"p914_left_foot": {"box_region": [0, box_y0, w, h]}}, "input": {"regions/p914-left.png": sha}}),
+        encoding="utf-8")
+    return crops, ocr
+
+
+def rq_spec(**rq):
+    spec = tc.make_spec(Path(rq.pop("tmp")))
+    row = spec["sections"][0]["rows"][0]
+    row["region_question"] = {"image_id": "pb", "roi": [0, 6127, 2480, 6600], "source_wh": [2480, 6600],
+                              "crop_box": [0, 6097, 2480, 6600], **rq}
+    return spec
+
+
+def test_region_question_whole_source_passes(tmp_path):
+    build.check_spec(rq_spec(tmp=tmp_path, crop_box=[0, 0, 2480, 6600]))
+
+
+def test_region_question_old_foot_geometry_fails(tmp_path):
+    with pytest.raises(Fail, match=r"s1\.r1.*above.*30 px shown"):
+        build.check_spec(rq_spec(tmp=tmp_path))
+
+
+def test_region_question_bad_refs_and_geometry_fail(tmp_path):
+    full = dict(crop_box=[0, 0, 2480, 6600])
+    with pytest.raises(Fail, match="not one of the row's images"):
+        build.check_spec(rq_spec(tmp=tmp_path, image_id="pa", **full))
+    with pytest.raises(Fail, match="roi"):
+        build.check_spec(rq_spec(tmp=tmp_path, roi=[0, 6127, 2480, 6700], **full))
+    with pytest.raises(Fail, match="not inside the source"):
+        build.check_spec(rq_spec(tmp=tmp_path, crop_box=[0, 0, 2480, 6700], roi=[0, 6127, 2480, 6600]))
+
+
+def test_region_question_enough_context_passes(tmp_path):
+    # roi 500 tall in the middle: needs 500 above and 500 below
+    ok = dict(roi=[0, 2000, 2480, 2500], crop_box=[0, 1500, 2480, 3000])
+    build.check_spec(rq_spec(tmp=tmp_path, **ok))
+    with pytest.raises(Fail, match="below.*499 px shown|below"):
+        build.check_spec(rq_spec(tmp=tmp_path, roi=[0, 2000, 2480, 2500], crop_box=[0, 1500, 2480, 2999]))
+
+
+def test_region_question_sideways_context(tmp_path):
+    with pytest.raises(Fail, match="left"):
+        build.check_spec(rq_spec(tmp=tmp_path, roi=[1000, 0, 1400, 6600], crop_box=[900, 0, 2480, 6600]))
+
+
+def test_region_reask_spec_shape_and_build(tmp_path, monkeypatch):
+    crops, ocr = rr_dirs(tmp_path)
+    m = _rr_module()
+    spec = m.make_spec(crops, ocr)
+    build.check_spec(spec)
+    assert spec["kind"] == "region-reask" and len(spec["images"]) == 1
+    rows = [r for s in spec["sections"] for r in s["rows"]]
+    assert [r["id"] for r in rows] == ["p914.left-foot"]
+    ov = spec["images"][0]["overlay"]
+    assert len(ov) == 1 and ov[0]["y"] == 70 + m.FOOT_PAD and ov[0]["h"] == 120 - 100 and ov[0]["w"] == 40
+    assert rows[0]["region_question"]["crop_box"] == [0, 0, 40, 120]
+    out = tmp_path / "spec.json"
+    build.write_spec(out, spec)
+    h1 = built(tmp_path, monkeypatch, out)[1]["build_hash"]
+    h2 = built(tmp_path / "two" if (tmp_path / "two").mkdir() is None else tmp_path, monkeypatch, out)[1]["build_hash"]
+    assert h1 == h2
+
+
+def test_region_reask_sha_mismatch_fails(tmp_path):
+    crops, ocr = rr_dirs(tmp_path)
+    tc.png(ocr / "regions" / "p914-left.png", 41, 120)
+    with pytest.raises(Fail):
+        _rr_module().make_spec(crops, ocr)
+
+
+def test_region_reask_kind_registered():
+    assert "region-reask" in build.KINDS and "region-reask" in ingest.KINDS

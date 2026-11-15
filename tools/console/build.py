@@ -23,6 +23,8 @@ answered; the status line says how many rows were left empty) and the plumb-line
 v4: an empty select with empty_means "unanswered" is complete and is unanswered: it changes nothing in the
 merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" stays for legacy v3 specs.
 v5: an optional spec "keyboard" block for one-key signing.
+Region questions (2026-11-15): a row asking what a region is must show context (a "region_question" block):
+the crop must carry max(region size, CONTEXT_MIN_PX) of surroundings on each side, unless it reaches the source edge.
 Fails loud (Fail) on a missing path, a sha256 mismatch, a repeated id, an unknown field kind,
 options missing, or a pick-row naming an unknown image.
 """
@@ -46,6 +48,7 @@ from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 SPEC_FORMAT = "golden-chain-console-spec/1"
 TEMPLATE_VERSION = 5
 OTHER = "other, as written"
+CONTEXT_MIN_PX = 300
 COMMON_HELP = [
     {"q": "What do verdict, abstain and fault mean?",
      "a": "verdict: you are answering the row. abstain: you cannot tell from the image. fault: the image or "
@@ -66,7 +69,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/1"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops", "truthset-italic")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "q11-crops", "truthset-italic", "region-reask")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
@@ -179,6 +182,32 @@ def check_files(items, what):
     return blobs
 
 
+def check_region_question(row):
+    """A row asking what a region is must show enough surroundings (Chris, 2026-11-15)."""
+    rid = row["id"]
+    rq = row["region_question"]
+    if not isinstance(rq, dict) or set(rq) != {"image_id", "roi", "source_wh", "crop_box"}:
+        raise Fail(f"row {rid}: region_question must be {{image_id, roi, source_wh, crop_box}}")
+    if rq["image_id"] not in row.get("image_ids", []):
+        raise Fail(f"row {rid}: region_question image {rq['image_id']!r} is not one of the row's images")
+    try:
+        (rx0, ry0, rx1, ry1), (cx0, cy0, cx1, cy1), (W, H) = rq["roi"], rq["crop_box"], rq["source_wh"]
+    except (TypeError, ValueError):
+        raise Fail(f"row {rid}: region_question roi/crop_box need 4 numbers, source_wh 2")
+    if not (cx0 <= rx0 < rx1 <= cx1 and cy0 <= ry0 < ry1 <= cy1):
+        raise Fail(f"row {rid}: region_question roi {rq['roi']} is not inside crop_box {rq['crop_box']}")
+    if not (0 <= cx0 < cx1 <= W and 0 <= cy0 < cy1 <= H):
+        raise Fail(f"row {rid}: region_question crop_box {rq['crop_box']} is not inside the source {W}x{H}")
+    for side, have, need_, at_edge in (
+            ("above", ry0 - cy0, max(ry1 - ry0, CONTEXT_MIN_PX), cy0 == 0),
+            ("below", cy1 - ry1, max(ry1 - ry0, CONTEXT_MIN_PX), cy1 == H),
+            ("left", rx0 - cx0, max(rx1 - rx0, CONTEXT_MIN_PX), cx0 == 0),
+            ("right", cx1 - rx1, max(rx1 - rx0, CONTEXT_MIN_PX), cx1 == W)):
+        if have < need_ and not at_edge:
+            raise Fail(f"row {rid}: region question lacks context {side}: {have} px shown, {need_} needed "
+                       f"({need_ - have} px missing)")
+
+
 def check_spec(spec):
     """Structure and ids; the files are checked by hash_images."""
     if need(spec, "format", "spec") != SPEC_FORMAT:
@@ -209,6 +238,8 @@ def check_spec(spec):
             seen = set()
             for f in need(row, "fields", f"row {row['id']}"):
                 check_field(row["id"], f, ids, seen)
+            if "region_question" in row:
+                check_region_question(row)
     if "keyboard" in spec:
         check_keyboard(spec)
     for f_img in (f for s in spec["sections"] for r in s["rows"] for f in r["fields"]
