@@ -2,6 +2,7 @@
 
 Usage: python tools/console/ingest.py <verdicts.json> <manifest.json> [--provisional]
                                       [--out-dir DIR] [--write] [--ttl-out PATH] [--records-dir DIR]
+                                      [--code-at COMMIT]
        out-dir defaults to the manifest's directory.
 
 Checks, each a Fail with nothing written (ADR-0006 item 8):
@@ -23,6 +24,11 @@ all records, only once ADR-0006 says "- Status: Ratified" (else Fail before anyt
 writes the TTL there instead, with its records in --records-dir, default PATH's directory/sittings). The merge
 refuses if the committed TTL is not the replay of its records.
 
+--code-at COMMIT reads build.py and template.html from that commit (it must be the commit the manifest's
+golden_chain_git_start names, and that start must be clean) instead of the working tree: ADR-0006 item 8
+recomputes build_hash from the spec, the code and the image files, and a console built on older console code
+can never match the current tree. The signed record then carries "code_at"; without the flag it does not.
+
 The build hash is recomputed here by its own code, not imported from build.py (truth-set form 8.5):
 the rule is spelled out at the check site.
 """
@@ -33,6 +39,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -90,14 +97,45 @@ def check_formats(ex, man):
         raise Fail("manifest build16 is not the first 16 digits of its build_hash")
 
 
-def recompute(ex, man, manifest_dir):
-    """Returns the spec. Every digest is recomputed from the files on disk."""
+def git_bytes(*args):
+    try:
+        return subprocess.run(["git", "-C", str(REPO), *args], check=True, capture_output=True).stdout
+    except (subprocess.CalledProcessError, OSError) as e:
+        raise Fail(f"git {' '.join(args)} failed in {REPO}: {e}")
+
+
+def resolve_code_at(code_at, man):
+    """The full commit hash for --code-at; Fails unless it is the manifest's clean git start."""
+    full = git_bytes("rev-parse", "--verify", f"{code_at}^{{commit}}").decode("utf-8").strip()
+    start = man.get("golden_chain_git_start") or {}
+    if full != start.get("commit"):
+        raise Fail(f"--code-at {code_at} is {full[:16]}, not the manifest's build commit {str(start.get('commit'))[:16]}")
+    if start.get("dirty") is not False:
+        raise Fail("--code-at: the manifest's git start is dirty; the code it was built on is not a commit")
+    return full
+
+
+def code_bytes(code_at=None):
+    """build.py + template.html bytes: from the working tree (CODE_DIR), or from commit code_at (full hash)."""
+    if code_at is None:
+        return (Path(CODE_DIR) / "build.py").read_bytes() + (Path(CODE_DIR) / "template.html").read_bytes()
+    out = b""
+    for name in ("build.py", "template.html"):
+        try:
+            out += git_bytes("show", f"{code_at}:tools/console/{name}")
+        except Fail:
+            raise Fail(f"--code-at: tools/console/{name} is missing at commit {code_at[:16]}")
+    return out
+
+
+def recompute(ex, man, manifest_dir, code_at=None):
+    """Returns the spec. Every digest is recomputed from the files on disk (code: see code_bytes)."""
     kind, b16 = man["kind"], man["build16"]
     spec_path = Path(manifest_dir) / f"spec_{kind}_{b16}.json"
     spec_raw, spec = load(spec_path, "spec copy")
     spec_sha = sha(spec_raw)
     same("spec_sha256 (spec copy / manifest / export)", spec_sha, man.get("spec_sha256"), ex.get("spec_sha256"))
-    code_sha = sha((Path(CODE_DIR) / "build.py").read_bytes() + (Path(CODE_DIR) / "template.html").read_bytes())
+    code_sha = sha(code_bytes(code_at))
     if code_sha != man.get("code_sha256"):
         raise Fail(f"console code changed since build (code_sha256 now {code_sha[:16]}, "
                    f"manifest {str(man.get('code_sha256'))[:16]})")
@@ -223,7 +261,7 @@ def check_signature(spec, ex):
             raise Fail(f"signature {k} is empty")
 
 
-def signed_record(spec, ex, man, ex_raw, man_raw, now):
+def signed_record(spec, ex, man, ex_raw, man_raw, now, code_at=None):
     rows = []
     for s, r in spec_rows(spec):
         row = ex["rows"][r["id"]]
@@ -232,10 +270,13 @@ def signed_record(spec, ex, man, ex_raw, man_raw, now):
                      "state": row["state"], "note": row.get("note", ""),
                      "fields": [{"id": f["id"], "label": f.get("label", f["id"]), "kind": f["kind"],
                                  "value": vals.get(f["id"])} for f in r["fields"]]})
-    return {"format": "golden-chain-console-signed/1", "kind": man["kind"], "build_hash": man["build_hash"],
-            "export_sha256": sha(ex_raw), "manifest_sha256": sha(man_raw),
-            "provisional": bool(man.get("provisional")), "signer": spec["signer"],
-            "signed_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "rows": rows, "signature": ex["signature"]}
+    rec = {"format": "golden-chain-console-signed/1", "kind": man["kind"], "build_hash": man["build_hash"],
+           "export_sha256": sha(ex_raw), "manifest_sha256": sha(man_raw),
+           "provisional": bool(man.get("provisional")), "signer": spec["signer"],
+           "signed_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "rows": rows, "signature": ex["signature"]}
+    if code_at:
+        rec["code_at"] = code_at
+    return rec
 
 
 # ---- instance writers -------------------------------------------------------------------------------
@@ -279,8 +320,10 @@ def markdown_truthset(signed, spec):
            f"- Signer: {signed['signer']} ({sig.get('name', '')}), {sig.get('date', '')}",
            f"- build_hash: {signed['build_hash']}", f"- export sha256: {signed['export_sha256']}",
            f"- manifest sha256: {signed['manifest_sha256']}",
-           f"- provisional: {str(signed['provisional']).lower()}", "", "## Words", "",
-           "| id | key | answer |", "|---|---|---|"]
+           f"- provisional: {str(signed['provisional']).lower()}"]
+    if signed.get("code_at"):
+        out.append(f"- console code read from commit {signed['code_at']} (--code-at)")
+    out += ["", "## Words", "", "| id | key | answer |", "|---|---|---|"]
 
     def one(rid, fid):
         return answer_text(ans[rid].get(fid)) if state[rid] == "verdict" else state[rid]
@@ -309,6 +352,8 @@ def markdown(signed, spec):
            f"- manifest sha256: {signed['manifest_sha256']}",
            f"- spec sha256: {sha(json.dumps(spec, ensure_ascii=False, sort_keys=True, indent=1).encode('utf-8'))}",
            f"- provisional: {str(signed['provisional']).lower()}"]
+    if signed.get("code_at"):
+        out.append(f"- console code read from commit {signed['code_at']} (--code-at)")
     rh = spec.get("run_header")
     if rh:
         out.append(f"- run header: golden-chain commit {(rh.get('golden_chain_git_start') or {}).get('commit', 'not recorded')},"
@@ -410,11 +455,13 @@ def write_replace(path, data):
 
 
 def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl_out=None, now=None,
-           records_dir=None):
+           records_dir=None, code_at=None):
     ex_raw, ex = load(verdicts, "export")
     man_raw, man = load(manifest, "manifest")
     check_formats(ex, man)
-    spec = recompute(ex, man, Path(manifest).resolve().parent)
+    if code_at is not None:
+        code_at = resolve_code_at(code_at, man)
+    spec = recompute(ex, man, Path(manifest).resolve().parent, code_at)
     check_rows(spec, ex)
     check_complete(spec, ex)
     check_nonverdicts(spec, ex)
@@ -422,7 +469,7 @@ def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl
     if man.get("provisional") and not provisional:
         raise Fail("manifest is provisional (built from an uncommitted tree); pass --provisional to sign anyway")
     now = now or datetime.datetime.now(datetime.timezone.utc)
-    signed = signed_record(spec, ex, man, ex_raw, man_raw, now)
+    signed = signed_record(spec, ex, man, ex_raw, man_raw, now, code_at)
     out = Path(out_dir) if out_dir else Path(manifest).resolve().parent
     signed_path = out / f"signed_{man['kind']}_{man['build16']}.json"
     signed_bytes = json.dumps(signed, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")
@@ -451,9 +498,10 @@ def main(argv):
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--ttl-out")
     ap.add_argument("--records-dir")
+    ap.add_argument("--code-at")
     a = ap.parse_args(argv)
     try:
-        made = ingest(a.verdicts, a.manifest, a.provisional, a.out_dir, a.write, a.ttl_out, records_dir=a.records_dir)
+        made = ingest(a.verdicts, a.manifest, a.provisional, a.out_dir, a.write, a.ttl_out, records_dir=a.records_dir, code_at=a.code_at)
     except Fail as ex:
         print(f"FAIL: {ex}", file=sys.stderr)
         return 1

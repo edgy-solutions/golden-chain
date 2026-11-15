@@ -821,3 +821,82 @@ def test_headless_keyboard_signing(tmp_path, monkeypatch):
     assert cur[7] == ["w4"] and cur[8] == ["c1"] and cur[9] == ["c1"]  # ArrowRight; end of the list holds
     assert s[10]["vals"]["c1"][0] is None and cur[10] == ["c1"]  # i on a row without that option is ignored
     assert cur[11] == ["w4"]                                  # ArrowLeft
+
+
+# ---- ingest --code-at -----------------------------------------------------------------------------
+
+def _git(repo, *args):
+    return subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t", *args],
+                          check=True, capture_output=True, text=True).stdout.strip()
+
+
+@pytest.fixture
+def code_at_sitting(tmp_path, monkeypatch):
+    """A console built from a tmp git repo's code; the repo's template then changes in a second commit."""
+    repo = tmp_path / "repo"
+    code = repo / "tools" / "console"
+    code.mkdir(parents=True)
+    for n in ("build.py", "template.html"):
+        shutil.copy(ROOT / "tools/console" / n, code / n)
+    _git(repo, "init", "-q")
+    _git(repo, "add", "tools")
+    _git(repo, "commit", "-q", "-m", "one")
+    first = _git(repo, "rev-parse", "HEAD")
+    spec = make_spec(tmp_path)
+    monkeypatch.setattr(build, "git_state", lambda r: {"commit": first, "dirty": False, "porcelain": 0})
+    made = build.build(write_spec(tmp_path, spec), tmp_path / "out")
+    man = json.loads(made["manifest"].read_text(encoding="utf-8"))
+    (code / "template.html").write_bytes((code / "template.html").read_bytes() + b"\n<!-- later -->\n")
+    _git(repo, "commit", "-q", "-am", "two")
+    second = _git(repo, "rev-parse", "HEAD")
+    monkeypatch.setattr(ingest, "REPO", repo)
+    monkeypatch.setattr(ingest, "CODE_DIR", code)
+    monkeypatch.setattr(ingest, "HANDOFF", tmp_path / "handoff")
+    return {"spec": spec, "made": made, "man": man, "dir": tmp_path, "first": first, "second": second}
+
+
+def test_code_at_without_flag_refuses_changed_code(code_at_sitting):
+    refuses(code_at_sitting, make_export(code_at_sitting["spec"], code_at_sitting["man"]),
+            "console code changed since build")
+
+
+@pytest.mark.parametrize("abbrev", [False, True])
+def test_code_at_first_commit_ingests_and_is_recorded(code_at_sitting, abbrev):
+    s = code_at_sitting
+    ref = s["first"][:8] if abbrev else s["first"]
+    out = run_ingest(s, make_export(s["spec"], s["man"]), s["dir"], code_at=ref, write=True)
+    rec = json.loads(out[0].read_text(encoding="utf-8"))
+    assert rec["code_at"] == s["first"]
+    md = next(p for p in out if p.suffix == ".md").read_text(encoding="utf-8")
+    assert f"- console code read from commit {s['first']} (--code-at)" in md
+
+
+def test_code_at_truthset_markdown_has_the_line():
+    signed = {"signer": "C", "signature": {}, "build_hash": "b", "export_sha256": "e", "manifest_sha256": "m",
+              "provisional": False, "code_at": "f" * 40,
+              "rows": [{"row_id": r, "state": "abstain", "fields": []} for r in ("p912.left", "ccel.p914-foot")]}
+    spec = {"title": "T", "sections": [{"id": "words", "rows": []}]}
+    assert f"- console code read from commit {'f' * 40} (--code-at)" in ingest.markdown_truthset(signed, spec).decode()
+    del signed["code_at"]
+    assert "--code-at" not in ingest.markdown_truthset(signed, spec).decode()
+
+
+def test_code_at_second_commit_unknown_commit_and_dirty_start_refuse(code_at_sitting):
+    s = code_at_sitting
+    ex = make_export(s["spec"], s["man"])
+    with pytest.raises(Fail, match="not the manifest's build commit"):
+        run_ingest(s, ex, s["dir"], code_at=s["second"])
+    with pytest.raises(Fail, match="rev-parse"):
+        run_ingest(s, ex, s["dir"], code_at="0" * 40)
+    man = json.loads(s["made"]["manifest"].read_text(encoding="utf-8"))
+    man["golden_chain_git_start"]["dirty"] = True
+    mp = s["dir"] / "manifest_dirty.json"
+    mp.write_text(json.dumps(man), encoding="utf-8")
+    (s["dir"] / "verdicts.json").write_text(json.dumps(ex), encoding="utf-8")
+    with pytest.raises(Fail, match="dirty"):
+        ingest.ingest(s["dir"] / "verdicts.json", mp, out_dir=s["dir"] / "signed", code_at=s["first"])
+
+
+def test_signed_record_has_no_code_at_without_the_flag(sitting):
+    out = run_ingest(sitting, make_export(sitting["spec"], sitting["man"]), sitting["dir"])
+    assert "code_at" not in json.loads(out[0].read_text(encoding="utf-8"))
