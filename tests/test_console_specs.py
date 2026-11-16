@@ -16,6 +16,7 @@ import ingest  # noqa: E402
 import plumb_line  # noqa: E402
 import plumb_merge  # noqa: E402
 import test_console as tc  # noqa: E402
+import lbc1677  # noqa: E402
 import wcf1647  # noqa: E402
 from column_rule import Fail  # noqa: E402
 from rdflib import DCTERMS, RDF, Graph, Namespace, URIRef  # noqa: E402
@@ -934,3 +935,94 @@ def test_plain_is_rendered_escaped(tmp_path, monkeypatch):
 
 def test_template_version_is_6():
     assert build.TEMPLATE_VERSION == 6
+
+
+# ---- lbc1677 --------------------------------------------------------------------------------------
+
+def lbc_photos(tmp_path, ext="png", extra=None):
+    d = tmp_path / "photos"
+    d.mkdir(exist_ok=True)
+    for g in lbc1677.GROUPS:
+        for n in range(1, (extra or {}).get(g, 1) + 1):
+            im = Image.new("RGB", (30, 20), (10 * n, 90, 160))
+            im.save(d / f"lbc1677_{g}_{n}.{ext}", "JPEG" if ext in ("jpg", "jpeg") else "PNG")
+    return d
+
+
+def lbc_spec(tmp_path, **kw):
+    return lbc1677.make_spec(lbc_photos(tmp_path, **kw), tmp_path / "spec_out")
+
+
+def test_lbc1677_builds_checks_and_renders(tmp_path, monkeypatch):
+    sp = tmp_path / "spec.json"
+    build.write_spec(sp, lbc_spec(tmp_path, extra={"ch29": 2}))
+    build.check_spec(json.loads(sp.read_text(encoding="utf-8")))
+    made, man = built(tmp_path, monkeypatch, sp)
+    assert man["kind"] == "lbc1677" and made["html"].exists()
+
+
+def test_lbc1677_row_counts_and_plain_on_every_field(tmp_path):
+    spec = lbc_spec(tmp_path)
+    rows = [r for s in spec["sections"] for r in s["rows"]]
+    assert len(rows) == 21
+    assert len([r for r in rows if r["id"].endswith(".unlisted")]) == 5
+    assert len([r for r in rows if r["id"] == "witness"]) == 1
+    assert all(f["plain"].strip() for r in rows for f in r["fields"])
+    assert [i["id"] for i in spec["images"]][:2] == ["title-1", "ch07-1"]
+
+
+def test_lbc1677_missing_group_fails(tmp_path):
+    d = lbc_photos(tmp_path)
+    (d / "lbc1677_ch29_1.png").unlink()
+    with pytest.raises(Fail, match="ch29 has no photo"):
+        lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_bad_file_name_fails(tmp_path):
+    d = lbc_photos(tmp_path)
+    (d / "stray.png").write_bytes(b"x")
+    with pytest.raises(Fail, match="does not match"):
+        lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_non_contiguous_n_fails(tmp_path):
+    d = lbc_photos(tmp_path)
+    (d / "lbc1677_ch07_3.png").write_bytes((d / "lbc1677_ch07_1.png").read_bytes())
+    with pytest.raises(Fail, match="not contiguous"):
+        lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_proposed_differing_from_data_fails(tmp_path):
+    rows = json.loads(lbc1677.ROWS.read_text(encoding="utf-8"))
+    rows["rows"][0]["proposed"] = "e Gen. 3.16."
+    rp = tmp_path / "rows.json"
+    rp.write_text(json.dumps(rows), encoding="utf-8")
+    with pytest.raises(Fail, match="not in asPrinted"):
+        lbc1677.make_spec(lbc_photos(tmp_path), tmp_path / "o", rows_path=rp)
+
+
+def test_lbc1677_jpeg_converts_deterministically(tmp_path):
+    d = lbc_photos(tmp_path, ext="jpg")
+    a = lbc1677.make_spec(d, tmp_path / "o1")["images"]
+    b = lbc1677.make_spec(d, tmp_path / "o2")["images"]
+    assert [i["sha256"] for i in a] == [i["sha256"] for i in b]
+    assert a[0]["path"].endswith(".png") and a[0]["source_sha256"] != a[0]["sha256"]
+    assert Path(a[0]["path"]).read_bytes()[:8] == build.PNG_MAGIC
+
+
+def test_lbc1677_ingest_renders_confirm_and_correct(tmp_path, monkeypatch):
+    sp = tmp_path / "spec.json"
+    build.write_spec(sp, lbc_spec(tmp_path))
+    made, man = built(tmp_path, monkeypatch, sp)
+    spec = json.loads(made["spec"].read_text(encoding="utf-8"))
+    ho = tmp_path / "handoff"
+    ho.mkdir()
+    monkeypatch.setattr(ingest, "HANDOFF", ho)
+
+    def correct(ex):
+        ex["rows"]["7.3-e"]["values"]["v"] = {"action": "correct", "text": "e Gen. 3. 15.", "proposed": "e Gen. 3.15."}
+    res = sign(tmp_path, made, man, spec, correct, write=True)
+    t = res[1].read_text(encoding="utf-8")
+    assert res[1].name == f"SIGNED_lbc1677_{man['build16']}.md"
+    assert 'corrected: "e Gen. 3. 15." (proposed "e Gen. 3.15."); signed reading' in t
+    assert "confirmed:" in t
