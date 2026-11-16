@@ -51,7 +51,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "region-reask")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .
@@ -317,6 +317,10 @@ def markdown_truthset(signed, spec):
     ans = {r["row_id"]: {f["id"]: f["value"] for f in r["fields"]} for r in signed["rows"]}
     state = {r["row_id"]: r["state"] for r in signed["rows"]}
     notes = {r["row_id"]: r.get("note", "") for r in signed["rows"]}
+    for r in signed["rows"]:  # v3 rows carry the note as a text field "note"
+        fv = ans[r["row_id"]].get("note")
+        if not notes[r["row_id"]] and isinstance(fv, str) and fv.strip():
+            notes[r["row_id"]] = fv
     out = [f"# {spec['title']}", "", "## Provenance", "",
            f"- Signer: {signed['signer']} ({sig.get('name', '')}), {sig.get('date', '')}",
            f"- build_hash: {signed['build_hash']}", f"- export sha256: {signed['export_sha256']}",
@@ -330,11 +334,12 @@ def markdown_truthset(signed, spec):
         return answer_text(ans[rid].get(fid)) if state[rid] == "verdict" else state[rid]
     for r in next(s for s in spec["sections"] if s["id"] == "words")["rows"]:
         out.append("| " + " | ".join(cell(x) for x in (r["id"], keys[r["id"]], one(r["id"], "v"), notes[r["id"]])) + " |")
-    out += ["", "## Page rows", "", f"- p912.left face: {cell(one('p912.left', 'face'))}",
-            f"- p912.left what: {cell(one('p912.left', 'what'))}",
-            f"- p912.left note: {cell(notes.get('p912.left', ''))}",
-            f"- ccel.p914-foot footnotes: {cell(one('ccel.p914-foot', 'v'))}",
-            f"- ccel.p914-foot note: {cell(notes.get('ccel.p914-foot', ''))}"]
+    if "p912.left" in ans:  # the v3 kind has word rows only
+        out += ["", "## Page rows", "", f"- p912.left face: {cell(one('p912.left', 'face'))}",
+                f"- p912.left what: {cell(one('p912.left', 'what'))}",
+                f"- p912.left note: {cell(notes.get('p912.left', ''))}",
+                f"- ccel.p914-foot footnotes: {cell(one('ccel.p914-foot', 'v'))}",
+                f"- ccel.p914-foot note: {cell(notes.get('ccel.p914-foot', ''))}"]
     return ("\n".join(out) + "\n").encode("utf-8")
 
 
@@ -420,7 +425,7 @@ def instance_output(signed, spec, ttl_out, records_dir=None):
             out.append((Path(HANDOFF) / name, markdown(signed, spec)))
         return out
     name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
-    md = markdown_truthset if signed["kind"] == "truthset-italic" else markdown
+    md = markdown_truthset if signed["kind"] in ("truthset-italic", "truthset-italic-v3") else markdown
     return [(Path(HANDOFF) / name, md(signed, spec))]
 
 

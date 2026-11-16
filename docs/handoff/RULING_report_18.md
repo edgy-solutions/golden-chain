@@ -18,4 +18,13 @@ RULINGS
 
 ## Applied
 
-Filled in as the work lands; see [REPORT_phase1_19.md](REPORT_phase1_19.md).
+Worked in [REPORT_phase1_19.md](REPORT_phase1_19.md) (items 1–3 of the overnight order).
+
+- **Empty strips:** the foot rows are registered "architect had described an earlier cut", in [AUDIT_empty_strips_88d902a181ba64c1.md](AUDIT_empty_strips_88d902a181ba64c1.md). The record is unedited (`4b53ccc`).
+- **LBC 1677 margins:**
+  - re-registered model-proposed on the 11 Arguments (`4b53ccc`; LM1–LM4 hit);
+  - the console rows file and builder are done (`4b53ccc`, `e380d33`);
+  - the console is built when Chris's photographs are in the private corpus.
+- **Goat-yard Hebrew span crop:** recorded as goat-yard's. Chris tells their architect.
+- **Plain words:** ADR-0006 Revision 4, `TEMPLATE_VERSION` 6 (`25b7d3e`; PW1–PW5 hit). Built consoles are not rebuilt.
+- **Finer italic measure:** locked (`italic-v3-predictions-locked.txt`), built, drawn and run as reported in report 19 item 3.

@@ -72,7 +72,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/1"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "region-reask")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
@@ -233,6 +233,27 @@ def check_region_question(row):
 CLEAR_EDGES = ("top", "bottom", "left", "right")
 
 
+def ink_mask(a):
+    """Bool ink mask of a 2-D uint8 grey array. Threshold by mode-midpoint: paper = most common value >= 128,
+    ink = most common value < 128, T = (paper + ink) / 2; ink is a pixel < T. No pixel < 128: all False."""
+    import numpy as np
+    a = np.asarray(a)
+    dark = a < 128
+    if not dark.any():
+        return np.zeros(a.shape, dtype=bool)
+    light = a[~dark]
+    paper = int(np.bincount(light, minlength=256).argmax()) if light.size else 255
+    ink = int(np.bincount(a[dark], minlength=256).argmax())
+    return a < (paper + ink) / 2
+
+
+def edge_ink(a):
+    """Ink pixel counts on the outermost rows and columns of a grey array."""
+    m = ink_mask(a)
+    return {"top": int(m[0, :].sum()), "bottom": int(m[-1, :].sum()),
+            "left": int(m[:, 0].sum()), "right": int(m[:, -1].sum())}
+
+
 def check_clear_edges(image_entry, png_path):
     """An image with "clear_edges" must have no ink on those outermost rows/columns.
     Threshold by mode-midpoint: paper = most common value >= 128, ink = most common value < 128,
@@ -243,20 +264,13 @@ def check_clear_edges(image_entry, png_path):
     if (not isinstance(edges, list) or not edges or len(set(map(str, edges))) != len(edges)
             or any(e not in CLEAR_EDGES for e in edges)):
         raise Fail(f"image {iid}: clear_edges must be a non-empty list of distinct values from {list(CLEAR_EDGES)}")
-    import numpy as np
     from PIL import Image
+    import numpy as np
     with Image.open(png_path) as im:
         a = np.asarray(im.convert("L"))
-    dark = a < 128
-    if not dark.any():
-        return
-    light = a[~dark]
-    paper = int(np.bincount(light, minlength=256).argmax()) if light.size else 255
-    ink = int(np.bincount(a[dark], minlength=256).argmax())
-    ink_px = a < (paper + ink) / 2
-    lines = {"top": ink_px[0, :], "bottom": ink_px[-1, :], "left": ink_px[:, 0], "right": ink_px[:, -1]}
+    counts = edge_ink(a)
     for e in edges:
-        n = int(lines[e].sum())
+        n = counts[e]
         if n:
             raise Fail(f"image {iid}: ink touches the {e} edge ({n} px): the crop is flush against ink")
 
