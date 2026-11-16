@@ -1,0 +1,174 @@
+{
+ "format": "golden-chain-lbc1677-rows/1",
+ "about": "Rows for the LBC 1677 confirmation console (ruling on report 18, disclosure item 2). Each 'proposed' is the string now in data or in docs/sources/lbc-1689.md; none is signed.",
+ "chapters": {
+  "ch07": "Chapter 7 (of God's covenant), paragraphs 1-3 with their margin notes",
+  "ch26": "Chapter 26 (of the church), paragraph 15 with its margin notes",
+  "ch27": "Chapter 27 (of the communion of saints), paragraph 1 with its margin notes",
+  "ch28": "Chapter 28 (of baptism and the Lord's Supper), p. 96, paragraphs 1-2 with their margin notes",
+  "ch29": "Chapter 29 (of baptism), sig. H, paragraphs 1-4 with their margin notes"
+ },
+ "photo_naming": "lbc1677_<chapter>_<n>.<jpg|png>, e.g. lbc1677_ch29_1.jpg; one or more per chapter, whole page with margins, page number or signature in view",
+ "rows": [
+  {
+   "id": "7.3-e",
+   "chapter": "ch07",
+   "locator": "7.3",
+   "note": "e",
+   "proposed": "e Gen. 3.15.",
+   "arguments": [
+    "lbc-1689/7/3/001"
+   ],
+   "read_by": "transcription (M10)"
+  },
+  {
+   "id": "7.3-f",
+   "chapter": "ch07",
+   "locator": "7.3",
+   "note": "f",
+   "proposed": "f Heb. 1.1.",
+   "arguments": [
+    "lbc-1689/7/3/002"
+   ],
+   "read_by": "transcription (M10)"
+  },
+  {
+   "id": "7.3-star",
+   "chapter": "ch07",
+   "locator": "7.3",
+   "note": "*",
+   "proposed": "* 2 Tim. 1.9. Tit. 1.2.",
+   "arguments": [
+    "lbc-1689/7/3/003"
+   ],
+   "read_by": "transcription (M10)"
+  },
+  {
+   "id": "26.15-g",
+   "chapter": "ch26",
+   "locator": "26.15",
+   "note": "g",
+   "proposed": "(g) 2 Cor. 1. 24. 1 Joh. 4. 1.",
+   "arguments": [],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "27.1-a",
+   "chapter": "ch27",
+   "locator": "27.1",
+   "note": "a",
+   "proposed": "(a) 1 Joh. 1. 3. Joh. 1. 16. Phil. 3. 10. Rom. 6. 5, 6.",
+   "arguments": [],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "27.1-b",
+   "chapter": "ch27",
+   "locator": "27.1",
+   "note": "b",
+   "proposed": "(b) Eph. 4. 15, 16. 1 Cor. 12. 7. 1 Cor. 3. 21, 22, 23.",
+   "arguments": [],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "27.1-c",
+   "chapter": "ch27",
+   "locator": "27.1",
+   "note": "c",
+   "proposed": "(c) 1 Thes. 5. 11, 14. Rom. 1. 12. 1 Joh. 3. 17, 18. Gal. 6. 10.",
+   "arguments": [],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "28.1-a",
+   "chapter": "ch28",
+   "locator": "28.1",
+   "note": "a",
+   "proposed": "(a) Mat. 28. 19, 20. 1 Cor. 11. 26.",
+   "arguments": [
+    "lbc-1689/28/1/001"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "28.2-b",
+   "chapter": "ch28",
+   "locator": "28.2",
+   "note": "b",
+   "proposed": "(b) Mat. 28. 19. 1 Cor. 4. 1.",
+   "arguments": [
+    "lbc-1689/28/2/001"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.1-c",
+   "chapter": "ch29",
+   "locator": "29.1",
+   "note": "c",
+   "proposed": "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27",
+   "arguments": [
+    "lbc-1689/29/1/001"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.1-d",
+   "chapter": "ch29",
+   "locator": "29.1",
+   "note": "d",
+   "proposed": "(d) Mar. 1.4; Act. 26. 16",
+   "arguments": [
+    "lbc-1689/29/1/002"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.1-e",
+   "chapter": "ch29",
+   "locator": "29.1",
+   "note": "e",
+   "proposed": "(e) Rom. 6.2,4",
+   "arguments": [
+    "lbc-1689/29/1/003"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.2-f",
+   "chapter": "ch29",
+   "locator": "29.2",
+   "note": "f",
+   "proposed": "(f) Mar. 16.16; Act. 8.36,37",
+   "arguments": [
+    "lbc-1689/29/2/001",
+    "lbc-1689/29/2/002"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.3-g",
+   "chapter": "ch29",
+   "locator": "29.3",
+   "note": "g",
+   "proposed": "(g) Mat. 28. 19, 20. with Act. 8. 38.",
+   "arguments": [
+    "lbc-1689/29/3/001",
+    "lbc-1689/29/3/002"
+   ],
+   "read_by": "architect, from photographs"
+  },
+  {
+   "id": "29.4-h",
+   "chapter": "ch29",
+   "locator": "29.4",
+   "note": "h",
+   "proposed": "(h) Mat. 3. 16. Joh. 3. 23.",
+   "arguments": [
+    "lbc-1689/29/4/001",
+    "lbc-1689/29/4/002"
+   ],
+   "read_by": "architect, from photographs"
+  }
+ ]
+}

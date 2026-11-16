@@ -1,0 +1,62 @@
+{
+  "format": "golden-chain-audit-standoff/1",
+  "about": {
+    "kind": "empty-strips",
+    "build_hash": "88d902a181ba64c1a296c4363f26fe2bd3e822f220093cb23ad55d2d8c9b965b",
+    "signed_json_sha256": "fca6c7413c8e57028b62246b8d7eb57149d0333278840045b99f36b13844357e",
+    "export_sha256": "2d894678739bf10a2f9f4281ba9a69d2efbf46ac8cc641954d2f5e7a3686c0da",
+    "signed_record_md": "docs/handoff/SIGNED_empty_strips_88d902a181ba64c1.md"
+  },
+  "written": "2026-11-15",
+  "ruling": "docs/handoff/RULING_report_18.md",
+  "entries": [
+    {
+      "row_id": "foot.896",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    },
+    {
+      "row_id": "foot.902",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    },
+    {
+      "row_id": "foot.907",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    },
+    {
+      "row_id": "foot.908",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    },
+    {
+      "row_id": "foot.hypothesis",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    },
+    {
+      "row_id": "foot.stops",
+      "standing": "architect had described an earlier cut",
+      "blind": false,
+      "model_viewed": "an earlier cut (0.703) of a foot gutter strip, 2026-10-25, before the sitting; the architect described it and suggested how to answer the foot rows. The signed strips were cut later at 6.947: not the same image, the same question on the same pages.",
+      "direction": "Chris's signed readings went against the architect's description (the rule runs to the text foot)",
+      "disposition": "stands as signed"
+    }
+  ]
+}
