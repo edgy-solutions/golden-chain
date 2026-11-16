@@ -25,6 +25,8 @@ merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" 
 v5: an optional spec "keyboard" block for one-key signing.
 Region questions (2026-11-15): a row asking what a region is must show context (a "region_question" block):
 the crop must carry max(region size, CONTEXT_MIN_PX) of surroundings on each side, unless it reaches the source edge.
+Clear edges (ruling on report 17, Q-1, 2026-11-15): an image may require that no ink touch
+given edges (mode-midpoint threshold)
 Fails loud (Fail) on a missing path, a sha256 mismatch, a repeated id, an unknown field kind,
 options missing, or a pick-row naming an unknown image.
 """
@@ -208,6 +210,37 @@ def check_region_question(row):
                        f"({need_ - have} px missing)")
 
 
+CLEAR_EDGES = ("top", "bottom", "left", "right")
+
+
+def check_clear_edges(image_entry, png_path):
+    """An image with "clear_edges" must have no ink on those outermost rows/columns.
+    Threshold by mode-midpoint: paper = most common value >= 128, ink = most common value < 128,
+    T = (paper + ink) / 2; ink is a pixel < T. No pixel < 128 means no ink: pass."""
+    if "clear_edges" not in image_entry:
+        return
+    iid, edges = image_entry.get("id"), image_entry["clear_edges"]
+    if (not isinstance(edges, list) or not edges or len(set(map(str, edges))) != len(edges)
+            or any(e not in CLEAR_EDGES for e in edges)):
+        raise Fail(f"image {iid}: clear_edges must be a non-empty list of distinct values from {list(CLEAR_EDGES)}")
+    import numpy as np
+    from PIL import Image
+    with Image.open(png_path) as im:
+        a = np.asarray(im.convert("L"))
+    dark = a < 128
+    if not dark.any():
+        return
+    light = a[~dark]
+    paper = int(np.bincount(light, minlength=256).argmax()) if light.size else 255
+    ink = int(np.bincount(a[dark], minlength=256).argmax())
+    ink_px = a < (paper + ink) / 2
+    lines = {"top": ink_px[0, :], "bottom": ink_px[-1, :], "left": ink_px[:, 0], "right": ink_px[:, -1]}
+    for e in edges:
+        n = int(lines[e].sum())
+        if n:
+            raise Fail(f"image {iid}: ink touches the {e} edge ({n} px): the crop is flush against ink")
+
+
 def check_spec(spec):
     """Structure and ids; the files are checked by hash_images."""
     if need(spec, "format", "spec") != SPEC_FORMAT:
@@ -272,6 +305,7 @@ def hash_images(spec):
     for im, b in zip(spec["images"], blobs):
         if b[:8] != PNG_MAGIC:
             raise Fail(f"image {im['id']}: not a PNG")
+        check_clear_edges(im, im["path"])
     return ({i: sha256_bytes(b) for i, b in zip(ids, blobs)}, dict(zip(ids, blobs)))
 
 

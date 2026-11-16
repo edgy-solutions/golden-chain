@@ -780,3 +780,73 @@ def test_region_reask_sha_mismatch_fails(tmp_path):
 
 def test_region_reask_kind_registered():
     assert "region-reask" in build.KINDS and "region-reask" in ingest.KINDS
+
+
+# ---- (viii) clear_edges ------------------------------------------------------------------------------
+
+def _ce(tmp_path, block=None, paper=255, ink=0, edges=("top", "bottom"), speck=None):
+    import numpy as np
+    a = np.full((30, 40), paper, dtype=np.uint8)
+    if block == "inside":
+        a[3:27, 3:37] = ink
+    elif block == "top":
+        a[0:10, 10:20] = ink
+    elif block == "bottom":
+        a[20:30, 10:20] = ink
+    elif block == "left":
+        a[10:20, 0:10] = ink
+    if speck is not None:
+        a[0, 5] = speck
+        a[10:20, 10:20] = ink
+    p = tmp_path / "ce.png"
+    Image.fromarray(a, "L").save(p)
+    return {"id": "w001-word", "path": str(p), "clear_edges": list(edges)}
+
+
+def test_clear_edges_inside_margin_passes(tmp_path):
+    e = _ce(tmp_path, "inside")
+    build.check_clear_edges(e, e["path"])
+
+
+@pytest.mark.parametrize("block,edge", [("top", "top"), ("bottom", "bottom")])
+def test_clear_edges_flush_fails_naming_edge(tmp_path, block, edge):
+    e = _ce(tmp_path, block)
+    with pytest.raises(Fail, match=f"w001-word: ink touches the {edge} edge"):
+        build.check_clear_edges(e, e["path"])
+
+
+def test_clear_edges_unlisted_edge_passes_and_listed_fails(tmp_path):
+    e = _ce(tmp_path, "left")
+    build.check_clear_edges(e, e["path"])
+    e = _ce(tmp_path, "left", edges=("left",))
+    with pytest.raises(Fail, match="left edge"):
+        build.check_clear_edges(e, e["path"])
+
+
+def test_clear_edges_all_white_passes(tmp_path):
+    e = _ce(tmp_path)
+    build.check_clear_edges(e, e["path"])
+
+
+def test_clear_edges_grey_paper_and_midgrey_speck(tmp_path):
+    e = _ce(tmp_path, "inside", paper=200, ink=30)
+    build.check_clear_edges(e, e["path"])
+    e = _ce(tmp_path, paper=200, ink=30, speck=150)
+    build.check_clear_edges(e, e["path"])
+
+
+@pytest.mark.parametrize("bad", ["middle", [], ["top", "top"], ["middle"]])
+def test_clear_edges_bad_values_fail(tmp_path, bad):
+    e = _ce(tmp_path, "inside")
+    e["clear_edges"] = bad
+    with pytest.raises(Fail, match="clear_edges"):
+        build.check_clear_edges(e, e["path"])
+
+
+def test_clear_edges_in_hash_images_and_absent_key_unchanged(tmp_path):
+    spec = tc.make_spec(tmp_path)
+    build.hash_images(spec)
+    # the fixture image is ink to the edge: requiring a clear top edge must fail the build
+    spec["images"][0]["clear_edges"] = ["top"]
+    with pytest.raises(Fail, match="flush against ink"):
+        build.hash_images(spec)
