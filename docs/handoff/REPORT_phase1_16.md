@@ -48,6 +48,7 @@ The strata come from `candidates.json` and were never shown on the console.
 - All 11 roman-signed "slanted" words measured 0.20 (10 words) or 0.12 (1 word).
   - At 0.20: 36 italic and 10 roman.
   - At 0.25 and above: 30 italic and 0 roman.
+  - *Dated note, 2026-11-15: corrected, not rewritten. The count is **29** italic at 0.25 and above (36 + 29 + the 0.12 word's 0 = 65). F-4 is restated in [REPORT_phase1_18.md](REPORT_phase1_18.md) with w017 and the clip-noted rows held out ([RULING_report_17.md](RULING_report_17.md)). This report read the 11 disagreements without Chris's row notes ([AUDIT_truthset_italic_8afafecd34665b14.md](AUDIT_truthset_italic_8afafecd34665b14.md)).*
 - 5 of the 11 sit on the first line of their OCR block (keys `…/2.1.1.1`, `…/1.1.1.2`). Among the 65 signed italic, 1 does.
   - This points to block-opening lines (a first line, a heading, an initial) as one cause.
 - F-3's comb puts the 0.20–0.22 bin directly against an empty 0.22–0.24 bin. The integer shear may push some upright-but-irregular words onto the 0.20 step.

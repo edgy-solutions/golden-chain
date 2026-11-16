@@ -203,7 +203,7 @@ Ruled: option A of [PROPOSAL_adr0006_r1_second_sitting.md](../handoff/PROPOSAL_a
    - The follow-up form `c89256e734a61e4f` re-asks no Position that sitting 1 holds, so this reading changes nothing on it.
    - Any later form that re-asks a held Position must say, in its help, that empty leaves the earlier answer standing and that `silent` removes it.
 
-## Revision 2 (proposed 2026-11-15, on Chris's direction; for the architect's ratification): a region question shows its surroundings
+## Revision 2 (proposed 2026-11-15, on Chris's direction; RATIFIED 2026-11-15, ruling on report 17): a region question shows its surroundings
 
 1. **The rule (Chris, 2026-11-15).** "A crop offered for a 'what is this region' question must include enough of its surroundings to answer it."
 2. **Why.** The truth-set sitting `8afafecd34665b14` asked whether the small type at the foot of p. 914 left was column footnotes. The crop began 30 px above that type, so it showed no body text for comparison and no note number. The signed "no" is a crop fault ([AUDIT_truthset_italic_8afafecd34665b14.md](../handoff/AUDIT_truthset_italic_8afafecd34665b14.md)).
@@ -213,3 +213,15 @@ Ruled: option A of [PROPOSAL_adr0006_r1_second_sitting.md](../handoff/PROPOSAL_a
    - above and below the ROI there is context of at least max(ROI height, 300 px), unless the crop reaches that edge of the source;
    - left and right follow the same rule with the ROI width, unless the crop spans the whole source width.
 4. **Scope.** Rows without `region_question` are unchanged. A whole-source image always passes. Word-level rows (is this word italic) are not region questions.
+
+## Revision 3 (ruled 2026-11-15, report 17 Q-1): clear edges, and no reading for the signer
+
+1. **Clear edges.** An image may carry `clear_edges` (top, bottom, left, right).
+   - Build fails if ink touches the outermost row or column of a listed edge.
+   - Ink is any pixel below the mode-midpoint threshold: the midpoint of the paper mode (values ≥ 128) and the ink mode (values < 128).
+   - Word crops of any future draw carry `clear_edges: [top, bottom]`, cut from a line box padded vertically.
+   - Why: 10 of the 196 truth-set word crops, cut flush at the OCR box, carry Chris's note that the crop clipped the word ([AUDIT_truthset_italic_8afafecd34665b14.md](../handoff/AUDIT_truthset_italic_8afafecd34665b14.md)).
+2. **No one reads a crop for the signer during a sitting** ([RULES.md](../RULES.md) rule 11).
+   - Questions about the form are answered from its text.
+   - A row a model was shown is registered **model-proposed**.
+   - `--code-at` (ingest) is accepted as keeping item 8's check strict.

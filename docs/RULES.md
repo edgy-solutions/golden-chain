@@ -25,6 +25,10 @@ The local-date convention took effect at commit `cc32fb0`; earlier dates are UTC
     - run headers;
     - zero wrong-pass;
     - sign from pixels.
+11. **No one reads a crop for the signer during a sitting** (architect, ruling on report 17, 2026-11-15).
+    - During a sitting, neither the build agent nor the architect reads a crop for the signer.
+    - Questions about how the form works are answered from the form's text.
+    - If the architect is shown a crop mid-sitting, he says so, and the row is registered **model-proposed**.
 
 ## Related
 

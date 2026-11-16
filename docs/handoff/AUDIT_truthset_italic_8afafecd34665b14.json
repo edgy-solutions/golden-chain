@@ -11,12 +11,31 @@
   "entries": [
     {
       "row_id": "ccel.p914-foot",
-      "signed": {"v": "no", "note": "I might be wrong - can see the rest of the page"},
+      "signed": {
+        "v": "no",
+        "note": "I might be wrong - can see the rest of the page"
+      },
       "disposition": "fault",
       "verdict_usable": false,
       "basis": "Chris, 2026-11-15, relayed: the note means 'cannot see the rest of the page'; the crop did not show enough to judge. It begins at the small type (30 px above the CCEL-moved blocks) with no body text above for comparison and no note number in view.",
       "consequence": "Report 16 Q-1 superseded; F-1 stands as a finding from numbers, unconfirmed from pixels; re-asked on a one-row whole-column console.",
       "not_evidence": "A model outside this repo viewed this crop after signing; its reading is not used."
+    },
+    {
+      "row_id": "w017",
+      "added": "2026-11-15",
+      "ruling": "docs/handoff/RULING_report_17.md",
+      "standing": "model-viewed before signing",
+      "blind": false,
+      "model_viewed": "before signing (the architect, a hosted model), which said \"roman\"",
+      "signer_statement": "I asked the questions because the consoles are criptic and I needed help understanding waht was being asked not to get the answers - the answers are mine once I understaood what was being asked",
+      "denominators": "held out of every denominator (also clip-noted)"
+    },
+    {
+      "row_id": "ccel.p914-foot",
+      "added": "2026-11-15",
+      "ruling": "docs/handoff/RULING_report_17.md",
+      "model_viewed": "after signing (the architect, a hosted model); already recorded above as not evidence"
     }
   ],
   "notes_omitted_from_md": {
@@ -37,5 +56,21 @@
     "w172": "clipped top of word",
     "w182": "top of word clipped",
     "w193": "clipped word top"
+  },
+  "clip_noted_held_out_of_measure_precision": {
+    "added": "2026-11-15",
+    "ruling": "docs/handoff/RULING_report_17.md Q-1",
+    "rows": [
+      "w017",
+      "w019",
+      "w041",
+      "w043",
+      "w067",
+      "w154",
+      "w166",
+      "w172",
+      "w182",
+      "w193"
+    ]
   }
 }

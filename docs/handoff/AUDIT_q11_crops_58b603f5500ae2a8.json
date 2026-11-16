@@ -1,0 +1,32 @@
+{
+  "format": "golden-chain-audit-standoff/1",
+  "about": {
+    "kind": "q11-crops",
+    "build_hash": "58b603f5500ae2a80f44ce98d878d0c049446e4938d0f7f982b695e69601a4bc",
+    "signed_json_sha256": "ff9d391d7814c0371a42685b2dff1e1630fb8a324bf72c10308819c6f2816c10",
+    "export_sha256": "f42c7f741358eb167142aa46c3daff89098b3d776c31d2b84fcfde3aa6e6d7ce",
+    "signed_record_md": "docs/handoff/SIGNED_q11_crops_58b603f5500ae2a8.md"
+  },
+  "written": "2026-11-15",
+  "ruling": "docs/handoff/RULING_report_17.md",
+  "entries": [
+    {
+      "row_id": "p913-slab16",
+      "standing": "model-proposed, signed by Chris",
+      "blind": false,
+      "model_viewed": "before signing (the architect, a hosted model); proposed the ticks and the note text, which Chris entered",
+      "signer_statement": "I asked the questions because the consoles are criptic and I needed help understanding waht was being asked not to get the answers - the answers are mine once I understaood what was being asked",
+      "stands_for": "the gutter-maxima lock (content a reader can check)",
+      "not_for": "never described as a blind reading; never cited to goat-yard as satisfying sign-from-pixels unaided"
+    },
+    {
+      "row_id": "p915-slab5",
+      "standing": "model-proposed, signed by Chris",
+      "blind": false,
+      "model_viewed": "before signing (the architect, a hosted model); proposed the ticks and the note text, which Chris entered",
+      "signer_statement": "I asked the questions because the consoles are criptic and I needed help understanding waht was being asked not to get the answers - the answers are mine once I understaood what was being asked",
+      "stands_for": "the gutter-maxima lock (content a reader can check)",
+      "not_for": "never described as a blind reading; never cited to goat-yard as satisfying sign-from-pixels unaided"
+    }
+  ]
+}

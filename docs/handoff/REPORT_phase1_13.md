@@ -103,6 +103,8 @@ I propose:
 
 No model has looked at p. 912. Chris's sitting decides what its left column is.
 
+*Dated note, 2026-11-15 ([RULING_report_17.md](RULING_report_17.md)): this statement is corrected, not rewritten. The architect, a hosted model, disclosed that it viewed the Q11 crops (p. 913 slab 16, p. 915 slab 5) and truth-set word w017 before signing, and the p. 914 foot crop after signing. The p. 912 column is not named in the disclosure. Chris confirms whether any other row was shown to a model.*
+
 ## Item 7: Batch C preparation
 
 The review is in [../sources/heidelberg-belgic.md](../sources/heidelberg-belgic.md), in the section "Batch C preparation". Every reference was checked on the PD page image.

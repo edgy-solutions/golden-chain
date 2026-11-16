@@ -426,7 +426,7 @@ Record: [../handoff/SIGNED_empty_strips_88d902a181ba64c1.md](../handoff/SIGNED_e
 - **Finding for the OCR column split: footnotes on p. 897.** Chris: "the rule here divides the footnote also contrary the the other pages". On p. 897 the column rule continues through the footnote area, so footnote ink there is divided by the rule, unlike the other pages Chris read in the sitting. A column split that assumes footnotes run full width will be wrong on such pages. No request (ruling Q1).
 - **The sitting stands** (ruling Q2). Mid-sitting, Chris pasted a screenshot of a foot strip into the build agent's chat. The agent did not describe the image or answer from it, and Chris's readings match the instrument on their own.
 
-### Finding (open): two large gutter maxima at 6.947
+### Finding (closed 2026-11-15): two large gutter maxima at 6.947
 
 Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris signs** the empty-strips console (signed 2026-11-01; the Q11 crops console comes after the re-pin and the A2 fixture, in the architect's order on report 10). It matters only if a request file goes to goat-yard. The medians are in the band and the run passes.
 
@@ -438,6 +438,11 @@ Recorded as a finding by ruling (report 7 Q11). It is looked at **after Chris si
 - **Locked prediction** (the architect's; `~/.golden-chain/gutter-maxima-predictions-locked.txt`, 2026-11-01T15:40:14Z): each slab contains a section head or a blank line on one side of the gutter. By the flank measures, that side is the left column in both.
 - **Refuted if** either slab shows full-measure text on both sides of the gutter across all its rows.
 - **How it is checked:** neither page is among the signing strips. After the empty-strips sitting, two raw-pixel crops (no threshold; the slab drawn as an overlay) go to Chris in a console of their own.
+- **Result (signed 2026-11-15, Q11 `58b603f5500ae2a8`; ruled on report 17).**
+  - **p. 915:** hit. The left is a section head.
+  - **p. 913:** **side hit, cause missed** (accepted as the record). The left white is from short footnote lines (notes 24–27, small type), not a head or blank line.
+  - **Footnotes at a column foot are a third cause** of a large gutter maximum, beside a section head and a blank line.
+  - **Standing of the two rows:** model-proposed, signed by Chris. The architect, a hosted model, viewed both crops before signing and proposed the ticks and the note text ([AUDIT_q11_crops_58b603f5500ae2a8.md](../handoff/AUDIT_q11_crops_58b603f5500ae2a8.md)). They stand for this lock. They are not blind readings, and are not to be cited to goat-yard as satisfying sign-from-pixels unaided.
 
 ## Re-pin to substrate-v1 (2026-11-01, ruling on report 9)
 

@@ -66,6 +66,7 @@ I stop here: three consoles wait for Chris, and Batch C waits on F-B and two que
 - No row carries a stratum, a slant value, or any OCR text.
 - On the real spec, a search finds no "slanted", "upright", "edge", "slant" or "stratum". The one `"text"` is the kind of the p. 912 "what" field.
 - No model has viewed any of the crops.
+  *Dated note, 2026-11-15 ([RULING_report_17.md](RULING_report_17.md)): this statement is corrected, not rewritten. The architect, a hosted model, disclosed that it viewed the Q11 crops (p. 913 slab 16, p. 915 slab 5) and truth-set word w017 before signing, and the p. 914 foot crop after signing. Chris confirms whether any other row was shown to a model.*
 
 **Locks:** TC1 198 rows; TC2 394 images; TC3 blind; TC4 0 rows off in crop size or box; TC5 crops.json and all 394 PNGs byte-identical over two clean runs (`truthset-console-2026-11-14-{a,b}`), with one build hash; TC6 3.2 MB; TC7 the headless keyboard test.
 

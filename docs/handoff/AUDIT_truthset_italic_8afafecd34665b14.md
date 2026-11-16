@@ -52,3 +52,20 @@ Two page rows:
 - 10 rows have clip notes and 7 have hyphenation notes.
 - **5 of the 11 disagreements** (w017, w041, w154, w166, w172) carry a clip note. This corrects report 16's F-4, which read the 11 without their notes.
 - No disposition is changed for the word rows. Each verdict stands as signed. The note says the crop was imperfect, not that the reading failed. Whether a clipped crop's verdict counts toward a measure's score is a question for the architect (report 17).
+
+## A-3 (added 2026-11-15, ruling on report 17). Row `w017`: model-viewed before signing
+
+| | |
+|---|---|
+| Disclosure (the architect) | "The architect, a hosted model, viewed: … truth-set word w017, BEFORE signing, and said 'roman'". |
+| Chris (verbatim) | "I asked the questions because the consoles are criptic and I needed help understanding waht was being asked not to get the answers - the answers are mine once I understaood what was being asked" |
+| Disposition | The verdict (roman) stands as signed. The row is **held out of every denominator**. It is also clip-noted (A-2). |
+| The other 195 word rows | Unaffected as far as is known. Chris confirms whether any other row was shown to a model. |
+
+The p. 914 foot crop (A-1) was viewed by the same model, the architect, after signing.
+
+## A-4 (added 2026-11-15, ruling on report 17, Q-1). Clip-noted rows held out of the measure's precision
+
+- These 10 rows are held out of the italic measure's precision: w017, w019, w041, w043, w067, w154, w166, w172, w182 and w193.
+- Figures are reported both with and without them ([REPORT_phase1_18.md](REPORT_phase1_18.md)).
+- Their verdicts stand as signed. The 7 hyphenation-noted rows are not held out.

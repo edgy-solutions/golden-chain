@@ -103,6 +103,7 @@ I stop here: the next console waits on Q6 and Q7.
   - My recommendation is to sign first. The signed set is what judges the measure. The strata only shape the sample, and the edge stratum will show what the abstentions are.
 - **Q7: the next console.** I propose one console with:
   - the 196 word crops, which Chris signs as italic, roman or other (no model views them);
+      *Dated note, 2026-11-15 ([RULING_report_17.md](RULING_report_17.md)): this statement is corrected, not rewritten. The architect, a hosted model, disclosed that it viewed the Q11 crops (p. 913 slab 16, p. 915 slab 5) and truth-set word w017 before signing, and the p. 914 foot crop after signing. Chris confirms whether any other row was shown to a model.*
   - the p. 912 left-column row;
   - the CCEL row (if kept, Q5);
   - help text saying that an empty answer leaves an earlier answer standing, and that "silent" removes it.
