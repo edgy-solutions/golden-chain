@@ -850,3 +850,87 @@ def test_clear_edges_in_hash_images_and_absent_key_unchanged(tmp_path):
     spec["images"][0]["clear_edges"] = ["top"]
     with pytest.raises(Fail, match="flush against ink"):
         build.hash_images(spec)
+
+
+# ---- plain words on every field (ruling on report 18; ADR-0006 Revision 4; template v6) ----
+
+def _plain_fail(tmp_path, mutate, msg):
+    spec = tc.make_spec(tmp_path)
+    f = spec["sections"][0]["rows"][0]["fields"]
+    mutate(f)
+    with pytest.raises(Fail, match=msg):
+        build.check_spec(spec)
+
+
+def _plain_ok(tmp_path, mutate):
+    spec = tc.make_spec(tmp_path)
+    mutate(spec["sections"][0]["rows"][0]["fields"])
+    build.check_spec(spec)
+
+
+def test_plain_missing_fails(tmp_path):
+    _plain_fail(tmp_path, lambda f: f[0].pop("plain"), "s1.r1/rad.*plain")
+
+
+def test_plain_blank_or_not_a_string_fails(tmp_path):
+    _plain_fail(tmp_path, lambda f: f[0].update(plain="   "), "plain")
+    _plain_fail(tmp_path, lambda f: f[0].update(plain=["x"]), "plain")
+
+
+def test_plain_three_sentences_fails_two_pass(tmp_path):
+    three = 'Choose "yes" or "no". This is the second. And a third. Choose "other, as written" if none fits.'
+    _plain_fail(tmp_path, lambda f: f[0].update(plain=three), "3 or more sentences")
+    two = 'Choose "yes" or "no". If none fits, choose "other, as written" and say what you see.'
+    _plain_ok(tmp_path, lambda f: f[0].update(plain=two))
+
+
+def test_plain_abbreviations_without_a_capital_are_not_breaks(tmp_path):
+    p = ('p. 914 shows Rom. 6. 3 here: choose "yes" or "no". If none fits, choose "other, as written" and say what you see.')
+    assert len(build.SENTENCE_BREAK.findall(p)) == 1
+    _plain_ok(tmp_path, lambda f: f[0].update(plain=p))
+
+
+def test_plain_radio_must_name_every_option_and_other(tmp_path):
+    # "no" is a substring of "none", so the omitted-option case uses distinctive option strings
+    def two_opts(f, plain):
+        f[0].update(options=["alpha", "beta"], plain=plain)
+    _plain_fail(tmp_path, lambda f: two_opts(f, 'Choose "alpha". If none fits, choose "other, as written".'),
+                "does not name option 'beta'")
+    _plain_fail(tmp_path, lambda f: two_opts(f, 'Choose "alpha" or "beta" and say what you see.'), "none fits")
+
+
+def test_plain_option_is_matched_as_a_whole_word(tmp_path):
+    # build agent review: a stray "none" must not count as naming the option "no"
+    def yn(f, plain):
+        f[0].update(options=["yes", "no"], plain=plain)
+    _plain_fail(tmp_path, lambda f: yn(f, 'Choose "yes". If none fits, choose "other, as written".'),
+                "does not name option 'no'")
+
+def test_plain_proposal_radio_needs_no_other(tmp_path):
+    spec = tc.make_spec(tmp_path)
+    prop = spec["sections"][0]["rows"][1]["fields"][0]
+    assert prop["proposed"] is not None and "other, as written" not in prop["plain"]
+    build.check_spec(spec)
+
+
+def test_plain_text_field_with_plain_passes(tmp_path):
+    spec = tc.make_spec(tmp_path)
+    txt = spec["sections"][0]["rows"][0]["fields"][3]
+    assert txt["kind"] == "text"
+    build.check_spec(spec)
+    txt.pop("plain")
+    with pytest.raises(Fail, match="plain"):
+        build.check_spec(spec)
+
+
+def test_plain_is_rendered_escaped(tmp_path, monkeypatch):
+    spec = tc.make_spec(tmp_path)
+    spec["sections"][0]["rows"][0]["fields"][3]["plain"] = "Write <b>a few</b> words & stop."
+    made = tc.do_build(tmp_path, spec, monkeypatch)
+    page = made["html"].read_text(encoding="utf-8")
+    assert 'class="plain"' in page
+    assert "Write &lt;b&gt;a few&lt;/b&gt; words &amp; stop." in page
+
+
+def test_template_version_is_6():
+    assert build.TEMPLATE_VERSION == 6

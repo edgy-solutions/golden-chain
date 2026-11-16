@@ -20,9 +20,22 @@ sys.path.insert(0, str(HERE.parent))
 import build  # noqa: E402
 import plumb_line  # noqa: E402
 from build import Fail  # noqa: E402
-from plumb_line import CLARITIES, TIERS, adr_help, position_fields, sel  # noqa: E402
+from plumb_line import (CLARITIES, PLAIN_CLARITY, PLAIN_TIER, TIERS, adr_help, position_fields,  # noqa: E402
+                        sel)
 
 CONTENT_FORMAT = "golden-chain-followup-content/1"
+PLAIN_PROPOSAL = ('The proposed wording is shown on a grey background. Choose "confirm" to accept it as it stands, '
+                  'or "correct" and type the wording you want instead.')
+PLAIN_TEXT = "Write your answer in a few words. If the row is marked optional, you may leave this empty."
+PLAIN_UNCHURCHES_FLAG = ('Choose "confirm" to keep the unchurches mark on this position, or "withdraw" to take it off. '
+                         'If neither fits, choose "other, as written" and say what you mean.')
+
+
+def plain_radio(options):
+    """Plain words for a radio whose options come from the content file."""
+    named = ", ".join(f'"{o}"' for o in options)
+    return (f"Choose one of {named} for the question above. "
+            'If none fits, choose "other, as written" and say what you see.')
 
 
 def pos_label(loci, ref):
@@ -46,7 +59,8 @@ def make_row(sec, locus, row, loci):
         if locus is None:
             raise Fail(f"section {sec['id']}: a locus row needs the section's 'locus'")
         return {"id": f"{locus['slug']}.locus", "label": f"{locus['notation']} {locus['label']}", **common(row),
-                "fields": [sel("tier", "Tier", TIERS), sel("clarity", "Clarity", CLARITIES)]}
+                "fields": [sel("tier", "Tier", TIERS, PLAIN_TIER),
+                           sel("clarity", "Clarity", CLARITIES, PLAIN_CLARITY)]}
     if t == "position":
         if locus is None:
             raise Fail(f"section {sec['id']}: a position row needs the section's 'locus'")
@@ -59,20 +73,22 @@ def make_row(sec, locus, row, loci):
     if t == "radio":
         return {"id": rid, "label": row["label"], **common(row),
                 "fields": [{"id": "v", "kind": "radio", "label": row["label"], "options": row["options"],
-                            "required": row.get("required", True), "proposed": None}]}
+                            "required": row.get("required", True), "proposed": None,
+                            "plain": plain_radio(row["options"])}]}
     if t == "proposal":
         return {"id": rid, "label": row["label"], **common(row),
                 "fields": [{"id": "v", "kind": "radio", "label": "As proposed", "options": ["confirm", "correct"],
-                            "required": True, "proposed": row["proposed"]}]}
+                            "required": True, "proposed": row["proposed"], "plain": PLAIN_PROPOSAL}]}
     if t == "text":
         return {"id": rid, "label": row["label"], **common(row),
                 "fields": [{"id": "v", "kind": "text", "label": row["label"],
-                            "required": row.get("required", True)}]}
+                            "required": row.get("required", True), "plain": PLAIN_TEXT}]}
     if t == "flag":
         label = pos_label(loci, row["position"]) if row.get("position") else row["label"]
         return {"id": f"unchurches.{row['id']}", "label": label, **common(row),
                 "fields": [{"id": "unchurches", "kind": "radio", "label": "Unchurches",
-                            "options": ["confirm", "withdraw"], "required": True, "proposed": None}]}
+                            "options": ["confirm", "withdraw"], "required": True, "proposed": None,
+                            "plain": PLAIN_UNCHURCHES_FLAG}]}
     raise Fail(f"section {sec['id']}: unknown row type {t!r}")
 
 

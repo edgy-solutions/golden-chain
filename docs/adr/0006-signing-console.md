@@ -225,3 +225,21 @@ Ruled: option A of [PROPOSAL_adr0006_r1_second_sitting.md](../handoff/PROPOSAL_a
    - Questions about the form are answered from its text.
    - A row a model was shown is registered **model-proposed**.
    - `--code-at` (ingest) is accepted as keeping item 8's check strict.
+
+## Revision 4 (ruled 2026-11-15, ruling on report 18): plain words on every question
+
+1. **Every field carries `plain`.** It is one or two sentences saying what is
+   asked, what each option means, and what to choose when none fits (the
+   ruling's words). The page shows it under the question.
+2. **The build check** (`check_plain`, `TEMPLATE_VERSION` 6) fails a field when:
+   - `plain` is missing, blank or not a string;
+   - it has three or more sentences;
+   - it is an option field and `plain` does not name each option as a whole word;
+   - it is an option field that is not a proposal radio and `plain` does not
+     say "other, as written".
+3. **Built consoles are not rebuilt.** The two waiting for Chris (re-ask
+   `d7a6aab0734ffe3e`, follow-up `eb961ddb1e582ed6`) ingest with `--code-at`
+   at their build commits. If Chris finds a row unclear, the build agent
+   answers from the form's text and records that he asked (rule 11).
+4. Lock: `plain-words-predictions-locked.txt`, PW1–PW5. The results are in
+   report 19.

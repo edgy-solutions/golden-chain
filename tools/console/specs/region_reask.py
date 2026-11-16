@@ -21,6 +21,8 @@ from truthset_crops import FOOT_PAD  # noqa: E402
 
 PREDICTION = Path.home() / ".golden-chain" / "p914-reask-predictions-locked.txt"
 REGION = "regions/p914-left.png"
+PLAIN_YN = ('Choose "yes" if the small type at the foot is footnotes to the column, "no" if it is not. '
+            'If neither fits, choose "other, as written" and say what you see.')
 INSTRUCTION = (
     "Sign from the pixels. This re-asks the p. 914 foot row of the truth-set sitting (8afafecd34665b14), "
     "whose crop began at the small type and showed nothing above it: that verdict is recorded as a crop fault. "
@@ -54,7 +56,7 @@ def make_spec(crops_dir, ocr_dir):
            "image_ids": [img["id"]], "context": [],
            "fields": [{"id": "v", "kind": "radio", "required": True, "proposed": None,
                        "label": "The small type at the foot of p. 914 left: column footnotes?",
-                       "options": ["yes", "no"]}],
+                       "options": ["yes", "no"], "plain": PLAIN_YN}],
            "region_question": {"image_id": img["id"], "roi": [0, boundary_y, W, H], "source_wh": [W, H],
                                "crop_box": [0, 0, W, H]}}
     sources = [{"path": str(cj.resolve()), "sha256": build.sha256_file(cj)},

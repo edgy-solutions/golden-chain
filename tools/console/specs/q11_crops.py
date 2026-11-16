@@ -20,6 +20,10 @@ from build import Fail  # noqa: E402
 PREDICTION = Path.home() / ".golden-chain" / "gutter-maxima-predictions-locked.txt"
 SIDE = ["full-measure text on every line", "a section head", "a blank line",
         "a short line (paragraph end, or other)", "something else (say in the note)"]
+PLAIN_SIDE = ('Tick everything that this column holds between the magenta lines: "full-measure text on every line", '
+              '"a section head", "a blank line", "a short line (paragraph end, or other)" or "something else (say in the note)". '
+              'If none fits, choose "other, as written" and say what you see.')
+PLAIN_NOTE = "Write anything you want to add in a few words. You may leave this empty."
 INSTRUCTION = (
     "Sign from the pixels. Each image is the raw page (no threshold) at the scale the gutter was measured. "
     "The magenta lines bound the slab; the blue bars show the measured gutter (left white + rule + right "
@@ -27,8 +31,8 @@ INSTRUCTION = (
     "magenta lines.")
 
 
-def field(fid, kind, label, options=None, required=True):
-    f = {"id": fid, "kind": kind, "label": label, "required": required, "proposed": None}
+def field(fid, kind, label, options=None, required=True, *, plain):
+    f = {"id": fid, "kind": kind, "label": label, "required": required, "proposed": None, "plain": plain}
     if options:
         f["options"] = list(options)
     return f
@@ -66,9 +70,9 @@ def make_spec(crops_dir):
                      "label": f"p.{c['page']}, slab {c['slab']} (gutter {m['gutter']} px: left white "
                               f"{m['left_white']}, right white {m['right_white']})",
                      "image_ids": [im["id"]], "context": [], "fields": [
-                         field("left", "checkbox", "Left column, between the lines, holds", SIDE),
-                         field("right", "checkbox", "Right column, between the lines, holds", SIDE),
-                         field("note", "text", "Note (optional)", required=False)]})
+                         field("left", "checkbox", "Left column, between the lines, holds", SIDE, plain=PLAIN_SIDE),
+                         field("right", "checkbox", "Right column, between the lines, holds", SIDE, plain=PLAIN_SIDE),
+                         field("note", "text", "Note (optional)", required=False, plain=PLAIN_NOTE)]})
     sources = [{"path": str(qj.resolve()), "sha256": build.sha256_file(qj)}]
     if PREDICTION.is_file():
         sources.append({"path": str(PREDICTION), "sha256": build.sha256_file(PREDICTION)})

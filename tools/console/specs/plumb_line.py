@@ -31,6 +31,16 @@ DEPRECATED = URIRef("http://www.w3.org/2002/07/owl#deprecated")
 TIERS = ["first", "second", "third"]
 CLARITIES = ["settled", "contested", "open"]
 MODALITIES = ["required", "taught", "tolerated", "forbidden", "silent"]
+PLAIN_TIER = ('Choose "first", "second" or "third" as the instruction at the top of this page and the help '
+              '(ADR-0003 R2.1) define the tiers. If none fits, choose "other, as written" and say what you mean.')
+PLAIN_CLARITY = ('Choose "settled", "contested" or "open" as the instruction at the top of this page defines them. '
+                 'If none fits, choose "other, as written" and say what you mean.')
+PLAIN_MODALITY = ('Choose your stance on this position, "required", "taught", "tolerated" or "forbidden" as the help '
+                  'defines them, or "silent" to take no stance (that removes the Holding); leave it empty to leave the '
+                  'row unanswered. If none fits, choose "other, as written" and say what you mean.')
+PLAIN_UNCHURCHES = ('Tick "unchurches" only on a position you hold forbidden, on a locus that is not tier third, '
+                    'if a Body holding it is by this standard not a church. If that does not fit, choose "other, as '
+                    'written" and say what you mean.')
 
 
 def tail(iri):
@@ -101,20 +111,22 @@ def check_against_form(loci, order, pos, retired=frozenset()):
             raise Fail(f"{l['slug']}: positions differ from the form")
 
 
-def sel(fid, label, options):
-    return {"id": fid, "kind": "select", "label": label, "options": options, "required": True, "proposed": None}
+def sel(fid, label, options, plain):
+    return {"id": fid, "kind": "select", "label": label, "options": options, "required": True, "proposed": None,
+            "plain": plain}
 
 
 def position_fields():
     """The two fields of a Position row: modality (empty is unanswered) and the unchurches checkbox."""
-    return [{**sel("modality", "Modality", MODALITIES), "empty_means": "unanswered"},
+    return [{**sel("modality", "Modality", MODALITIES, PLAIN_MODALITY), "empty_means": "unanswered"},
             {"id": "unchurches", "kind": "checkbox", "label": "Unchurches (ADR-0003 R2.3)",
-             "options": ["unchurches"], "required": False}]
+             "options": ["unchurches"], "required": False, "plain": PLAIN_UNCHURCHES}]
 
 
 def section(l):
     rows = [{"id": f"{l['slug']}.locus", "label": f"{l['notation']} {l['label']}", "context": [], "image_ids": [],
-             "fields": [sel("tier", "Tier", TIERS), sel("clarity", "Clarity", CLARITIES)]}]
+             "fields": [sel("tier", "Tier", TIERS, PLAIN_TIER),
+                       sel("clarity", "Clarity", CLARITIES, PLAIN_CLARITY)]}]
     for p in l["positions"]:
         rows.append({"id": f"{l['slug']}.{p['slug']}", "label": p["label"], "context": [], "image_ids": [],
                      "fields": position_fields()})

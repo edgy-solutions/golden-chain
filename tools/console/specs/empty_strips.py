@@ -37,10 +37,25 @@ HELP = [
           "Judge it from the line itself, not from the pink line."},
 ]
 ABST_PAGES = (897, 898)
+PLAIN_YN = 'Choose "yes" or "no" for the question above; if neither fits, choose "other, as written" and say what you see.'
+PLAIN_PICK = ('Press "pick", then click the image at the height the question asks for. '
+              'If you cannot tell, mark the row abstain and say why in the note.')
+PLAIN_PICK_OPT = 'Only if the answer above is "yes": press "pick" and click the image at that height. Otherwise leave it unpicked.'
+PLAIN_TEXT_OPT = "Write what you see in a few words. You may leave this empty."
+PLAIN_VERDICT = ('Choose "confirmed" if the page agrees with the reading in the label, "refuted" if it does not; '
+                 'if neither fits, choose "other, as written" and say what you see.')
+PLAIN_INKS = ('Tick every kind of ink you can see in the gutter of the last strip: "rule", "justified-text edge", '
+              '"footnote text", "catchword", "signature mark", "other page furniture" or "nothing". '
+              'If none fits, choose "other, as written" and say what you see.')
+PLAIN_HYPOTHESIS = ('Choose "refuted: the rule itself ends above the foot", "confirmed: the rule reaches the foot; '
+                    'the extra ink is text edge or footnote ink" or "runs to the foot, solid: the extra ink is the '
+                    'rule itself". If none fits, choose "other, as written" and say what you see.')
+PLAIN_STOPS = ('Choose "yes" if the rule stops above the foot on every page, "no: it runs to the foot and is faint near it" '
+               'or "no: it runs to the foot, solid". If none fits, choose "other, as written" and say what you see.')
 
 
-def field(fid, kind, label, options=None, required=True, **extra):
-    f = {"id": fid, "kind": kind, "label": label, "required": required, "proposed": None, **extra}
+def field(fid, kind, label, options=None, required=True, *, plain, **extra):
+    f = {"id": fid, "kind": kind, "label": label, "required": required, "proposed": None, "plain": plain, **extra}
     if options:
         f["options"] = options
     return f
@@ -87,19 +102,22 @@ def h1_section(data, form_text):
     run, ids = pair(data, 896, "gutter-full")
     rows = [
         {"id": "h1.head", "label": "Chapter head", "context": [], "image_ids": [], "fields": [
-            field("v", "radio", "Is there a chapter head spanning both columns at the top of the body?", YN)]},
+            field("v", "radio", "Is there a chapter head spanning both columns at the top of the body?", YN,
+                  plain=PLAIN_YN)]},
         {"id": "h1.rule_start", "label": "Where the rule starts", "context": [], "image_ids": [], "fields": [
-            field("row", "pick-row", "Row where the column rule starts", image_id=run)]},
+            field("row", "pick-row", "Row where the column rule starts", plain=PLAIN_PICK, image_id=run)]},
         {"id": "h1.unruled", "label": "Two-column text with no rule", "context": [], "image_ids": [], "fields": [
             field("v", "radio", "Between the head and the rule's start, is there at least one full line of two-column "
                   "text (about one line height) with no rule? A gap of a few rows between the first text line "
-                  "and the top of the rule does not count.", YN),
-            field("from", "pick-row", "Rows from", required=False, image_id=run),
-            field("to", "pick-row", "to", required=False, image_id=run)]},
+                  "and the top of the rule does not count.", YN, plain=PLAIN_YN),
+            field("from", "pick-row", "Rows from", required=False, plain=PLAIN_PICK_OPT, image_id=run),
+            field("to", "pick-row", "to", required=False, plain=PLAIN_PICK_OPT, image_id=run)]},
         {"id": "h1.verdict", "label": "H1", "context": [], "image_ids": [], "fields": [
             field("v", "radio", "H1 (geometry reading: no rule above the chapter opening)",
-                  ["confirmed", "refuted"]),
-            field("what", "text", "If refuted, what occupies the rows above the rule's start?", required=False)]},
+                  ["confirmed", "refuted"],
+                  plain=PLAIN_VERDICT),
+            field("what", "text", "If refuted, what occupies the rows above the rule's start?", required=False,
+                  plain=PLAIN_TEXT_OPT)]},
     ]
     return {"id": "h1", "title": "H1: p. 896 is a chapter opening", "text": quoted_block(form_text),
             "image_ids": ids, "rows": rows}
@@ -114,15 +132,16 @@ def foot_section(data):
         run, ids = pair(data, p, "foot")
         y0, y1 = data["pages"][str(p)]["last_strip"]
         rows.append({"id": f"foot.{p}", "label": f"p. {p}", "context": [], "image_ids": ids, "fields": [
-            field("rule_end", "pick-row", "Row where the rule ends", image_id=run),
-            field("to_foot", "radio", "Does it run to the text foot?", YN),
-            field("faint", "radio", "Faint near the foot?", YN),
+            field("rule_end", "pick-row", "Row where the rule ends", plain=PLAIN_PICK, image_id=run),
+            field("to_foot", "radio", "Does it run to the text foot?", YN, plain=PLAIN_YN),
+            field("faint", "radio", "Faint near the foot?", YN, plain=PLAIN_YN),
             field("inks", "checkbox", f"What inks the gutter in the last strip (rows {y0}–{y1})?", INKS,
-                  min_ticks=1)]})
+                  min_ticks=1, plain=PLAIN_INKS)]})
     rows.append({"id": "foot.hypothesis", "label": "The locked hypothesis", "context": [], "image_ids": [], "fields": [
-        field("v", "radio", "The locked hypothesis", HYPOTHESIS)]})
+        field("v", "radio", "The locked hypothesis", HYPOTHESIS, plain=PLAIN_HYPOTHESIS)]})
     rows.append({"id": "foot.stops", "label": "Does the rule stop above the foot on every page?", "context": [],
-                 "image_ids": [], "fields": [field("v", "radio", "Does the rule stop above the foot on every page?", STOPS)]})
+                 "image_ids": [], "fields": [field("v", "radio", "Does the rule stop above the foot on every page?", STOPS,
+                                                  plain=PLAIN_STOPS)]})
     text = ("Two readings are on file. Your reading decides.\n\n"
             "The architect's locked hypothesis: the peaks are \"the inked edge of justified text (left edge of the "
             "right column's stems) or footnote text inside the ±300 px window after the rule ends, not a faint rule\".")
@@ -134,8 +153,9 @@ def abst_section(data):
     for p in ABST_PAGES:
         _, ids = pair(data, p, "gutter-full")
         rows.append({"id": f"abst.{p}", "label": f"p. {p}", "context": [], "image_ids": ids, "fields": [
-            field("present", "radio", "Rule present?", YN), field("single", "radio", "Single?", YN),
-            field("note", "text", "Note", required=False)]})
+            field("present", "radio", "Rule present?", YN, plain=PLAIN_YN),
+            field("single", "radio", "Single?", YN, plain=PLAIN_YN),
+            field("note", "text", "Note", required=False, plain=PLAIN_TEXT_OPT)]})
     return {"id": "abst", "title": "Run-1 abstentions (pp. 897, 898)",
             "text": ("An early run of the measuring tool (run 1) found no rule on these pages; that was a defect "
                      "in the tool, since fixed, not a fault of the pages. Check by eye: is there a rule between "

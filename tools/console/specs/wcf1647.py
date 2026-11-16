@@ -25,20 +25,28 @@ LABELS = {"letters": "Letter(s)", "as_printed": "As printed (1647)", "page": "Pa
 RULES = ("Keep the original spelling, punctuation and spacing, including \"with\" and \"&\". Write long s as s.\n\n"
          "If the texts fall under more than one letter, give one row per letter (the Argument then splits). "
          "If the 1647 note prints texts that Schaff does not, or omits some, write what is printed and mark it.")
+PLAIN_YN = 'Choose "yes" or "no" for the question above; if neither fits, choose "other, as written" and say what you see.'
+PLAIN_LEAVES = ('Choose "confirmed" if the leaves are as shown, or "differs" and say how in the box below. '
+                'If neither fits, choose "other, as written" and say what you see.')
+PLAIN_PROPOSAL = ('The proposed reading is shown on a grey background. Choose "confirm" if the page prints exactly that, or "correct" '
+                  'and type what is printed.')
+PLAIN_NOTE = "Write what you want to add in a few words. You may leave this empty."
 TAIL = ("The strings beside each crop were proposed by the build agent from the page images. Confirm or "
         "correct each from the pixels; a corrected row is recorded as a signed reading.")
 
 
 def yn(fid, label, required=True):
-    return {"id": fid, "kind": "radio", "label": label, "options": ["yes", "no"], "required": required, "proposed": None}
+    return {"id": fid, "kind": "radio", "label": label, "options": ["yes", "no"], "required": required, "proposed": None,
+            "plain": PLAIN_YN}
 
 
 def leaves_row(ch):
     return {"id": f"{ch['id']}.leaves", "label": f"{ch['title']}: are the leaves right?", "context": [],
             "image_ids": ch.get("image_ids", []), "fields": [
                 {"id": "v", "kind": "radio", "label": "Leaves", "options": ["confirmed", "differs"],
-                 "required": True, "proposed": None},
-                {"id": "note", "kind": "text", "label": "If it differs, say how", "required": False, "proposed": None}]}
+                 "required": True, "proposed": None, "plain": PLAIN_LEAVES},
+                {"id": "note", "kind": "text", "label": "If it differs, say how", "required": False,
+                 "proposed": None, "plain": PLAIN_NOTE}]}
 
 
 def argument_row(r):
@@ -47,7 +55,7 @@ def argument_row(r):
         if k not in p:
             raise Fail(f"row {r['id']}: proposed has no {k}")
     fields = [{"id": k, "kind": "radio", "label": LABELS[k], "options": ["confirm", "correct"],
-               "required": True, "proposed": p[k]} for k in ("letters", "as_printed", "page") if k in p]
+               "required": True, "proposed": p[k], "plain": PLAIN_PROPOSAL} for k in ("letters", "as_printed", "page") if k in p]
     context = ([f"Schaff (A): {r['schaff']}"] if r.get("schaff") else []) + [f"Doubt: {d}" for d in r.get("doubts", [])]
     return {"id": r["id"], "label": r["clause"], "context": context,
             "image_ids": r.get("image_ids", []), "fields": fields}
@@ -72,7 +80,8 @@ def make_spec(proposals):
     sections = [{"id": ch["id"], "title": ch["title"], "text": "", "image_ids": [],
                  "rows": [leaves_row(ch)] + [argument_row(r) for r in ch["rows"]]} for ch in prop["chapters"]]
     lettering = [{"id": f"lettering.{n}", "label": q, "context": [], "image_ids": [], "fields": [
-        yn("v", "Answer"), {"id": "note", "kind": "text", "label": "Note", "required": False, "proposed": None}]}
+        yn("v", "Answer"), {"id": "note", "kind": "text", "label": "Note", "required": False, "proposed": None,
+                                  "plain": PLAIN_NOTE}]}
         for n, q in enumerate(prop["lettering"], 1)]
     sections.append({"id": "lettering", "title": "Lettering", "text": "", "image_ids": [], "rows": lettering})
     instruction = "\n\n".join(x for x in (f"Witness: {prop['witness']}", RULES, prop.get("instruction_extra", ""), TAIL) if x)

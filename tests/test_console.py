@@ -25,8 +25,19 @@ def png(path, w=24, h=12, shade=200):
     return build.sha256_file(path)
 
 
+def plain_for(kind, options, proposed=None):
+    """A valid plain text for a fixture field: names every option, and OTHER unless it is a proposal."""
+    if not options:
+        return "Write a few words. You may leave this empty."
+    named = ", ".join(f'"{o}"' for o in options)
+    if proposed is not None:
+        return f"The proposed text is shown in grey. Choose {named} as the page prints it."
+    return f'Choose {named}. If none fits, choose "other, as written" and say what you see.'
+
+
 def field(fid, kind, options=None, required=True, **kw):
     f = {"id": fid, "kind": kind, "label": fid, "required": required, "proposed": None, **kw}
+    f.setdefault("plain", plain_for(kind, options, kw.get("proposed")))
     if options:
         f["options"] = options
     return f
@@ -372,8 +383,8 @@ def test_fit_is_the_default_zoom(sitting):
 
 
 def test_template_version_in_header_and_manifest(sitting):
-    assert "console template v5" in page_text(sitting)
-    assert sitting["man"]["template_version"] == 5 == build.TEMPLATE_VERSION
+    assert "console template v6" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 6 == build.TEMPLATE_VERSION
 
 
 def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):

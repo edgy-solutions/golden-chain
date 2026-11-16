@@ -23,6 +23,7 @@ answered; the status line says how many rows were left empty) and the plumb-line
 v4: an empty select with empty_means "unanswered" is complete and is unanswered: it changes nothing in the
 merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" stays for legacy v3 specs.
 v5: an optional spec "keyboard" block for one-key signing.
+v6 (ruling on report 18, 2026-11-15): every field carries "plain", one or two sentences in plain words saying what is asked, what each option means and what to choose when none fits; build fails without it. Consoles built before v6 are not rebuilt; they ingest with --code-at at their build commit.
 Region questions (2026-11-15): a row asking what a region is must show context (a "region_question" block):
 the crop must carry max(region size, CONTEXT_MIN_PX) of surroundings on each side, unless it reaches the source edge.
 Clear edges (ruling on report 17, Q-1, 2026-11-15): an image may require that no ink touch
@@ -48,7 +49,7 @@ sys.path.insert(0, str(HERE.parent))
 from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 
 SPEC_FORMAT = "golden-chain-console-spec/1"
-TEMPLATE_VERSION = 5
+TEMPLATE_VERSION = 6
 OTHER = "other, as written"
 CONTEXT_MIN_PX = 300
 COMMON_HELP = [
@@ -142,6 +143,24 @@ def unique(seen, key, what):
     seen.add(key)
 
 
+SENTENCE_BREAK = re.compile(r"[.!?]\s+[A-Z]")
+
+
+def check_plain(row_id, f, kind):
+    where = f"field {row_id}/{f['id']}"
+    plain = f.get("plain")
+    if not isinstance(plain, str) or not plain.strip():
+        raise Fail(f"{where}: missing 'plain' (one or two sentences in plain words)")
+    if len(SENTENCE_BREAK.findall(plain)) > 1:
+        raise Fail(f"{where}: 'plain' has 3 or more sentences (one or two allowed)")
+    if kind in OPTION_KINDS:
+        for o in f["options"]:
+            if not re.search(r"(?<!\w)" + re.escape(o) + r"(?!\w)", plain):
+                raise Fail(f"{where}: 'plain' does not name option {o!r}")
+        if not (kind == "radio" and f.get("proposed") is not None) and OTHER not in plain:
+            raise Fail(f"{where}: 'plain' does not say what to choose when none fits ({OTHER!r})")
+
+
 def check_field(row_id, f, image_ids, seen):
     fid = need(f, "id", f"row {row_id} field")
     unique(seen, fid, f"field in row {row_id}")
@@ -162,6 +181,7 @@ def check_field(row_id, f, image_ids, seen):
         raise Fail(f"field {row_id}/{fid}: empty_means {f['empty_means']!r} is only allowed as 'unanswered' (or legacy 'silent') on a select")
     if kind == "pick-row" and f.get("image_id") not in image_ids:
         raise Fail(f"field {row_id}/{fid}: pick-row names unknown image {f.get('image_id')!r}")
+    check_plain(row_id, f, kind)
 
 
 def check_image_refs(where, ids, image_ids):
@@ -393,6 +413,7 @@ def field_html(row_id, f):
     if kind == "pick-row":
         attrs += f' data-image="{e(f["image_id"])}"'
     head = f'<span class="fl">{e(f.get("label", f["id"]))}{"" if req == "1" else " (optional)"}</span> '
+    head += f'<div class="plain">{e(f["plain"])}</div>'
     other_txt = '<input type="text" class="txt othertxt" disabled placeholder="as written">'
     if kind == "text":
         body = f'<input type="text" name="{name}" class="txt">'
