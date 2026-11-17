@@ -70,3 +70,7 @@ Note: Witsius's treatment of the covenant of grace as a whole runs Books II-III;
 3. Book III ch. I-III headings and section counts per chapter.
 4. Whether Marck's life and Witsius's own front matter enter scope (no; proposed excluded).
 5. 1775 Edinburgh/London imprint is not read.
+
+## Ruling on report 19 (A-5), 2026-11-17
+
+**Crookshank 1763 accepted as witness** (the architect's words). The witness of record is the 1763 London (Dilly) first English edition, IA `oeconomyofcovena176201wits`, `...176202wits` and `...176303wits`. The 1798 New York contents above serve for orientation only. Locators are read on the 1763 scans. The 1822 Baynes edition is not the witness (open questions 1 and 2 are closed by the ruling).

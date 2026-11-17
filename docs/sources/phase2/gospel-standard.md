@@ -38,3 +38,29 @@ These are the headings of the modern text; an early printing must be compared. [
 2. Do the 1878/79 periodical volumes print the Articles?
 3. UK status of a society's corporate text (architect/legal).
 4. Fetch the full contents list of arts. 1-19 to place justification and the law.
+
+## Ruling on report 19 (A-5), worked 2026-11-17
+
+The ruling: "cite the earliest printing you can put a page image to; record the date conflict and which articles were added later as a finding. Corporate work of the 1870s: PD; say on what basis."
+
+- **Earliest printing with a page image: not yet reached.**
+  - The biblicalstudies.org.uk index pages list *The Gospel Standard* vols. 36 (1870) to 48 (1882) as PDFs, `pdf/gospel-standard/gospel-standard-vol-{NN}-{year}.pdf`. [V index pages]
+  - The candidates are vol. 38 (1872), vol. 44 (1878) and vol. 45 (1879).
+  - The build agent's request for the PDFs was refused by this session's permission check. It was not worked around.
+  - **Waits on Chris:** either allow the fetch, or download vols. 38, 44 and 45 into the private corpus. Then the earliest printing of arts. 1–31 and of arts. 32–35 is read on the page.
+  - **No witness of record yet.**
+- **Finding: the date conflict.** Recorded, not resolved.
+  - **Arts. 1–31:**
+    - 1872, per reformedwiki citing Matrunola et al. (2011), p. 14;
+    - 1878, per baptists.net: agreed by a committee of nine (J. Gadsby, Hatton, Hazlerigg, Hemington, Hinton, J. Knight, Mockford, Vine, Wilton) and then adopted by a general meeting. [R both]
+  - **Arts. 32–35 were added later** (the "Added Articles"):
+    - 1878 per baptists.net and the issuu copy;
+    - April 1879 per Matrunola via reformedwiki. [R]
+  - **Footnotes:** later still. One printing cites *Gospel Standard*, Dec. 1906, at Art. XXVI. [R]
+  - The periodical volumes decide it, once seen.
+- **PD basis, as ordered:**
+  - The Articles are a corporate work of the Gospel Standard Societies, first published in the 1870s with no personal author named on the text.
+  - UK: such a work's copyright runs 70 years from first publication (CDPA 1988 s.12(3), works of unknown authorship) and expired by about 1950.
+  - The named amenders are also more than 70 years dead (W. Gadsby d. 1844, J. C. Philpot d. 1869, J. M'Kenzie d. 1849 [R]). So a personal-author reading gives the same result.
+  - US: published before 1930.
+  - Footnotes or wording added after about 1955 may still be in copyright and are not the witness.

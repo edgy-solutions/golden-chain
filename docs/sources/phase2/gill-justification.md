@@ -54,3 +54,13 @@ Practical Book III, "Of the Public Ordinances of Divine Worship" (8 chapters): *
 3. Is the administrator passage one section or more of Practical III.1? Confirm the BSB page.
 4. Is a tract on the administrator wanted, or is Practical III.1 enough?
 5. Does eternal justification also surface in VI.8? Only a page-image read can say. [U]
+
+## Ruling on report 19 (A-5), worked 2026-11-17: Book II is 16 chapters
+
+The ruling: "settle from the BSB contents pages; report." **Settled: Doctrinal Book II has 16 numbered chapters.**
+
+- Read on the BSB contents page images (PDF pp. 16–17, the private corpus, viewed to propose; no text taken).
+- II.5 is "Of Adoption as an Immanent Act" (p. 201). Under it is an **unnumbered** sub-entry, "Of Justification as an Immanent Act" (p. 203). II.6 begins p. 209.
+- The 17-chapter reading came from the Tegg OCR. It promoted that unnumbered sub-entry to a chapter. The ratified 16-chapter tally and CCEL's single II.5 stand. The [U] note above is closed.
+- Other page anchors seen on the same contents pages: VI.7 p. 493, VI.8 p. 501; Practical II.1 p. 852, II.3 p. 862, III.1 p. 896.
+- Locator consequence: the justification passage is located as II.5 (its second part, from p. 203), not as a chapter of its own.

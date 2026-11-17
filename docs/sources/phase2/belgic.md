@@ -44,3 +44,14 @@ Footnote proof-text lists in Schaff would be handled by the earlier report's per
 2. Footnote count and lettering for arts. 27-29, 35, 36 not inspected; a pass like the one for 33-34 is needed.
 3. Which column is the witness: English, with the French column beside it (as the earlier report), to be confirmed.
 4. Phase-2 scope for art. 36 (church and civil authority) is for the architect.
+
+## Ruling on report 19 (A-5), worked 2026-11-17: the leaf offset, checked
+
+Checked on page images of `creedsofchristen187803scha`: **BookReader n = page + 15** at n431 = p. 416 (Art. XXVII begins), n434 = p. 419 (Art. XXIX begins), n443 = p. 428 and n447 = p. 432 (Art. XXXVI begins). The same holds for the Scots Confession: n452 = p. 437, n494 = p. 479. [V]
+
+Why the offset holds across a gap:
+- The scan's scandata counts leaves from 1 and marks leaves 432–433 "Delete". So scandata leaf = page + 16 before the gap and page + 18 after it.
+- BookReader's n counts from 0 and skips deleted leaves, so n = page + 15 on both sides.
+- Cite pages, never leaves; check any other offset this way.
+
+The footnotes are numbered superscripts under the French column. Open question 1 is closed.

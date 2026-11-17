@@ -37,3 +37,32 @@ Schaff 1877/78 for numbering and the Latin; for English Rejections, the 1619 Bil
 3. Open scan or TCP text of STC 7066; the translator.
 4. Every locator above needs a text-only read of the page by the architect.
 5. Confirm Schaff does not renumber III/IV articles.
+
+## Ruling on report 19 (A-5), worked 2026-11-17: Thomas Scott's 1831 English as a PD witness
+
+The ruling: "look for Thomas Scott's translation (1831) as a PD witness; verify before relying." **Found and verified on page images.**
+
+- **Edition:**
+  - Title: *The Articles of the Synod of Dort, and its Rejection of Errors: with the History of Events which made way for that Synod, as published by the authority of the States-General; and the Documents confirming its Decisions*.
+  - "Translated from the Latin, with notes, remarks, and references, by Thomas Scott, Rector of Aston Sandford, Bucks."
+  - Utica: William Williams, Genesee Street, 1831, with New York and other sellers. [V title page, n6]
+  - archive.org `articlesofsynodo00syno`, Princeton Theological Seminary scan, 334 images, marked NOT_IN_COPYRIGHT. [V]
+  - Other scans: HathiTrust 008893087. The London 1818 edition is `india.history.resource.18439`. [R, not opened]
+- **Public domain:**
+  - US: printed 1831.
+  - UK: Scott died 1821 [R, catalogue authority dates].
+  - The American additions (below) were published 1831 and their authors are not named, so they are past any UK term for anonymous works (70 years from publication).
+- **The text Scott translated:** he says his is a literal translation of the articles "as contained in the *Sylloge Confessionum*, Oxford, 1804". This is from his introduction, p. 87, viewed. Collation against Schaff's Latin: [U].
+- **Structure** [V on images]:
+  - Scott calls the Heads "Chapters": I (p. 87), II (p. 99), III & IV together (p. 105), V (p. 116).
+  - Articles are numbered in arabic, 1, 2, 3, ...
+  - Each chapter has its **Rejection of Errors**, also numbered in arabic. The first begins p. 94 [V]. The others are at about p. 101 (II), p. 111 (III/IV) and p. 121 (V) [R: IA OCR running heads, used for locating only; not checked on the image].
+  - Scott's own notes are footnotes, keyed by symbols. They are his, not the Synod's, and a locator never points into them.
+- **Leaf map:** the scan's page_numbers.json gives leaf = page + 18 (1-based). BookReader n = page + 17, checked at n104 = p. 87, n111 = p. 94, n116 = p. 99, n122 = p. 105, n133 = p. 116 and n317 = p. 300. [V]
+- **Caution: not all of the volume is Scott's.** It also prints a "Harmony of Confessions" (e.g. p. 300 has the Welsh Calvinistic Methodists' Confession, which dates from 1823, after Scott's death). Only the Canons and their Rejections are the witness.
+- **Witness proposed:**
+  - Scott 1831 for the English of the articles and the Rejections.
+  - Schaff's Latin stays the witness for numbering.
+  - The 1619 STC 7066 is no longer needed for the Rejections.
+- **Locator scheme unchanged:** `Head.Article` and `Head.Rejection.N`. Scott's chapter numbers are the Heads, and III & IV is one run.
+- The candidate locators above stay [U] until the architect reads the text. Scott's English page for each is now findable.

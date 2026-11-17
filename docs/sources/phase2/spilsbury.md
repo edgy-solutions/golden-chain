@@ -28,3 +28,19 @@ The 1643 first edition (TCP A61127 for locating; the architect's EEBO access for
 3. Does a headings-only pass of A61127 give usable locators?
 4. 1644 versus 1646 editions of the First London Confession; which carries Spilsbury's name; Wing numbers.
 5. Where the administrator question appears (1643 or only 1652).
+
+## Ruling on report 19 (A-5), worked 2026-11-17
+
+The ruling: "cite the scan; read the TCP licence before using its keyed text even for locating."
+
+- **Scan cited:** archive.org `bim_early-english-books-1641-1700_a-treatise-concerning-th_spilsbury-john_1643`.
+  - 49 images, digitised from microfilm (IA40310608-24), ark:/13960/s259z18d2rb.
+  - The item note says "pages cropped with some loss of print". [V metadata]
+  - The title page (n0, viewed): *A Treatise concerning the Lawfull Subject of Baptisme*, "By me J. S.", "London: Printed in the Yeare, 164-". The last digit is lost to the crop; 1643 rests on the catalogue. [V image; R date]
+  - Witness of record: this scan.
+- **TCP licence, read** (README of `textcreationpartnership/A61127`, fetched 2026-11-17): TCP waived all copyright and related rights in the keyboarded and encoded edition under CC0 1.0. The waiver does not extend to page images. [V]
+  - So the keyed text may be used for locating.
+  - It is still not stored in the repo. Locators are checked on the scan.
+  - The phase label and release date are not on the README. [U]
+- **Administrator question, a lead:** the title page lists the particulars handled. Two of them bear on it: where a wanting church or ordinance is to be found and how it is recovered, and that there is no succession under the New Testament (paraphrased). So the question is probably treated in the 1643 edition, not only in 1652. Pages: [U], for a headings pass on the scan.
+- Still open: Wing S4976 from a primary record; the 1652 edition's Wing number; the 1644 Confession.

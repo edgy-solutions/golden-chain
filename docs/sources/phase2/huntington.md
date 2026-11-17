@@ -53,3 +53,17 @@ A sermon has no chapters. Proposed: `B source/huntington-law-established/{head}`
 3. Settle the Works date (1801, 1806, 1811, 1820): successive printings or separate sets?
 4. Does Chris want another work for the covenant of works specifically? None verified; he should name it.
 5. The brief says "treatise"; the source is a sermon, so scope and locators follow its numbered heads, not book chapters.
+
+## Ruling on report 19 (A-5), worked 2026-11-17
+
+The ruling: "the earliest printing is the witness; later ones are second witnesses."
+
+- **Witness of record:** the 1786 first printing, archive.org `bim_eighteenth-century_the-law-established-by-t_huntington-william_1786` (microfilm, catalogue no. t073873, 95 leaves).
+  - Title page viewed (n0): *The Law established by the Faith of Christ. A Sermon, preached at Providence Chapel, on the First Day of January, 1786, by William Huntington, S.S.*
+  - Imprint: "London: Printed by Denew and Grant, No. 91, Wardour-Street, Soho", MDCCLXXXVI. [V image]
+- **Second witnesses:**
+  - The [1788] printing, `..._1788`, t073874, 96 images. The Wellcome snippet calls it the second edition. [R]
+  - The *Works* (1811, 20 vols), whose volume holding the sermon is not yet seen on a scan.
+  - A further printing of 1808 is listed by Google Books. [R]
+- **Locators:** the sermon's own numbered heads on the 1786 printing. A transcription shows six heads plus a "lastly" [R, not the witness]. They are to be read on the 1786 images, and the leaf-to-page map built from that scan.
+- ESTC T73873 and T73874 are probable but not confirmed in ESTC itself. [R]
