@@ -72,4 +72,12 @@ PX4: the page is right; pairs, not distinct Holdings.
 
 ## Applied
 
-Worked in report 20 (to come).
+Worked in [REPORT_phase1_20.md](REPORT_phase1_20.md).
+
+- **A-1:** ADR-0002 Revision 3, with 11 annotated axioms (contributor architect, status proposed), ingest check d, and the prototype's "proposed reading, unconfirmed" (`3c6933f`).
+- **A-2 and A-3:** ADR-0007 and ADR-0008 ratified, with the answers applied (`3c6933f`). Nothing is built from ADR-0007 yet.
+- **A-4:** the architect's own item.
+- **A-5:** every item worked in `docs/sources/phase2/`, and `scots.md` added (`2c5e568`). The Gospel Standard page image waits on Chris (C-9).
+- **A-6 and A-7 (measure):** lock `italic-v4-predictions-locked.txt`; built in `9028ac1`; runs a and b made. IV1–IV3, IV5 and IV6 hit; IV4 missed (16 of 200 dropped). The console `8e173740c37b714d` is held for the architect (report 20, A-11).
+- **A-7 (build hash):** ADR-0006 Revision 5 (`2cc4412`). BH1 missed in its HTML clause only; BH2–BH5 hit.
+- **C-7** closed. **PX4** noted.
