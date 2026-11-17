@@ -97,7 +97,8 @@ def make_export(spec, manifest):
             for s in spec["sections"] for r in s["rows"]}
     return {"format": "golden-chain-console-verdicts/1", "kind": spec["kind"], "build_hash": manifest["build_hash"],
             "spec_sha256": manifest["spec_sha256"], "code_sha256": manifest["code_sha256"],
-            "run_header": spec["run_header"], "images": dict(manifest["images"]), "rows": rows,
+            "run_header": (manifest["local"]["run_header"] if "local" in manifest else spec["run_header"]),
+            "images": dict(manifest["images"]), "rows": rows,
             "signature": {"name": "Chris", "date": "2026-10-26"}, "complete": True,
             "exported_utc": "2026-10-26T10:00:00Z"}
 
@@ -163,7 +164,11 @@ def test_provisional_banner(tmp_path, monkeypatch):
 
 def test_build_hash_is_the_stated_rule(sitting):
     spec, man = sitting["spec"], sitting["man"]
-    spec_sha = hashlib.sha256(json.dumps(spec, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")).hexdigest()
+    hashed = copy.deepcopy(spec)  # R5: every path becomes a name, run_header goes
+    hashed.pop("run_header")
+    for it in hashed["images"] + hashed["sources"]:
+        it["name"] = Path(it.pop("path")).name
+    spec_sha = hashlib.sha256(json.dumps(hashed, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")).hexdigest()
     code_sha = hashlib.sha256((ROOT / "tools/console/build.py").read_bytes()
                               + (ROOT / "tools/console/template.html").read_bytes()).hexdigest()
     imgs = {i["id"]: hashlib.sha256(Path(i["path"]).read_bytes()).hexdigest() for i in spec["images"]}
@@ -171,9 +176,10 @@ def test_build_hash_is_the_stated_rule(sitting):
                                      ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")).hexdigest()
     assert man["build_hash"] == want and man["build16"] == want[:16]
     assert man["spec_sha256"] == spec_sha and man["code_sha256"] == code_sha
+    assert man["format"] == "golden-chain-console-manifest/2"
     assert man["html_sha256"] == hashlib.sha256(sitting["made"]["html"].read_bytes()).hexdigest()
-    assert sitting["made"]["spec"].read_bytes() == build.canon(spec)
-    assert not build.canon(spec).endswith(b"\n") and b"\r" not in build.canon(spec)
+    assert sitting["made"]["spec"].read_bytes() == build.canon(hashed)
+    assert not build.canon(hashed).endswith(b"\n") and b"\r" not in build.canon(hashed)
 
 
 def test_same_spec_same_hash_other_dir(sitting, monkeypatch):
@@ -383,8 +389,8 @@ def test_fit_is_the_default_zoom(sitting):
 
 
 def test_template_version_in_header_and_manifest(sitting):
-    assert "console template v6" in page_text(sitting)
-    assert sitting["man"]["template_version"] == 6 == build.TEMPLATE_VERSION
+    assert "console template v7" in page_text(sitting)
+    assert sitting["man"]["template_version"] == 7 == build.TEMPLATE_VERSION
 
 
 def test_help_panel_has_common_then_spec_entries(tmp_path, monkeypatch):
@@ -911,3 +917,115 @@ def test_code_at_second_commit_unknown_commit_and_dirty_start_refuse(code_at_sit
 def test_signed_record_has_no_code_at_without_the_flag(sitting):
     out = run_ingest(sitting, make_export(sitting["spec"], sitting["man"]), sitting["dir"])
     assert "code_at" not in json.loads(out[0].read_text(encoding="utf-8"))
+
+
+# ---- ADR-0006 Revision 5: the build hash names images, not where they lie ---------------------------
+
+def r5_build(tmp_path, monkeypatch, sub, utc, spec_kw=None):
+    d = tmp_path / sub
+    d.mkdir()
+    spec = make_spec(d)
+    spec["run_header"] = {"golden_chain_git_start": {"commit": "deadbeef"}, "clean_run": True, "utc": utc}
+    spec.update(spec_kw or {})
+    made = do_build(d, spec, monkeypatch)
+    return spec, made, json.loads(made["manifest"].read_text(encoding="utf-8")), d
+
+
+def test_r5_same_hash_in_two_dirs_with_other_run_header(tmp_path, monkeypatch):
+    s1, m1, man1, _ = r5_build(tmp_path, monkeypatch, "one", "2026-11-17T01:00:00Z")
+    s2, m2, man2, _ = r5_build(tmp_path, monkeypatch, "two", "2026-11-17T09:30:00Z")
+    assert man1["build_hash"] == man2["build_hash"]
+    assert m1["spec"].read_bytes() == m2["spec"].read_bytes()
+    assert man1["local"] != man2["local"]
+    assert man1["local"]["run_header"]["utc"] != man2["local"]["run_header"]["utc"]
+
+
+def test_r5_spec_copy_and_page_hold_no_path_or_run_time(tmp_path, monkeypatch):
+    spec, made, man, d = r5_build(tmp_path, monkeypatch, "one", "2026-11-17T01:00:00Z")
+    for f in (made["spec"], made["html"]):
+        t = f.read_text(encoding="utf-8")
+        assert str(d) not in t and str(d).replace(chr(92), "/") not in t
+    assert "utc" not in made["spec"].read_text(encoding="utf-8")  # the page carries the run header (D.run_header)
+    assert man["local"]["images"]["pa"] == str(d / "a.png")
+    assert man["local"]["sources"] == [{"name": "a.png", "path": str(d / "a.png")}]
+    assert man["local"]["run_header"]["utc"] == "2026-11-17T01:00:00Z"
+
+
+@pytest.mark.parametrize("mutate,msg", [
+    (lambda s: s["images"][0].update(name="/abs/a.png"), "name"),
+    (lambda s: s["images"][0].update(name="a\\b.png"), "name"),
+    (lambda s: s["images"][0].update(name="x/../a.png"), "name"),
+    (lambda s: s["images"][0].update(name="C:a.png"), "name"),
+    (lambda s: s["images"][1].update(name="a.png"), "duplicate image name"),
+    (lambda s: s["sources"].append({"path": s["images"][1]["path"], "sha256": s["images"][1]["sha256"],
+                                    "name": "a.png"}), "name"),
+])
+def test_r5_name_rule_fails_loud(tmp_path, monkeypatch, mutate, msg):
+    spec = make_spec(tmp_path)
+    mutate(spec)
+    monkeypatch.setattr(build, "git_state", lambda r: dict(CLEAN))
+    with pytest.raises(Fail, match=msg):
+        build.build(write_spec(tmp_path, spec), tmp_path / "out")
+
+
+def test_r5_same_source_name_same_sha_is_allowed(tmp_path, monkeypatch):
+    spec = make_spec(tmp_path)
+    spec["sources"].append(dict(spec["sources"][0]))
+    assert do_build(tmp_path, spec, monkeypatch)["manifest"].exists()
+
+
+def test_r5_explicit_name_is_kept(tmp_path, monkeypatch):
+    spec = make_spec(tmp_path)
+    spec["images"][0]["name"] = "pages/leaf-one.png"
+    made = do_build(tmp_path, spec, monkeypatch)
+    hashed = json.loads(made["spec"].read_text(encoding="utf-8"))
+    assert hashed["images"][0]["name"] == "pages/leaf-one.png" and "path" not in hashed["images"][0]
+    assert hashed["images"][1]["name"] == "b.png"
+
+
+def test_r5_ingest_happy_path_under_manifest_2(sitting, monkeypatch):
+    monkeypatch.setattr(ingest, "HANDOFF", sitting["dir"] / "handoff")
+    assert sitting["man"]["format"].endswith("/2")
+    out = run_ingest(sitting, make_export(sitting["spec"], sitting["man"]), sitting["dir"], write=True)
+    assert json.loads(out[0].read_text(encoding="utf-8"))["build_hash"] == sitting["man"]["build_hash"]
+    assert "golden-chain commit deadbeef" in out[1].read_text(encoding="utf-8")
+
+
+def r5_tampered_spec_copy(sitting, mutate):
+    """Rewrites the spec copy and keeps the manifest's spec_sha256 in step, so only the R5 rule can refuse it."""
+    sp, mp = sitting["made"]["spec"], sitting["made"]["manifest"]
+    spec = json.loads(sp.read_text(encoding="utf-8"))
+    mutate(spec)
+    sp.write_bytes(build.canon(spec))
+    man = json.loads(mp.read_text(encoding="utf-8"))
+    man["spec_sha256"] = hashlib.sha256(build.canon(spec)).hexdigest()
+    mp.write_bytes(build.canon(man))
+    return make_export(sitting["spec"], man)
+
+
+def test_r5_ingest_refuses_a_spec_copy_holding_a_path(sitting):
+    ex = r5_tampered_spec_copy(sitting, lambda sp: sp["images"][0].update(path="/x/a.png"))
+    refuses(sitting, ex, "holds a path")
+
+
+def test_r5_ingest_refuses_a_spec_copy_holding_a_run_header(sitting):
+    ex = r5_tampered_spec_copy(sitting, lambda sp: sp.update(run_header={"clean_run": True}))
+    refuses(sitting, ex, "holds a run_header")
+
+
+def test_r5_ingest_refuses_a_local_path_with_other_bytes(sitting):
+    other = sitting["dir"] / "other.png"
+    png(other, shade=7)
+    mp = sitting["made"]["manifest"]
+    man = json.loads(mp.read_text(encoding="utf-8"))
+    man["local"]["images"]["pa"] = str(other)
+    mp.write_bytes(build.canon(man))
+    refuses(sitting, make_export(sitting["spec"], sitting["man"]), "image pa: file sha256 differs")
+
+
+def test_r5_page_data_carries_the_run_header_from_the_local_block(sitting):
+    t = page_text(sitting)
+    data = json.loads(re.search(r'<script type="application/json" id="data">(.*?)</script>', t, re.S).group(1))
+    assert data["run_header"] == sitting["man"]["local"]["run_header"] == sitting["spec"]["run_header"]
+    assert "run_header" not in data["spec"] and "run_header: D.run_header" in t
+    assert "deadbeef" in t  # the header line reads the local block

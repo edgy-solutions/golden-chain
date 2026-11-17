@@ -8,7 +8,7 @@ spec_<kind>_<build16>.json (canonical bytes), so that ingest.py finds it next to
 
 Digests (ADR-0006 item 6, truth-set form 8): every JSON is canon(obj) = json.dumps(obj,
 ensure_ascii=False, sort_keys=True, indent=1) in UTF-8, no trailing newline, LF only.
-  spec_sha256 = sha256(canon(spec))
+  spec_sha256 = sha256(canon(hashed spec))   (R5: the spec with every path replaced by name, run_header removed)
   code_sha256 = sha256(bytes(build.py) + bytes(template.html))
   build_hash  = sha256(canon({"spec_sha256", "code_sha256", "images": {id: sha256(png bytes)}}))
   build16     = build_hash[:16]
@@ -24,6 +24,7 @@ v4: an empty select with empty_means "unanswered" is complete and is unanswered:
 merge; only the option `silent`, chosen, is silence (ADR-0006 R1 §6). "silent" stays for legacy v3 specs.
 v5: an optional spec "keyboard" block for one-key signing.
 v6 (ruling on report 18, 2026-11-15): every field carries "plain", one or two sentences in plain words saying what is asked, what each option means and what to choose when none fits; build fails without it. Consoles built before v6 are not rebuilt; they ingest with --code-at at their build commit.
+v7 (ADR-0006 R5, ruling on report 19, A-7): the hash names images by id, name and sha256; paths and the run header go in the manifest's local block (manifest format /2), never in the hashed spec, the spec copy or the page.
 Region questions (2026-11-15): a row asking what a region is must show context (a "region_question" block):
 the crop must carry max(region size, CONTEXT_MIN_PX) of surroundings on each side, unless it reaches the source edge.
 Clear edges (ruling on report 17, Q-1, 2026-11-15): an image may require that no ink touch
@@ -42,14 +43,14 @@ import os
 import re
 import struct
 import sys
-from pathlib import Path
+from pathlib import Path, PurePath
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from column_rule import REPO, Fail, clean_run, git_state  # noqa: E402
 
 SPEC_FORMAT = "golden-chain-console-spec/1"
-TEMPLATE_VERSION = 6
+TEMPLATE_VERSION = 7
 OTHER = "other, as written"
 CONTEXT_MIN_PX = 300
 COMMON_HELP = [
@@ -71,7 +72,7 @@ COMMON_HELP = [
           "paste images from this console anywhere. If a question cannot be answered as asked, mark the row "
           "fault and say why in the note."},
 ]
-MANIFEST_FORMAT = "golden-chain-console-manifest/1"
+MANIFEST_FORMAT = "golden-chain-console-manifest/2"
 KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "region-reask")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
@@ -343,6 +344,39 @@ def hash_images(spec):
     return ({i: sha256_bytes(b) for i, b in zip(ids, blobs)}, dict(zip(ids, blobs)))
 
 
+def check_name(name, what):
+    """A logical name is a relative POSIX path: non-empty, no backslash, no colon, no leading /, no .. part."""
+    if not isinstance(name, str) or not name:
+        raise Fail(f"{what}: name must be a non-empty string")
+    if "\\" in name or ":" in name or name.startswith("/") or ".." in name.split("/"):
+        raise Fail(f"{what}: name {name!r} must be a relative POSIX path (no backslash, colon, leading / or ..)")
+
+
+def split_spec(spec):
+    """R5: returns (hashed spec, local block). Run after check_spec and hash_images."""
+    hashed = json.loads(json.dumps(spec))
+    hashed.pop("run_header", None)
+    local = {"images": {}, "sources": [], "run_header": spec.get("run_header")}
+    seen_names = set()
+    for im in hashed["images"]:
+        path = im.pop("path")
+        im["name"] = im.get("name") or PurePath(path).name
+        check_name(im["name"], f"image {im['id']}")
+        if im["name"] in seen_names:
+            raise Fail(f"duplicate image name {im['name']!r}")
+        seen_names.add(im["name"])
+        local["images"][im["id"]] = str(path)
+    src_sha = {}
+    for it in hashed.get("sources", []):
+        path = it.pop("path")
+        it["name"] = it.get("name") or PurePath(path).name
+        check_name(it["name"], "source")
+        if src_sha.setdefault(it["name"], it.get("sha256")) != it.get("sha256"):
+            raise Fail(f"source name {it['name']!r} used for two different sha256 values")
+        local["sources"].append({"name": it["name"], "path": str(path)})
+    return hashed, local
+
+
 def code_bytes(code_dir=HERE):
     return (Path(code_dir) / "build.py").read_bytes() + (Path(code_dir) / "template.html").read_bytes()
 
@@ -498,10 +532,9 @@ def help_html(spec):
             f'<h2>Help</h2>{items}</aside>')
 
 
-def header_html(spec, build_hash, provisional):
+def header_html(spec, build_hash, provisional, rh=None):
     banner = ('<div class="prov">PROVISIONAL: built from an uncommitted tree. Its verdicts cannot be cited '
               'unless the architect rules it.</div>' if provisional else "")
-    rh = spec.get("run_header")
     run = ""
     if rh:
         git = (rh.get("golden_chain_git_start") or {}).get("commit", "not recorded")
@@ -516,19 +549,20 @@ def data_json(obj):
     return s.replace("</", "<\\/").replace("<!--", "\\u003c!--")
 
 
-def render(spec, blobs, shas, build_hash, spec_sha, code_sha, provisional, template):
+def render(spec, blobs, shas, build_hash, spec_sha, code_sha, provisional, template, run_header=None):
     page = Page(spec, blobs, shas)
     body = sections_html(spec, page)
     unseen = [im["id"] for im in spec["images"] if im["id"] not in page.done]
     extra = f'<section class="sec"><h2>Images</h2>{page.figs(unseen)}</section>' if unseen else ""
     parts = {
         "__TITLE__": e(spec["title"]),
-        "__HEADER__": header_html(spec, build_hash, provisional),
+        "__HEADER__": header_html(spec, build_hash, provisional, run_header),
         "__HELP__": help_html(spec),
         "__BODY__": extra + body + withheld_html(spec) + signature_html(spec),
         "__DATA__": data_json({"build_hash": build_hash, "build16": build_hash[:16], "kind": spec["kind"],
                                "spec_sha256": spec_sha, "code_sha256": code_sha, "images": shas,
-                               "provisional": provisional, "other": OTHER, "spec": spec}),
+                               "provisional": provisional, "other": OTHER, "spec": spec,
+                               "run_header": run_header}),
     }
     return re.sub("|".join(parts), lambda m: parts[m.group(0)], template)
 
@@ -538,17 +572,18 @@ def build(spec_path, out_dir=None, now=None):
     spec = json.loads(Path(spec_path).read_text(encoding="utf-8"))
     check_spec(spec)
     shas, blobs = hash_images(spec)
-    spec_bytes = canon(spec)
+    hashed, local = split_spec(spec)
+    spec_bytes = canon(hashed)
     spec_sha, code_sha = sha256_bytes(spec_bytes), sha256_bytes(code_bytes())
     bh = build_hash_of(spec_sha, code_sha, shas)
     b16, kind = bh[:16], spec["kind"]
     end = git_state(REPO)
     provisional = not clean_run(start, end)
     template = (HERE / "template.html").read_text(encoding="utf-8")
-    page = render(spec, blobs, shas, bh, spec_sha, code_sha, provisional, template).encode("utf-8")
+    page = render(hashed, blobs, shas, bh, spec_sha, code_sha, provisional, template, local["run_header"]).encode("utf-8")
     manifest = {"format": MANIFEST_FORMAT, "kind": kind, "build_hash": bh, "build16": b16,
                 "spec_path": str(Path(spec_path).resolve()), "spec_sha256": spec_sha,
-                "code_sha256": code_sha, "template_version": TEMPLATE_VERSION, "html_sha256": sha256_bytes(page), "images": shas,
+                "code_sha256": code_sha, "template_version": TEMPLATE_VERSION, "html_sha256": sha256_bytes(page), "images": shas, "local": local,
                 "golden_chain_git_start": start, "golden_chain_git_end": end, "provisional": provisional,
                 "utc": (now or datetime.datetime.now(datetime.timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ")}
     out = Path(out_dir) if out_dir else Path.home() / ".golden-chain" / "console" / kind

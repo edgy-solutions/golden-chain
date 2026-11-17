@@ -933,8 +933,8 @@ def test_plain_is_rendered_escaped(tmp_path, monkeypatch):
     assert "Write &lt;b&gt;a few&lt;/b&gt; words &amp; stop." in page
 
 
-def test_template_version_is_6():
-    assert build.TEMPLATE_VERSION == 6
+def test_template_version_is_7():
+    assert build.TEMPLATE_VERSION == 7
 
 
 # ---- lbc1677 --------------------------------------------------------------------------------------

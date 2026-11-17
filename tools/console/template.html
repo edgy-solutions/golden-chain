@@ -288,7 +288,7 @@ __HELP__
   document.getElementById("export").addEventListener("click", function () {
     var out = {
       format: "golden-chain-console-verdicts/1", kind: D.kind, build_hash: D.build_hash,
-      spec_sha256: D.spec_sha256, code_sha256: D.code_sha256, run_header: D.spec.run_header,
+      spec_sha256: D.spec_sha256, code_sha256: D.code_sha256, run_header: D.run_header,
       images: D.images, rows: collect(), signature: signature(), complete: isComplete(),
       exported_utc: new Date().toISOString()
     };

@@ -16,6 +16,9 @@ Checks, each a Fail with nothing written (ADR-0006 item 8):
   5. signature name and date
   6. manifest.provisional is false, unless --provisional
   7. the export's rows are the spec's rows
+R5 (ADR-0006 Revision 5): manifest/2 consoles hold no path or run header in the spec copy; image files are found at
+the manifest's local.images paths and must hash to the spec's sha256; the run header for the record is
+manifest.local.run_header. manifest/1 ingests as before (paths from the spec copy).
 Writes signed_<kind>_<build16>.json. With --write also the instance record: a Markdown file under
 docs/handoff/ (empty-strips, wcf1647, q11-crops, truthset-italic; plumb-line-followup also). For the plumb-line kinds
 (plumb-line, plumb-line-followup) the merge (plumb_merge.merge, ADR-0006 R1) writes the numbered record
@@ -85,10 +88,13 @@ def same(what, *vals):
 
 # ---- check 2: recomputation -------------------------------------------------------------------------
 
+MANIFEST_FORMATS = ("golden-chain-console-manifest/1", "golden-chain-console-manifest/2")
+
+
 def check_formats(ex, man):
     if ex.get("format") != "golden-chain-console-verdicts/1":
         raise Fail(f"export format {ex.get('format')!r}")
-    if man.get("format") != "golden-chain-console-manifest/1":
+    if man.get("format") not in MANIFEST_FORMATS:
         raise Fail(f"manifest format {man.get('format')!r}")
     if ex.get("kind") != man.get("kind") or man.get("kind") not in KINDS:
         raise Fail(f"kinds disagree or unknown: export {ex.get('kind')!r}, manifest {man.get('kind')!r}")
@@ -142,8 +148,22 @@ def recompute(ex, man, manifest_dir, code_at=None):
     if code_sha != ex.get("code_sha256"):
         raise Fail("export code_sha256 differs from the console code")
     images = {}
+    v2 = man.get("format") == "golden-chain-console-manifest/2"
+    if v2:  # R5: the spec copy is the hashed spec; it holds no path and no run header
+        if "run_header" in spec:
+            raise Fail("spec copy holds a run_header; a /2 spec copy is the hashed spec (ADR-0006 R5)")
+        if any("path" in it for it in list(spec.get("images", [])) + list(spec.get("sources", []))):
+            raise Fail("spec copy holds a path; a /2 spec copy is the hashed spec (ADR-0006 R5)")
+        local_images = (man.get("local") or {}).get("images")
+        if not isinstance(local_images, dict):
+            raise Fail("manifest/2 has no local image paths")
     for im in spec.get("images", []):
-        p = Path(im["path"])
+        if v2:
+            if im["id"] not in local_images:
+                raise Fail(f"image {im['id']}: no local path in the manifest")
+            p = Path(local_images[im["id"]])
+        else:
+            p = Path(im["path"])
         if not p.is_file():
             raise Fail(f"image {im['id']}: file missing: {p}")
         images[im["id"]] = sha(p.read_bytes())
@@ -310,7 +330,14 @@ def answer_text(v):
     return str(v)
 
 
-def markdown_truthset(signed, spec):
+def run_header_of(man, spec):
+    """R5: the run header is in the manifest's local block under /2, in the spec under /1."""
+    if man.get("format") == "golden-chain-console-manifest/2":
+        return (man.get("local") or {}).get("run_header")
+    return spec.get("run_header")
+
+
+def markdown_truthset(signed, spec, run_header=None):
     """Keys and answers only (no word text, no image): the truth-set v2 record."""
     keys = {r["id"]: r.get("key", "") for s in spec["sections"] for r in s["rows"]}
     sig = signed["signature"]
@@ -349,7 +376,7 @@ def _export_of(signed):
                      for r in signed["rows"]}}
 
 
-def markdown(signed, spec):
+def markdown(signed, spec, run_header=None):
     ex = _export_of(signed)
     silent = {(rid, fid) for rid, fids in empty_fields(spec, ex, ("silent",)).items() for fid in fids}
     unans = {(rid, fid) for rid, fids in empty_fields(spec, ex, ("unanswered",)).items() for fid in fids}
@@ -362,7 +389,7 @@ def markdown(signed, spec):
            f"- provisional: {str(signed['provisional']).lower()}"]
     if signed.get("code_at"):
         out.append(f"- console code read from commit {signed['code_at']} (--code-at)")
-    rh = spec.get("run_header")
+    rh = run_header if run_header is not None else spec.get("run_header")
     if rh:
         out.append(f"- run header: golden-chain commit {(rh.get('golden_chain_git_start') or {}).get('commit', 'not recorded')},"
                    f" clean_run {rh.get('clean_run', 'not recorded')}")
@@ -408,7 +435,7 @@ def adr_ratified():
         return False
 
 
-def instance_output(signed, spec, ttl_out, records_dir=None):
+def instance_output(signed, spec, ttl_out, records_dir=None, run_header=None):
     """[(path, bytes)] of the instance record(s); Fails before anything is written if it may not be.
     Plumb-line kinds merge: the numbered record file, then the replayed TTL (which replaces the old one)."""
     if signed["kind"] in ("plumb-line", "plumb-line-followup"):
@@ -422,11 +449,11 @@ def instance_output(signed, spec, ttl_out, records_dir=None):
         out = [(rec, rec_bytes), (ttl_path, ttl_bytes)]
         if signed["kind"] == "plumb-line-followup":
             name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
-            out.append((Path(HANDOFF) / name, markdown(signed, spec)))
+            out.append((Path(HANDOFF) / name, markdown(signed, spec, run_header)))
         return out
     name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
     md = markdown_truthset if signed["kind"] in ("truthset-italic", "truthset-italic-v3") else markdown
-    return [(Path(HANDOFF) / name, md(signed, spec))]
+    return [(Path(HANDOFF) / name, md(signed, spec, run_header))]
 
 
 def write_addressed(path, data):
@@ -483,7 +510,7 @@ def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl
     signed_bytes = json.dumps(signed, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")
     plan = [(signed_path, signed_bytes)]
     if write:
-        plan += instance_output(signed, spec, ttl_out, records_dir)
+        plan += instance_output(signed, spec, ttl_out, records_dir, run_header_of(man, spec))
     merged_ttl = None
     if write and signed["kind"] in ("plumb-line", "plumb-line-followup"):
         merged_ttl = plan[2][0]  # the TTL: the one file the merge may overwrite

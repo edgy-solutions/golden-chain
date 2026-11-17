@@ -243,3 +243,49 @@ Ruled: option A of [PROPOSAL_adr0006_r1_second_sitting.md](../handoff/PROPOSAL_a
    answers from the form's text and records that he asked (rule 11).
 4. Lock: `plain-words-predictions-locked.txt`, PW1–PW5. The results are in
    report 19.
+
+## Revision 5 (ruled 2026-11-17, ruling on report 19, A-7): the build hash names images, not where they lie
+
+Report 19 found that two clean runs of the same draw gave two build hashes
+(`015bfeed482a5083`, `03a299fb575fc4c3`). Their spec copies differed only in
+absolute paths (each image, and `crops.json`) and in `run_header.utc`; every
+image's bytes were the same. The architect ruled: identify images by sha256
+and logical name; keep absolute paths and run times out of the hashed spec,
+and record them in the manifest beside it.
+
+1. **The input spec is unchanged.** Spec makers still give each image and
+   source a `path`, and may give a `run_header`. An image or source may also
+   give `name`, its logical name. Without one, the name is the file's basename.
+2. **The build splits the spec in two.**
+   - The **hashed spec** is the input spec with every `path` replaced by
+     `name` and `run_header` removed. The spec copy beside the manifest is the
+     hashed spec, so it holds no absolute path and no run time.
+   - The **local block** holds what was removed: the image paths by id, the
+     source paths by name, and the run header. It is written into the
+     manifest, which is not hashed (it already holds the build's time and git
+     state).
+3. **A name is a relative POSIX path:** non-empty, no backslash, no drive or
+   colon, not starting with `/`, no `..` part. Image names are unique. Two
+   sources may share a name only if they share the sha256. The build fails
+   loud otherwise.
+4. **The rule is otherwise item 6 unchanged.**
+   - `spec_sha256 = sha256(canon(hashed spec))`.
+   - `build_hash = sha256(canon({"spec_sha256", "code_sha256", "images": {id: sha256}}))`.
+
+   An image is thus fixed by its id, its logical name and its sha256 (all
+   three are in the hashed spec), and never by where it lies.
+5. **The manifest format becomes `golden-chain-console-manifest/2`,** with a
+   `local` block. The page header and the export take the run header from
+   the local block. The page's embedded spec is the hashed spec, so the page
+   carries no absolute path. `TEMPLATE_VERSION` 7.
+6. **Ingest dispatches on the manifest format.**
+   - **`/2`:** the image files are found at the manifest's local paths. Each
+     must hash to the hashed spec's sha256 for its id. A spec copy that holds
+     a `path` or a `run_header` is refused.
+   - **`/1`** (every console built before this revision): ingests as before,
+     with `--code-at` at its build commit.
+   - The build hash is still recomputed by ingest's own code (truth-set form
+     8.5).
+7. **Built consoles are not rebuilt.** Truth-set v3 build-a stays on record,
+   unsigned (ruling on report 19, A-6).
+8. Lock: `build-hash-r5-predictions-locked.txt`, BH1–BH5.
