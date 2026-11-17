@@ -155,14 +155,17 @@
 # Its triple's presence (or, if rejected, absence) is checked in code: goldenchain/ingest.py check d.
 # ADR-0006 R1: also the provenance of a plumb-line triple (gc:tier, gc:clarity, gc:unchurches), which may be a
 # literal target (unchurches true).
+# ADR-0002 R3: also "model-proposed, read by" on a gc:asPrinted triple (literal target), with one
+# dcterms:contributor (who read it) and gc:status proposed or ratified; checked in code, ingest check d.
 <ontology/shapes#Axiom> a sh:NodeShape ;
     sh:targetClass owl:Axiom ;
     sh:property [ sh:path owl:annotatedSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path owl:annotatedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
-        sh:in ( gc:excludes gc:entails gc:tier gc:clarity gc:unchurches ) ] ;
+        sh:in ( gc:excludes gc:entails gc:tier gc:clarity gc:unchurches gc:asPrinted ) ] ;
     sh:property [ sh:path owl:annotatedTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRIOrLiteral ] ;
     sh:property [ sh:path rdfs:comment ; sh:minCount 1 ] ;
-    sh:property [ sh:path gc:status ; sh:maxCount 1 ] .
+    sh:property [ sh:path gc:status ; sh:maxCount 1 ] ;
+    sh:property [ sh:path dcterms:contributor ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
 
 # ---------------------------------------------------------------- passages (ADR-0002, revised)
 

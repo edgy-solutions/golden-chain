@@ -18,7 +18,7 @@ spec.loader.exec_module(et)
 
 SENT = ["SENTINEL-COMMENT", "SENTINEL-RESNOTE", "SENTINEL-QUOTE", "SENTINEL-DERIVED"]
 
-SYNTH = PREFIXES + """
+SYNTH = PREFIXES + """@prefix owl: <http://www.w3.org/2002/07/owl#> .
 <heading/h> a gc:Heading ; rdfs:label "H" .
 <agent/build> a gc:Agent ; rdfs:label "Build agent" .
 <agent/arch> a gc:Agent ; rdfs:label "Architect" .
@@ -45,8 +45,16 @@ SYNTH = PREFIXES + """
     rdfs:comment "SENTINEL-COMMENT arg" ;
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build> ; gc:ratifiedBy <agent/arch> .
 <argument/s/1/002> a gc:Argument ; gc:source <source/s/1> ; gc:supports <position/one/b> ;
-    gc:cites <passage/kjv/Gen.1.1> ; gc:locator "1.2" ;
+    gc:cites <passage/kjv/Gen.1.1> ; gc:locator "1.2" ; gc:asPrinted "(b) Gen. 1.1" ;
     gc:status <vocab/status/proposed> ; gc:proposedBy <agent/build> .
+<axiom/asPrinted/s/1/002> a owl:Axiom ; owl:annotatedSource <argument/s/1/002> ;
+    owl:annotatedProperty gc:asPrinted ; owl:annotatedTarget "(b) Gen. 1.1" ;
+    dcterms:contributor <agent/arch> ; gc:status <vocab/status/proposed> ;
+    rdfs:comment "SENTINEL-COMMENT axiom" .
+<axiom/asPrinted/s/1/001> a owl:Axiom ; owl:annotatedSource <argument/s/1/001> ;
+    owl:annotatedProperty gc:asPrinted ; owl:annotatedTarget "(a) Gen. 1.1" ;
+    dcterms:contributor <agent/arch> ; gc:status <vocab/status/ratified> ;
+    rdfs:comment "SENTINEL-COMMENT axiom2" .
 <argument/s/1/003> a gc:Argument ; gc:source <source/s/1> ; gc:supports <position/two/a> ;
     gc:citesCandidate <passage/kjv/Ps.3.3> ; gc:locator "1.3" ;
     gc:status <vocab/status/proposed> ; gc:proposedBy <agent/build> .
@@ -195,3 +203,18 @@ def test_real_data_counts_consistent(tmp_path):
     assert s["pages"]["try"] == len(cited) == len(list((tmp_path / "try").glob("*.html")))
     assert s["cites_rows"] == len(set(g.subject_objects(GC.cites)))
     assert pages(tmp_path) and len(pages(tmp_path)) == 1 + s["pages"]["examine"] + s["pages"]["try"]
+
+
+def test_unconfirmed_asprinted_marked_from_axiom(synth):
+    """ADR-0002 R3: a proposed asPrinted axiom puts the marker beside that string, and only there."""
+    loc = (synth["out"] / "examine").glob("*.html")
+    body = {p.name: p.read_text(encoding="utf-8") for p in loc}
+    one = next(v for k, v in body.items() if "Locus One" in v)
+    assert one.count(et.UNCONFIRMED) == 1
+    assert f"(b) Gen. 1.1 ({et.UNCONFIRMED})" in one
+    assert f"(a) Gen. 1.1 ({et.UNCONFIRMED})" not in one and "(a) Gen. 1.1" in one  # ratified: no marker
+    tries = [p.read_text(encoding="utf-8") for p in (synth["out"] / "try").glob("*.html")]
+    assert sum(t.count(et.UNCONFIRMED) for t in tries) == 1  # 002 cites one passage
+    for t in tries + list(body.values()):
+        assert "SENTINEL-COMMENT axiom" not in t
+

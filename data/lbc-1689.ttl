@@ -4,6 +4,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 # Second London Baptist Confession (docs/sources/lbc-1689.md). Reference only; no quotation.
 
@@ -356,3 +357,93 @@
 <passage/kjv/1Cor.4.1> a gc:Passage ;
     gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.4.1" ;
     gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+# "Model-proposed, read by" on each architect-read gc:asPrinted (ruling on report 19, A-1; ADR-0002 Revision 3).
+# On Chris's confirmation, contributor becomes <agent/chris> and status ratified.
+<axiom/asPrinted/lbc-1689/28/1/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/28/1/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(a) Mat. 28. 19, 20. 1 Cor. 11. 26." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/28/2/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/28/2/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(b) Mat. 28. 19. 1 Cor. 4. 1." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(d) Mar. 1.4; Act. 26. 16" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/003> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/003> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(e) Rom. 6.2,4" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/2/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/2/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(f) Mar. 16.16; Act. 8.36,37" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/2/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/2/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(f) Mar. 16.16; Act. 8.36,37" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/3/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/3/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/3/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/3/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/4/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/4/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(h) Mat. 3. 16. Joh. 3. 23." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/4/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/4/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(h) Mat. 3. 16. Joh. 3. 23." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .

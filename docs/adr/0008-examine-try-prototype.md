@@ -1,8 +1,8 @@
 # ADR-0008: A read-only local prototype of `examine` and `try`
 
-- Status: Proposed
+- Status: Ratified as a local prototype (ruling on report 19, A-3)
 - Date proposed: 2026-11-15
-- Date ratified:
+- Date ratified: 2026-11-17
 - Proposed by: build agent (overnight order 2026-11-15, item 7)
 - Ratified by: architect
 
@@ -80,3 +80,16 @@ unchanged and no data changed.
    would need their own Bible open. A licensed or PD text is a separate ADR.
    (Architect.)
 3. Is any of this to be deployed later? (Architect; a separate ADR.)
+
+## Ratification (2026-11-17; ruling on report 19, A-3)
+
+Ratified as a local prototype. The open points are answered:
+
+1. **Disclosure**, per A-1 ([ADR-0002 Revision 3](0002-identity-iri-patterns.md)):
+   - the tool reads the `owl:Axiom` on each `gc:asPrinted` triple;
+   - while the axiom's status is `proposed`, it prints "proposed reading, unconfirmed" beside the string;
+   - the query's allow-list gains `owl:annotatedSource`, `owl:annotatedProperty` and `owl:annotatedTarget`;
+   - the axiom's `rdfs:comment` is still never read.
+2. **Passage pages show the reference only** until ADR-0004 settles the display text. That is already so, because no verse text is stored.
+3. **Deployment** is a separate ADR.
+

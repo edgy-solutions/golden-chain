@@ -13,7 +13,7 @@ from pathlib import Path
 import pyshacl
 import rdflib
 from rdflib import Dataset, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import OWL, RDF, SH, XSD
+from rdflib.namespace import DCTERMS, OWL, RDF, SH, XSD
 
 from goldenchain import jena, passage
 
@@ -134,6 +134,13 @@ def code_checks(ds: Dataset) -> None:
                 errs.append(f"d. {ax}: rejected axiom's triple {s} {p} {o} is asserted")
         elif not asserted:
             errs.append(f"d. {ax}: axiom's triple {s} {p} {o} is not asserted (and the axiom is not rejected)")
+        if p == GC.asPrinted:  # ADR-0002 R3: who read it, and whether it is confirmed
+            who = list(u.objects(ax, DCTERMS.contributor))
+            st = list(u.objects(ax, GC.status))
+            if len(who) != 1 or (who[0], RDF.type, GC.Agent) not in u:
+                errs.append(f"d. {ax}: an asPrinted axiom needs exactly one dcterms:contributor that is a gc:Agent")
+            if len(st) != 1 or st[0] not in (URIRef(B + "vocab/status/proposed"), URIRef(B + "vocab/status/ratified")):
+                errs.append(f"d. {ax}: an asPrinted axiom needs gc:status proposed or ratified")
     # e. gc:unchurches (ADR-0003 R2.3): plumb-line graph only, only true, once per Position,
     #    the plumb-line holds it forbidden (shape 1), its Locus is not tier third (shape 2).
     pl = ds.graph(PLUMB_LINE)

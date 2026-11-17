@@ -32,6 +32,9 @@ G = str(ingest.GC)
 BANNER = ("PROTOTYPE — local only, not deployed. Generated from the data at {head}; "
           "every line below is a label, a locator or a signed record.")
 DASH = " — "
+# ADR-0002 R3 / ruling on report 19 A-1: shown beside an asPrinted whose annotated axiom is still proposed.
+UNCONFIRMED = "proposed reading, unconfirmed"
+OWL = "http://www.w3.org/2002/07/owl#"
 
 # The only predicates the tool ever reads. Free-text predicates are absent by construction.
 QUERY = """
@@ -39,11 +42,13 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX gc: <https://w3id.org/golden-chain/ontology#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 SELECT ?s ?p ?o (LANG(?o) AS ?lang) WHERE {
   VALUES ?p { rdf:type rdfs:label skos:prefLabel skos:notation gc:question gc:tier gc:clarity
               gc:unchurches gc:answers gc:source gc:supports gc:cites gc:citesCandidate
               gc:locator gc:secondaryLocator gc:asPrinted gc:osisRef gc:status gc:proposedBy
-              gc:ratifiedBy gc:position gc:modality gc:scope gc:effectivelyHolds }
+              gc:ratifiedBy gc:position gc:modality gc:scope gc:effectivelyHolds
+              owl:annotatedSource owl:annotatedProperty owl:annotatedTarget }
   ?s ?p ?o .
 }
 ORDER BY ?s ?p ?o
@@ -119,6 +124,13 @@ class Model:
         for s, ps in self.v.items():
             for o, _ in ps.get(RDF_TYPE, []):
                 self.types[o].add(s)
+        # (Argument, asPrinted string) pairs whose "read by" axiom is still proposed (ADR-0002 R3).
+        self.unconfirmed = set()
+        for ax in self.types.get(OWL + "Axiom", ()):
+            if (self.one(ax, OWL + "annotatedProperty") == G + "asPrinted"
+                    and self.one(ax, "status") == B + "vocab/status/proposed"):
+                self.unconfirmed.add((self.one(ax, OWL + "annotatedSource"),
+                                      self.one(ax, OWL + "annotatedTarget")))
 
     def vals(self, s, p):
         return sorted({o for o, _ in self.v[s].get(p if "://" in p else G + p, [])})
@@ -193,6 +205,13 @@ def locus_title(m, l):
     return (f"{n} " if n else "") + m.label(l)
 
 
+def as_printed(m, a):
+    x = m.one(a, "asPrinted")
+    if x is not None and (a, x) in m.unconfirmed:
+        return f"{x} ({UNCONFIRMED})"
+    return x
+
+
 def arg_fields(m, a):
     def lab(p):
         x = m.one(a, p)
@@ -200,7 +219,7 @@ def arg_fields(m, a):
     items = [("Source", lab("source")),
              ("Locator", m.one(a, "locator")),
              ("Secondary locator", m.one(a, "secondaryLocator")),
-             ("As printed", m.one(a, "asPrinted")),
+             ("As printed", as_printed(m, a)),
              ("Status", lab("status")),
              ("Proposed by", lab("proposedBy")),
              ("Ratified by", lab("ratifiedBy"))]

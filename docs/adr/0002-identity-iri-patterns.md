@@ -247,3 +247,21 @@ Written up by the build agent from [RULING_step3_plan.md](../handoff/RULING_step
 4. **`gc:Teacher`** (M5; the class from dispatch 2026-11-08 §12). A subclass of `gc:Body`: one person's teaching across his works. Each work is a `gc:SourceWork` that the Teacher is `gc:expressedIn`. `body/gill` is reclassified from `gc:Systematic` to `gc:Teacher`; its IRI is unchanged, and it is expressed in the *Body of Divinity* and the *Divine Right*. This is a new `gc:` term, minted on the architect's ruling.
 5. **Chapter references (M8): no change to the Passage contract.** The ruling's example IRI `passage/kjv/Heb.8-Heb.10` is a chapter-only form, which rule 2 of the Passage scheme forbids (ratified with goat-yard's architect). The ruling's own mechanism keeps the contract: the canonicaliser takes `Heb.8-Heb.10` as input and expands it to `B passage/kjv/Heb.8.1-Heb.10.39`, from verse 1 to the last verse. `goldenchain.passage.canonical` already does this, and a test pins it.
 
+
+## Revision 3 (2026-11-17; ruled by the architect on report 19, A-1): who read an `asPrinted`
+
+Written up by the build agent from [RULING_report_19.md](../handoff/RULING_report_19.md). The pattern is the architect's ruling. The IRI is the build agent's proposal and stays proposed until ruled.
+
+1. **No new property.** "Model-proposed, read by" is an OWL annotated axiom on the `gc:asPrinted` triple, the Revision 2 item 2 pattern. `owl:annotatedSource` is the Argument, `owl:annotatedProperty` is `gc:asPrinted`, and `owl:annotatedTarget` is the literal, exactly as asserted.
+2. **What it carries:**
+   - `dcterms:contributor`: exactly one `gc:Agent`, the reader (`agent/architect` for a model reading);
+   - `gc:status`: `proposed` until the signer confirms;
+   - at least one `rdfs:comment` (the Revision 2 shape).
+3. **On confirmation** at a console sitting, the contributor becomes `agent/chris` and the status `ratified`. On a correction, the asserted string is replaced and the axiom follows it. The 11 Arguments' `rdfs:comment` may stay until then.
+4. **IRI (proposed):** `B axiom/asPrinted/{argument path}`, e.g. `B axiom/asPrinted/lbc-1689/29/1/001`. A lettered `asPrinted` is the Argument's only one (shapes), so one axiom per Argument suffices.
+5. **Checks:**
+   - The Axiom shape admits `gc:asPrinted` as the annotated property, and at most one `dcterms:contributor`, which must be an IRI.
+   - Ingest check d also requires an `asPrinted` axiom to carry exactly one contributor typed `gc:Agent`, and `gc:status` proposed or ratified.
+   - As for every axiom that is not rejected, its triple must be asserted.
+6. **Shown:** the prototype ([ADR-0008](0008-examine-try-prototype.md)) reads the axiom and prints "proposed reading, unconfirmed" beside the string while the status is `proposed`.
+7. **Applied** to the 11 architect-read LBC 1677 strings (28.1–29.4). The 3 ch. 7 strings came from a transcription, not a model reading, and get no axiom; they keep their flag comment.

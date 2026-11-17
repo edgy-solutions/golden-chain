@@ -1,8 +1,8 @@
 # ADR-0007: Onboard a Congregation as "subscribes to Body X, with these exceptions"
 
-- Status: Proposed
+- Status: Ratified, with the answers below (ruling on report 19, A-2)
 - Date proposed: 2026-11-15
-- Date ratified:
+- Date ratified: 2026-11-17
 - Proposed by: build agent (overnight order 2026-11-15, item 6)
 - Ratified by: architect
 
@@ -132,3 +132,30 @@ Chris fills one form per church. Every question carries its plain-words line
 3. Can a church's statement be cited by URL alone, with the read date, when it
    has no printed edition? (Architect.)
 4. Which church first, if any? (Chris, once ratified.)
+
+## Ratification (2026-11-17; ruling on report 19, A-2)
+
+Ratified with these answers, filed verbatim in [RULING_report_19.md](../handoff/RULING_report_19.md). Where an answer differs from the proposed text above, the answer governs.
+
+1. **`gc:exceptsLocus` is accepted** (open point 1). An "excepted, unknown" cell:
+   - scores nothing;
+   - is shown as "excepted, unknown";
+   - counts against coverage, never as tolerated.
+2. **Several parents are allowed** (open point 2; supersedes Decision 1's "one parent" and the deferral under Alternatives). ADR-0003 R2's rule applies: the Congregation is inconsistent unless it asserts its own Holdings wherever its parents differ.
+3. **Sources** (open point 3; amends Decision 5):
+   - A church's own statement is cited by URL, read date and an archived copy's URL. No text is stored.
+   - Every Congregation Holding carries its source and stays `proposed` until a named person confirms it.
+   - A Holding from personal knowledge alone is allowed. It is labelled as that and shown as that. This supersedes Decision 6's "a church whose statement is not public is not onboarded" for such Holdings.
+4. **Added: every Congregation page states**:
+   - who entered it, from what, and when;
+   - how the church may correct it.
+   The confirmer is named (the "named person" of answer 3). Decision 6's "no person is named" still holds for the church's pastors, elders and members.
+5. Open point 4 (which church first) stays with Chris.
+
+Nothing is built yet. The next step is a lock of the Verification section above, amended for answers 1–4. That means:
+- a synthetic Congregation with two parents;
+- a personal-knowledge Holding;
+- coverage counting the excepted cell;
+- the page statement.
+The build follows in a separate commit.
+
