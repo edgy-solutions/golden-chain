@@ -289,3 +289,29 @@ and record them in the manifest beside it.
 7. **Built consoles are not rebuilt.** Truth-set v3 build-a stays on record,
    unsigned (ruling on report 19, A-6).
 8. Lock: `build-hash-r5-predictions-locked.txt`, BH1–BH5.
+
+## Revision 6 (2026-11-17, from the ruling on report 19, A-6; carried into the console by the build agent, for the architect to read): the edge check counts the word's own ink
+
+Report 19 dropped 37 of 191 truth-set v3 crops, mostly at the bottom edge. The
+crop tool and the console's `clear_edges` check both failed on any ink at the
+edge, and the next line's ink reaches a padded word crop. The architect ruled
+that the edge check fails only when ink connected to the word itself touches
+the edge, not any ink. This revision carries that rule into the console's
+build check, so that the crop tool and the console apply one rule.
+
+1. **An image entry may carry `word_box: [x0, y0, x1, y1]`** (pixel
+   coordinates in that image, x1 and y1 exclusive) beside `clear_edges`. It is
+   allowed only with `clear_edges`. It must be four integers with
+   0 <= x0 < x1 <= width and 0 <= y0 < y1 <= height, or the build fails.
+2. **With `word_box`,** the ink on a named edge counts only if it lies in an
+   8-connected ink component (same ink mask as Revision 3) that has a pixel
+   inside the box. Ink belonging to any other component (the neighbouring
+   line, a rule, a speck) does not fail the check.
+3. **Without `word_box`,** the check is unchanged: any ink on a named edge
+   fails it.
+4. **One implementation.** The component test lives in `build.py`, and the
+   crop tool imports it.
+5. **`word_box` is in the hashed spec** (it is not a path or a run time). The
+   page does not show it, and `TEMPLATE_VERSION` stays 7.
+6. **Built consoles are not rebuilt.**
+7. Lock: `italic-v4-predictions-locked.txt` (C, IV4, IV5).

@@ -73,7 +73,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/2"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "region-reask")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
@@ -255,10 +255,45 @@ def edge_ink(a):
             "left": int(m[:, 0].sum()), "right": int(m[:, -1].sum())}
 
 
+def word_edge_ink(a, box):
+    """Like edge_ink, but counting only word ink: ink pixels 8-connected (through ink) to an ink pixel inside
+    box = [x0, y0, x1, y1] (x1, y1 exclusive). Foreign ink that merely touches an edge does not count."""
+    import numpy as np
+    m = ink_mask(a)
+    x0, y0, x1, y1 = box
+    seed = np.zeros(m.shape, dtype=bool)
+    seed[y0:y1, x0:x1] = m[y0:y1, x0:x1]
+    word = seed
+    while True:
+        p = np.pad(word, 1)
+        h, w = word.shape
+        grow = np.zeros_like(word)
+        for dy in (0, 1, 2):
+            for dx in (0, 1, 2):
+                grow |= p[dy:dy + h, dx:dx + w]
+        grow &= m
+        if (grow == word).all():
+            break
+        word = grow
+    return {"top": int(word[0, :].sum()), "bottom": int(word[-1, :].sum()),
+            "left": int(word[:, 0].sum()), "right": int(word[:, -1].sum())}
+
+
+def check_word_box(iid, box, width, height):
+    if (not isinstance(box, list) or len(box) != 4
+            or any(isinstance(v, bool) or not isinstance(v, int) for v in box)):
+        raise Fail(f"image {iid}: word_box must be a list of four ints [x0, y0, x1, y1]")
+    x0, y0, x1, y1 = box
+    if not (0 <= x0 < x1 <= width and 0 <= y0 < y1 <= height):
+        raise Fail(f"image {iid}: word_box {box} is outside the {width}x{height} image or empty")
+
+
 def check_clear_edges(image_entry, png_path):
     """An image with "clear_edges" must have no ink on those outermost rows/columns.
     Threshold by mode-midpoint: paper = most common value >= 128, ink = most common value < 128,
     T = (paper + ink) / 2; ink is a pixel < T. No pixel < 128 means no ink: pass."""
+    if "word_box" in image_entry and "clear_edges" not in image_entry:
+        raise Fail(f"image {image_entry.get('id')}: word_box without clear_edges")
     if "clear_edges" not in image_entry:
         return
     iid, edges = image_entry.get("id"), image_entry["clear_edges"]
@@ -269,7 +304,11 @@ def check_clear_edges(image_entry, png_path):
     import numpy as np
     with Image.open(png_path) as im:
         a = np.asarray(im.convert("L"))
-    counts = edge_ink(a)
+    if "word_box" in image_entry:
+        check_word_box(iid, image_entry["word_box"], a.shape[1], a.shape[0])
+        counts = word_edge_ink(a, image_entry["word_box"])
+    else:
+        counts = edge_ink(a)
     for e in edges:
         n = counts[e]
         if n:

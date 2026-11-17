@@ -54,7 +54,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "region-reask")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .
@@ -452,7 +452,7 @@ def instance_output(signed, spec, ttl_out, records_dir=None, run_header=None):
             out.append((Path(HANDOFF) / name, markdown(signed, spec, run_header)))
         return out
     name = f"SIGNED_{signed['kind'].replace('-', '_')}_{signed['build_hash'][:16]}.md"
-    md = markdown_truthset if signed["kind"] in ("truthset-italic", "truthset-italic-v3") else markdown
+    md = markdown_truthset if signed["kind"] in ("truthset-italic", "truthset-italic-v3", "truthset-italic-v4") else markdown
     return [(Path(HANDOFF) / name, md(signed, spec, run_header))]
 
 
