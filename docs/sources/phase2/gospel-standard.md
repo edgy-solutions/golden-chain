@@ -87,3 +87,20 @@ Chris downloaded vols. 38, 44 and 45 into the private corpus. They are never com
   - **Waits on Chris:** download it into the private corpus, as with these three.
   - The missing pp. 293–400 of vol. 45 are a gap in this scan, not in the volume. Another copy would be needed if the later evidence points there.
 - **Still no witness of record.**
+
+## Vol. 43 (1877), seen (C-9 continued), 2026-11-22
+
+Chris downloaded vol. 43 into the private corpus. It is not committed. The build agent viewed page images only, rendered with pypdfium2. It did not read the text layer and ran no OCR. Everything below is proposed for Chris to check from the pixels. [V page images, build agent]
+
+| vol. | year | file sha256 | bytes | PDF pages | scan |
+|---|---|---|---|---|---|
+| 43 | 1877 | `06f2ed7530e75d909384d852c4e75e8c7578666290eaddfd2b85e6593420849a` | 16 569 598 | 557 | folio = PDF − 1 through the November issue; index PDF 556–557, signature index pp. iii–iv |
+
+- **No index entry for the Articles.** The index (PDF 556–557) has no entry for the Articles of Faith, the Societies, or a notice.
+- **The November 1877 number is bound** without its wrapper. It opens at printed p. 465 ("NOVEMBER, 1877", No. 503, PDF 466) and ends with obituaries at p. 512. No notice about the Societies or their Articles appears in its pages; the last ten pages (PDF 504–513) were viewed whole.
+- **The announcement was on the wrapper.** Printed p. 553 (PDF 554), "MY FAREWELL. To the Spiritual Readers of the 'Gospel Standard'", signed J. Gadsby and dated Nov. 15th, 1877, opens: "As stated on our last wrapper, my connection with the 'Gospel Standard,' so far as any responsibility as to its contents goes, ceases with the present month."
+  - On p. 554 he says the magazine "in their hands" will lose none of its usefulness. The farewell itself does not name the Societies' Articles on the parts viewed.
+  - So the November 1877 announcement that the 1879 notice cites was a **wrapper** item, and the wrappers are not in this scan.
+- **Conclusion:** none of vols. 38, 43, 44 and 45, as scanned, prints the Articles as an indexed item or carries the 1877 announcement. The magazine scans are unlikely to give the witness.
+  - Proposed for the architect: look for a separate printing of the Articles by the Societies (a pamphlet or a printed Report of 1877–1878), or a later dated edition, rather than further magazine volumes. No new download is asked for until that is ruled.
+- **Still no witness of record.**
