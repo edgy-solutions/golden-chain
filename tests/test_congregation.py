@@ -669,5 +669,20 @@ def test_aw4_weigh_says_the_standards_differ_on_l6_only():
     assert "  not yet confirmed by the church" in lines
     assert "  confirmed by: Chris" in render_lines(ratified=True)
     corr = next(l for l in lines if l.startswith("  correction: "))
-    assert "@" not in corr and "http" not in corr
+    # Edited by ADR-0007 amendment 3 (AX2): the address Chris chose replaces "no @".
+    assert corr.count("corrections@golden-chain.org") == 1 and corr.count("@") == 1 and "http" not in corr
+
+
+def test_ax1_correction_line_names_exactly_the_chosen_address():
+    lines = render_lines()
+    corr = [l for l in lines if l.startswith("  correction: ")]
+    assert len(corr) == 1
+    line = corr[0]
+    assert line == "  correction: " + weigh.CORRECTION
+    assert line.count("corrections@golden-chain.org") == 1
+    assert line.count("@") == 1
+    assert "http" not in line
+    assert weigh.CORRECTION.startswith("The church may correct this page by writing to corrections@golden-chain.org. ")
+    assert weigh.CORRECTION.endswith("A correction is read against the church's own statement, signed, and then replaces "
+                                     "the entry; until then the entry stands as proposed.")
 

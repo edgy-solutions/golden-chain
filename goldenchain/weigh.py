@@ -53,8 +53,8 @@ CONSEQUENCE = {
 }
 
 
-# ADR-0007 C6: the fixed wording every Congregation page carries for how the church may correct it.
-CORRECTION = ("The church may correct this page by writing to the maintainers of Golden Chain. "
+# ADR-0007 C6 (C6'', amendment 3): the fixed wording every Congregation page carries for how the church may correct it.
+CORRECTION = ("The church may correct this page by writing to corrections@golden-chain.org. "
               "A correction is read against the church's own statement, signed, and then replaces the entry; "
               "until then the entry stands as proposed.")
 NOT_RECORDED = "not recorded"
