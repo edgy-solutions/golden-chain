@@ -104,3 +104,28 @@ Chris downloaded vol. 43 into the private corpus. It is not committed. The build
 - **Conclusion:** none of vols. 38, 43, 44 and 45, as scanned, prints the Articles as an indexed item or carries the 1877 announcement. The magazine scans are unlikely to give the witness.
   - Proposed for the architect: look for a separate printing of the Articles by the Societies (a pamphlet or a printed Report of 1877–1878), or a later dated edition, rather than further magazine volumes. No new download is asked for until that is ruled.
 - **Still no witness of record.**
+
+## Ruling on report 23 (A-4), worked 2026-11-22
+
+Lead 3 followed: catalogue searches only. Nothing was downloaded. [R catalogue records; no page viewed]
+
+| Catalogue | Result |
+|---|---|
+| Jisc Library Hub Discover | HTTP 403 to automated access. Not retried. |
+| WorldCat | HTTP 429. Not retried. |
+| British Library catalogue | The query returned HTTP 400. Not retried. |
+| Internet Archive | Only a 1993 item. Nothing from the nineteenth century. |
+| Google Books | Two records, below. |
+
+- **1875, a separate printing, for churches and not by the Societies.** *Form of Trust Deed and Articles of Faith for Strict Baptist Churches. Revised* (London: J. Gadsby, Gospel Standard office, 18 Bouverie Street, 1875; 20 pp.; price sixpence). Google Books ID `9J6XTR8IeaoC`, marked full view; a BL copy is cited as `BL:A0026105450`. Its pages were not viewed.
+- **1970, the earliest record titled to the Societies.** "Articles of Faith and Rules", Google Books ID `LICvtwAACAAJ`, 30 pp., OCLC 23450531. Too late to be a witness for 1878–79.
+- **Nothing reachable covers 1878–1900.** WorldCat and Jisc would need someone with working access.
+
+**Lead 1, read as a lead only (ruling on report 23).** The ruling clears it to be read: it is a born-digital document, and the text-layer rule covers only OCR layers on scanned sources. It is modern and in copyright, so it is **never a witness and never quoted**. Nothing from it is stored in the repo. What it gives as leads, for checking against period witnesses:
+- Articles 1–31 were printed by John Gadsby in the mid-nineteenth century and were in their present form by 1872.
+- Articles 32–35 were agreed in May 1878 and passed in April 1879 at a general meeting of the Gospel Standard Societies.
+
+**What follows (proposed, not decided).**
+- The 1875 Gadsby printing is a **candidate witness for Articles 1–31 only**, if lead 1 is right that they were fixed by 1872. It cannot witness 32–35. Viewing it would need Chris's leave (A-4 allows no download).
+- The ruling notes Chris may ask the Gospel Standard Society directly for its earliest printing of the Articles as passed in 1879.
+- **Still no witness of record.**

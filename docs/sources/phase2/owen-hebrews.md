@@ -29,3 +29,9 @@ Tags: **[V]** seen on the page image by the build agent; **[R]** reported by a c
 ## Locator scheme (proposed)
 
 `Owen, Hebrews (Goold vol. N), Exerc. XXVIII §n, p. P` or `Owen, Hebrews (Goold vol. 23), on 8:6, p. P`.
+
+## Inclusion (ruling on report 23, A-5)
+
+- Owen's *Hebrews* in the Goold edition is **added to the ADR-0009 inclusion console** for Chris to sign: vol. 19 (Exercitations, incl. XXVIII) and vol. 23 (on Heb. 8). It is one Source node per edition (ADR-0009 open point 2).
+- **Not built.** The inclusion (backfill) console is built after console `eb961ddb1e582ed6` is signed and ingested. Until Chris signs, Owen is "not yet considered" and is no Source in the data.
+- The Owen/Gill justification passages (Gill II.5 p. 203; Owen vol. 19 p. 88) go to the phase-2 justification locus as **related** (ruling on report 23, A-1).

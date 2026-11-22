@@ -66,6 +66,7 @@ Sketch only, for review:
 ## Open points: resolved by the ruling (2026-11-22)
 
 1. **Backfill.** One backfill console that lists the existing sources (WCF, LBC, Gill, BSB, Augsburg and others), signed by Chris as a batch.
+   - *Added by the ruling on report 23 (A-5):* the same console also offers Owen, *Exposition of the Epistle to the Hebrews*, in the Goold edition (vols. 19 and 23), which is not yet a Source in the data. See [owen-hebrews.md](../sources/phase2/owen-hebrews.md).
 2. **Granularity.** Per Source node, so per edition where the data has separate editions.
 3. **Systematic works and Teachers.** The page states each work's role: Body, witness, or both.
 4. **Licensed but private texts.** Listed by title as "licensed, not reproduced", and **only once written permission is on file**.
