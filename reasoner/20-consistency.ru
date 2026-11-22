@@ -51,6 +51,7 @@ WHERE {
   ?pos gc:answers ?l .
   ?p2 gc:effectivelyHolds/gc:position/gc:answers ?l .
   FILTER NOT EXISTS { ?b gc:holds/gc:position/gc:answers ?l }
+  FILTER NOT EXISTS { ?b gc:exceptsLocus ?l }
   # ?h1 differs unless ?p2 effectively holds the same Position, modality and scope (absent = all).
   FILTER NOT EXISTS {
     ?p2 gc:effectivelyHolds ?h2 .

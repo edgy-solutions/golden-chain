@@ -568,6 +568,11 @@ def congregation_plan(signed, spec):
             if any(rest.values()):
                 raise Fail(f"row {rid}: \"as the parents\" needs the other fields empty")
             continue
+        if code == "keeps-both":
+            if any(rest.values()):
+                raise Fail(f"row {rid}: \"says nothing: keeps both\" takes no position, modality, scope, basis or where")
+            plan.setdefault("answered", []).append(row["label"])
+            continue
         if code == "no-alternative":
             if rest["instead"] or rest["modality"] or rest["scope"]:
                 raise Fail(f"row {rid}: \"excepts: no alternative stated\" takes no position, modality or scope")
@@ -680,6 +685,9 @@ def congregation_markdown(signed, spec, plan, run_header=None):
     else:
         out.append(f"- Nothing: {plan['why_not']}.")
     out += [f"- Not minted: {x}" for x in plan["skipped"]]
+    if plan.get("answered"):
+        out += ["", "## Answered, nothing minted", ""]
+        out += [f"- {x}: says nothing: keeps both (its standards differ here)" for x in plan["answered"]]
     out += ["", "## Questions for the architect", ""]
     out += [f"- {q}" for q in plan["questions"]] or ["- None."]
     return ("\n".join(out) + "\n").encode("utf-8")

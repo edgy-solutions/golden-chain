@@ -273,14 +273,25 @@ def congregation_header(g, body) -> list:
                  f"on {on if on is not None else NOT_RECORDED}, from: "
                  + ("; ".join(_source_text(g, x) for x in sorted(srcs, key=str)) or NOT_RECORDED))
     conf = g.value(body, GC.ratifiedBy)
-    lines.append("  confirmed by: " + (_label(g, conf) if conf is not None
-                                       else "not yet confirmed (every row here is proposed)"))
+    lines.append(f"  confirmed by: {_label(g, conf)}" if conf is not None
+                 else "  not yet confirmed by the church")
     lines.append("  correction: " + CORRECTION)
     return lines
 
 
 def congregation_cells(g, body) -> list:
-    return ["  cells:"] + [f"    - {rel(locus)}: {text}" for locus, text in cells(g, body)]
+    differ = set()  # Loci where parents-differ fires for this body (ADR-0007 C8')
+    for inc in g.subjects(GC.body, body):
+        if (inc, GC.rule, Literal("parents-differ")) in g:
+            for pos in g.objects(inc, GC.involves):
+                differ |= set(g.objects(pos, GC.answers))
+    items = cells(g, body)
+    out = ["  cells:"]
+    for n, (locus, text) in enumerate(items):
+        out.append(f"    - {rel(locus)}: {text}")
+        if locus in differ and (n + 1 == len(items) or items[n + 1][0] != locus):
+            out.append(f"    - {rel(locus)}: its standards differ here and its statement does not say")
+    return out
 
 
 def render_body(g, body, scope="members") -> str:

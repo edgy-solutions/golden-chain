@@ -12,7 +12,7 @@ Church section: name; basis (its published statement / personal knowledge only);
 archived URL; and the parents row (where the statement names them).
 Per Locus where any parent has an effective Holding: one row showing each parent's Position(s). If the speaking
 parents agree it offers "as the parents", "excepts: holds another" and "excepts: no alternative stated"; if they
-differ, "holds this one" and "excepts: no alternative stated". Per Locus where every parent is silent: one row,
+differ, "holds this one", "excepts: no alternative stated" and "says nothing: keeps both" (mints nothing). Per Locus where every parent is silent: one row,
 "own" (empty means unanswered). The optional fields (instead, modality, scope, basis, where) are required: false;
 tools/console/ingest.py checks the conditions for this kind.
 The spec records the parents' IRIs, each row's Locus IRI and each option's IRI, so ingest mints from IRIs.
@@ -42,10 +42,11 @@ SCOPE_ALL = URIRef(B + "vocab/scope/all")
 B_STATEMENT, B_PERSONAL = "its published statement", "personal knowledge only"
 ROW_STATEMENT, ROW_PERSONAL = "the church's statement", "personal knowledge"
 A_AS, A_ANOTHER, A_NONE, A_THIS = "as the parents", "excepts: holds another", "excepts: no alternative stated", "holds this one"
+A_KEEP = "says nothing: keeps both"
 A_AS_ONE = "as the parent"
 # Option -> code, recorded on the answer field so ingest never reads wording.
 CODES = {A_AS: "as-parents", A_AS_ONE: "as-parents", A_ANOTHER: "holds-another", A_THIS: "holds-this",
-         A_NONE: "no-alternative"}
+         A_NONE: "no-alternative", A_KEEP: "keeps-both"}
 MOD_ORDER = ["required", "taught", "tolerated", "forbidden"]
 SCOPE_ORDER = ["all", "officers", "members"]
 NONE_FIT = 'If none fits, choose "other, as written" and say what you mean.'
@@ -259,9 +260,9 @@ def form_spec(g, parents):
                      f"it drops that position and gives none. {NONE_FIT}")
         else:
             ctx.append(f"{the_parent.capitalize()} differ here.")
-            opts = [A_THIS, A_NONE]
-            plain = (f'{the_parent.capitalize()} differ here: choose "{A_THIS}" and pick the position below, or '
-                     f'"{A_NONE}". {NONE_FIT}')
+            opts = [A_THIS, A_NONE, A_KEEP]
+            plain = (f'{the_parent.capitalize()} differ here: choose "{A_THIS}" and pick the position below, '
+                     f'"{A_NONE}", or "{A_KEEP}" if its statement does not say which. {NONE_FIT}')
         ans = choice("answer", "radio", "Answer", opts, None, plain, True, codes={o: CODES[o] for o in opts})
         speak.append({**base, "context": ctx, "fields": [ans] + extra_fields(positions, mods, scopes, instead=True)})
     sections = [church_section(parents, plabels)]

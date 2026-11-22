@@ -146,9 +146,11 @@ def test_av2_parents_differ_fires_on_l6_only():
     assert differs(derived(fixture())) == {"l6"}
 
 
-def test_av2_parents_differ_still_fires_on_an_excepted_locus():
+def test_av2_second_clause_superseded_by_aw1_parents_differ_does_not_fire_on_an_excepted_locus():
+    """AV2's second clause (parents-differ still fires on an excepted Locus) stays on record in the ADR;
+    amendment 2 (C2', AW1) supersedes it: an exception clears parents-differ there."""
     g = graph(parents_ttl(), parent_holdings(), church_ttl(except_l4=True))
-    assert differs(derived(g)) == {"l4", "l6"}
+    assert differs(derived(g)) == {"l6"}
 
 
 # ---- AV3 --------------------------------------------------------------------------------------------
@@ -202,14 +204,16 @@ def test_av4_weigh_renders_the_congregation():
     assert "Example Statement of Faith (https://example.org/statement, read 2026-11-20, archived " \
            "https://example.org/archive/statement)" in entered
     assert "personal knowledge (Chris)" in entered
-    assert "  confirmed by: not yet confirmed (every row here is proposed)" in lines
+    assert "  not yet confirmed by the church" in lines
     assert "  correction: " + weigh.CORRECTION in lines
     cells = lines[lines.index("  cells:") + 1:]
     assert cells == [
         "    - locus/l1: inherited from body/p1", "    - locus/l1: inherited from body/p2",
         "    - locus/l2: own (statement, Art. 2)", "    - locus/l3: excepted, unknown",
         "    - locus/l4: own (statement, Art. 4)", "    - locus/l5: own (personal knowledge)",
-        "    - locus/l6: inherited from body/p1", "    - locus/l6: inherited from body/p2"]
+        "    - locus/l6: inherited from body/p1", "    - locus/l6: inherited from body/p2",
+        # Added under ADR-0007 amendment 2, C8' (ruling on report 21, C7-L6); AW5's edit list missed it.
+        "    - locus/l6: its standards differ here and its statement does not say"]
     g2 = gc_ingest.union(derived(fixture(ratified=True), plumb_for({i: "second" for i in range(1, 7)})))
     assert "  confirmed by: Chris" in weigh.render_body(g2, U(CB)).split("\n")
 
@@ -333,7 +337,8 @@ def test_av7_spec_passes_every_build_check_and_is_built_from_the_data():
     assert [r for r in rows if r.startswith("locus.")] == [f"locus.l{i}" for i in (1, 2, 3, 4, 6, 5)]
     agree, differ = rows["locus.l1"]["fields"][0], rows["locus.l4"]["fields"][0]
     assert agree["options"] == ["as the parents", "excepts: holds another", "excepts: no alternative stated"]
-    assert differ["options"] == ["holds this one", "excepts: no alternative stated"]
+    # Third answer added under ADR-0007 amendment 2, C7' (ruling on report 21, C7-L6); AW5's edit list missed it.
+    assert differ["options"] == ["holds this one", "excepts: no alternative stated", "says nothing: keeps both"]
     assert "differ here" in differ["plain"]
     assert any("Answer A 1 (" in c and "Parent 1 holds" in c for c in rows["locus.l1"]["context"])
     assert rows["locus.l5"]["fields"][0]["id"] == "own"
@@ -588,3 +593,81 @@ def test_jena_and_rdflib_agree_on_exceptsLocus(tmp_path):
     with fuseki.serve() as srv:
         rows = srv.select("SELECT ?b ?h WHERE { GRAPH ?g { ?b <" + str(GC.effectivelyHolds) + "> ?h } }")
     assert {(r["b"]["value"], r["h"]["value"]) for r in rows} == want
+
+
+# ---- AW1-AW4 (ADR-0007 amendment 2) ---------------------------------------------------------------------
+
+def render_lines(**kw):
+    g = gc_ingest.union(derived(fixture(**kw), plumb_for({i: "second" for i in range(1, 7)})))
+    return weigh.render_body(g, U(CB)).split(chr(10))
+
+
+def test_aw1_an_exception_clears_parents_differ_and_the_cell_stays_unknown():
+    g = graph(parents_ttl(), parent_holdings(), church_ttl(except_l4=True))
+    assert differs(derived(g)) == {"l6"}
+    assert differs(derived(fixture())) == {"l6"}  # AV2's first clause holds
+    gu = gc_ingest.union(derived(fixture(except_l4=True), plumb_for({i: "second" for i in range(1, 7)})))
+    lines = weigh.render_body(gu, U(CB)).split(chr(10))
+    assert "    - locus/l4: excepted, unknown" in lines
+
+
+def test_aw2_differ_rows_offer_the_three_answers_in_order():
+    spec = spec_of()
+    rows = rows_of(spec)
+    for rid in ("locus.l4", "locus.l6"):
+        f = next(f for f in rows[rid]["fields"] if f["id"] == "answer")
+        assert f["options"] == ["holds this one", "excepts: no alternative stated", "says nothing: keeps both"]
+        assert [f["codes"][o] for o in f["options"]] == ["holds-this", "no-alternative", "keeps-both"]
+        assert all(o in f["plain"] for o in f["options"])
+    f1 = next(f for f in rows["locus.l1"]["fields"] if f["id"] == "answer")
+    assert f1["options"] == ["as the parents", "excepts: holds another", "excepts: no alternative stated"]
+    assert "own" in {f["id"] for f in rows["locus.l5"]["fields"]}
+
+
+def test_aw3_keeps_both_ingests_and_mints_nothing(sit):
+    ans = full_answers(sit["spec"])
+    ans["locus.l6"] = {"answer": "says nothing: keeps both"}
+    sign(sit, ans, states={})
+    ttl = sit["dir"] / "church.ttl"
+    g = graph(parents_ttl(), parent_holdings())
+    g.parse(ttl, format="turtle")
+    assert report(g)[0] == []
+    d = derived(g)
+    assert holdings_of(d, CB) == holdings_of(derived(fixture()), CB)
+    assert differs(d) == {"l6"}
+    t = ttl.read_text(encoding="utf-8")
+    assert "l6" not in t
+    assert t.count("gc:proposedBy <agent/chris>") == 1 + 4
+    md = next((sit["dir"] / "handoff").glob("SIGNED_congregation_*.md")).read_text(encoding="utf-8")
+    assert "## Answered, nothing minted" in md
+    after = md.split("## Answered, nothing minted")[1]
+    assert md.index("## What this record mints") < md.index("## Answered, nothing minted")         < md.index("## Questions for the architect")
+    assert "says nothing: keeps both (its standards differ here)" in after.split("## Questions")[0]
+    assert "keeps both" not in after.split("## Questions for the architect")[1]
+
+
+@pytest.mark.parametrize("field", ["instead", "modality", "scope", "basis", "where"])
+def test_aw3_keeps_both_with_a_field_filled_is_refused(sit, field):
+    ans = full_answers(sit["spec"])
+    filled = {"instead": "Answer A 6", "modality": pick(sit["spec"], "locus.l6", "modality", "taught"),
+              "scope": pick(sit["spec"], "locus.l6", "scope", "all"),
+              "basis": "personal knowledge", "where": "Art. 6"}
+    ans["locus.l6"] = {"answer": "says nothing: keeps both", field: filled[field]}
+    with pytest.raises(Fail):
+        sign(sit, ans, states={})
+    assert not (sit["dir"] / "church.ttl").exists()
+    assert not (sit["dir"] / "signed").exists()
+    assert not (sit["dir"] / "handoff").exists()
+
+
+def test_aw4_weigh_says_the_standards_differ_on_l6_only():
+    lines = render_lines()
+    cells = lines[lines.index("  cells:") + 1:]
+    assert cells[-3:] == ["    - locus/l6: inherited from body/p1", "    - locus/l6: inherited from body/p2",
+                          "    - locus/l6: its standards differ here and its statement does not say"]
+    assert sum("its standards differ here" in c for c in cells) == 1
+    assert "  not yet confirmed by the church" in lines
+    assert "  confirmed by: Chris" in render_lines(ratified=True)
+    corr = next(l for l in lines if l.startswith("  correction: "))
+    assert "@" not in corr and "http" not in corr
+
