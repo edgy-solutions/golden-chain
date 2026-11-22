@@ -433,3 +433,63 @@ The architect's text is in [../handoff/RULING_report_11.md](../handoff/RULING_re
    - The edge carries a note: (a), as Reformed theology holds it, includes representation. The exclusion is between "instrument" and "representation only".
    - §6 remains unratified, so nothing is derived from the edge. Chris signs his stance on (a) explicitly on the follow-up console.
 6. **Other users: deferred.** `unchurches` is the plumb-line's standard only. Whether a later user may set their own is a phase-3 question, under a future Revision 3.
+
+## Revision 3 (proposed, 2026-11-22; the architect's draft on Chris's decision of 2026-11-22, item 1)
+
+- **Status:** proposed, sent up for review. **Nothing is built until it is ratified.**
+- **Source:** [../handoff/RULING_site_ground_2026-11-22.md](../handoff/RULING_site_ground_2026-11-22.md), filed verbatim.
+- **Answers:** R2.6 (6) and R2.7 (6), which deferred "other users" to a Revision 3.
+
+### R3.1 The site's ground and its standard
+
+The site rests on three commitments: (1) Scripture as the sole standard, with every Position carrying proof texts; (2) a stated scope of the published documents included (ADR-0009, proposed); (3) accuracy to each source's own words and page.
+
+- `body/plumb-line` **is** the site's standard. Chris authors and signs it, as now.
+- The site's judgments come from `body/plumb-line` and from nothing else.
+- **Display wording:** "by this site's standard".
+  - This changes code text that reads "by this plumb-line's standard" today: `goldenchain/unchurches.py` (the HEADING and the three class wordings of R2.7 (3)) and the plumb-line console's help text (`tools/console/specs/plumb_line.py`).
+  - Weigh's members and officers outputs then change in those words only. Their new hashes are locked before the change is built.
+
+### R3.2 The humility statement
+
+- A standing statement says that the standard is fallible, that Scripture is its judge, and that the witnesses are shown so the reader can test it.
+- **Its text is Chris's**, written and signed on a console. No model drafts it. The console row is an empty free-text field with a plain-words line naming the three things the architect asked it to say. It offers no suggested wording.
+- **Where it is stored (proposed):** a `gc:SourceWork` `<source/plumb-line/standard-statement>`, with the text as an `rdfs:comment`, `dcterms:creator <agent/chris>`, `dcterms:created` and the signed record's name, in `data/plumb-line.ttl`. `body/plumb-line` links to it with `dcterms:source`.
+- **Where it appears:** wherever the site's standard is applied. That means weigh's output header when weighed from `body/plumb-line`, and directly above each "Not a church by this site's standard" listing.
+- **Until it is signed (proposed):** those places print the line "The site's statement of its standard is not yet signed." Judgments still render.
+  - **Q1:** or should site-standard judgments stay unrendered until the statement is signed?
+
+### R3.3 Comparison views
+
+- Weigh may also be run from another Body's Holdings, read as user stances by the §5a mapping, or from a visitor's own stances.
+- Every such output is labelled at its head as a **comparison view**, naming what it was weighed from, for example "Comparison view: weighed from the Holdings of <Body label>, not by this site's standard". A visitor's run says "weighed from your stances".
+- A comparison view never shows the site's derived judgments (R3.4) as its own. It shows them only under their own label, if at all.
+  - **Q2:** in a comparison view from Body B, are B's stated judgments (R3.4) applied as exclusions? Proposed: no. They are listed beside B, labelled "stated by B", and nothing is excluded except by the site's standard.
+- How a visitor's stances are entered, kept or kept private is phase-3 work (the phase-3 ADR, proposed). In phase 2 a comparison view runs only from a Body in the data.
+
+### R3.4 Stated and derived judgments
+
+- **Stated:** any Body may carry `gc:unchurches`, with a `dcterms:source`, when the source itself says that holders of a Position are not a church.
+  - It is recorded only from the source's own words, with a locator (the warrant rule, item 3, applied here too). No model infers it, under rule 3.
+  - **Shape (proposed):** `<body/X> gc:unchurches <position/P>`, an object property, with provenance on an `owl:Axiom` (`dcterms:source`, `gc:locator`, `gc:status`, `gc:proposedBy`) on the pattern of the `gc:exceptsLocus` axioms (ADR-0007 C1).
+  - **The plumb-line's flags migrate to this form:** `<body/plumb-line> gc:unchurches <position/P>`. R2.3's shapes 1 and 2 (plumb-line holds P `forbidden`; P's Locus is not third tier) stay for the plumb-line's statements. For any other Body, the proposed shape requires only the axiom's source and locator.
+  - **Q3:** migrate the existing per-Position boolean, or keep it for the plumb-line and add the object property for other Bodies only? Migrating keeps one form. Keeping avoids touching signed plumb-line data. The data change would need its own signed record either way.
+- **Derived:** the exclusion that `goldenchain/unchurches.py` computes, a Body excluded because an effective Holding is on a Position the site's standard flags. Only the site's standard derives judgments. A Body's stated judgment derives nothing.
+- **Displayed distinctly:**
+  - a derived judgment reads "not a church by this site's standard", with its derivation as now (R2.3), and the humility statement above it;
+  - a stated judgment reads "<Body label> states that holders of <Position label> are not a church (<source>, <locator>)", on that Body's own page. It is never in the site's exclusion list.
+  - Neither wording is merged into the other, and no page shows a stated judgment as the site's.
+
+### R3.5 Verification (to be locked before any build, if ratified)
+
+Sketch only, for review:
+- weigh from `body/plumb-line` is byte-identical except for the "this site's standard" wording and the humility line, with new hashes locked first;
+- a comparison view from a fixture Body carries the label at its head and lists no site judgment as its own;
+- a stated `gc:unchurches` without a source or locator is a SHACL violation;
+- a stated judgment by a non-plumb-line Body excludes nothing from the site's ranking;
+- no humility text appears in the data until a signed record supplies it.
+
+### R3.6 Open points
+
+Q1–Q3 above, and:
+- **Q4.** Whether R2.7 (3)'s wording by class keeps its three forms with "site's" for "plumb-line's", or is reworded. Proposed: keep the three forms and change only that word.

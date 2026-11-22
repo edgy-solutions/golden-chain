@@ -36,6 +36,25 @@ standard".
 Send all four up for review.
 ```
 
-## Drafts sent up
+## Drafts sent up (2026-11-22)
 
-(Filled in when drafted.)
+All four are proposals for review. Nothing is built.
+
+1. **ADR-0003 Revision 3**, in [../adr/0003-controlled-vocabularies-and-scoring.md](../adr/0003-controlled-vocabularies-and-scoring.md):
+   - R3.1 the site's standard and the wording "by this site's standard";
+   - R3.2 the humility statement (Chris's text, on a console; no model wording);
+   - R3.3 comparison views;
+   - R3.4 stated and derived `gc:unchurches`.
+   - Questions Q1–Q4.
+2. **ADR-0009**, [../adr/0009-scope-of-documents.md](../adr/0009-scope-of-documents.md): what is in scope, who decides (the build agent proposes, the architect rules on criteria, Chris signs inclusion), and the Documents included page. Four open points.
+3. **Warrant**: the recording rule, plus row 10 of [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md).
+   - WCF 1.6 is located on the 1647 Tyler page (leaf 13 onto leaf 14).
+   - LBC 1.6 is located in the 1719 printing (pp. 29–30). The 1677 facsimile page, the witness of record, is not read.
+   - No Position wording is proposed.
+4. **Phase-3 ADR**, [../adr/0010-church-accounts.md](../adr/0010-church-accounts.md):
+   - accounts and who speaks by polity;
+   - verification recorded;
+   - statement and testimony kept separate;
+   - testimony private by default;
+   - the private-store split.
+   - **"The three gates" are not defined anywhere in the repo**, so they are asked, not guessed.

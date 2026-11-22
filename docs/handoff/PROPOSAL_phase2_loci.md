@@ -146,6 +146,25 @@ source, is a decision, not a gap.
 **Relation to row 1:** row 9 asks "whether", and row 1 asks "how and when".
 They may share sources.
 
+## 10. Warrant (added 2026-11-22; the site's-ground draft, item 3)
+
+**Question.** What does the source claim as its rule of faith, and how does it say doctrine is drawn from that rule?
+
+**The recording rule (the architect's draft, item 3; build nothing until ratified).**
+- A warrant is recorded only from the source's own claim, with a locator.
+- Where a source states no warrant, none is recorded: unstated stays unstated.
+- An opponent's account of a source's warrant is the opponent's Argument, with the opponent's locator. It is never recorded as the source's own claim.
+
+| Candidate Position | Where to look | Tag |
+|---|---|---|
+| 10a. *(wording left to the architect and Chris; see the note)* | WCF 1.6. The 1647 Tyler printing (IA `humbleadviceofas00west`), p. [3] (leaf 13) running onto the next page (leaf 14, whose folio reads "[6]" in the scan, where [4] is expected), notes m, n, o in the margin. | located on the page [V, build agent]; content unsigned |
+| 10b. *(as 10a)* | LBC 1.6. The witness of record is the 1677 facsimile (2000), which the build agent cannot view. Located instead in the 1719 printing (IA `bim_eighteenth-century_a-confession-of-faith-p_1719`), pp. 29–30 (leaves 17–18), sig. B3, with notes (i), (k), (l) at the page foot. | 1719 located on the page [V, build agent]; 1677 page **not read** |
+
+**Note.**
+- **No wording is proposed for the Positions.** The two paragraphs are worded differently where they say how doctrine is drawn from Scripture. Whether that makes one Position or two is a reading of the sources, so it is for Chris to sign and the architect to rule. No transcription is stored (the LBC rule), and no model wording is offered for it (rule 3).
+- **The 1677 page** needs Chris's photograph of the facsimile, or a console row, before LBC 1.6 can be cited. The 1719 locator serves only to locate it.
+- **The folio "[6]"** on WCF leaf 14 is how the scan reads at the build agent's resolution. Chris should check it from the pixels before it is used as a locator.
+
 ## Next steps on ratification
 
 1. The architect rewords the questions and Positions, and decides the splits
