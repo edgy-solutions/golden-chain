@@ -205,6 +205,21 @@ That passage pair is noted for the phase-2 justification locus as **related**, n
   | ch28_p1-2.jpg | lbc1677_ch28_1 |
   | ch29_p1-2.jpg, ch29_p2-4.jpg | lbc1677_ch29_1, _2 |
 
+## Addendum: truth set v4 signed and ingested (2026-11-22)
+
+- Chris signed v4 build-a `8e173740c37b714d`, 184 rows. His first export left w077 unanswered, and ingest refused it as not complete. He answered w077 and exported again; only that row changed.
+- Ingested with `--code-at 9028ac1` (the build's clean start commit; the console code has changed since). The record is [SIGNED_truthset_italic_v4_8e173740c37b714d.md](SIGNED_truthset_italic_v4_8e173740c37b714d.md), the record named in [POPULATION_truthset_italic_v4_8e173740.md](POPULATION_truthset_italic_v4_8e173740.md).
+- **Scored against the lock** (`~/.golden-chain/italic-v4-predictions-locked.txt`). Strata come from the run's candidates.json.
+  - No row is held out: there are no abstain or fault rows, and no model saw a v4 crop. So the figures with and without holding out are the same.
+
+  | Prediction | Signed | Result |
+  |---|---|---|
+  | IV7 slanted → italic ≥ 90 % | 70 of 75 (93.3 %) | **held** |
+  | IV8 upright → roman ≥ 97 % | 71 of 71 (100 %) | **held** |
+  | edge (no prediction) | 38 roman, 0 italic | — |
+
+- Chris's notes: "hyphenated" on 6 words (4 slanted italic, 2 upright roman); "greek" on 1 (slanted, italic); a superscript footnote marker on 1 (slanted, roman).
+
 ## Questions
 
 **For the architect:**
@@ -217,4 +232,3 @@ That passage pair is noted for the phase-2 justification locus as **related**, n
 **For Chris:**
 - **C-1.** Sign `eb961ddb1e582ed6` (in progress), then sitting 2.
 - **C-2.** The LBC 1677 console (photo mapping above): it includes the 1.6 row and the WCF leaf-14 folio.
-- **Standing:** v4 build-a `8e173740c37b714d`.

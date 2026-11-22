@@ -9,7 +9,8 @@
   - Correction contact chosen: `corrections@golden-chain.org`. Not yet on the C6' line (AW4 forbids "@"; waits on a ruling).
   - Suite 805 passed. Ingest 3 warnings. Weigh unchanged.
   - **Waiting on the architect:** report 23's A-1 to A-5.
-  - **Waiting on Chris:** sign `eb961ddb1e582ed6` (then ingest it); go-ahead for the LBC 1677 console; v4 build-a `8e173740c37b714d`.
+  - **Truth set v4 signed and ingested** ([SIGNED_truthset_italic_v4_8e173740c37b714d.md](SIGNED_truthset_italic_v4_8e173740c37b714d.md); `--code-at 9028ac1`). IV7 held (70/75 = 93.3 %), IV8 held (71/71); edge 38 roman.
+  - **Waiting on Chris:** sign `eb961ddb1e582ed6` (then ingest it); go-ahead for the LBC 1677 console.
 - **Before it (2026-11-22): ruling on report 21 worked; site's-ground drafts sent up** ([REPORT_phase1_22.md](REPORT_phase1_22.md); [RULING_report_21.md](RULING_report_21.md); [RULING_site_ground_2026-11-22.md](RULING_site_ground_2026-11-22.md)).
   - Commits:
     - `18f4de3` (C-9, vol. 43: no witness);
