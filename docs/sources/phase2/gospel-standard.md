@@ -64,3 +64,26 @@ The ruling: "cite the earliest printing you can put a page image to; record the 
   - The named amenders are also more than 70 years dead (W. Gadsby d. 1844, J. C. Philpot d. 1869, J. M'Kenzie d. 1849 [R]). So a personal-author reading gives the same result.
   - US: published before 1930.
   - Footnotes or wording added after about 1955 may still be in copyright and are not the witness.
+
+## The three volumes, seen (C-9), 2026-11-22
+
+Chris downloaded vols. 38, 44 and 45 into the private corpus. They are never committed. The build agent viewed page images only, rendered with pypdfium2 at scale 2. It did not read the PDF text layer and ran no OCR. Everything below is proposed for Chris to check from the pixels. [V page images, build agent]
+
+| vol. | year | file sha256 | bytes | PDF pages | scan |
+|---|---|---|---|---|---|
+| 38 | 1872 | `1528407dca3be63bd0ddf3c78763eaeafb626ebe79aabf5da21a5a0a94628b09` | 15 471 049 | 529 | continuous in a folio sample every 50 pages |
+| 44 | 1878 | `8af08322574fcf455ae4d6372504eaa6f32623892b09d538b4784c5aa9ad1d80` | 15 737 521 | 574 | continuous; the folio runs 2 behind the PDF after about PDF 500 |
+| 45 | 1879 | `e956c3abd72f044f3fd1313a4e4d99ff94a25580b5ac03af709432f57fe7b4d9` | 12 898 966 | 453 | **printed pp. 293–400 are missing.** PDF 293 is printed p. 292 and PDF 294 is p. 401. |
+
+- **No volume indexes the Articles.** The volume indexes are at the back: vol. 38 PDF 527–528, vol. 44 PDF 573–574, vol. 45 PDF 452–453. None has an entry for the Articles of Faith, nor for the Societies' Articles under any heading seen.
+  - So they are not printed as an indexed item in 1872, 1878 or 1879.
+  - They may still sit unindexed in a notice or a report, or in the monthly wrappers, which bound volumes often leave out.
+  - None of the three can be the witness on present evidence.
+- **A dated mention of the Articles.** Vol. 45, printed p. 292 (PDF 293), "NOTICE", signed "J. G.":
+  - it says that in October 1877 the magazine was given up "to our Societies", with the reservation that "should the Societies at any time depart from their Articles of Faith" it might be taken back;
+  - and that the Report of the meeting was circulated, and an announcement made "in the 'G. S.' in November, 1877".
+  - So the Societies had Articles of Faith by October 1877. That is consistent with the 1872 or 1878 reports only if the 1878 date is of a revision, and the conflict stays open.
+- **Next candidate:** vol. 43 (1877), the November 1877 issue. It is on the same biblicalstudies.org.uk index (vols. 36–48), at `pdf/gospel-standard/gospel-standard-vol-43-1877.pdf` by the listed pattern; the URL is not verified.
+  - **Waits on Chris:** download it into the private corpus, as with these three.
+  - The missing pp. 293–400 of vol. 45 are a gap in this scan, not in the volume. Another copy would be needed if the later evidence points there.
+- **Still no witness of record.**
