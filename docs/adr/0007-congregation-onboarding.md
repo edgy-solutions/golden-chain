@@ -159,3 +159,130 @@ Nothing is built yet. The next step is a lock of the Verification section above,
 - the page statement.
 The build follows in a separate commit.
 
+## Verification, as amended: the lock (2026-11-22T14:50Z, before any ADR-0007 code; ruling on report 20, A-9)
+
+Locked at golden-chain 5285db3 by this commit. It is the authority for the build and is never edited; a miss is
+recorded beside it. Synthetic fixtures only: no real Congregation is minted, and no data/*.ttl file is written or
+changed, until Chris signs one.
+
+### The build choices
+
+These are the build agent's proposals where the ADR and its answers leave a choice. Each is open to the architect;
+the ones marked Q are asked in the report.
+
+- **C1.** `gc:exceptsLocus` (domain `gc:Congregation`, range `gc:Locus`) goes in ontology/core.ttl. Its provenance
+  rides on an `owl:Axiom` `<axiom/exceptsLocus/{slug}/{locus-tail}>`, the pattern of the `gc:asPrinted` axioms:
+  `dcterms:source`, `gc:locator` (when from a statement), `gc:status`, `gc:proposedBy`.
+- **C2.** reasoner/10-inheritance.ru: a Body on the path that excepts Locus L blocks L exactly as a Holding on L
+  does (the parent's Holdings on L are dropped and none are added). reasoner/20-consistency.ru is unchanged. So on
+  a Locus where both parents speak and differ, an exception without an alternative still leaves the Congregation
+  inconsistent (parents-differ): answer 2 says "unless it asserts its own Holdings", and an exception is not a
+  Holding. **Q:** should an exception clear parents-differ?
+- **C3. Sources (answer 3).**
+  - A statement is `<source/congregation/{slug}/statement> a gc:SourceWork`, with `rdfs:label` (title),
+    `rdfs:seeAlso <URL>`, `gc:readOn` (xsd:date) and `gc:archivedCopy <archived URL>`. No text is stored.
+  - Personal knowledge is `<source/congregation/{slug}/personal-knowledge> a gc:PersonalKnowledge` (new,
+    `rdfs:subClassOf gc:Source`), with `dcterms:creator <agent/chris>` and `dcterms:created` (date).
+  - Every Congregation Holding and exception axiom has a `dcterms:source` that is one of the two. A
+    statement-based one also has `gc:locator`.
+- **C4. Status.** Answer 3 governs Decision 4 and the form's "gc:ratifiedBy <agent/chris>". Every Holding, every
+  exception and the Congregation itself are written `gc:status` proposed and `gc:proposedBy <agent/chris>`, with
+  no `gc:ratifiedBy`. Confirmation is a later act and is not built. When a Congregation carries `gc:ratifiedBy`,
+  the page names that agent as the confirmer. **Q:** does Chris's signature on the form count as the confirmation?
+- **C5. The Congregation node.**
+  - `rdfs:label` (public name and place);
+  - `gc:childOf` each parent;
+  - `dcterms:source` and `gc:locator` for where the statement names its parents (or the personal-knowledge source);
+  - `gc:proposedBy`;
+  - `dcterms:created` (the signing date).
+
+  The TTL file's header comment names the signed record and the build hash (the plumb-line pattern). The file is
+  data/congregation-{slug}.ttl (ingest globs data/*.ttl). Only console ingest writes it, with --write, from a
+  signed export, and it is never overwritten.
+- **C6. The page statement (answer 4).** Fixed wording, built from data:
+  - "entered by: <label of gc:proposedBy>, on <dcterms:created>, from: <each source: title (URL, read <date>,
+    archived <URL>) | personal knowledge (<creator label>)>"
+  - "confirmed by: <label of gc:ratifiedBy> | not yet confirmed (every row here is proposed)"
+  - "correction: The church may correct this page by writing to the maintainers of Golden Chain. A correction is
+    read against the church's own statement, signed, and then replaces the entry; until then the entry stands as
+    proposed."
+
+  **Q:** the correction route (the text has no contact detail yet).
+- **C7. The console form, kind `congregation`** (the ADR table, amended).
+  - Parents are given when the form is built (one or more Bodies in the data) and are shown by label.
+  - A "modality" select is added to every row that writes a Holding. A Holding needs one, and the ADR table
+    lacked it.
+  - Every row that writes a Holding or an exception has a "basis" radio (the church's statement / personal
+    knowledge). "Where" is required when the basis is the statement.
+  - Church level: name; statement title, URL, read date and archived URL; a basis radio (published statement /
+    personal knowledge only).
+  - Optional fields use the console's `required: false`. Ingest checks the conditions for this kind.
+  - Where the parents agree on a Locus, the row offers "as the parents", "excepts: holds another" and "excepts: no
+    alternative stated".
+  - Where they differ, it offers "holds this one" (choose below) and "excepts: no alternative stated", and its
+    plain-words line says the parents differ.
+  - Each Locus where every parent is silent gets one row: a select with `empty_means` "unanswered".
+  - No row text is written by a model. Every label comes from `rdfs:label` in the data.
+- **C8. Weigh.**
+  - `render_body` adds lines for a `gc:Congregation` only (ranked or excluded):
+    - "subscribes to: <parents>";
+    - "exceptions: N", with each excepted Locus's notation and label;
+    - the C6 statement;
+    - a "cells:" block, one line per Locus where the Congregation has an effective Holding or an exception, in
+      Locus IRI order. Each line reads "inherited from <parent>", "own (statement, <locator>)", "own (personal
+      knowledge)" or "excepted, unknown".
+  - In the excluded block, a reason from an inherited Holding says "inherited from <parent>" beside its source.
+  - No scoring rule changes. Every other Body renders byte-identically.
+
+### Predictions (each a born test unless stated)
+
+- **AV1. Effective Holdings.**
+  - The synthetic world has parents P1 and P2 and Loci L1..L6:
+    - L1: both parents agree; the Congregation C says nothing.
+    - L2: both agree; C holds another Position from its statement (Decision 2).
+    - L3: both agree; C excepts with no alternative (Decision 3).
+    - L4: the parents differ; C holds its own.
+    - L5: both parents are silent; C holds a Position from personal knowledge.
+    - L6: the parents differ; C says nothing.
+  - C's effective Holdings are exactly: P1's and P2's on L1 and L6; C's own on L2, L4 and L5; none on L3.
+- **AV2. Consistency.**
+  - parents-differ fires for C on L6 only. It does not fire on L4, which C overrides, or on L3, where the parents
+    agree.
+  - A second fixture, with the parents differing on an excepted Locus, still fires parents-differ there (C2 as
+    built).
+- **AV3. Coverage.**
+  - C's coverage denominator includes L3's weight, and its numerator does not.
+  - L3 adds no cost and no break, and is never shown as tolerated.
+  - A one-parent fixture with and without the exception differs in coverage by exactly L3's weight over the
+    denominator.
+- **AV4. Weigh renders for C:**
+  - "inherited from" on L1 and L6, naming each parent;
+  - "own (statement, <locator>)" on L2 and L4;
+  - "own (personal knowledge)" on L5;
+  - "excepted, unknown" on L3;
+  - the header lines and the C6 statement, with "not yet confirmed";
+  - with `gc:ratifiedBy` added in the fixture, "confirmed by: <label>".
+- **AV5.** An exclusion triggered by an inherited Holding names the parent's Holding's source and says "inherited
+  from".
+- **AV6. SHACL.** There is a violation for each of:
+  - (a) an exception and an own Holding on the same Locus;
+  - (b) `gc:exceptsLocus` on a non-Congregation;
+  - (c) a Congregation Holding without `dcterms:source`;
+  - (d) an exception without its axiom's source;
+  - (e) a statement-based Holding without `gc:locator`.
+
+  The AV1 fixture conforms.
+- **AV7. Console.**
+  - The spec built from the AV1 parents passes every build check, the plain-words check included.
+  - Ingest of a synthetic signed export, with --ttl-out to tmp, writes TTL that, loaded beside the fixture parents,
+    reproduces AV1.
+  - "Other, as written" mints nothing for that row and is listed as a question in the signed record.
+  - An export that breaks a C7 condition is refused.
+  - Without --ttl-out and --write, nothing is written under data/.
+- **AV8. Real data untouched.**
+  - Weigh is byte-identical (members 71c14a5d187d, officers c8fe9e910b5a).
+  - Ingest shows 0 violations, and the tests/predictions.py counts are unchanged.
+  - No data/*.ttl file changes.
+  - The full suite passes. No existing test is edited, except one that pins KINDS or the ontology's property list
+    (each is named).
+
