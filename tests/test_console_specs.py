@@ -939,13 +939,15 @@ def test_template_version_is_7():
 
 # ---- lbc1677 --------------------------------------------------------------------------------------
 
-def lbc_photos(tmp_path, ext="png", extra=None):
+def lbc_photos(tmp_path, ext="png", extra=None, wcf="png"):
     d = tmp_path / "photos"
     d.mkdir(exist_ok=True)
     for g in lbc1677.GROUPS:
         for n in range(1, (extra or {}).get(g, 1) + 1):
             im = Image.new("RGB", (30, 20), (10 * n, 90, 160))
             im.save(d / f"lbc1677_{g}_{n}.{ext}", "JPEG" if ext in ("jpg", "jpeg") else "PNG")
+    if wcf:
+        Image.new("RGB", (30, 20), (200, 50, 50)).save(d / f"wcf1647_leaf14.{wcf}", "JPEG" if wcf in ("jpg", "jpeg") else "PNG")
     return d
 
 
@@ -964,11 +966,12 @@ def test_lbc1677_builds_checks_and_renders(tmp_path, monkeypatch):
 def test_lbc1677_row_counts_and_plain_on_every_field(tmp_path):
     spec = lbc_spec(tmp_path)
     rows = [r for s in spec["sections"] for r in s["rows"]]
-    assert len(rows) == 21
+    assert len(rows) == 23
+    assert len(spec["sections"]) == 8 and sum(len(r["fields"]) for r in rows) == 30
     assert len([r for r in rows if r["id"].endswith(".unlisted")]) == 5
     assert len([r for r in rows if r["id"] == "witness"]) == 1
     assert all(f["plain"].strip() for r in rows for f in r["fields"])
-    assert [i["id"] for i in spec["images"]][:2] == ["title-1", "ch07-1"]
+    assert [i["id"] for i in spec["images"]][:2] == ["title-1", "ch01-1"]
 
 
 def test_lbc1677_missing_group_fails(tmp_path):
@@ -976,6 +979,44 @@ def test_lbc1677_missing_group_fails(tmp_path):
     (d / "lbc1677_ch29_1.png").unlink()
     with pytest.raises(Fail, match="ch29 has no photo"):
         lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_wcf_leaf_missing_fails(tmp_path):
+    with pytest.raises(Fail, match="wcf1647_leaf14 image missing: put the IA humbleadviceofas00west leaf 14"):
+        lbc1677.make_spec(lbc_photos(tmp_path, wcf=None), tmp_path / "o")
+
+
+def test_lbc1677_wcf_leaf_duplicate_fails(tmp_path):
+    d = lbc_photos(tmp_path)
+    Image.new("RGB", (30, 20)).save(d / "wcf1647_leaf14.jpg", "JPEG")
+    with pytest.raises(Fail, match="more than once"):
+        lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_ch01_missing_photo_fails(tmp_path):
+    d = lbc_photos(tmp_path)
+    (d / "lbc1677_ch01_1.png").unlink()
+    with pytest.raises(Fail, match="ch01 has no photo"):
+        lbc1677.make_spec(d, tmp_path / "o")
+
+
+def test_lbc1677_ch01_section_is_one_locate_row(tmp_path):
+    sec = {s["id"]: s for s in lbc_spec(tmp_path)["sections"]}["ch01"]
+    assert [r["id"] for r in sec["rows"]] == ["1.6.locate"]
+    fs = sec["rows"][0]["fields"]
+    assert [f["id"] for f in fs] == ["page", "notes"]
+    assert all(f["kind"] == "text" and f["required"] and f["proposed"] is None and f["plain"].strip() for f in fs)
+
+
+def test_lbc1677_wcf_section_last_with_image(tmp_path):
+    spec = lbc_spec(tmp_path, wcf="jpg")
+    sec = spec["sections"][-1]
+    assert sec["id"] == "wcf1647" and sec["image_ids"] == ["wcf1647-leaf14-1"]
+    assert [r["id"] for r in sec["rows"]] == ["wcf1647.leaf14.folio"]
+    f = sec["rows"][0]["fields"][0]
+    assert f["options"] == ["confirm", "correct"] and f["proposed"] == "[6]"
+    img = [i for i in spec["images"] if i["id"] == "wcf1647-leaf14-1"]
+    assert len(img) == 1 and img[0]["path"].endswith(".png") and any(x["sha256"] == img[0]["sha256"] for x in spec["sources"])
 
 
 def test_lbc1677_bad_file_name_fails(tmp_path):

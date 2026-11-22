@@ -87,4 +87,10 @@ PIXEL CHECKS: the WCF 1647 leaf 14 folio and LBC 1.6 are readings
 
 ## Applied
 
-(Filled in when worked.)
+Worked in [REPORT_phase1_23.md](REPORT_phase1_23.md), "The ruling on report 22, worked":
+- ADR-0003 R3 marked ratified, not built, with an R3.7 section (Q1–Q4). The Q3 migration is locked and built after eb961ddb is ingested.
+- ADR-0009 marked ratified with changes: Decision 3 restated with existing terms, Decision 5 added, open points resolved. Not built.
+- Warrant recording rule marked ratified in PROPOSAL_phase2_loci.md. Row 10 stays a proposal.
+- ADR-0010 revision 2 resent: Decisions 6–8, Verification, and open points as ruled. New open point 6 (the stated minimum).
+- Pixel checks added to the LBC 1677 console spec (rows `1.6.locate` and `wcf1647.leaf14.folio`), with born tests.
+- A-5 located and reported only; nothing downloaded. A-6: R6 stays provisional.

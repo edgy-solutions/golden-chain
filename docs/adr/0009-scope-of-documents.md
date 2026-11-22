@@ -1,8 +1,8 @@
 # ADR-0009: State the scope of the published documents included, who decides it, and how it is shown
 
-- Status: Proposed (sent up for review; nothing is built until ratified)
+- Status: Ratified with changes, 2026-11-22 ([RULING_report_22.md](../handoff/RULING_report_22.md)). Not yet built; the build is locked first.
 - Date proposed: 2026-11-22
-- Date ratified:
+- Date ratified: 2026-11-22
 - Proposed by: build agent, on the architect's draft ([RULING_site_ground_2026-11-22.md](../handoff/RULING_site_ground_2026-11-22.md), item 2)
 - Ratified by: architect
 
@@ -13,7 +13,7 @@
 - Today scope is implicit: whatever has a `B source/...` node and a signed record. Phase 2 adds sources (the phase-2 locus table), and ADR-0007 adds Congregations' own statements.
 - Standing rules served: 2 (a Position needs a source), 4 (only PD or licensed text), 5 (ADR before building), 8 (stop when uncertain).
 
-## Decision (proposed)
+## Decision
 
 1. **What "in scope" means.** A document is in scope when all of these hold:
    - it is published, in print or publicly posted;
@@ -25,17 +25,21 @@
    - The architect rules on the criteria and on borderline cases.
    - Chris includes a document by signing it in. The inclusion is a signed record, as every other act is.
    - A Congregation's own statement enters only through ADR-0007's form and is in scope by that route.
-3. **How it is recorded (proposed).** On each source node:
-   - `gc:includedBy <agent/chris>`;
-   - `gc:includedOn` (an xsd:date);
-   - `gc:inclusionRecord` (the signed record's file name).
+3. **How it is recorded (as ratified: no new `gc:` properties, ADR-0002 rule 6).** Inclusion uses what Holdings already use. On each source node:
+   - `gc:status <vocab/status/ratified>`;
+   - `gc:ratifiedBy <agent/chris>`;
+   - `dcterms:dateAccepted` (an xsd:date);
+   - the signed record's name, recorded as Holdings record it.
 
-   A document considered and left out is recorded as `<source/...> gc:excludedFromScope "<reason>"`, with the same three properties. This keeps "not yet included" distinct from "considered and left out".
+   A document considered and left out is `gc:status <vocab/status/rejected>`, with the reason as `rdfs:comment`. A source with neither status is **"not yet considered"**. This keeps the three states apart.
+
+   *(Drafted, and withdrawn by the ruling: `gc:includedBy`, `gc:includedOn`, `gc:inclusionRecord`, `gc:excludedFromScope`.)*
 4. **How it is shown.**
    - A public "Documents included" page lists each in-scope source: title, edition and witness, date, the Body it grounds, and its inclusion record.
    - A second list gives the documents considered and left out, each with its reason.
    - Weigh's output ends with one line: "Weighed over N documents in scope; see Documents included."
    - A Body that is not in the data is never ranked and never described. Absence means "not included", never a judgment.
+5. **The four criteria are formal; the doctrinal boundary is Chris's statement (added by the ruling).** The criteria in Decision 1 are formal tests only. The doctrinal boundary of scope (which traditions the site covers, and why) is **Chris's statement, written and signed by him on a console**, stored and shown like the humility statement (ADR-0003 R3.2). **No model drafts it.**
 
 ## Consequences
 
@@ -49,17 +53,19 @@
 - **The architect decides inclusion.** Rejected in this draft: every other act that enters the data is Chris's signature. The architect rules on the criteria instead.
 - **A scope list in prose only (README).** Rejected: it would drift from the data. Deriving the page from the source nodes keeps them one thing.
 
-## Verification (to be locked before any build, if ratified)
+## Verification (to be locked before any build)
 
 Sketch only, for review:
-- every `B source/...` node has `gc:includedBy`, `gc:includedOn` and `gc:inclusionRecord`, or `gc:excludedFromScope`. This is a SHACL check, with the existing sources backfilled under one signed record;
+- every `B source/...` node that has `gc:status ratified` also has `gc:ratifiedBy <agent/chris>`, `dcterms:dateAccepted` and its record's name; every one with `gc:status rejected` has an `rdfs:comment`. This is a SHACL check, with the existing sources backfilled under one signed record;
+- a source with neither status is listed as "not yet considered", never as included;
+- no scope-boundary text appears in the data until Chris's signed statement supplies it (Decision 5);
 - the Documents included page is generated from the data and lists exactly the in-scope sources;
 - weigh's closing line counts them;
 - weigh is otherwise byte-identical, with new hashes locked first.
 
-## Open points
+## Open points: resolved by the ruling (2026-11-22)
 
-1. **Backfill.** The existing sources (WCF, LBC, Gill, BSB, Augsburg and others) entered through earlier signed records. Proposed: one inclusion console that lists them all for Chris to sign as a batch.
-2. **Granularity.** Is scope set per document (WCF) or per edition (WCF 1647 vs a later American text, which ADR-0002 already treats as separate Sources)? Proposed: per Source node, so per edition where the data has separate editions.
-3. **Systematic works and Teachers.** Are they in scope as Bodies, or only as witnesses for Arguments? Proposed: both are possible, and the page says which role each plays.
-4. **Licensed but private texts** (for example the Lee corpus). Proposed: out of the public page's text, listed by title only, with "licensed, not reproduced".
+1. **Backfill.** One backfill console that lists the existing sources (WCF, LBC, Gill, BSB, Augsburg and others), signed by Chris as a batch.
+2. **Granularity.** Per Source node, so per edition where the data has separate editions.
+3. **Systematic works and Teachers.** The page states each work's role: Body, witness, or both.
+4. **Licensed but private texts.** Listed by title as "licensed, not reproduced", and **only once written permission is on file**.

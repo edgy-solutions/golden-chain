@@ -74,3 +74,15 @@ Note: Witsius's treatment of the covenant of grace as a whole runs Books II-III;
 ## Ruling on report 19 (A-5), 2026-11-17
 
 **Crookshank 1763 accepted as witness** (the architect's words). The witness of record is the 1763 London (Dilly) first English edition, IA `oeconomyofcovena176201wits`, `...176202wits` and `...176303wits`. The 1798 New York contents above serve for orientation only. Locators are read on the 1763 scans. The 1822 Baynes edition is not the witness (open questions 1 and 2 are closed by the ruling).
+
+## Dispatch 23a: Book II locators in the 1763 witness (2026-11-22)
+
+Seen on the page images by the build agent (IA `oeconomyofcovena176201wits`; leaf = page + 10). Locators only, as the dispatch allows; no quotation was needed to settle a question.
+
+| Chapter | Heading (as located) | 1763 page | IA leaf | Tag |
+|---|---|---|---|---|
+| II.1 | Book II title and ch. I | 206 | 216 | V |
+| II.2 | Of the covenant between God the Father and the Son (§I distinguishes the compact between the Father and the Son from the testamentary disposition) | 210 | 220 | V |
+| II.3 | The nature of the covenant between the Father and the Son, more fully explained | 226 | 236 | V |
+| II.4 | (next chapter begins) | about 250 | about 260 | V (start only) |
+

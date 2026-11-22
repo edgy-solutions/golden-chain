@@ -1,7 +1,16 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed through report 14's commit on 2026-11-14 (after `9a5a955`). The architect says "Push as you go".
-- **Now (2026-11-22): ruling on report 21 worked; site's-ground drafts sent up** ([REPORT_phase1_22.md](REPORT_phase1_22.md); [RULING_report_21.md](RULING_report_21.md); [RULING_site_ground_2026-11-22.md](RULING_site_ground_2026-11-22.md)).
+- **Now (2026-11-22): dispatch 23a researched; ruling on report 22 worked** ([REPORT_phase1_23.md](REPORT_phase1_23.md); [DISPATCH_23a_2026-11-22.md](DISPATCH_23a_2026-11-22.md); [RULING_report_22.md](RULING_report_22.md)).
+  - Commits: `55272ce` (dispatch, ruling and lock filed); the report-23 commit (research, ADR edits, console spec rows).
+  - **Proposed for 23a: B, KEEP, RESTATED.** Owen states two covenants (vol. 19, p. 78); Gill rejects two by name (II.7, p. 217). (iii) reworded from WCF 7.3; the (ii)–(iii) edge to retire. Sitting 2 is built only after eb961ddb is ingested and the architect rules.
+  - ADR-0003 R3 and ADR-0009 ratified, not built. The R3 Q3 replay-writer migration gets its own expected-diff lock after the eb961ddb ingest. ADR-0010 revision 2 resent.
+  - The LBC 1677 console spec has rows `1.6.locate` and `wcf1647.leaf14.folio`. The console is not built: Chris's photographs (in the private corpus, `lbc-1677/`) need renamed local copies (mapping in report 23), plus the IA leaf-14 page.
+  - Correction contact chosen: `corrections@golden-chain.org`. Not yet on the C6' line (AW4 forbids "@"; waits on a ruling).
+  - Suite 805 passed. Ingest 3 warnings. Weigh unchanged.
+  - **Waiting on the architect:** report 23's A-1 to A-5.
+  - **Waiting on Chris:** sign `eb961ddb1e582ed6` (then ingest it); go-ahead for the LBC 1677 console; v4 build-a `8e173740c37b714d`.
+- **Before it (2026-11-22): ruling on report 21 worked; site's-ground drafts sent up** ([REPORT_phase1_22.md](REPORT_phase1_22.md); [RULING_report_21.md](RULING_report_21.md); [RULING_site_ground_2026-11-22.md](RULING_site_ground_2026-11-22.md)).
   - Commits:
     - `18f4de3` (C-9, vol. 43: no witness);
     - `a44dd6e` (ADR-0007 amendment 2 locked; both rulings filed);

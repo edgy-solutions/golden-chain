@@ -1,6 +1,6 @@
 # ADR-0003: Controlled vocabularies and the weigh cost function
 
-- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled; Revision 2 (2026-11-08) ratified 2026-11-08 with the R2.6 answers
+- Status: Ratified with changes (§6 remains a proposal); Revision 1 (2026-10-25) recorded as ruled; Revision 2 (2026-11-08) ratified 2026-11-08 with the R2.6 answers; Revision 3 ratified 2026-11-22 with the R3.7 answers (not yet built)
 - Date proposed: 2026-10-25
 - Date ratified: 2026-10-25
 - Proposed by: build agent
@@ -434,9 +434,9 @@ The architect's text is in [../handoff/RULING_report_11.md](../handoff/RULING_re
    - §6 remains unratified, so nothing is derived from the edge. Chris signs his stance on (a) explicitly on the follow-up console.
 6. **Other users: deferred.** `unchurches` is the plumb-line's standard only. Whether a later user may set their own is a phase-3 question, under a future Revision 3.
 
-## Revision 3 (proposed, 2026-11-22; the architect's draft on Chris's decision of 2026-11-22, item 1)
+## Revision 3 (ratified 2026-11-22 with the R3.7 answers; the architect's draft on Chris's decision of 2026-11-22, item 1)
 
-- **Status:** proposed, sent up for review. **Nothing is built until it is ratified.**
+- **Status:** ratified 2026-11-22, with the answers in R3.7 ([../handoff/RULING_report_22.md](../handoff/RULING_report_22.md)). **Not yet built.** The build is locked first (R3.5, with R3.7's Q3 diff), after the eb961ddb sitting is ingested.
 - **Source:** [../handoff/RULING_site_ground_2026-11-22.md](../handoff/RULING_site_ground_2026-11-22.md), filed verbatim.
 - **Answers:** R2.6 (6) and R2.7 (6), which deferred "other users" to a Revision 3.
 
@@ -493,3 +493,12 @@ Sketch only, for review:
 
 Q1–Q3 above, and:
 - **Q4.** Whether R2.7 (3)'s wording by class keeps its three forms with "site's" for "plumb-line's", or is reworded. Proposed: keep the three forms and change only that word.
+
+### R3.7 Answers to R3.6 (architect, 2026-11-22; ratified with R3.1–R3.5)
+
+1. **Q1. Render locally, with the line.** Site-standard judgments are rendered locally with the line "The site's statement of its standard is not yet signed." **No public deployment until Chris has signed the statement.** This is a condition to be written into the future deployment ADR.
+2. **Q2. As proposed.** In a comparison view from Body B, B's stated judgments are listed beside B, labelled "stated by B", and exclude nothing. Only the site's standard derives exclusions.
+3. **Q3. Migrate to the one form.** `data/plumb-line.ttl` is the deterministic replay of the signed sittings. The change is to the replay writer, not to any signed record, so **no new signature** is needed. The expected diff is locked first, and the replay test must still pass byte for byte against the new writer.
+4. **Q4. Keep the three forms**; change only "plumb-line's" to "site's".
+
+**Build order (the build agent's, stated in report 23).** The lock (R3.5 plus the Q3 expected diff) and the build follow the ingest of console `eb961ddb1e582ed6`, so that two data changes are never in flight at once.

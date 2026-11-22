@@ -150,7 +150,7 @@ They may share sources.
 
 **Question.** What does the source claim as its rule of faith, and how does it say doctrine is drawn from that rule?
 
-**The recording rule (the architect's draft, item 3; build nothing until ratified).**
+**The recording rule (the architect's draft, item 3; RATIFIED as drafted, ruling on report 22, 2026-11-22). Row 10 itself stays a proposal; the LBC 1.6 reading waits for the 1677 page, which goes to Chris as a console row.**
 - A warrant is recorded only from the source's own claim, with a locator.
 - Where a source states no warrant, none is recorded: unstated stays unstated.
 - An opponent's account of a source's warrant is the opponent's Argument, with the opponent's locator. It is never recorded as the source's own claim.

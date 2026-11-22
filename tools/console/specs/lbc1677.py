@@ -2,9 +2,10 @@
 
 Usage: python tools/console/specs/lbc1677.py <photos-dir> <out-spec.json>
 
-Photos are named lbc1677_<group>_<n>.<jpg|jpeg|png>, group in title, ch07, ch26, ch27, ch28, ch29, n = 1, 2, ...
-contiguous. A JPEG is converted to PNG deterministically (PIL, no resize, no metadata) next to the spec; the image
-entry records the source and converted sha256. The 15 rows are in lbc1677_rows.json; each proposed string must be
+Photos are named lbc1677_<group>_<n>.<jpg|jpeg|png>, group in title, ch01, ch07, ch26, ch27, ch28, ch29, n = 1, 2, ...
+contiguous. The photos dir also holds one public-domain scan, wcf1647_leaf14.<jpg|jpeg|png> (IA humbleadviceofas00west,
+leaf 14), shown in a last section as one page number to confirm or correct. A JPEG is converted to PNG deterministically (PIL, no resize, no metadata) next to the spec; the image
+entry records the source and converted sha256. The 15 note rows are in lbc1677_rows.json; each proposed string must be
 in data/lbc-1689.ttl's gc:asPrinted of every Argument the row lists.
 """
 
@@ -20,8 +21,8 @@ from build import Fail  # noqa: E402
 
 ROWS = HERE / "lbc1677_rows.json"
 DATA = HERE.parents[2] / "data" / "lbc-1689.ttl"
-GROUPS = ("title", "ch07", "ch26", "ch27", "ch28", "ch29")
-NAME = re.compile(r"^lbc1677_(title|ch07|ch26|ch27|ch28|ch29)_(\d+)\.(jpg|jpeg|png)$")
+GROUPS = ("title", "ch01", "ch07", "ch26", "ch27", "ch28", "ch29")
+NAME = re.compile(r"^lbc1677_(title|ch01|ch07|ch26|ch27|ch28|ch29)_(\d+)\.(jpg|jpeg|png)$")
 PLAIN_WITNESS = ('The photograph should show the title page of the book the notes were photographed from. Choose "yes" if it is '
                  'the 1677 first printing in the facsimile edition (2000), "no" if it is another edition; if you are not sure, '
                  'choose "other, as written" and type what the title page says.')
@@ -34,6 +35,16 @@ PLAIN_UNLISTED = ('Look in the margins of this chapter for any note letter or ci
                   'find one and type it in the note, "no" if every note is listed; if you cannot tell, choose "other, as written" '
                   'and say why.')
 PLAIN_UNLISTED_NOTE = "Optional: type any unlisted note exactly as printed, with its letter. Leave it empty if there is none."
+PLAIN_FOLIO = ('The text on a grey background is a proposed reading of the page number at the top of this page, made by a model '
+               'from the scan. Choose "confirm" if it matches the page exactly, brackets included, or "correct" if it does '
+               'not, and type exactly what is printed.')
+PLAIN_LOC_PAGE = ('Type the page number printed on the page where paragraph 6 of chapter 1 begins, exactly as printed. If the '
+                  'paragraph runs onto the next page, type both, for example "12-13"; if no number is printed, type the '
+                  'signature (the letters and number at the foot), or "none".')
+PLAIN_LOC_NOTES = ('Type each margin note that belongs to paragraph 6, with its letter, exactly as printed, one after another. '
+                   'If there are none, type "none".')
+WCF_NAME = re.compile(r"^wcf1647_leaf14\.(jpg|jpeg|png)$")
+WCF_ID = "wcf1647-leaf14-1"
 HELP = [{"q": "Why am I asked to read these?",
          "a": "These notes were read by the architect, a hosted model, from your photographs. A model reading is not a signed one "
               "(ruling on report 18). This sitting makes each note yours, confirmed or corrected. Rule 11: if a question is "
@@ -47,6 +58,8 @@ def find_photos(photos_dir):
     found = {g: {} for g in GROUPS}
     for p in sorted(d.iterdir()):
         if not p.is_file():
+            continue
+        if WCF_NAME.match(p.name):
             continue
         m = NAME.match(p.name)
         if not m:
@@ -64,6 +77,16 @@ def find_photos(photos_dir):
             raise Fail(f"group {g}: n is not contiguous from 1 ({ns})")
         out[g] = [found[g][n] for n in ns]
     return out
+
+
+def find_wcf_leaf(photos_dir):
+    hits = [p for p in sorted(Path(photos_dir).iterdir()) if p.is_file() and WCF_NAME.match(p.name)]
+    if not hits:
+        raise Fail("wcf1647_leaf14 image missing: put the IA humbleadviceofas00west leaf 14 page image in the photos dir "
+                   "as wcf1647_leaf14.<jpg|jpeg|png>")
+    if len(hits) > 1:
+        raise Fail(f"wcf1647_leaf14 appears more than once: {[p.name for p in hits]}")
+    return hits[0]
 
 
 def to_png(src, out_dir):
@@ -121,11 +144,28 @@ def unlisted_row(g):
                 field("note", "text", "The unlisted note, as printed (optional)", PLAIN_UNLISTED_NOTE, required=False)]}
 
 
+def locate_row():
+    return {"id": "1.6.locate", "label": "1.6: where it is printed, and its margin notes",
+            "context": ["Used by: the phase-2 warrant locus (row 10b), not yet in the data",
+                        "Read by: nobody yet; the build agent did not view this page (ruling on report 22: a reading for Chris)"],
+            "image_ids": [], "fields": [
+                field("page", "text", "Page number(s) as printed", PLAIN_LOC_PAGE),
+                field("notes", "text", "Margin notes beside paragraph 6, as printed", PLAIN_LOC_NOTES)]}
+
+
+def folio_row():
+    return {"id": "wcf1647.leaf14.folio", "label": "The page number printed at the top of this page",
+            "context": ["Source: IA humbleadviceofas00west, leaf 14, a public-domain scan",
+                        'Read by: build agent, from the scan, as "[6]"; "[4]" would be expected from the leaf before it'],
+            "image_ids": [], "fields": [field("v", "radio", "As printed", PLAIN_FOLIO, ["confirm", "correct"], "[6]")]}
+
+
 def make_spec(photos_dir, out_dir, rows_path=ROWS, data_path=DATA):
     meta = json.loads(Path(rows_path).read_text(encoding="utf-8"))
     rows = meta["rows"]
     check_against_data(rows, data_path)
     photos = find_photos(photos_dir)
+    wcf = find_wcf_leaf(photos_dir)
     Path(out_dir).mkdir(parents=True, exist_ok=True)
     images = {g: [image_entry(g, n, p, out_dir) for n, p in enumerate(ps, 1)] for g, ps in photos.items()}
     sections = [{"id": "witness", "title": "Which book", "text": "", "image_ids": [], "rows": [
@@ -137,13 +177,18 @@ def make_spec(photos_dir, out_dir, rows_path=ROWS, data_path=DATA):
         if g not in meta["chapters"]:
             raise Fail(f"rows.json has no chapter {g}")
         ids = [i["id"] for i in images[g]]
-        sections.append({"id": g, "title": meta["chapters"][g], "text": "", "image_ids": ids,
-                         "rows": [note_row(r) for r in rows if r["chapter"] == g] + [unlisted_row(g)]})
-    allimg = [i for g in GROUPS for i in images[g]]
+        grows = [locate_row()] if g == "ch01" else [note_row(r) for r in rows if r["chapter"] == g] + [unlisted_row(g)]
+        sections.append({"id": g, "title": meta["chapters"][g], "text": "", "image_ids": ids, "rows": grows})
+    wimg = image_entry("wcf1647-leaf14", 1, wcf, out_dir)
+    assert wimg["id"] == WCF_ID
+    sections.append({"id": "wcf1647", "title": "WCF 1647 (Edinburgh: Evan Tyler), leaf 14: the page number", "text": "",
+                     "image_ids": [WCF_ID], "rows": [folio_row()]})
+    allimg = [i for g in GROUPS for i in images[g]] + [wimg]
     return {"format": build.SPEC_FORMAT, "kind": "lbc1677",
             "title": "Reading form: LBC 1677 margin notes as printed", "signer": "Chris",
             "instruction": "Each grey string is a model's reading of a margin note in your photographs. Confirm it, or correct it "
-                           "to exactly what is printed; a corrected row is recorded as a signed reading.",
+                           "to exactly what is printed; a corrected row is recorded as a signed reading. "
+                           "The last section is one page number in a scan of the 1647 Westminster Confession.",
             "sources": [{"path": str(Path(rows_path).resolve()), "sha256": build.sha256_file(rows_path)},
                         {"path": str(Path(data_path).resolve()), "sha256": build.sha256_file(data_path)}]
             + [{"path": i["path"], "sha256": i["sha256"]} for i in allimg],
