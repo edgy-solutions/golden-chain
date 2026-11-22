@@ -73,7 +73,7 @@ COMMON_HELP = [
           "fault and say why in the note."},
 ]
 MANIFEST_FORMAT = "golden-chain-console-manifest/2"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "truthset-italic-v5", "region-reask")
 FIELD_KINDS = ("radio", "checkbox", "select", "text", "pick-row")
 OPTION_KINDS = ("radio", "checkbox", "select")
 SIGNATURE_FIELDS = ("name", "date")
