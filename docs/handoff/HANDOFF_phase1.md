@@ -1,7 +1,15 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed through report 14's commit on 2026-11-14 (after `9a5a955`). The architect says "Push as you go".
-- **Now (2026-11-22): dispatch 23a researched; ruling on report 22 worked** ([REPORT_phase1_23.md](REPORT_phase1_23.md); [DISPATCH_23a_2026-11-22.md](DISPATCH_23a_2026-11-22.md); [RULING_report_22.md](RULING_report_22.md)).
+- **Now (2026-11-22): ruling on report 23 worked; LBC 1677 console built** ([REPORT_phase1_24.md](REPORT_phase1_24.md); [RULING_report_23.md](RULING_report_23.md)).
+  - Commits: `54c930b` (ruling filed; AX1–AX3 locked); `456b396` (A-3 built: correction line names `corrections@golden-chain.org`); `c737db9` (7.2/7.3 reading rows); `d7cd93a` (A-4, A-5 docs); the report-24 commit.
+  - **Refutation check for "(ii) entails (iii)?":** mechanically clean. LBC holds (ii) and nothing on (iii), which is the M6 shape. Both readings go on the sitting-2 row; Chris decides. Run refutation checks **in-process only** (`ingest.derive_rdflib` on a scratch `GOLDEN_CHAIN_DATA`). Ingest writes to the one shared TDB, and a concurrent run breaks `test_guard_jena`.
+  - **LBC 1677 console `0a73bb5afa616446`** is in `~/.golden-chain/console/lbc1677/` with README_SIGN.txt: 25 rows, 34 fields, 87.7 MB (photos not resized, by design). The photos dir is `~/.golden-chain/console/lbc1677-photos/`.
+  - Sitting 2 (proposal B rows, restated (ii) with Owen p. 78 beside it, (iii) from WCF 7.3, edges, the entails row, row 6) is built after the eb961ddb ingest. Then the R3 Q3 lock, then the ADR-0009 inclusion console (now with Owen).
+  - Suite 810 passed. Ingest 0 violations, 3 warnings. Weigh unchanged.
+  - **Waiting on the architect:** report 24's A-2 (M6 as a machine warning?) and A-3 (downscale only if the page is too slow).
+  - **Waiting on Chris:** sign `eb961ddb1e582ed6`; sign LBC 1677 `0a73bb5afa616446`; whether to view the 1875 Gadsby printing, and whether to ask the GS Society.
+- **Before it (2026-11-22): dispatch 23a researched; ruling on report 22 worked** ([REPORT_phase1_23.md](REPORT_phase1_23.md); [DISPATCH_23a_2026-11-22.md](DISPATCH_23a_2026-11-22.md); [RULING_report_22.md](RULING_report_22.md)).
   - Commits: `55272ce` (dispatch, ruling and lock filed); the report-23 commit (research, ADR edits, console spec rows).
   - **Proposed for 23a: B, KEEP, RESTATED.** Owen states two covenants (vol. 19, p. 78); Gill rejects two by name (II.7, p. 217). (iii) reworded from WCF 7.3; the (ii)–(iii) edge to retire. Sitting 2 is built only after eb961ddb is ingested and the architect rules.
   - ADR-0003 R3 and ADR-0009 ratified, not built. The R3 Q3 replay-writer migration gets its own expected-diff lock after the eb961ddb ingest. ADR-0010 revision 2 resent.

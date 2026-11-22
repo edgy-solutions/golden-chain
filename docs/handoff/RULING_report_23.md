@@ -52,4 +52,11 @@ Spec rewording and LF normalisation: accepted.
 
 ## Applied
 
-(Filled in when worked.)
+Worked in [REPORT_phase1_24.md](REPORT_phase1_24.md):
+- A-1: the refutation check for "restated (ii) entails (iii)?" was run in-process on a scratch copy. Mechanically, no Body is inconsistent. LBC holds (ii) and nothing on (iii), which is the M6 shape. Both readings go to Chris on sitting 2 (not built until eb961ddb is ingested). The other sitting-2 changes are recorded. The justification passages are noted for the phase-2 locus.
+- A-2: done in `54c930b`.
+- A-3: built under the AX1–AX3 lock (`456b396`). All three held.
+- A-4: lead 3 followed; no witness found. Written up in gospel-standard.md (`d7cd93a`).
+- A-5: Owen added to the ADR-0009 inclusion console's list (`d7cd93a`). Not built.
+- LBC 1677 console: the 7.2 and 7.3 reading rows were added (`c737db9`), then the console was built as `0a73bb5afa616446` and left for Chris.
+- Report 06 line 74: done in `54c930b`.
