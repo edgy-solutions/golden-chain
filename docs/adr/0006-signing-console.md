@@ -289,8 +289,15 @@ and record them in the manifest beside it.
 7. **Built consoles are not rebuilt.** Truth-set v3 build-a stays on record,
    unsigned (ruling on report 19, A-6).
 8. Lock: `build-hash-r5-predictions-locked.txt`, BH1–BH5.
+9. **What is signed is the build hash (ruling on report 20, A-12).** Two
+   runs of the same spec give one build hash. Their pages may differ in the
+   run header's time and nowhere else. A born test pins this: with that one
+   field masked, the diff of the two pages is empty. (BH1's clause, "the HTML
+   is byte-identical", was wrong and stays recorded as missed.)
 
 ## Revision 6 (2026-11-17, from the ruling on report 19, A-6; carried into the console by the build agent, for the architect to read): the edge check counts the word's own ink
+
+Status: ratified provisionally on report 20 (ruling on report 20, A-8). The architect will read the text.
 
 Report 19 dropped 37 of 191 truth-set v3 crops, mostly at the bottom edge. The
 crop tool and the console's `clear_edges` check both failed on any ink at the

@@ -940,6 +940,19 @@ def test_r5_same_hash_in_two_dirs_with_other_run_header(tmp_path, monkeypatch):
     assert man1["local"]["run_header"]["utc"] != man2["local"]["run_header"]["utc"]
 
 
+def test_r5_pages_of_two_runs_differ_only_in_the_run_header_time(tmp_path, monkeypatch):
+    """Ruling on report 20, A-12: the build hash is what is signed; the HTML of two runs may differ in the run
+    header's time and nowhere else (the diff outside that field is empty)."""
+    t1, t2 = "2026-11-17T01:00:00Z", "2026-11-17T09:30:00Z"
+    _, m1, man1, _ = r5_build(tmp_path, monkeypatch, "one", t1)
+    _, m2, man2, _ = r5_build(tmp_path, monkeypatch, "two", t2)
+    assert man1["build_hash"] == man2["build_hash"]
+    h1, h2 = m1["html"].read_text(encoding="utf-8"), m2["html"].read_text(encoding="utf-8")
+    assert h1 != h2
+    assert h1.count(t1) == 1 and h2.count(t2) == 1 and t2 not in h1 and t1 not in h2
+    assert h1.replace(t1, "<UTC>") == h2.replace(t2, "<UTC>")
+
+
 def test_r5_spec_copy_and_page_hold_no_path_or_run_time(tmp_path, monkeypatch):
     spec, made, man, d = r5_build(tmp_path, monkeypatch, "one", "2026-11-17T01:00:00Z")
     for f in (made["spec"], made["html"]):
