@@ -16,7 +16,8 @@
   - **A-10:** the architect's reading is not an authority. The phase-2 locators stay proposals until a Position needs one. Then the build agent reads the page and proposes, and Chris signs.
   - A-5 is accepted. BH1 is recorded as missed (the lock's clause was wrong, not the build).
   - **C-1 is signed (2026-11-22):** the p. 914 re-ask `d7a6aab0734ffe3e` answered **yes**, column footnotes ([record](SIGNED_region_reask_d7a6aab0734ffe3e.md)). F-1 is confirmed from pixels for that one column. Chris's note says the boundary y = 6127 starts one footnote line low (not measured).
-  - **Waiting on Chris:** C-2, C-3 (if not yet done), C-4, C-6, C-8 and C-9, and the follow-up `eb961ddb1e582ed6`. There is nothing new to sign.
+  - **C-9 is worked** (`ce2af7c`, [gospel-standard.md](../sources/phase2/gospel-standard.md)). None of vols. 38, 44 and 45 indexes the Articles, and vol. 45's scan lacks pp. 293–400. The 1879 notice on p. 292 says the Societies had Articles by October 1877. Still no witness of record.
+  - **Waiting on Chris:** C-2, C-3 (if not yet done), C-4, C-6 and C-8; vol. 43 (1877) into the private corpus (the new C-9); and the follow-up `eb961ddb1e582ed6`. There is nothing new to sign.
   - **Waiting on the architect:**
     - A-4;
     - the italic truth set after the ceiling (report 21 recommends signing v4 build-a);
