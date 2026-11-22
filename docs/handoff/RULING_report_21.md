@@ -47,4 +47,11 @@ Permission refusal: handled correctly. A lock committed before the
 
 ## Applied
 
-(Filled in when worked.)
+Worked 2026-11-22 ([REPORT_phase1_22.md](REPORT_phase1_22.md)):
+- **A-11 (i):** `ab0fb49`. The population statement and the 16 drops are in [POPULATION_truthset_italic_v4_8e173740.md](POPULATION_truthset_italic_v4_8e173740.md). The README says SIGN. The miss against the architect is recorded, there is no v6, and TB2 is falsified.
+- **C2, C4, C6, C7-L6:**
+  - Locked as ADR-0007 amendment 2 (`a44dd6e`) and built (`77a62a1`). AW1 to AW4 held.
+  - AW5 missed on its edit list: two unlisted tests were edited and are named in report 22.
+  - C6 needed no code.
+- **p. 914:** recorded; not re-measured.
+- **R6:** stays provisional.

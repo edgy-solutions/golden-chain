@@ -1,7 +1,30 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed through report 14's commit on 2026-11-14 (after `9a5a955`). The architect says "Push as you go".
-- **Now (2026-11-22): ruling on report 20 worked** ([REPORT_phase1_21.md](REPORT_phase1_21.md); [RULING_report_20.md](RULING_report_20.md)).
+- **Now (2026-11-22): ruling on report 21 worked; site's-ground drafts sent up** ([REPORT_phase1_22.md](REPORT_phase1_22.md); [RULING_report_21.md](RULING_report_21.md); [RULING_site_ground_2026-11-22.md](RULING_site_ground_2026-11-22.md)).
+  - Commits:
+    - `18f4de3` (C-9, vol. 43: no witness);
+    - `a44dd6e` (ADR-0007 amendment 2 locked; both rulings filed);
+    - `ab0fb49` (v4 population statement; README SIGN);
+    - `a271f90` (four drafts: ADR-0003 R3, ADR-0009, warrant row 10, ADR-0010; nothing built);
+    - `77a62a1` (amendment 2 built: AW1–AW4 held; AW5 missed on its edit list).
+  - Suite 800 passed. Ingest 3 warnings. Weigh is unchanged (`71c14a5d187d` and `c8fe9e910b5a`).
+  - **Waiting on the architect:**
+    - the four drafts;
+    - "the three gates" (undefined);
+    - the R3 Q1–Q4;
+    - the ADR-0009 open points;
+    - the ADR-0010 private store;
+    - the Gospel Standard route;
+    - the R6 text.
+  - **Waiting on Chris:**
+    - sign v4 build-a `8e173740c37b714d`;
+    - check the WCF leaf 14 folio "[6]";
+    - a correction address;
+    - a photograph of the LBC 1677 page for 1.6;
+    - C-2, C-3?, C-4, C-6 and C-8;
+    - the follow-up `eb961ddb1e582ed6`.
+- **Before it (2026-11-22): ruling on report 20 worked** ([REPORT_phase1_21.md](REPORT_phase1_21.md); [RULING_report_20.md](RULING_report_20.md)).
   - Commits: `1a7d746` (ruling filed), `5285db3` (A-12 born test; ADR-0006 R6 ratified provisionally, A-8), `610471e` (ADR-0007 Verification locked before code), `56004c5` (truth-set v5 draw with replacement and ceiling; crops v5; console kind truthset-italic-v5; tall-box measure), `07682a5` (ADR-0007 build, A-9: AV1 to AV8 held, synthetic only, no real Congregation minted).
   - **Italic v5:**
     - The lock is `italic-v5-predictions-locked.txt`.
