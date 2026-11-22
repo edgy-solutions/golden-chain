@@ -354,3 +354,24 @@ minted, and no data/*.ttl file is written or changed.
     (superseded by AW1; kept, renamed to say it is superseded, and inverted), the AV4 assertion on
     "not yet confirmed (every row here is proposed)", and the AV7 fixture's L6 abstain (AV7's own tests keep
     passing with L6 abstained as well as answered).
+
+## Amendment 3: the correction address (ruling on report 23, A-3)
+
+- **C6''.** The CORRECTION wording names the address Chris chose: "The church may correct this page by writing to
+  corrections@golden-chain.org." The rest of the wording is unchanged. Where the address forwards is recorded nowhere.
+  This replaces C6' on the address only.
+
+## Verification, amendment 3: the lock (2026-11-22, before any code for it; ruling on report 23)
+
+Git history seals this lock; no local copy (ruling on report 21).
+
+- **AX1. The line.** The weigh correction line is "  correction: " followed by the CORRECTION wording. It contains
+  `corrections@golden-chain.org` exactly once, no other "@", and no "http". Its first sentence is "The church may
+  correct this page by writing to corrections@golden-chain.org."; its second and third sentences are unchanged.
+- **AX2. The tests.** One existing test is edited: `test_aw4_weigh_says_the_standards_differ_on_l6_only`, whose
+  correction assertion becomes AX1's (no "@" becomes exactly that address). One born test checks AX1. No other
+  existing test is edited (the AV4 test compares against `weigh.CORRECTION` and passes unedited).
+- **AX3. Real data untouched.** Weigh byte-identical (members 71c14a5d187d, officers c8fe9e910b5a): real data has
+  no Congregation, so no correction line. Ingest 0 violations, 3 warnings. No data/*.ttl change. Full suite passes
+  (805 + 1 born).
+

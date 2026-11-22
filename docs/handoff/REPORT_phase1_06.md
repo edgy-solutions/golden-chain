@@ -71,7 +71,7 @@ Every px is in the frame named beside it. The full tables are in [../sources/gil
 5. **Report 4 Q6: the Gill provenance wording is held.** The ruling's replacement text says "read from the BSB text layer". The BSB pages have no text layer: one CCITT image per page. The readings came from local Tesseract OCR of page renders, made before the OCR hold.
    - Proposed instead: "read from local OCR of the BSB page renders (made before the OCR hold) and CCEL; to be signed from pixels".
    - Predicted change: 3 lines in `data/gill-body-of-divinity.ttl` (10, 183, 269), and 0 status changes (all are already `proposed`).
-6. **The Bible note names no path.** The instruction was to record the Bibles at "<corpus path>/dr-voluminous/bibles". The standing rule is that the private corpus is never named in committed docs.
+6. **The Bible note names no path.** The instruction was to record the Bibles at "<corpus path>/the private corpus/bibles" *[editorial note, 2026-11-22: the directory name first printed here is replaced with "the private corpus", per the ruling on report 23; history is not rewritten]*. The standing rule is that the private corpus is never named in committed docs.
    - [../sources/bibles-usfm.md](../sources/bibles-usfm.md) says "goat-yard's private corpus, under its `bibles` directory", read through `GOLDEN_CHAIN_BIBLES`.
    - Confirm, or rule that the name may appear.
 7. **The ADR-0002 citation.** `TRUTH_SET_FORM.md` v1 is on goat-yard's branch `apparatus-next` (commit `a0a30d4`), not at `substrate-v0`. The ADR cites it by commit. If it should wait for a tag, say so.

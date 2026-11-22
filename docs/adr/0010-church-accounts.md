@@ -1,6 +1,6 @@
 # ADR-0010: Church accounts for phase 3: who speaks for a church, how it is verified, and what stays private
 
-- Status: Proposed, revision 2 (phase 3; resent 2026-11-22 after the ruling on report 22, which did not ratify revision 1; nothing is built until ratified)
+- Status: Ratified provisionally, revision 2, for phase 3 (ruling on report 23, A-2, 2026-11-22: ratified on the report; the architect has not read the text). Nothing is built in phase 1 or 2.
 - Date proposed: 2026-11-22 (revision 1); revised 2026-11-22 (revision 2)
 - Date ratified:
 - Proposed by: build agent, on the architect's draft ([RULING_site_ground_2026-11-22.md](../handoff/RULING_site_ground_2026-11-22.md), item 4)
@@ -51,7 +51,7 @@
    - **Form:** answers chosen from the same closed list of Positions the church answers, with the dates the reporter says they attended. **No free text.**
    - **Privacy:** private to moderators and the church's verified contact by default.
    - **Never grounds a Holding.**
-   - **If ever shown:** only as counts above a stated minimum, labelled as reports, with the church's reply beside them.
+   - **If ever shown:** only as counts above a stated minimum, labelled as reports, with the church's reply beside them. The minimum is fixed, with its reason, before any count is ever displayed (open point 6).
    - **The site keeps no church rolls.**
 
 ## Consequences
@@ -87,4 +87,4 @@ Sketch only, for review:
 3. **Correction contact** (ADR-0007 C6'): Chris chose `corrections@golden-chain.org` (2026-11-22, an alias he set up on the site's domain). Not yet built: putting it on the correction line changes ADR-0007 AW4, which checks the line has no "@", so the change waits on a ruling and its own lock.
 4. ~~Visitor stances~~: in the visitor's browser unless the visitor asks to save them (Decision 6).
 5. ~~Chris's own church~~: agreed, not on his own signature (Decision 3).
-6. **New, for the architect: the stated minimum** for showing member-report counts (Decision 8). No number is proposed by the build agent.
+6. **The stated minimum** for showing member-report counts (Decision 8): **no number is set now** (ruling on report 23). The minimum is fixed, with its reason, before any member-report count is ever displayed.
