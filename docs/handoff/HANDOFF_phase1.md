@@ -106,6 +106,10 @@
 - Console CLIs: `tools/console/specs/<kind>.py <input> <spec.json>`, then `tools/console/build.py <spec.json> --out-dir DIR` (DIR must exist), then `tools/console/ingest.py <verdicts.json> <manifest.json> [--write]`. Build from a clean tree, or the build is provisional.
 - State: data, ontology, shapes, reasoner, Jena ingest and Fuseki are built; counts match the locked predictions; 318 tests pass with `GOLDEN_CHAIN_BIBLES` set (one skips without it); ingest 0 violations, 9 warnings.
 
+## Observations recorded (not data)
+
+- **Chris, 2026-11-22** (filed at the architect's order, [DISPATCH_23a_2026-11-22.md](DISPATCH_23a_2026-11-22.md)): "the difference between (i) and (ii), if there is one, resembles the supra- and infralapsarian difference, since it turns on whether grace must have sinners in view." It is his observation and is attached to no Position.
+
 ## How to rebuild and check
 
 - `.venv/Scripts/python.exe -m pytest -q` (redirect to a log; ~45 s).
