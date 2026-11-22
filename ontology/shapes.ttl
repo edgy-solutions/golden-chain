@@ -18,7 +18,8 @@
 <ontology/shapes> a owl:Ontology ;
     sh:declare
         [ sh:prefix "gc" ; sh:namespace "https://w3id.org/golden-chain/ontology#"^^xsd:anyURI ] ,
-        [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] .
+        [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] ,
+        [ sh:prefix "owl" ; sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ] .
 
 # ---------------------------------------------------------------- IRI patterns (ADR-0002)
 
@@ -33,8 +34,18 @@
 
 <ontology/shapes#SourceWork> a sh:NodeShape ;
     sh:targetClass gc:SourceWork ;
-    sh:pattern "^https://w3id\\.org/golden-chain/source/[a-z0-9-]+$" ;
-    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+    # ADR-0007 C3 adds source/congregation/{slug}/statement for a church's own published statement.
+    sh:pattern "^https://w3id\\.org/golden-chain/source/([a-z0-9-]+|congregation/[a-z0-9-]+/statement)$" ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path gc:readOn ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path gc:archivedCopy ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+# ADR-0007 C3: personal knowledge, one per church, named for its creator and dated.
+<ontology/shapes#PersonalKnowledge> a sh:NodeShape ;
+    sh:targetClass gc:PersonalKnowledge ;
+    sh:pattern "^https://w3id\\.org/golden-chain/source/congregation/[a-z0-9-]+/personal-knowledge$" ;
+    sh:property [ sh:path dcterms:creator ; sh:minCount 1 ; sh:class gc:Agent ] ;
+    sh:property [ sh:path dcterms:created ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ] .
 
 <ontology/shapes#SourceDivision> a sh:NodeShape ;
     sh:targetClass gc:SourceDivision ;
@@ -161,7 +172,7 @@
     sh:targetClass owl:Axiom ;
     sh:property [ sh:path owl:annotatedSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path owl:annotatedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
-        sh:in ( gc:excludes gc:entails gc:tier gc:clarity gc:unchurches gc:asPrinted ) ] ;
+        sh:in ( gc:excludes gc:entails gc:tier gc:clarity gc:unchurches gc:asPrinted gc:exceptsLocus ) ] ;
     sh:property [ sh:path owl:annotatedTarget ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRIOrLiteral ] ;
     sh:property [ sh:path rdfs:comment ; sh:minCount 1 ] ;
     sh:property [ sh:path gc:status ; sh:maxCount 1 ] ;
@@ -193,7 +204,8 @@
 
 <ontology/shapes#Body> a sh:NodeShape ;
     sh:targetClass gc:Body ;
-    sh:pattern "^https://w3id\\.org/golden-chain/body/[a-z0-9-]+$" ;
+    # ADR-0007 Decision 1: a Congregation is body/congregation/{slug}.
+    sh:pattern "^https://w3id\\.org/golden-chain/body/(congregation/)?[a-z0-9-]+$" ;
     sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
     sh:property [ sh:path gc:childOf ; sh:class gc:Body ] ;
     sh:property [ sh:path gc:holds ; sh:class gc:Holding ] ;
@@ -241,7 +253,7 @@
 
 <ontology/shapes#Holding> a sh:NodeShape ;
     sh:targetClass gc:Holding ;
-    sh:pattern "^https://w3id\\.org/golden-chain/holding/[a-z0-9-]+/[a-z0-9-]+/[a-z0-9-]+(/[a-z0-9-]+)?$" ;
+    sh:pattern "^https://w3id\\.org/golden-chain/holding/(congregation/)?[a-z0-9-]+/[a-z0-9-]+/[a-z0-9-]+(/[a-z0-9-]+)?$" ;
     sh:node <ontology/shapes#Status> ;
     sh:property [ sh:path [ sh:inversePath gc:holds ] ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Body ] ;
     sh:property [ sh:path gc:position ; sh:minCount 1 ; sh:maxCount 1 ; sh:class gc:Position ] ;
@@ -251,8 +263,21 @@
     # Absent scope means all; an explicit all is redundant and would break the IRI rule below.
     sh:property [ sh:path gc:scope ; sh:maxCount 1 ;
         sh:in ( <vocab/scope/officers> <vocab/scope/members> ) ] ;
-    sh:property [ sh:path dcterms:source ; sh:minCount 1 ; sh:class gc:SourceDivision ] ;
+    # A Congregation's Holding cites its church's statement or personal knowledge (ADR-0007 C3);
+    # every other Holding cites a source division (the first sparql constraint below).
+    sh:property [ sh:path dcterms:source ; sh:minCount 1 ;
+        sh:or ( [ sh:class gc:SourceDivision ] [ sh:class gc:SourceWork ] [ sh:class gc:PersonalKnowledge ] ) ] ;
     sh:property [ sh:path gc:derivedBy ; sh:maxCount 1 ; sh:in ( "implication" ) ] ;
+    sh:sparql [
+        sh:message "A Holding of a Body that is not a gc:Congregation must cite a gc:SourceDivision." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?b gc:holds $this .
+                FILTER NOT EXISTS { ?b a gc:Congregation }
+                $this dcterms:source ?s .
+                FILTER NOT EXISTS { ?s a gc:SourceDivision }
+            }""" ] ;
     sh:sparql [
         sh:message "Holding IRI must be holding/{body}/{locus}/{position}[/{scope}] from its own triples." ;
         sh:prefixes <ontology/shapes> ;
@@ -267,4 +292,76 @@
                              IF(BOUND(?s), CONCAT("/", STRAFTER(STR(?s), "/vocab/scope/")), ""))
                       AS ?expected)
                 FILTER (STR($this) != ?expected)
+            }""" ] .
+
+# ---------------------------------------------------------------- congregations (ADR-0007, as locked 2026-11-22)
+
+<ontology/shapes#Congregation> a sh:NodeShape ;
+    sh:targetClass gc:Congregation ;
+    sh:node <ontology/shapes#Status> ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] ;
+    sh:property [ sh:path gc:childOf ; sh:minCount 1 ] ;
+    sh:property [ sh:path dcterms:created ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ] ;
+    sh:property [ sh:path dcterms:source ; sh:class gc:Source ] ;
+    sh:property [ sh:path gc:locator ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (a): a Congregation that gc:exceptsLocus a Locus holds nothing of its own there." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:exceptsLocus ?l ; gc:holds/gc:position/gc:answers ?l .
+            }""" ] .
+
+# AV6 (b), (d) and (e): every subject of gc:exceptsLocus, and its axiom.
+<ontology/shapes#Exception> a sh:NodeShape ;
+    sh:targetSubjectsOf gc:exceptsLocus ;
+    sh:property [ sh:path gc:exceptsLocus ; sh:class gc:Locus ] ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (b): gc:exceptsLocus is only for a gc:Congregation." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE { FILTER NOT EXISTS { $this a gc:Congregation } }""" ] ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (d): a gc:exceptsLocus triple needs an owl:Axiom carrying dcterms:source, gc:status and gc:proposedBy." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:exceptsLocus ?l .
+                FILTER NOT EXISTS {
+                    ?ax a owl:Axiom ; owl:annotatedSource $this ;
+                        owl:annotatedProperty gc:exceptsLocus ; owl:annotatedTarget ?l ;
+                        dcterms:source ?s ; gc:status ?st ; gc:proposedBy ?pb .
+                }
+            }""" ] ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (e): an exception whose source is a gc:SourceWork needs gc:locator on its axiom." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?ax a owl:Axiom ; owl:annotatedSource $this ; owl:annotatedProperty gc:exceptsLocus ;
+                    dcterms:source ?s .
+                ?s a gc:SourceWork .
+                FILTER NOT EXISTS { ?ax gc:locator ?x }
+            }""" ] .
+
+# AV6 (c) and (e): the Holdings of a Congregation.
+<ontology/shapes#CongregationHolding> a sh:NodeShape ;
+    sh:targetClass gc:Holding ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (c): a Holding of a Congregation needs dcterms:source." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?c a gc:Congregation ; gc:holds $this .
+                FILTER NOT EXISTS { $this dcterms:source ?s }
+            }""" ] ;
+    sh:sparql [
+        sh:message "ADR-0007 AV6 (e): a Congregation's Holding whose source is a gc:SourceWork needs gc:locator." ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                ?c a gc:Congregation ; gc:holds $this .
+                $this dcterms:source ?s .
+                ?s a gc:SourceWork .
+                FILTER NOT EXISTS { $this gc:locator ?x }
             }""" ] .

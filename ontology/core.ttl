@@ -36,6 +36,9 @@ gc:Anchor a owl:Class ; rdfs:label "Anchor"@en ;
 
 gc:Source a owl:Class ; rdfs:label "Source"@en .
 
+gc:PersonalKnowledge a owl:Class ; rdfs:subClassOf gc:Source ; rdfs:label "Personal knowledge"@en ;
+    rdfs:comment "A source that is what one named person knows of a church, not a document (ADR-0007 answer 3, C3). It stores no text, carries a dcterms:creator and a date, and is shown as personal knowledge, never as a statement."@en .
+
 gc:SourceWork a owl:Class ; rdfs:subClassOf gc:Source ; rdfs:label "Source work"@en .
 
 gc:SourceDivision a owl:Class ; rdfs:subClassOf gc:Source ; rdfs:label "Source division"@en .
@@ -158,6 +161,18 @@ gc:inPassage a owl:ObjectProperty ; rdfs:domain gc:Anchor ; rdfs:range gc:Passag
 
 gc:childOf a owl:ObjectProperty ; rdfs:domain gc:Body ; rdfs:range gc:Body ;
     rdfs:comment "Inheritance with per-Locus override (ADR-0003 §7)."@en .
+
+gc:exceptsLocus a owl:ObjectProperty ; rdfs:label "excepts locus"@en ;
+    rdfs:domain gc:Congregation ; rdfs:range gc:Locus ;
+    rdfs:comment "ADR-0007 Decision 3: the Congregation drops its parents' Holdings on this Locus and holds none of its own there; the cell is unknown, never tolerated. Its provenance rides on an owl:Axiom (dcterms:source, gc:locator when from a statement, gc:status, gc:proposedBy)."@en .
+
+gc:readOn a owl:DatatypeProperty ; rdfs:label "read on"@en ;
+    rdfs:domain gc:SourceWork ; rdfs:range xsd:date ;
+    rdfs:comment "The date a church's published statement was read (ADR-0007 answer 3). No text of it is stored."@en .
+
+gc:archivedCopy a owl:ObjectProperty ; rdfs:label "archived copy"@en ;
+    rdfs:domain gc:SourceWork ;
+    rdfs:comment "The URL of an archived copy of a church's published statement (ADR-0007 answer 3)."@en .
 
 gc:expressedIn a owl:ObjectProperty ; rdfs:domain gc:Body ; rdfs:range gc:SourceWork .
 

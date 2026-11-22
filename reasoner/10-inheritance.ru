@@ -2,6 +2,8 @@
 # A Body effectively holds a Holding of itself or of an ancestor A on Locus L,
 # unless some Body on the path from it to A (itself included) holds anything on L.
 # The nearest Holder on L wins and blocks everything above it, whatever the scope.
+# ADR-0007 C2: a Body on that path (itself included) that gc:exceptsLocus L blocks L the same way:
+# the ancestors' Holdings on L are dropped and none is added (the cell is unknown, never tolerated).
 # Reads the union of the named graphs; writes graph/derived/inheritance.
 PREFIX gc: <https://w3id.org/golden-chain/ontology#>
 
@@ -15,5 +17,10 @@ WHERE {
     ?b gc:childOf* ?m .
     ?m gc:childOf+ ?a .
     ?m gc:holds/gc:position/gc:answers ?l .
+  }
+  FILTER NOT EXISTS {
+    ?b gc:childOf* ?m .
+    ?m gc:childOf+ ?a .
+    ?m gc:exceptsLocus ?l .
   }
 }

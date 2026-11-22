@@ -54,7 +54,7 @@ CODE_DIR = HERE  # where build.py and template.html are read from (tests point i
 HANDOFF = REPO / "docs" / "handoff"
 ADR = REPO / "docs" / "adr" / "0006-signing-console.md"
 PLUMB_TTL = REPO / "data" / "plumb-line.ttl"
-KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "truthset-italic-v5", "region-reask")
+KINDS = ("empty-strips", "plumb-line", "plumb-line-followup", "wcf1647", "lbc1677", "q11-crops", "truthset-italic", "truthset-italic-v3", "truthset-italic-v4", "truthset-italic-v5", "region-reask", "congregation")
 STATES = ("verdict", "abstain", "fault")
 LOCI_HEADER = """@base <https://w3id.org/golden-chain/> .
 @prefix gc: <https://w3id.org/golden-chain/ontology#> .
@@ -435,9 +435,273 @@ def adr_ratified():
         return False
 
 
+# ---- the congregation kind (ADR-0007, as locked 2026-11-22: C3, C4, C5, C7) ----------------------------------
+DATA_DIR = REPO / "data"  # tests point it elsewhere
+BASE_IRI = "https://w3id.org/golden-chain/"
+CG_STATEMENT, CG_PERSONAL = "its published statement", "personal knowledge only"
+CG_ROW_STATEMENT, CG_ROW_PERSONAL = "the church's statement", "personal knowledge"
+ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+URL_RE = re.compile(r"https?://[^\s<>\"{}|\\^`]+")
+
+
+def congregation_slug(name):
+    """Lowercase, ASCII-folded, runs of non-alphanumerics become "-", dashes stripped; ADR-0002 slug rule."""
+    import unicodedata
+    s = unicodedata.normalize("NFKD", str(name or "")).encode("ascii", "ignore").decode("ascii").lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    if not SLUG.fullmatch(s):
+        raise Fail(f"congregation: the name {name!r} does not give a slug (ADR-0002)")
+    return s
+
+
+def _cg_txt(v):
+    if isinstance(v, str):
+        return v.strip() or None
+    return v
+
+
+def _cg_lit(s):
+    return '"' + str(s).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\r", "\\r") + '"'
+
+
+def _cg_rel(iri):
+    iri = str(iri)
+    return "<" + (iri[len(BASE_IRI):] if iri.startswith(BASE_IRI) else iri) + ">"
+
+
+def _cg_url(v, what):
+    if not isinstance(v, str) or not URL_RE.fullmatch(v):
+        raise Fail(f"congregation: {what} is not a web address: {v!r}")
+    return v
+
+
+def congregation_plan(signed, spec):
+    """Validate a signed congregation record and say what it mints. Raises Fail (nothing written) on any
+    broken C7 condition. Returns {"minted": bool, "slug", "name", "date", "questions": [str], "skipped": [str],
+    "church": {...}, "parents": [iri], "items": [dict]}. Pure."""
+    rows = {r["row_id"]: r for r in signed["rows"]}
+    specrows = {r["id"]: (s["id"], r) for s, r in spec_rows(spec)}
+
+    def vals(rid):
+        return {f["id"]: _cg_txt(f["value"]) for f in rows[rid]["fields"]}
+
+    church = {}
+    for rid in ("church.name", "church.basis", "church.statement", "church.parents"):
+        if rid not in rows:
+            raise Fail(f"congregation: the spec has no row {rid}")
+        if rows[rid]["state"] != "verdict":
+            raise Fail(f"congregation: row {rid} must be a verdict (state {rows[rid]['state']})")
+        church[rid] = vals(rid)
+    name = church["church.name"].get("name")
+    if not isinstance(name, str):
+        raise Fail("congregation: the church name is missing")
+    plan = {"name": name, "questions": [], "skipped": [], "items": [], "minted": False,
+            "parents": [p["iri"] for p in spec["congregation"]["parents"]],
+            "date": str((signed.get("signature") or {}).get("date") or "").strip()}
+    plan["slug"] = congregation_slug(name)
+    if not ISO_DATE.fullmatch(plan["date"]):
+        raise Fail(f"congregation: the signature date {plan['date']!r} is not YYYY-MM-DD")
+    top_other = [(rid, k) for rid, d in church.items() for k, v in d.items() if is_other(v)]
+    if top_other:
+        for rid, k in top_other:
+            plan["questions"].append(f"{rows[rid]['label']}: {k}: {church[rid][k]['other']}")
+        plan["why_not"] = ("an answer in the church section or the parents row was \"other, as written\", "
+                           "so nothing at all is minted")
+        return plan
+    basis = church["church.basis"].get("basis")
+    st = church["church.statement"]
+    stmt = [st.get(k) for k in ("title", "url", "read", "archived")]
+    if basis == CG_STATEMENT:
+        if not all(stmt):
+            raise Fail("congregation: basis published statement needs the statement title, URL, date read "
+                       "and archived copy URL")
+        plan["statement"] = {"title": stmt[0], "url": _cg_url(stmt[1], "the statement URL"),
+                             "read": stmt[2], "archived": _cg_url(stmt[3], "the archived copy URL")}
+        if not ISO_DATE.fullmatch(stmt[2]):
+            raise Fail(f"congregation: the date read {stmt[2]!r} is not YYYY-MM-DD")
+        try:
+            datetime.date.fromisoformat(stmt[2])
+        except ValueError:
+            raise Fail(f"congregation: the date read {stmt[2]!r} is not a date")
+    elif basis == CG_PERSONAL:
+        if any(stmt):
+            raise Fail("congregation: basis personal knowledge only needs the statement fields empty")
+    else:
+        raise Fail(f"congregation: the church basis {basis!r} is not an option")
+    pwhere = church["church.parents"].get("where")
+    if pwhere and basis == CG_PERSONAL:
+        raise Fail("congregation: where the statement names the parents is filled but there is no statement")
+    plan["parents_where"] = pwhere
+    plan["basis"] = basis
+    for rid, (sec, srow) in specrows.items():
+        if sec not in ("parents-speak", "parents-silent"):
+            continue
+        row, v = rows[rid], vals(rid)
+        fmap = {f["id"]: f for f in srow["fields"]}
+        locus = srow.get("locus")
+        if not locus:
+            raise Fail(f"congregation: row {rid} records no Locus")
+        if row["state"] != "verdict":
+            plan["skipped"].append(f"{rid}: {row['state']}, nothing minted")
+            continue
+        oth = [(k, x) for k, x in v.items() if is_other(x)]
+        if oth:
+            for k, x in oth:
+                plan["questions"].append(f"{row['label']}: {fmap[k]['label']}: {x['other']}")
+            plan["skipped"].append(f"{rid}: \"other, as written\", nothing minted")
+            continue
+        rbasis, where = v.get("basis"), v.get("where")
+        rest = {k: v.get(k) for k in ("instead", "modality", "scope", "basis", "where")}
+        if sec == "parents-speak":
+            code = fmap["answer"]["codes"].get(v.get("answer"))
+            if code is None:
+                raise Fail(f"row {rid}: the answer {v.get('answer')!r} is not an option")
+            own = "instead"
+        else:
+            if v.get("own") is None:
+                if any(rest.values()):
+                    raise Fail(f"row {rid}: fields are filled but no position is chosen")
+                plan["skipped"].append(f"{rid}: left empty, unanswered, nothing minted")
+                continue
+            code, own, rest["instead"] = "holds-this", "own", v["own"]
+        if code == "as-parents":
+            if any(rest.values()):
+                raise Fail(f"row {rid}: \"as the parents\" needs the other fields empty")
+            continue
+        if code == "no-alternative":
+            if rest["instead"] or rest["modality"] or rest["scope"]:
+                raise Fail(f"row {rid}: \"excepts: no alternative stated\" takes no position, modality or scope")
+        else:
+            miss = [k for k in ("instead", "modality", "scope", "basis") if not rest[k]]
+            if miss:
+                raise Fail(f"row {rid}: needs {', '.join(miss)}")
+        if rbasis not in (CG_ROW_STATEMENT, CG_ROW_PERSONAL):
+            raise Fail(f"row {rid}: needs a basis, the church's statement or personal knowledge")
+        if rbasis == CG_ROW_STATEMENT:
+            if basis != CG_STATEMENT:
+                raise Fail(f"row {rid}: basis the church's statement, but the church has no published statement")
+            if not where:
+                raise Fail(f"row {rid}: basis the church's statement needs where")
+        elif where:
+            raise Fail(f"row {rid}: where is filled but the basis is personal knowledge")
+        item = {"row": rid, "label": row["label"], "locus": locus, "code": code, "basis": rbasis, "where": where}
+        if code != "no-alternative":
+            def iri(k):
+                try:
+                    return fmap[k if k != "instead" else own]["iris"][rest[k]]
+                except KeyError:
+                    raise Fail(f"row {rid}: {k} {rest[k]!r} is not an option")
+            item.update(position=iri("instead"), modality=iri("modality"), scope=iri("scope"),
+                        position_label=rest["instead"], modality_label=rest["modality"], scope_label=rest["scope"])
+        plan["items"].append(item)
+    plan["minted"] = True
+    return plan
+
+
+def congregation_ttl(plan, signed):
+    """The TTL of a plan: Congregation, its sources, its Holdings, its exception triples and axioms. Deterministic."""
+    slug, date = plan["slug"], plan["date"]
+    b16 = signed["build_hash"][:16]
+    body, stmt_src, pk_src = f"<body/congregation/{slug}>", f"<source/congregation/{slug}/statement>", \
+        f"<source/congregation/{slug}/personal-knowledge>"
+    status = ["    gc:status <vocab/status/proposed> ;", "    gc:proposedBy <agent/chris> ."]
+    uses_stmt = any(i["basis"] == CG_ROW_STATEMENT for i in plan["items"]) or plan["basis"] == CG_STATEMENT
+    uses_pk = any(i["basis"] == CG_ROW_PERSONAL for i in plan["items"]) or plan["basis"] == CG_PERSONAL
+    out = [f"# Congregation {plan['name']} from the signed record SIGNED_congregation_{b16}.md",
+           f"# build_hash {signed['build_hash']}",
+           "# Everything here is proposed (ADR-0007 C4): no gc:ratifiedBy; a named person confirms it.",
+           f"@base <{BASE_IRI}> .",
+           "@prefix gc: <https://w3id.org/golden-chain/ontology#> .",
+           "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .",
+           "@prefix dcterms: <http://purl.org/dc/terms/> .",
+           "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .",
+           "@prefix owl: <http://www.w3.org/2002/07/owl#> .", ""]
+    head = [f"{body} a gc:Congregation ;", f"    rdfs:label {_cg_lit(plan['name'])}@en ;"]
+    head += [f"    gc:childOf {_cg_rel(p)} ;" for p in sorted(plan["parents"])]
+    head.append(f"    dcterms:source {stmt_src if plan['basis'] == CG_STATEMENT else pk_src} ;")
+    if plan.get("parents_where"):
+        head.append(f"    gc:locator {_cg_lit(plan['parents_where'])} ;")
+    head += [f"    dcterms:created \"{date}\"^^xsd:date ;"] + status
+    out += head + [""]
+    if uses_stmt and plan["basis"] == CG_STATEMENT:
+        s = plan["statement"]
+        out += [f"{stmt_src} a gc:SourceWork ;", f"    rdfs:label {_cg_lit(s['title'])}@en ;",
+                f"    rdfs:seeAlso <{s['url']}> ;", f"    gc:readOn \"{s['read']}\"^^xsd:date ;",
+                f"    gc:archivedCopy <{s['archived']}> .", ""]
+    if uses_pk:
+        out += [f"{pk_src} a gc:PersonalKnowledge ;",
+                f"    rdfs:label {_cg_lit('Personal knowledge of ' + plan['name'])}@en ;",
+                "    dcterms:creator <agent/chris> ;", f"    dcterms:created \"{date}\"^^xsd:date .", ""]
+
+    def src_of(i):
+        return stmt_src if i["basis"] == CG_ROW_STATEMENT else pk_src
+    holds, exc = [], []
+    for i in plan["items"]:
+        if i["code"] in ("holds-another", "holds-this"):
+            scope = str(i["scope"]).rsplit("/", 1)[1]
+            h = f"holding/congregation/{slug}/{str(i['position']).split('/position/', 1)[1]}"
+            h += "" if scope == "all" else f"/{scope}"
+            holds.append((h, i))
+        else:
+            exc.append(i)
+    for h, i in sorted(holds, key=lambda t: t[0]):
+        out += [f"{body} gc:holds <{h}> .", f"<{h}> a gc:Holding ;", f"    gc:position {_cg_rel(i['position'])} ;",
+                f"    gc:modality {_cg_rel(i['modality'])} ;"]
+        if str(i["scope"]).rsplit("/", 1)[1] != "all":
+            out.append(f"    gc:scope {_cg_rel(i['scope'])} ;")
+        out.append(f"    dcterms:source {src_of(i)} ;")
+        if i["where"]:
+            out.append(f"    gc:locator {_cg_lit(i['where'])} ;")
+        out += status + [""]
+    for i in sorted(exc, key=lambda x: x["locus"]):
+        tl = str(i["locus"]).rsplit("/", 1)[1]
+        out += [f"{body} gc:exceptsLocus {_cg_rel(i['locus'])} .",
+                f"<axiom/exceptsLocus/{slug}/{tl}> a owl:Axiom ;", f"    owl:annotatedSource {body} ;",
+                "    owl:annotatedProperty gc:exceptsLocus ;", f"    owl:annotatedTarget {_cg_rel(i['locus'])} ;",
+                "    rdfs:comment \"Excepted by signed congregation record (ADR-0007 C1): the parents' Holdings "
+                "here are dropped and none is held in their place.\"@en ;",
+                f"    dcterms:source {src_of(i)} ;"]
+        if i["where"]:
+            out.append(f"    gc:locator {_cg_lit(i['where'])} ;")
+        out += status + [""]
+    return ("\n".join(out)).encode("utf-8")
+
+
+def congregation_markdown(signed, spec, plan, run_header=None):
+    md = markdown(signed, spec, run_header).decode("utf-8")
+    out = [md, "", "## What this record mints", ""]
+    if plan["minted"]:
+        out.append(f"- Congregation: body/congregation/{plan['slug']} (proposed, entered by agent/chris, "
+                   f"{plan['date']}), subscribing to: {', '.join(plan['parents'])}")
+        for i in sorted(plan["items"], key=lambda x: x["row"]):
+            what = ("excepts, no alternative stated" if i["code"] == "no-alternative"
+                    else f"{i['code']}: {i['position_label']} ({i['modality_label']}, {i['scope_label']})")
+            out.append(f"- {i['label']}: {what}; basis {i['basis']}" + (f"; where {i['where']}" if i["where"] else ""))
+    else:
+        out.append(f"- Nothing: {plan['why_not']}.")
+    out += [f"- Not minted: {x}" for x in plan["skipped"]]
+    out += ["", "## Questions for the architect", ""]
+    out += [f"- {q}" for q in plan["questions"]] or ["- None."]
+    return ("\n".join(out) + "\n").encode("utf-8")
+
+
+def congregation_output(signed, spec, ttl_out, run_header=None):
+    plan = congregation_plan(signed, spec)
+    name = f"SIGNED_congregation_{signed['build_hash'][:16]}.md"
+    out = [(Path(HANDOFF) / name, congregation_markdown(signed, spec, plan, run_header))]
+    if plan["minted"]:
+        p = Path(ttl_out) if ttl_out else Path(DATA_DIR) / f"congregation-{plan['slug']}.ttl"
+        if not ttl_out and p.exists():
+            raise Fail(f"{p} exists; a congregation file is never overwritten")
+        out.append((p, congregation_ttl(plan, signed)))
+    return out
+
+
 def instance_output(signed, spec, ttl_out, records_dir=None, run_header=None):
     """[(path, bytes)] of the instance record(s); Fails before anything is written if it may not be.
     Plumb-line kinds merge: the numbered record file, then the replayed TTL (which replaces the old one)."""
+    if signed["kind"] == "congregation":
+        return congregation_output(signed, spec, ttl_out, run_header)
     if signed["kind"] in ("plumb-line", "plumb-line-followup"):
         import plumb_merge
         if ttl_out is None and not adr_ratified():
@@ -509,7 +773,9 @@ def ingest(verdicts, manifest, provisional=False, out_dir=None, write=False, ttl
     signed_path = out / f"signed_{man['kind']}_{man['build16']}.json"
     signed_bytes = json.dumps(signed, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")
     plan = [(signed_path, signed_bytes)]
-    if write:
+    if signed["kind"] == "congregation":
+        congregation_plan(signed, spec)  # every C7 condition is checked before anything is written
+    if write or (ttl_out and signed["kind"] == "congregation"):
         plan += instance_output(signed, spec, ttl_out, records_dir, run_header_of(man, spec))
     merged_ttl = None
     if write and signed["kind"] in ("plumb-line", "plumb-line-followup"):
