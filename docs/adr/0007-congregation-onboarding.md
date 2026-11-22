@@ -286,3 +286,71 @@ the ones marked Q are asked in the report.
   - The full suite passes. No existing test is edited, except one that pins KINDS or the ontology's property list
     (each is named).
 
+
+## Verification, amendment 2: the lock (2026-11-22T17:16Z, before any code for it; ruling on report 21)
+
+Locked at golden-chain 18f4de3 by this commit, before any code that implements it. It amends C2, C4 and C7 and
+the AV predictions named below. The lock of 2026-11-22T14:50Z above is never edited: where this section
+supersedes a clause, that clause stays on record beside it. Synthetic fixtures only: no real Congregation is
+minted, and no data/*.ttl file is written or changed.
+
+### The build choices, amended
+
+- **C2' (supersedes C2's last two sentences).** An exception clears parents-differ on that Locus.
+  reasoner/20-consistency.ru's parents-differ rule gains one guard: it does not fire for Body B on Locus L when
+  `B gc:exceptsLocus L`. An excepted Locus inherits nothing, so nothing conflicts. Its cell stays "excepted,
+  unknown". Inheritance (10-inheritance.ru) is unchanged.
+- **C4' (answers C4's Q: no).** Chris's signature is the entry, shown as "entered by". The ingest never writes
+  `gc:ratifiedBy` (unchanged). "Confirmed by" is reserved for a named person who speaks for that church, and that
+  act is not built. The page line becomes:
+  - with no `gc:ratifiedBy`: "  not yet confirmed by the church";
+  - with `gc:ratifiedBy`: "  confirmed by: <label>" (unchanged).
+  The parenthesis "(every row here is proposed)" goes.
+- **C6' (answers C6's Q).** The three lines (entered by, confirmed, correction) state who entered it, from what,
+  and that the church may send a correction. The CORRECTION wording is unchanged. No address, email or URL is
+  added; the contact detail waits on Chris choosing one.
+- **C7' (amends C7's "Where they differ" item).** Where the parents differ, the row offers three answers:
+  "holds this one", "excepts: no alternative stated" and **"says nothing: keeps both"** (code `keeps-both`).
+  - "says nothing: keeps both" takes no position, modality, scope, basis or where. An export that fills any of
+    them on that answer is refused.
+  - It mints nothing: no Holding, no exception, no axiom.
+  - It is recorded as an answer: the signed record has a section "## Answered, nothing minted" with one line per
+    such row, "- <row label>: says nothing: keeps both (its standards differ here)". It is not listed under
+    questions.
+  - The plain-words line for a differ row names all three answers.
+  - Rows where the parents agree, and silent rows, are unchanged.
+- **C8' (adds to C8).** Where parents-differ fires for a Congregation on Locus L, weigh's cells block keeps the
+  "inherited from <parent>" line for each parent and adds, after them, one line
+  "    - <locus>: its standards differ here and its statement does not say". No other Body's page changes.
+
+### Predictions, amended (each a born test)
+
+- **AW1 (supersedes AV2's second clause, which stays on record).** In the fixture where the parents differ on a
+  Locus that C excepts, parents-differ does **not** fire there, and C's cell there is "excepted, unknown".
+  AV2's first clause holds unchanged: in the AV1 fixture, parents-differ fires for C on L6 only.
+- **AW2. The form.**
+  - Every differ row offers exactly the three answers of C7', in that order, with codes `holds-this`,
+    `no-alternative`, `keeps-both`. Agree rows and silent rows have the same answers as before.
+  - The spec built from the AV1 parents passes every build check, the plain-words check included.
+- **AW3. Ingest.**
+  - In the AV7 synthetic export, L6 answered "says nothing: keeps both" (instead of abstained) ingests. The TTL,
+    loaded beside the fixture parents, reproduces AV1, and parents-differ fires for C on L6.
+  - The TTL has no triple about L6, and its `gc:proposedBy <agent/chris>` count is unchanged (1 + 4).
+  - The signed record has "## Answered, nothing minted" with the L6 line, and L6 is not under questions.
+  - "says nothing: keeps both" with any of position, modality, scope, basis or where filled is refused, and
+    nothing is written.
+- **AW4. Weigh.**
+  - For C in the AV1 fixture, the cells block has the two "inherited from" lines on L6 followed by
+    "its standards differ here and its statement does not say", and no such line on any other Locus.
+  - The confirmation line is "  not yet confirmed by the church"; with `gc:ratifiedBy` in the fixture it is
+    "  confirmed by: <label>".
+  - The correction line has no "@" and no "http".
+- **AW5. Real data untouched.**
+  - Weigh is byte-identical (members 71c14a5d187d, officers c8fe9e910b5a).
+  - Ingest shows 0 violations, and the tests/predictions.py counts are unchanged.
+  - No data/*.ttl file changes.
+  - The full suite passes.
+  - Edited existing tests, named in the report: `test_av2_parents_differ_still_fires_on_an_excepted_locus`
+    (superseded by AW1; kept, renamed to say it is superseded, and inverted), the AV4 assertion on
+    "not yet confirmed (every row here is proposed)", and the AV7 fixture's L6 abstain (AV7's own tests keep
+    passing with L6 abstained as well as answered).
