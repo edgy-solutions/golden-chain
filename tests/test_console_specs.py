@@ -966,8 +966,8 @@ def test_lbc1677_builds_checks_and_renders(tmp_path, monkeypatch):
 def test_lbc1677_row_counts_and_plain_on_every_field(tmp_path):
     spec = lbc_spec(tmp_path)
     rows = [r for s in spec["sections"] for r in s["rows"]]
-    assert len(rows) == 23
-    assert len(spec["sections"]) == 8 and sum(len(r["fields"]) for r in rows) == 30
+    assert len(rows) == 25
+    assert len(spec["sections"]) == 8 and sum(len(r["fields"]) for r in rows) == 34
     assert len([r for r in rows if r["id"].endswith(".unlisted")]) == 5
     assert len([r for r in rows if r["id"] == "witness"]) == 1
     assert all(f["plain"].strip() for r in rows for f in r["fields"])
@@ -1040,6 +1040,52 @@ def test_lbc1677_proposed_differing_from_data_fails(tmp_path):
     rp.write_text(json.dumps(rows), encoding="utf-8")
     with pytest.raises(Fail, match="not in asPrinted"):
         lbc1677.make_spec(lbc_photos(tmp_path), tmp_path / "o", rows_path=rp)
+
+
+def test_lbc1677_ch07_reading_rows(tmp_path):
+    sec = {s["id"]: s for s in lbc_spec(tmp_path)["sections"]}["ch07"]
+    ids = [r["id"] for r in sec["rows"]]
+    assert ids[-3:] == ["7.2.text", "7.3.text", "ch07.unlisted"]
+    got = {r["id"]: r for r in sec["rows"]}
+    exp = {"7.2.text": ("Moreover Man having brought himself under the curse of the Law by his fall, it pleased the Lord to make a Covenant of Grace", "26"),
+           "7.3.text": ("This Covenant is revealed in the Gospel; first of all to Adam in the promise of Salvation by the (e) seed of the woman, "
+                        "and afterwards by farther steps, untill the full (f) discovery thereof was compleated in the new Testament; and it is "
+                        "founded in that (*) Eternal Covenant transaction, that was between the Father and the Son, about the Redemption of the Elect", "27")}
+    for rid, (text, page) in exp.items():
+        fs = got[rid]["fields"]
+        assert [(f["id"], f["kind"], f["options"], f["proposed"]) for f in fs] == [
+            ("text", "radio", ["confirm", "correct"], text), ("page", "radio", ["confirm", "correct"], page)]
+        assert got[rid]["image_ids"] == []
+    assert [c for r in got.values() for c in r["context"] if c.startswith("Page: ")] == [
+        "Page: the page number is unclear in the photograph; 26 is inferred from 27 on the next page"]
+    assert [c.startswith("Page: ") for c in got["7.2.text"]["context"]] == [False, False, True]
+    assert len(got["7.3.text"]["context"]) == 2
+
+
+def test_lbc1677_reading_checks_pass(tmp_path):
+    sp = tmp_path / "spec.json"
+    build.write_spec(sp, lbc_spec(tmp_path))
+    build.check_spec(json.loads(sp.read_text(encoding="utf-8")))
+
+
+def test_lbc1677_reading_not_in_report_fails(tmp_path):
+    rows = json.loads(lbc1677.ROWS.read_text(encoding="utf-8"))
+    rows["readings"][0]["proposed"] += " and more"
+    rp = tmp_path / "rows.json"
+    rp.write_text(json.dumps(rows), encoding="utf-8")
+    with pytest.raises(Fail, match="7.2.text.*not found verbatim"):
+        lbc1677.make_spec(lbc_photos(tmp_path), tmp_path / "o", rows_path=rp)
+
+
+def test_lbc1677_reading_bad_chapter_or_duplicate_id_fails(tmp_path):
+    for edit, pat in ((lambda r: r["readings"][0].update(chapter="ch99"), "chapter"),
+                      (lambda r: r["readings"][1].update(id="7.2.text"), "not unique")):
+        rows = json.loads(lbc1677.ROWS.read_text(encoding="utf-8"))
+        edit(rows)
+        rp = tmp_path / "rows.json"
+        rp.write_text(json.dumps(rows), encoding="utf-8")
+        with pytest.raises(Fail, match=pat):
+            lbc1677.make_spec(lbc_photos(tmp_path), tmp_path / "o", rows_path=rp)
 
 
 def test_lbc1677_jpeg_converts_deterministically(tmp_path):

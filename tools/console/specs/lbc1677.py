@@ -7,6 +7,9 @@ contiguous. The photos dir also holds one public-domain scan, wcf1647_leaf14.<jp
 leaf 14), shown in a last section as one page number to confirm or correct. A JPEG is converted to PNG deterministically (PIL, no resize, no metadata) next to the spec; the image
 entry records the source and converted sha256. The 15 note rows are in lbc1677_rows.json; each proposed string must be
 in data/lbc-1689.ttl's gc:asPrinted of every Argument the row lists.
+Chapter 7 also carries two "reading" rows (7.2.text, 7.3.text; the "readings" key of the rows file): the build agent's reading of LBC 7.2 and 7.3
+from Chris's photographs, each a words field and a page field to confirm or correct (ruling on report 23). Each proposed string must occur
+verbatim in docs/handoff/REPORT_phase1_23.md; none is in the data.
 """
 
 import json
@@ -21,6 +24,7 @@ from build import Fail  # noqa: E402
 
 ROWS = HERE / "lbc1677_rows.json"
 DATA = HERE.parents[2] / "data" / "lbc-1689.ttl"
+REPORT23 = HERE.parents[2] / "docs" / "handoff" / "REPORT_phase1_23.md"
 GROUPS = ("title", "ch01", "ch07", "ch26", "ch27", "ch28", "ch29")
 NAME = re.compile(r"^lbc1677_(title|ch01|ch07|ch26|ch27|ch28|ch29)_(\d+)\.(jpg|jpeg|png)$")
 PLAIN_WITNESS = ('The photograph should show the title page of the book the notes were photographed from. Choose "yes" if it is '
@@ -43,6 +47,10 @@ PLAIN_LOC_PAGE = ('Type the page number printed on the page where paragraph 6 of
                   'signature (the letters and number at the foot), or "none".')
 PLAIN_LOC_NOTES = ('Type each margin note that belongs to paragraph 6, with its letter, exactly as printed, one after another. '
                    'If there are none, type "none".')
+PLAIN_READ = ('The text on a grey background is the build agent\'s reading of these words from your photograph, with the long s written as "s". '
+              'Choose "confirm" if the page prints exactly these words in this order, or "correct" and type exactly what is printed.')
+PLAIN_READ_PAGE = ('The text on a grey background is the page number the build agent read or inferred for these words. '
+                   'Choose "confirm" if it is the number printed on the page where they stand, or "correct" and type what is printed.')
 WCF_NAME = re.compile(r"^wcf1647_leaf14\.(jpg|jpeg|png)$")
 WCF_ID = "wcf1647-leaf14-1"
 HELP = [{"q": "Why am I asked to read these?",
@@ -124,6 +132,19 @@ def check_against_data(rows, data_path):
                 raise Fail(f"row {r['id']}: proposed {r['proposed']!r} not in asPrinted of argument/{a} ({vals})")
 
 
+def check_readings(readings, rows, report_path=REPORT23):
+    text = Path(report_path).read_text(encoding="utf-8")
+    seen = {r["id"] for r in rows}
+    for r in readings:
+        if r["chapter"] not in GROUPS:
+            raise Fail(f"reading {r['id']}: chapter {r['chapter']!r} is not in {GROUPS}")
+        if r["id"] in seen:
+            raise Fail(f"reading {r['id']}: id is not unique or clashes with a note row")
+        seen.add(r["id"])
+        if r["proposed"] not in text:
+            raise Fail(f"reading {r['id']}: proposed {r['proposed']!r} not found verbatim in {Path(report_path).name}")
+
+
 def field(fid, kind, label, plain, options=None, proposed=None, required=True):
     f = {"id": fid, "kind": kind, "label": label, "required": required, "proposed": proposed, "plain": plain}
     if options:
@@ -135,6 +156,17 @@ def note_row(r):
     used = "Used by: " + (", ".join(r["arguments"]) if r["arguments"] else "Stored for phase 2, not in the data")
     return {"id": r["id"], "label": f"{r['locator']}, note {r['note']}", "context": [used, "Read by: " + r["read_by"]],
             "image_ids": [], "fields": [field("v", "radio", "As printed", PLAIN_PROPOSAL, ["confirm", "correct"], r["proposed"])]}
+
+
+def reading_row(r):
+    ctx = ["Read by: build agent, from your photograph, 2026-11-22 (a proposal, not signed)",
+           "Used by: report 23, dispatch 23a question Q-c; not in the data"]
+    if r["page_note"]:
+        ctx.append("Page: " + r["page_note"])
+    return {"id": r["id"], "label": f"{r['id'][:3]} as printed, page {r['page']}: the words quoted in report 23", "context": ctx,
+            "image_ids": [], "fields": [
+                field("text", "radio", "The words, as printed", PLAIN_READ, ["confirm", "correct"], r["proposed"]),
+                field("page", "radio", "The page number", PLAIN_READ_PAGE, ["confirm", "correct"], r["page"])]}
 
 
 def unlisted_row(g):
@@ -164,6 +196,8 @@ def make_spec(photos_dir, out_dir, rows_path=ROWS, data_path=DATA):
     meta = json.loads(Path(rows_path).read_text(encoding="utf-8"))
     rows = meta["rows"]
     check_against_data(rows, data_path)
+    readings = meta.get("readings", [])
+    check_readings(readings, rows)
     photos = find_photos(photos_dir)
     wcf = find_wcf_leaf(photos_dir)
     Path(out_dir).mkdir(parents=True, exist_ok=True)
@@ -177,7 +211,7 @@ def make_spec(photos_dir, out_dir, rows_path=ROWS, data_path=DATA):
         if g not in meta["chapters"]:
             raise Fail(f"rows.json has no chapter {g}")
         ids = [i["id"] for i in images[g]]
-        grows = [locate_row()] if g == "ch01" else [note_row(r) for r in rows if r["chapter"] == g] + [unlisted_row(g)]
+        grows = [locate_row()] if g == "ch01" else [note_row(r) for r in rows if r["chapter"] == g] + [reading_row(r) for r in readings if r["chapter"] == g] + [unlisted_row(g)]
         sections.append({"id": g, "title": meta["chapters"][g], "text": "", "image_ids": ids, "rows": grows})
     wimg = image_entry("wcf1647-leaf14", 1, wcf, out_dir)
     assert wimg["id"] == WCF_ID

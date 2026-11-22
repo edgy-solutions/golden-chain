@@ -171,5 +171,21 @@
    ],
    "read_by": "architect, from photographs"
   }
+ ],
+ "readings": [
+  {
+   "id": "7.2.text",
+   "chapter": "ch07",
+   "page": "26",
+   "page_note": "the page number is unclear in the photograph; 26 is inferred from 27 on the next page",
+   "proposed": "Moreover Man having brought himself under the curse of the Law by his fall, it pleased the Lord to make a Covenant of Grace"
+  },
+  {
+   "id": "7.3.text",
+   "chapter": "ch07",
+   "page": "27",
+   "page_note": "",
+   "proposed": "This Covenant is revealed in the Gospel; first of all to Adam in the promise of Salvation by the (e) seed of the woman, and afterwards by farther steps, untill the full (f) discovery thereof was compleated in the new Testament; and it is founded in that (*) Eternal Covenant transaction, that was between the Father and the Son, about the Redemption of the Elect"
+  }
  ]
 }
