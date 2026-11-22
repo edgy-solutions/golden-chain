@@ -1,7 +1,29 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed through report 14's commit on 2026-11-14 (after `9a5a955`). The architect says "Push as you go".
-- **Now (2026-11-17): ruling on report 19 worked** ([REPORT_phase1_20.md](REPORT_phase1_20.md); [RULING_report_19.md](RULING_report_19.md)).
+- **Now (2026-11-22): ruling on report 20 worked** ([REPORT_phase1_21.md](REPORT_phase1_21.md); [RULING_report_20.md](RULING_report_20.md)).
+  - Commits: `1a7d746` (ruling filed), `5285db3` (A-12 born test; ADR-0006 R6 ratified provisionally, A-8), `610471e` (ADR-0007 Verification locked before code), `56004c5` (truth-set v5 draw with replacement and ceiling; crops v5; console kind truthset-italic-v5; tall-box measure), `07682a5` (ADR-0007 build, A-9: AV1 to AV8 held, synthetic only, no real Congregation minted).
+  - **Italic v5:**
+    - The lock is `italic-v5-predictions-locked.txt`.
+    - **The ceiling tripped on slanted** (9 of 80 first choices failed; the limit is 8), so nothing was replaced, cropped or built.
+    - Edge is nearly exhausted: 7 words left after the v2 to v4 exclusions, so n is 167.
+    - V1, V3 and V4 (edge) missed.
+    - v4 build-a `8e173740c37b714d` stays on record, unsigned.
+  - **Tall-box measure:**
+    - The lock is `tallbox-bands-predictions-locked.txt`.
+    - 0 of 10 show two bands, so TB2 missed. The control is 0 of 174.
+    - It does not support the merged-lines reading. Those 10 and the 6 with the full 12 px stay open, with no cause recorded.
+  - **A-10:** the architect's reading is not an authority. The phase-2 locators stay proposals until a Position needs one. Then the build agent reads the page and proposes, and Chris signs.
+  - A-5 is accepted. BH1 is recorded as missed (the lock's clause was wrong, not the build).
+  - **C-1 is signed (2026-11-22):** the p. 914 re-ask `d7a6aab0734ffe3e` answered **yes**, column footnotes ([record](SIGNED_region_reask_d7a6aab0734ffe3e.md)). F-1 is confirmed from pixels for that one column. Chris's note says the boundary y = 6127 starts one footnote line low (not measured).
+  - **Waiting on Chris:** C-2, C-3 (if not yet done), C-4, C-6, C-8 and C-9, and the follow-up `eb961ddb1e582ed6`. There is nothing new to sign.
+  - **Waiting on the architect:**
+    - A-4;
+    - the italic truth set after the ceiling (report 21 recommends signing v4 build-a);
+    - the ADR-0007 questions C2, C4, C6 and C7-L6;
+    - the p. 914 boundary (re-measure under a lock?);
+    - the R6 text.
+- **Before it (2026-11-17): ruling on report 19 worked** ([REPORT_phase1_20.md](REPORT_phase1_20.md); [RULING_report_19.md](RULING_report_19.md)).
   - Commits: `3c6933f` (A-1 asPrinted axioms, ADR-0002 R3; ADR-0007 and ADR-0008 ratified), `2cc4412` (ADR-0006 R5, build hash by name and sha256, manifest /2, TEMPLATE_VERSION 7), `2c5e568` (A-5 sources, scots.md), `9028ac1` (italic v4 measure, draw and crops; ADR-0006 R6 word-connected edge, proposed).
   - Italic v4: lock `italic-v4-predictions-locked.txt`; T 0.11, the comb gone, n 200 after reallocation, one build hash `8e173740c37b714d` from runs a and b; **IV4 missed** (16 of 200 dropped). The console is **on hold** (README says HOLD) until the architect answers A-11.
   - Italic v3 build-a `015bfeed482a5083` stays on record, unsigned (never sign it).

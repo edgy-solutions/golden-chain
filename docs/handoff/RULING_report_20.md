@@ -43,4 +43,15 @@ BH1.  Recorded as missed. The lock's clause was wrong, not the build.
 
 ## Applied
 
-Worked in report 21 (to come).
+Worked in [REPORT_phase1_21.md](REPORT_phase1_21.md):
+
+- **A-11:**
+  - The locks were written before the code, and the code is `56004c5`.
+  - **The v5 ceiling tripped on slanted** (9 of 80 first choices failed, against a limit of 8). Nothing was replaced or built.
+  - Edge is nearly exhausted: 7 words are left.
+  - The tall-box measure found two bands in 0 of 10, so the merged-lines reading is not supported.
+  - Build-a 8e173740 stays on record, unsigned.
+- **A-12:** `5285db3`, the born test.
+- **A-8:** `5285db3`, R6 marked provisionally ratified.
+- **A-9:** Verification locked first (`610471e`), then built (`07682a5`). AV1 to AV8 held on synthetic fixtures, and no real Congregation is minted.
+- **A-10, A-5 and BH1:** recorded.
