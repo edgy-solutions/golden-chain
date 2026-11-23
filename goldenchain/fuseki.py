@@ -9,7 +9,7 @@ import urllib.parse
 import urllib.request
 from contextlib import contextmanager
 
-from goldenchain import jena
+from goldenchain import dblock, jena
 from goldenchain.ingest import FUSEKI, ROOT
 
 
@@ -36,7 +36,17 @@ class Server:
 
 @contextmanager
 def serve(timeout: float = 60.0):
-    """Run fuseki-server with fuseki/config.ttl (cwd = repo root); stop on exit."""
+    """Run fuseki-server with fuseki/config.ttl (cwd = repo root); stop on exit.
+
+    Holds the shared-database lock (goldenchain.dblock) for the server's lifetime.
+    """
+    with dblock.hold("fuseki serve"):
+        with _serve(timeout) as server:
+            yield server
+
+
+@contextmanager
+def _serve(timeout: float):
     home = jena.fuseki_home()
     port = free_port()
     (FUSEKI / "run").mkdir(parents=True, exist_ok=True)

@@ -15,7 +15,7 @@ import rdflib
 from rdflib import Dataset, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, OWL, RDF, SH, XSD
 
-from goldenchain import jena, passage
+from goldenchain import dblock, jena, passage
 
 B = "https://w3id.org/golden-chain/"
 GC = Namespace(B + "ontology#")
@@ -193,6 +193,11 @@ def derive_rdflib(ds: Dataset) -> Dataset:
 
 
 def build_tdb2(data_dir=None, ds: Dataset | None = None) -> None:
+    with dblock.hold("ingest build_tdb2"):
+        _build_tdb2(data_dir, ds)
+
+
+def _build_tdb2(data_dir, ds) -> None:
     ds = ds if ds is not None else load_dataset(data_dir)
     RUN.mkdir(parents=True, exist_ok=True)
     log = RUN / "tdb2.log"

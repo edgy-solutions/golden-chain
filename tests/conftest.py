@@ -15,6 +15,14 @@ ROOT = Path(__file__).resolve().parent.parent
 REAL_RECORDS = ROOT / "docs" / "sittings" / "plumb-line"
 
 
+@pytest.fixture(scope="session", autouse=True)
+def _hold_shared_database():
+    """ADR-0001 amendment 1: the session holds the shared database, so no other process can open it."""
+    from goldenchain import dblock
+    with dblock.hold("pytest session"):
+        yield
+
+
 @pytest.fixture(autouse=True)
 def _no_real_plumb_records(tmp_path_factory, monkeypatch):
     for d in (ROOT / "tools", ROOT / "tools" / "console"):
