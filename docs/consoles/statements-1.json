@@ -1,0 +1,181 @@
+{
+ "format": "golden-chain-statements-content/1",
+ "title": "The site's standard, its scope, and the documents included",
+ "instruction": "Parts 1 and 2 are in your own words. Nothing is suggested, by ruling: no model drafts them. Part 3 lists the documents the site uses. For each, sign it in, leave it out with a reason, or leave it for later. Nothing enters the data from this console. Your answers are kept in the signed record until a locked change writes them.",
+ "images": [
+  {
+   "id": "gadsby-title",
+   "file": "gadsby1875_pdf04_title.png",
+   "caption": "1875 Gadsby printing, title page (PDF page 4)"
+  },
+  {
+   "id": "gadsby-p8",
+   "file": "gadsby1875_pdf11_p8.png",
+   "caption": "1875 Gadsby printing, printed page 8 (PDF page 11): the Articles begin"
+  },
+  {
+   "id": "gadsby-p15",
+   "file": "gadsby1875_pdf18_p15.png",
+   "caption": "1875 Gadsby printing, printed page 15 (PDF page 18): Article XXXI"
+  },
+  {
+   "id": "gadsby-p16",
+   "file": "gadsby1875_pdf19_p16.png",
+   "caption": "1875 Gadsby printing, printed page 16 (PDF page 19): the closing paragraph"
+  }
+ ],
+ "statements": [
+  {
+   "id": "standard",
+   "title": "1. The site's statement of its standard",
+   "row": "humility-statement",
+   "label": "The statement of the standard, in your words",
+   "plain": "Write the site's statement of its own standard. It must say three things: the standard can be wrong, Scripture is its judge, and the witnesses are shown so that the reader can test it.",
+   "context": [
+    "Ruled in ADR-0003 Revision 3, R3.2.",
+    "Until this is signed, the site shows: \"The site's statement of its standard is not yet signed.\""
+   ]
+  },
+  {
+   "id": "scope",
+   "title": "2. The site's statement of its scope",
+   "row": "scope-statement",
+   "label": "The statement of the scope, in your words",
+   "plain": "Write the site's statement of its scope. It must say which traditions the site covers, and why.",
+   "context": [
+    "Ruled in ADR-0009, Decision 5.",
+    "The four tests in Decision 1 (published, attributable, public domain or licensed, a page witness) are formal only. Which traditions are covered is yours to state."
+   ]
+  }
+ ],
+ "inclusion": {
+  "id": "inclusion",
+  "title": "3. Documents included (ADR-0009, signed as one batch)",
+  "plain": "Choose \"include\" to sign this document in as in scope, \"leave out\" to record it as considered and not included (write why in the next box), or \"not now\" to leave it as not yet considered.",
+  "reason_plain": "If you chose \"leave out\", write the reason: it is shown on the list of documents left out. Otherwise leave this empty.",
+  "options": [
+   "include",
+   "leave out",
+   "not now"
+  ],
+  "sources": [
+   {
+    "source": "source/wcf",
+    "witness": "Edinburgh: Evan Tyler, 1647.",
+    "status": "Public domain (1647).",
+    "role": "Grounds a Body: the Westminster Confession (1647).",
+    "proposed": "include"
+   },
+   {
+    "source": "source/lbc-1689",
+    "witness": "The 1677 first printing, in the facsimile edition (2000).",
+    "status": "Public domain text (1677).",
+    "role": "Grounds a Body: the Second London Baptist Confession (1677/1689).",
+    "proposed": "include"
+   },
+   {
+    "source": "source/gill-body",
+    "witness": "Gill, Body of Divinity (1769-70), cited by the 1839 London pagination as reproduced in the BSB 2019 printing.",
+    "status": "Public domain work (Gill d. 1771). No BSB text is stored.",
+    "role": "Grounds a Body: John Gill, as a Teacher.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/gill-divine-right",
+    "witness": "London, 1749. ESTC T67557; Internet Archive scan.",
+    "status": "Public domain (1749).",
+    "role": "Grounds a Body: John Gill, as a Teacher.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/book-of-concord",
+    "witness": "Triglot Concordia (St. Louis, 1921).",
+    "status": "Public domain: printed St. Louis, 1921 (US, before 1929).",
+    "role": "Grounds a Body: the Book of Concord (1580), a collection.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/augsburg",
+    "witness": "Triglot Concordia (St. Louis, 1921).",
+    "status": "Public domain: printed St. Louis, 1921 (US, before 1929).",
+    "role": "Grounds a Body: the Augsburg Confession (1530).",
+    "proposed": "include"
+   },
+   {
+    "source": "source/apology-1531",
+    "witness": "Triglot Concordia (St. Louis, 1921).",
+    "status": "Public domain: printed St. Louis, 1921 (US, before 1929).",
+    "role": "Grounds a Body: the Apology of the Augsburg Confession (1531).",
+    "proposed": "include"
+   },
+   {
+    "source": "source/small-catechism-1529",
+    "witness": "Triglot Concordia (St. Louis, 1921).",
+    "status": "Public domain: printed St. Louis, 1921 (US, before 1929).",
+    "role": "Grounds a Body: Luther's Small Catechism (1529).",
+    "proposed": "include"
+   },
+   {
+    "source": "source/belgic-confession",
+    "witness": "Schaff, Creeds of Christendom vol. 3 (Harper, 1878 printing); Internet Archive scan.",
+    "status": "Public domain (1878).",
+    "role": "A witness only: cited, grounds no Body in the data.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/coxe-covenants",
+    "witness": "London, 1681. Wing C6717; Internet Archive scan.",
+    "status": "Public domain (1681).",
+    "role": "A witness only: cited, grounds no Body in the data.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/graves-old-landmarkism",
+    "witness": "Memphis, 1880; Internet Archive scan.",
+    "status": "Public domain (1880).",
+    "role": "A witness only: cited, grounds no Body in the data.",
+    "proposed": "include"
+   },
+   {
+    "source": "source/bsb-gill-1984",
+    "witness": "The BSB foreword to Gill's Body of Divinity, dated 20 October 1984.",
+    "status": "Published 1984 with no copyright notice (per Chris); the publisher says its books may be freely distributed; written confirmation is still to be sought.",
+    "role": "A witness only: its propositions are quoted briefly in the documents, never in the data.",
+    "proposed": "not now"
+   },
+   {
+    "source": "source/owen-hebrews",
+    "witness": "John Owen, Exposition of the Epistle to the Hebrews, Goold edition: vol. 19 (1854) and vol. 23 (1855), Johnstone and Hunter; Internet Archive scans.",
+    "status": "Public domain (Owen d. 1683; Goold d. 1891).",
+    "role": "A witness: cited in 23a (the covenant of grace). Not yet a Source in the data.",
+    "proposed": "include",
+    "new": true,
+    "label": "John Owen, Exposition of the Epistle to the Hebrews (Goold edition, vols. 19 and 23)"
+   },
+   {
+    "source": "source/gospel-standard-1875",
+    "witness": "Form of Trust Deed and Articles of Faith for Strict Baptist Churches. Revised (London: J. Gadsby, 1875). Printed page = PDF page - 3.",
+    "status": "Public domain (1875; the named authors died by 1869).",
+    "role": "A witness for Articles 1-31 only. It does not witness Articles 32-35 (1878-79). Not yet a Source in the data.",
+    "proposed": "include",
+    "new": true,
+    "label": "1875 Gadsby printing: witness for Articles 1-31 only; does not witness Articles 32-35 (1878-79)",
+    "extra": {
+     "id": "witness-check",
+     "label": "Title page and the span of Articles I-XXXI",
+     "options": [
+      "yes",
+      "no"
+     ],
+     "plain": "Choose \"yes\" if the title page reads as in the witness line and Articles I to XXXI run from page 8 to page 15, ending with XXXI; choose \"no\" if not. If neither fits, choose \"other, as written\" and say what you see."
+    },
+    "image_ids": [
+     "gadsby-title",
+     "gadsby-p8",
+     "gadsby-p15",
+     "gadsby-p16"
+    ]
+   }
+  ]
+ }
+}
