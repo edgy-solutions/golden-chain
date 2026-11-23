@@ -72,8 +72,11 @@ def test_regenerated_graph_is_the_old_graph_plus_axioms():
         pytest.skip("git or the commit is not available")
     g_old = Graph()
     g_old.parse(data=old.decode("utf-8"), format="turtle")
+    # The regeneration of sitting 1: the replay of record 0001 alone (later sittings add to the file;
+    # LOCK_ingest_eb961ddb_2026-11-22.md, E10).
+    first = pm.record_paths(ROOT / "docs" / "sittings" / "plumb-line")[0]
     g_new = Graph()
-    g_new.parse(TTL, format="turtle")
+    g_new.parse(data=pm.replay([json.loads(first.read_bytes().decode("utf-8"))]).decode("utf-8"), format="turtle")
     axioms = set(g_new.subjects(RDF.type, OWL.Axiom))
     assert len(axioms) == 17
     for s in axioms:
