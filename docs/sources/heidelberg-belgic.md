@@ -75,6 +75,8 @@ Scope: the (a)-source divisions of RULING_step3_plan M4, which are Heidelberg 65
 
 Q.64's proofs are at the head of p. 107. The Q.74 proofs (n122–124) were not checked for this item.
 
+**Re-read 2026-11-22 for Batch C** (LOCK_batchC_rebased B-rows), on leaves n110–n111 and n116–n122: all 25 references match. Printed page of each reference: Q.65 all p. 108; Q.69 all p. 114; Q.70 all p. 115; Q.71 all p. 116; Q.72 all p. 117; Q.73 Ezek 16:4 and Rev 1:5 p. 118, Isa 4:4, Acts 2:38 and Gal 3:27 p. 119. Two proof answers print one quotation with two references (Q.69 "Matt. xxviii. 19; Mark xvi. 15, 16."; Q.70 "Eph. iv. 22–24; Rom. vi. 4."), and four carry further quotations introduced by "Again:" (Q.65, Q.69, Q.72, Q.73). The Argument unit for these is a question for the architect (REPORT_phase1_28).
+
 ### Belgic: Schaff vol. 3, 1878 printing (as above)
 
 - **Leaf map:** n = p + 15. Checked at n439–n442 (pp. 424–427). [V]
@@ -100,6 +102,8 @@ Q.64's proofs are at the head of p. 107. The Q.74 proofs (n122–124) were not c
 | XXXIV | 427 fn4 | as children in Israel were circumcised | Gen 17:11, 12 | no (subjects) | [V] |
 | XXXIV | 427 fn5 | Christ shed his blood no less for the children | Col 2:11, 12 | no (subjects) | [V] |
 | XXXIV | 427 fn6 | the lamb offered for newborns, a sacrament of Christ | John 1:29; Lev 12:6 | no (subjects) | [V] |
+
+**Re-read 2026-11-22 for Batch C** on n439, n441, n442: the 8 admitted notes match as recorded, and "Apoc. i. 6" is printed at p. 426 fn1.
 
 The researcher had marked p. 427 fn2 and fn5 as doubtful in placement. Both are settled on the image (fn2 after "de notre vie", fn5 after "les grands"). The note at p. 424 fn1 (Matt 18:17; 1 Cor 5:5; 1 Tim 1:20) belongs to Art. XXXII.
 
