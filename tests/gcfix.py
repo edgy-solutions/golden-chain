@@ -174,3 +174,15 @@ def write_tiny_data(directory) -> None:
     pl = Graph()
     add(pl, '<locus/baptism> gc:tier <vocab/tier/first> ; gc:clarity <vocab/clarity/contested> .')
     pl.serialize(d / "plumb-line.ttl", format="turtle")
+
+
+def strip_flags(ds) -> None:
+    """Remove the plumb-line's gc:unchurches triples and their provenance axioms (the data before any flag;
+    REPORT_phase1_27)."""
+    from rdflib.namespace import OWL
+    pl = ds.graph(ingest.PLUMB_LINE)
+    for t in list(pl.triples((None, GC.unchurches, None))):
+        pl.remove(t)
+    for ax in list(pl.subjects(OWL.annotatedProperty, GC.unchurches)):
+        for t in list(pl.triples((ax, None, None))):
+            pl.remove(t)

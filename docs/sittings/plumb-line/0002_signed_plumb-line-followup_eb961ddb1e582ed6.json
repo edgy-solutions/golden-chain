@@ -1,0 +1,488 @@
+{
+ "build_hash": "eb961ddb1e582ed6110ff3984c1e58990f00c0b8fe853c8219bd2cef75e5a18b",
+ "code_at": "9836117d85750c90ef76d71f3a432dd787c527b0",
+ "export_sha256": "e0a4fbfca02dc23c30209a9af19b2aec7164ec2bd851416fe5d1a2096a54f60a",
+ "format": "golden-chain-console-signed/1",
+ "kind": "plumb-line-followup",
+ "manifest_sha256": "bacef5c6aad37ddb5cda3d0b07cbe15484ad51bddebadbc72136d782fd41ffd2",
+ "provisional": false,
+ "rows": [
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "contested"
+    }
+   ],
+   "label": "23a Covenant of grace",
+   "note": "",
+   "row_id": "covenant-of-grace.locus",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "taught"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Eternal, made with Christ as head of the elect, one with the covenant of redemption, manifested in time.",
+   "note": "",
+   "row_id": "covenant-of-grace.eternal-with-christ",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "tolerated"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "An eternal covenant of redemption between the Father and the Son; in pursuance of it, grace revealed to fallen man by promise from the fall.",
+   "note": "",
+   "row_id": "covenant-of-grace.established-in-new-covenant",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": null
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Made in time after the fall, administered under law and gospel.",
+   "note": "",
+   "row_id": "covenant-of-grace.made-in-time-after-fall",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "F-A: which wording of (ii) is the Position?",
+     "value": {
+      "other": "Restate from Owen's words; decide in sitting 2."
+     }
+    }
+   ],
+   "label": "F-A: which wording of (ii) is the Position?",
+   "note": "",
+   "row_id": "covenant-of-grace.fa-wording",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "With Coxe's wording, do (ii) and (iii) differ in substance, or only on whether an eternal pact precedes the promise?",
+     "value": "they differ in substance"
+    }
+   ],
+   "label": "With Coxe's wording, do (ii) and (iii) differ in substance, or only on whether an eternal pact precedes the promise?",
+   "note": "",
+   "row_id": "covenant-of-grace.ii-iii",
+   "section": "covenant-of-grace",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "23b Covenant of circumcision",
+   "note": "",
+   "row_id": "circumcision-covenant.locus",
+   "section": "circumcision-covenant",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": [
+      "unchurches"
+     ]
+    }
+   ],
+   "label": "Yes: the covenant of circumcision was an administration of the covenant of grace, and the infant seed are in the covenant.",
+   "note": "",
+   "row_id": "circumcision-covenant.administration-of-grace",
+   "section": "circumcision-covenant",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "No: the covenant of circumcision was not an administration of the covenant of grace.",
+   "note": "",
+   "row_id": "circumcision-covenant.not-an-administration-of-grace",
+   "section": "circumcision-covenant",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Baptism is administered once. The sprinkling of an infant is not baptism, so the baptism of a professing believer who was sprinkled in infancy is his first baptism, not a repetition.",
+   "note": "",
+   "row_id": "baptism-repetition.infant-sprinkling-not-baptism",
+   "section": "baptism-repetition",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "tier",
+     "kind": "select",
+     "label": "Tier",
+     "value": "second"
+    },
+    {
+     "id": "clarity",
+     "kind": "select",
+     "label": "Clarity",
+     "value": "settled"
+    }
+   ],
+   "label": "33d Validity of baptism",
+   "note": "",
+   "row_id": "baptism-validity.locus",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Subject, mode and formula: a professing believer, immersed, in the triune name.",
+   "note": "",
+   "row_id": "baptism-validity.subject-mode-formula",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "required"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Subject, mode and formula, and the administrator a church of gospel order, defined by doctrine, not by identity or succession.",
+   "note": "",
+   "row_id": "baptism-validity.church-of-gospel-order",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "modality",
+     "kind": "select",
+     "label": "Modality",
+     "value": "forbidden"
+    },
+    {
+     "id": "unchurches",
+     "kind": "checkbox",
+     "label": "Unchurches (ADR-0003 R2.3)",
+     "value": []
+    }
+   ],
+   "label": "Subject, mode and formula, and the administrator a church of our own order, by identity or succession.",
+   "note": "",
+   "row_id": "baptism-validity.church-of-our-order",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "As proposed",
+     "value": {
+      "action": "confirm",
+      "proposed": "A baptism is valid when three things hold: the subject is a professing believer; the administration is according to the Word (immersion, in the triune name); and the administrator is a church of gospel order, not identity or succession. A baptism lacking any of the three is no baptism.",
+      "text": null
+     }
+    }
+   ],
+   "label": "Your statement, as the Argument text for (3) (source/plumb-line/validity-3, ruling M2)",
+   "note": "",
+   "row_id": "baptism-validity.validity-3-statement",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "Is (3) yours, Gill's, or do both exist?",
+     "value": {
+      "other": "Undecided until Gill is read further. Gill may hold that the administrator is a minister called by a gospel church, which would agree with (3) in substance. Ask in sitting 2 with his own words."
+     }
+    }
+   ],
+   "label": "Is (3) yours, Gill's, or do both exist?",
+   "note": "",
+   "row_id": "baptism-validity.validity-3-administrator",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "Your testimony on the BSB foreword: which stands?",
+     "value": {
+      "other": "I believe, without having confirmed it from him, that Pastor Lee held a church may be formed by sound believers who appoint an administrator and are baptized in obedience. I cannot say he followed Gill on the administrator: the foreword says the publishers cannot agree completely with Gill's introductory remarks on baptism in Practical III.1. The Spilsbury and succession details in the earlier record were the architect's, not mine. Quote the foreword's own propositions for its position."
+     }
+    }
+   ],
+   "label": "Your testimony on the BSB foreword: which stands?",
+   "note": "",
+   "row_id": "baptism-validity.validity-3-testimony",
+   "section": "baptism-validity",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "Is Gill's \"means\" the Spirit working through the rite (a), or the rite setting Christ before faith, the Spirit working by the Word (b)?",
+     "value": "(b) the rite sets Christ before faith; the Spirit works by the Word"
+    }
+   ],
+   "label": "Is Gill's \"means\" the Spirit working through the rite (a), or the rite setting Christ before faith, the Spirit working by the Word (b)?",
+   "note": "quote gill exactly rather than paraphrase",
+   "row_id": "instrumentality-fb.fb-reading",
+   "section": "instrumentality-fb",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "text",
+     "label": "If (b): the wording of (b) as you would have it",
+     "value": null
+    }
+   ],
+   "label": "If (b): the wording of (b) as you would have it",
+   "note": "",
+   "row_id": "instrumentality-fb.fb-b-wording",
+   "section": "instrumentality-fb",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "unchurches",
+     "kind": "radio",
+     "label": "Unchurches",
+     "value": "confirm"
+    }
+   ],
+   "label": "Professing believers, and the infants of one or both believing parents.",
+   "note": "",
+   "row_id": "unchurches.baptism-subjects.believers-and-their-infants",
+   "section": "unchurches",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "unchurches",
+     "kind": "radio",
+     "label": "Unchurches",
+     "value": "confirm"
+    }
+   ],
+   "label": "Children are to be baptized; no parental condition is stated.",
+   "note": "",
+   "row_id": "unchurches.baptism-subjects.infants",
+   "section": "unchurches",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "unchurches",
+     "kind": "radio",
+     "label": "Unchurches",
+     "value": "confirm"
+    }
+   ],
+   "label": "Every non-triune-name Position under baptism-formula, when minted, unchurches; triune-name stays required.",
+   "note": "",
+   "row_id": "unchurches.baptism-formula.non-triune",
+   "section": "unchurches",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "As proposed",
+     "value": {
+      "action": "confirm",
+      "proposed": "e Gen. 3.15.",
+      "text": null
+     }
+    }
+   ],
+   "label": "argument/lbc-1689/7/3/001 (cited as Gen 3:15)",
+   "note": "",
+   "row_id": "lbc-7-3.argument-001",
+   "section": "lbc-7-3",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "As proposed",
+     "value": {
+      "action": "confirm",
+      "proposed": "f Heb. 1.1.",
+      "text": null
+     }
+    }
+   ],
+   "label": "argument/lbc-1689/7/3/002 (cited as Heb 1:1)",
+   "note": "",
+   "row_id": "lbc-7-3.argument-002",
+   "section": "lbc-7-3",
+   "state": "verdict"
+  },
+  {
+   "fields": [
+    {
+     "id": "v",
+     "kind": "radio",
+     "label": "As proposed",
+     "value": {
+      "action": "confirm",
+      "proposed": "* 2 Tim. 1.9. Tit. 1.2.",
+      "text": null
+     }
+    }
+   ],
+   "label": "argument/lbc-1689/7/3/003 (cited as 2 Tim 1:9; Titus 1:2)",
+   "note": "",
+   "row_id": "lbc-7-3.argument-003",
+   "section": "lbc-7-3",
+   "state": "verdict"
+  }
+ ],
+ "signature": {
+  "date": "2026-11-22",
+  "name": "Chris Nogradi"
+ },
+ "signed_utc": "2026-11-23T02:58:01Z",
+ "signer": "Chris"
+}

@@ -4,7 +4,7 @@ from rdflib import Graph, Literal
 from rdflib.namespace import XSD
 
 from goldenchain import ingest, unchurches, weigh
-from gcfix import GC, U, add, dataset_with
+from gcfix import GC, U, add, dataset_with, strip_flags
 
 LOCI = ["worship", "baptism-subjects", "baptism-validity", "baptism-repetition"]
 SRC = "<source/plumb-line/sitting-fixture>"
@@ -191,6 +191,7 @@ def test_untiered():
 
 def test_real_data_smoke():
     ds = ingest.load_dataset()
+    strip_flags(ds)  # the data before sitting eb961ddb wrote the first flags (REPORT_phase1_27)
     g = ingest.union(ingest.derive_rdflib(ds))
     assert weigh.weigh(g)["excluded"] == {}
     pl = ds.graph(ingest.PLUMB_LINE)

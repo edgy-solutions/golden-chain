@@ -5,7 +5,7 @@ from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, XSD
 
 from goldenchain import ingest, unchurches
-from gcfix import GC, PROPOSED, U, World, add, dataset_with, minimal
+from gcfix import GC, PROPOSED, U, World, add, dataset_with, minimal, strip_flags
 
 TRUE = '"true"^^xsd:boolean'
 FLAG = "<position/baptism/immersion> gc:unchurches " + TRUE + " ."
@@ -152,11 +152,13 @@ def test_wording_editorial_raises():
 
 def test_real_data_no_flags_empty():
     ds = ingest.load_dataset()
+    strip_flags(ds)  # the data before sitting eb961ddb wrote the first flags (REPORT_phase1_27)
     assert unchurches.excluded(ingest.derive_rdflib(ds)) == {}
 
 
 def test_real_data_with_flags():
     ds = ingest.load_dataset()
+    strip_flags(ds)  # then exactly the two flags this test was written for (REPORT_phase1_27)
     pl = ds.graph(ingest.PLUMB_LINE)
     pos = [U("position/baptism-subjects/believers-and-their-infants"),
            U("position/baptism-subjects/infants")]
@@ -179,6 +181,21 @@ def test_real_data_with_flags():
         if own is not None:
             assert row["own"] is own
         assert unchurches.wording(d, U(b)) == unchurches.WORDING["Confession"]
+
+
+def test_real_data_as_committed_sitting_eb961ddb():
+    # Born with the ingest of sitting eb961ddb (REPORT_phase1_27): its three flags exclude exactly these Bodies.
+    ds = ingest.load_dataset()
+    ingest.code_checks(ds)
+    out = unchurches.excluded(ingest.derive_rdflib(ds))
+    got = {str(b).rsplit("/", 1)[1]: sorted((str(r["holding"]).split("holding/", 1)[1], str(r["modality"]).rsplit("/", 1)[1])
+                                         for r in rows) for b, rows in out.items()}
+    assert got == {
+        "wcf": [("wcf/baptism-subjects/believers-and-their-infants", "required"),
+                ("wcf/circumcision-covenant/administration-of-grace", "taught")],
+        "augsburg": [("augsburg/baptism-subjects/infants", "taught")],
+        "apology-1531": [("apology-1531/baptism-subjects/infants", "taught")],
+    }
 
 
 def test_wording_classes_are_body_subclasses_without_instances():

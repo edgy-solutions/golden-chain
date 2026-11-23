@@ -12,6 +12,12 @@ from gcfix import GC, U
 G = Graph()
 for f in sorted((Path(__file__).resolve().parent.parent / "data").glob("*.ttl")):
     G.parse(f, format="turtle", publicID=ingest.B)
+# The source files without data/plumb-line.ttl, whose signed sittings add tiers and Holdings
+# (sitting eb961ddb, REPORT_phase1_27: these checks were pinned to the data before it).
+SRC = Graph()
+for f in sorted((Path(__file__).resolve().parent.parent / "data").glob("*.ttl")):
+    if f.name != "plumb-line.ttl":
+        SRC.parse(f, format="turtle", publicID=ingest.B)
 
 COG = "covenant-of-grace/"
 CC = "circumcision-covenant/"
@@ -81,11 +87,11 @@ def test_resolution_note_present(aid):
 def test_only_gill_holds_circumcision_no():
     # Batch A had no Holding here; Batch A' adds Gill's (ruling M5).
     pos = U("position/" + CIRC_NO)
-    assert list(G.subjects(GC.position, pos)) == [U("holding/gill/" + CIRC_NO)]
+    assert list(SRC.subjects(GC.position, pos)) == [U("holding/gill/" + CIRC_NO)]
 
 
 @pytest.mark.parametrize("slug", ["covenant-of-grace", "circumcision-covenant"])
 def test_new_loci_have_no_tier(slug):
     loc = U("locus/" + slug)
     assert (loc, RDF.type, GC.Locus) in G
-    assert G.value(loc, GC.tier) is None
+    assert SRC.value(loc, GC.tier) is None

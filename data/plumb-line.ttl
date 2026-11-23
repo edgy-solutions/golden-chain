@@ -10,6 +10,10 @@
 # 0001 sitting 7b23646b2c763ae0 (plumb-line), signed 2026-11-08, export sha256 5177fca1de7490a4baa038dc4b6dc94aa566c1d7c721e7c16a54b5dace116d47, replaced sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 #   other, as written, untouched (the architect rules): covenant-administrations.locus.clarity, covenant-administrations.one-covenant-two-administrations.modality
 #   modality left empty, unanswered, untouched: johns-baptism.same-ordinance
+# 0002 sitting eb961ddb1e582ed6 (plumb-line-followup), signed 2026-11-22, export sha256 e0a4fbfca02dc23c30209a9af19b2aec7164ec2bd851416fe5d1a2096a54f60a, replaced sha256 894b418a93a2031cff8c1c58419377c542394de7f7f519ef219c0ea4e65ad0bf
+#   modality left empty, unanswered, untouched: covenant-of-grace.made-in-time-after-fall
+#   unchurches confirmed on a Position the plumb-line does not hold, not written: unchurches.baptism-formula.non-triune
+#   not data, in the SIGNED record only: covenant-of-grace.fa-wording, covenant-of-grace.ii-iii, baptism-validity.validity-3-statement, baptism-validity.validity-3-administrator, baptism-validity.validity-3-testimony, instrumentality-fb.fb-reading, instrumentality-fb.fb-b-wording, lbc-7-3.argument-001, lbc-7-3.argument-002, lbc-7-3.argument-003
 
 <locus/baptism-efficacy> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
 <locus/baptism-formula> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
@@ -18,7 +22,10 @@
 <locus/baptism-repetition> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
 <locus/baptism-significance> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
 <locus/baptism-subjects> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
+<locus/baptism-validity> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
+<locus/circumcision-covenant> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/settled> .
 <locus/covenant-administrations> gc:tier <vocab/tier/second> .
+<locus/covenant-of-grace> gc:tier <vocab/tier/second> ; gc:clarity <vocab/clarity/contested> .
 <locus/johns-baptism> gc:tier <vocab/tier/third> ; gc:clarity <vocab/clarity/open> .
 
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-efficacy/grace-conferred-in-right-use> .
@@ -28,12 +35,20 @@
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-mode/immersion-only> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-mode/mode-indifferent> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-perpetuity/standing-ordinance-to-the-end> .
+<body/plumb-line> gc:holds <holding/plumb-line/baptism-repetition/infant-sprinkling-not-baptism> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-repetition/once-only> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-significance/sign-and-seal-of-the-covenant> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-significance/union-with-christ> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-subjects/believers-and-their-infants> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-subjects/infants> .
 <body/plumb-line> gc:holds <holding/plumb-line/baptism-subjects/professing-believers-only> .
+<body/plumb-line> gc:holds <holding/plumb-line/baptism-validity/church-of-gospel-order> .
+<body/plumb-line> gc:holds <holding/plumb-line/baptism-validity/church-of-our-order> .
+<body/plumb-line> gc:holds <holding/plumb-line/baptism-validity/subject-mode-formula> .
+<body/plumb-line> gc:holds <holding/plumb-line/circumcision-covenant/administration-of-grace> .
+<body/plumb-line> gc:holds <holding/plumb-line/circumcision-covenant/not-an-administration-of-grace> .
+<body/plumb-line> gc:holds <holding/plumb-line/covenant-of-grace/established-in-new-covenant> .
+<body/plumb-line> gc:holds <holding/plumb-line/covenant-of-grace/eternal-with-christ> .
 
 <holding/plumb-line/baptism-efficacy/grace-conferred-in-right-use> a gc:Holding ; gc:position <position/baptism-efficacy/grace-conferred-in-right-use> ;
     gc:modality <vocab/modality/forbidden> ; dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ;
@@ -63,6 +78,10 @@
     gc:modality <vocab/modality/required> ; dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ;
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
     gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-08"^^xsd:date .
+<holding/plumb-line/baptism-repetition/infant-sprinkling-not-baptism> a gc:Holding ; gc:position <position/baptism-repetition/infant-sprinkling-not-baptism> ;
+    gc:modality <vocab/modality/required> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
 <holding/plumb-line/baptism-repetition/once-only> a gc:Holding ; gc:position <position/baptism-repetition/once-only> ;
     gc:modality <vocab/modality/taught> ; dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ;
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
@@ -87,6 +106,39 @@
     gc:modality <vocab/modality/required> ; dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ;
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
     gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-08"^^xsd:date .
+<holding/plumb-line/baptism-validity/church-of-gospel-order> a gc:Holding ; gc:position <position/baptism-validity/church-of-gospel-order> ;
+    gc:modality <vocab/modality/required> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/baptism-validity/church-of-our-order> a gc:Holding ; gc:position <position/baptism-validity/church-of-our-order> ;
+    gc:modality <vocab/modality/forbidden> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/baptism-validity/subject-mode-formula> a gc:Holding ; gc:position <position/baptism-validity/subject-mode-formula> ;
+    gc:modality <vocab/modality/forbidden> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/circumcision-covenant/administration-of-grace> a gc:Holding ; gc:position <position/circumcision-covenant/administration-of-grace> ;
+    gc:modality <vocab/modality/forbidden> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/circumcision-covenant/not-an-administration-of-grace> a gc:Holding ; gc:position <position/circumcision-covenant/not-an-administration-of-grace> ;
+    gc:modality <vocab/modality/required> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/covenant-of-grace/established-in-new-covenant> a gc:Holding ; gc:position <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:modality <vocab/modality/tolerated> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+<holding/plumb-line/covenant-of-grace/eternal-with-christ> a gc:Holding ; gc:position <position/covenant-of-grace/eternal-with-christ> ;
+    gc:modality <vocab/modality/taught> ; dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
+
+# unchurches (ADR-0003 R2.3)
+<position/baptism-subjects/believers-and-their-infants> gc:unchurches true .
+<position/baptism-subjects/infants> gc:unchurches true .
+<position/circumcision-covenant/administration-of-grace> gc:unchurches true .
 
 <axiom/clarity/baptism-efficacy/to/settled> a owl:Axiom ; owl:annotatedSource <locus/baptism-efficacy> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/settled> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
@@ -102,6 +154,12 @@
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
 <axiom/clarity/baptism-subjects/to/settled> a owl:Axiom ; owl:annotatedSource <locus/baptism-subjects> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/settled> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
+<axiom/clarity/baptism-validity/to/settled> a owl:Axiom ; owl:annotatedSource <locus/baptism-validity> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/settled> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
+<axiom/clarity/circumcision-covenant/to/settled> a owl:Axiom ; owl:annotatedSource <locus/circumcision-covenant> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/settled> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
+<axiom/clarity/covenant-of-grace/to/contested> a owl:Axiom ; owl:annotatedSource <locus/covenant-of-grace> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/contested> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 <axiom/clarity/johns-baptism/to/open> a owl:Axiom ; owl:annotatedSource <locus/johns-baptism> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/open> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
 <axiom/tier/baptism-efficacy/to/second> a owl:Axiom ; owl:annotatedSource <locus/baptism-efficacy> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
@@ -118,12 +176,28 @@
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
 <axiom/tier/baptism-subjects/to/second> a owl:Axiom ; owl:annotatedSource <locus/baptism-subjects> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
+<axiom/tier/baptism-validity/to/second> a owl:Axiom ; owl:annotatedSource <locus/baptism-validity> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
+<axiom/tier/circumcision-covenant/to/second> a owl:Axiom ; owl:annotatedSource <locus/circumcision-covenant> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 <axiom/tier/covenant-administrations/to/second> a owl:Axiom ; owl:annotatedSource <locus/covenant-administrations> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
+<axiom/tier/covenant-of-grace/to/second> a owl:Axiom ; owl:annotatedSource <locus/covenant-of-grace> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/second> ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 <axiom/tier/johns-baptism/to/third> a owl:Axiom ; owl:annotatedSource <locus/johns-baptism> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/third> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
+<axiom/unchurches/baptism-subjects/believers-and-their-infants/to/true> a owl:Axiom ; owl:annotatedSource <position/baptism-subjects/believers-and-their-infants> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
+<axiom/unchurches/baptism-subjects/infants/to/true> a owl:Axiom ; owl:annotatedSource <position/baptism-subjects/infants> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
+<axiom/unchurches/circumcision-covenant/administration-of-grace/to/true> a owl:Axiom ; owl:annotatedSource <position/circumcision-covenant/administration-of-grace> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+    dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 
 <source/plumb-line/sitting-7b23646b2c763ae0> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;
     dcterms:identifier "5177fca1de7490a4baa038dc4b6dc94aa566c1d7c721e7c16a54b5dace116d47" ;
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
     gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-08"^^xsd:date .
+<source/plumb-line/sitting-eb961ddb1e582ed6> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;
+    dcterms:identifier "e0a4fbfca02dc23c30209a9af19b2aec7164ec2bd851416fe5d1a2096a54f60a" ;
+    gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
