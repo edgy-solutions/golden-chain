@@ -132,7 +132,7 @@ BSB numbers the books Doctrinal I–VII and Practical I–IV in both the content
 - Chapter and section references, as IRIs (ADR-0002), with an optional `BSB p.` locator literal.
 - Passage references Gill cites, as OSIS ranges.
 - Verbatim quotations of Gill, each checked against the BSB page image, with the printed page recorded.
-- Nothing from the BSB front matter (foreword, imprint, catalogue).
+- Nothing from the BSB front matter (foreword, imprint, catalogue), except the short quotations of the foreword's numbered propositions and conclusion 1(a) that the ruling of 2026-11-22 permits ([lee-bsb.md](lee-bsb.md)).
 - **No** PDF, page image, OCR output or wholesale text from any edition.
 
 ## Phase-0 recommendation (superseded 2026-10-25; history)

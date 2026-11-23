@@ -6,11 +6,12 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # The Baptist Standard Bearer, foreword (dated 20 October 1984) to its edition of Gill's Body of Divinity (docs/sources/lee-bsb.md).
-# NOT public domain: cited by page only, nothing quoted. No Body, Holding, Argument or gc:quotation here.
+# Status (ruling of 2026-11-22, docs/handoff/RULING_bsb_foreword_status_2026-11-22.md): published 1984; no copyright notice per Chris; publisher's stated position that its books are freely distributable; written confirmation to be sought before public launch.
+# Cited by page. Short quotations of its numbered propositions are allowed in docs and consoles; none is stored here. No Body, Holding, Argument or gc:quotation here.
 
 <source/bsb-gill-1984> a gc:SourceWork ;
     rdfs:label "The Baptist Standard Bearer, foreword to Gill's Body of Divinity (1984)"@en ;
-    dcterms:bibliographicCitation "The Baptist Standard Bearer edition of Gill's Body of Divinity; foreword dated 20 October 1984. Not public domain; cited by page only." .
+    dcterms:bibliographicCitation "The Baptist Standard Bearer edition of Gill's Body of Divinity; foreword dated 20 October 1984. Status: published 1984; no copyright notice per Chris; publisher's stated position that its books are freely distributable; written confirmation to be sought before public launch." .
 
 # Foreword pp. vii-viii, propositions 1 and 7 (ruling B-Q4). Nothing links to it yet; source/plumb-line/validity-3 will link by rdfs:seeAlso when the sitting writes it.
 <source/bsb-gill-1984/foreword/vii-viii> a gc:SourceDivision ;
