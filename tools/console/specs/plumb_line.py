@@ -178,7 +178,7 @@ def adr_help():
         {"q": "When may I tick unchurches?",
          "a": "Only on a Position you hold forbidden, on a locus that is not tier third (ADR-0003 R2.3). A Body "
               "that holds the Position required, taught or tolerated is then shown as not a church by this "
-              "plumb-line's standard, apart from any score; its members' standing as Christians is not asserted "
+              "site's standard, apart from any score; its members' standing as Christians is not asserted "
               "either way. Leave it unticked otherwise."},
     ]
 

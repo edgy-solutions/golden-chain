@@ -164,8 +164,8 @@
 
 # Notes on edges (ADR-0002 Revision 2 item 2): an annotated axiom naming one excludes or entails triple.
 # Its triple's presence (or, if rejected, absence) is checked in code: goldenchain/ingest.py check d.
-# ADR-0006 R1: also the provenance of a plumb-line triple (gc:tier, gc:clarity, gc:unchurches), which may be a
-# literal target (unchurches true).
+# ADR-0006 R1: also the provenance of a plumb-line triple (gc:tier, gc:clarity, gc:unchurches); the unchurches
+# target is a Position IRI (ADR-0003 R3.4), not a literal.
 # ADR-0002 R3: also "model-proposed, read by" on a gc:asPrinted triple (literal target), with one
 # dcterms:contributor (who read it) and gc:status proposed or ratified; checked in code, ingest check d.
 <ontology/shapes#Axiom> a sh:NodeShape ;
@@ -177,6 +177,25 @@
     sh:property [ sh:path rdfs:comment ; sh:minCount 1 ] ;
     sh:property [ sh:path gc:status ; sh:maxCount 1 ] ;
     sh:property [ sh:path dcterms:contributor ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+# ADR-0003 R3.4: a stated judgment. Any Body's gc:unchurches names a Position; a Body other than
+# body/plumb-line needs an axiom with the source's own words located (dcterms:source and gc:locator).
+<ontology/shapes#Unchurches> a sh:NodeShape ;
+    sh:targetSubjectsOf gc:unchurches ;
+    sh:property [ sh:path gc:unchurches ; sh:nodeKind sh:IRI ; sh:class gc:Position ] ;
+    sh:sparql [
+        sh:message "A stated gc:unchurches needs an axiom with dcterms:source and gc:locator (ADR-0003 R3.4)" ;
+        sh:prefixes <ontology/shapes> ;
+        sh:select """
+            SELECT $this WHERE {
+                $this gc:unchurches ?p .
+                FILTER ($this != <https://w3id.org/golden-chain/body/plumb-line>)
+                FILTER NOT EXISTS {
+                    ?ax a owl:Axiom ; owl:annotatedSource $this ;
+                        owl:annotatedProperty gc:unchurches ; owl:annotatedTarget ?p ;
+                        dcterms:source ?s ; gc:locator ?x .
+                }
+            }""" ] .
 
 # ---------------------------------------------------------------- passages (ADR-0002, revised)
 

@@ -135,10 +135,10 @@
     gc:status <vocab/status/ratified> ; gc:proposedBy <agent/build-agent> ;
     gc:ratifiedBy <agent/chris> ; dcterms:dateAccepted "2026-11-22"^^xsd:date .
 
-# unchurches (ADR-0003 R2.3)
-<position/baptism-subjects/believers-and-their-infants> gc:unchurches true .
-<position/baptism-subjects/infants> gc:unchurches true .
-<position/circumcision-covenant/administration-of-grace> gc:unchurches true .
+# unchurches (ADR-0003 R2.3, R3.4)
+<body/plumb-line> gc:unchurches <position/baptism-subjects/believers-and-their-infants> .
+<body/plumb-line> gc:unchurches <position/baptism-subjects/infants> .
+<body/plumb-line> gc:unchurches <position/circumcision-covenant/administration-of-grace> .
 
 <axiom/clarity/baptism-efficacy/to/settled> a owl:Axiom ; owl:annotatedSource <locus/baptism-efficacy> ; owl:annotatedProperty gc:clarity ; owl:annotatedTarget <vocab/clarity/settled> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
@@ -186,11 +186,11 @@
     dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 <axiom/tier/johns-baptism/to/third> a owl:Axiom ; owl:annotatedSource <locus/johns-baptism> ; owl:annotatedProperty gc:tier ; owl:annotatedTarget <vocab/tier/third> ;
     dcterms:source <source/plumb-line/sitting-7b23646b2c763ae0> ; rdfs:comment "Set by plumb-line sitting 7b23646b2c763ae0 (ADR-0006 R1)."@en .
-<axiom/unchurches/baptism-subjects/believers-and-their-infants/to/true> a owl:Axiom ; owl:annotatedSource <position/baptism-subjects/believers-and-their-infants> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+<axiom/unchurches/plumb-line/baptism-subjects/believers-and-their-infants> a owl:Axiom ; owl:annotatedSource <body/plumb-line> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget <position/baptism-subjects/believers-and-their-infants> ;
     dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
-<axiom/unchurches/baptism-subjects/infants/to/true> a owl:Axiom ; owl:annotatedSource <position/baptism-subjects/infants> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+<axiom/unchurches/plumb-line/baptism-subjects/infants> a owl:Axiom ; owl:annotatedSource <body/plumb-line> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget <position/baptism-subjects/infants> ;
     dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
-<axiom/unchurches/circumcision-covenant/administration-of-grace/to/true> a owl:Axiom ; owl:annotatedSource <position/circumcision-covenant/administration-of-grace> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget true ;
+<axiom/unchurches/plumb-line/circumcision-covenant/administration-of-grace> a owl:Axiom ; owl:annotatedSource <body/plumb-line> ; owl:annotatedProperty gc:unchurches ; owl:annotatedTarget <position/circumcision-covenant/administration-of-grace> ;
     dcterms:source <source/plumb-line/sitting-eb961ddb1e582ed6> ; rdfs:comment "Set by plumb-line sitting eb961ddb1e582ed6 (ADR-0006 R1)."@en .
 
 <source/plumb-line/sitting-7b23646b2c763ae0> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;

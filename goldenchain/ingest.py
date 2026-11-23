@@ -13,7 +13,7 @@ from pathlib import Path
 import pyshacl
 import rdflib
 from rdflib import Dataset, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import DCTERMS, OWL, RDF, SH, XSD
+from rdflib.namespace import DCTERMS, OWL, RDF, RDFS, SH, XSD
 
 from goldenchain import dblock, jena, passage
 
@@ -141,35 +141,39 @@ def code_checks(ds: Dataset) -> None:
                 errs.append(f"d. {ax}: an asPrinted axiom needs exactly one dcterms:contributor that is a gc:Agent")
             if len(st) != 1 or st[0] not in (URIRef(B + "vocab/status/proposed"), URIRef(B + "vocab/status/ratified")):
                 errs.append(f"d. {ax}: an asPrinted axiom needs gc:status proposed or ratified")
-    # e. gc:unchurches (ADR-0003 R2.3): plumb-line graph only, only true, once per Position,
-    #    the plumb-line holds it forbidden (shape 1), its Locus is not tier third (shape 2).
+    # e. gc:unchurches (ADR-0003 R2.3, R3.4): one form, <body> gc:unchurches <position>. The subject is a Body, the
+    #    object a Position IRI. body/plumb-line's statements are in the plumb-line graph only, once per Position,
+    #    and keep shape 1 (the plumb-line holds it forbidden) and shape 2 (its Locus is not tier third).
+    #    Another Body's statement is never in the plumb-line graph.
     pl = ds.graph(PLUMB_LINE)
     plumb_body = URIRef(B + "body/plumb-line")
     forbidden = URIRef(B + "vocab/modality/forbidden")
     tier_third = URIRef(B + "vocab/tier/third")
+    body_classes = {GC.Body} | set(u.transitive_subjects(RDFS.subClassOf, GC.Body))
     for ng in ds.graphs():
         for s, o in ng.subject_objects(GC.unchurches):
-            if ng.identifier != PLUMB_LINE:
+            if not any((s, RDF.type, c) in u for c in body_classes):
+                errs.append(f"e. {s} unchurches on a subject that is not a gc:Body (ADR-0003 R3.4)")
+            if isinstance(o, Literal) or (o, RDF.type, GC.Position) not in u:
+                errs.append(f"e. {s} unchurches {o!r}: the object must be a gc:Position (ADR-0003 R3.4)")
+            if s == plumb_body and ng.identifier != PLUMB_LINE:
                 errs.append(f"e. {s} unchurches asserted in {ng.identifier}, not plumb-line")
-            if not (isinstance(o, Literal) and o.datatype == XSD.boolean and o.toPython() is True):
-                errs.append(f'e. {s} unchurches {o!r}: only "true"^^xsd:boolean may be written')
-            if (s, RDF.type, GC.Position) not in u:
-                errs.append(f"e. {s} unchurches on a subject that is not a gc:Position")
-    for s in sorted(set(u.subjects(GC.unchurches, None))):
-        objs = set(u.objects(s, GC.unchurches))
-        if len(objs) > 1:
-            errs.append(f"e. {s} unchurches written {len(objs)} times")
+            if s != plumb_body and ng.identifier == PLUMB_LINE:
+                errs.append(f"e. {s} unchurches asserted in the plumb-line graph: only body/plumb-line's statements belong there")
+    for o in sorted(set(u.objects(plumb_body, GC.unchurches))):
+        if isinstance(o, Literal):
+            continue
         if not any(
-            (h, GC.position, s) in u and (h, GC.modality, forbidden) in u
+            (h, GC.position, o) in u and (h, GC.modality, forbidden) in u
             for h in u.objects(plumb_body, GC.holds)
         ):
-            errs.append(f"e. {s} unchurches: the plumb-line does not hold it forbidden (shape 1)")
-        locus = u.value(s, GC.answers)
+            errs.append(f"e. {o} unchurches: the plumb-line does not hold it forbidden (shape 1)")
+        locus = u.value(o, GC.answers)
         tier = pl.value(locus, GC.tier) if locus is not None else None
         if tier is None:
-            errs.append(f"e. {s} unchurches: its Locus {locus} has no tier (shape 2 cannot be checked)")
+            errs.append(f"e. {o} unchurches: its Locus {locus} has no tier (shape 2 cannot be checked)")
         elif tier == tier_third:
-            errs.append(f"e. {s} unchurches: its Locus {locus} is tier third (shape 2)")
+            errs.append(f"e. {o} unchurches: its Locus {locus} is tier third (shape 2)")
     if errs:
         raise IngestError(f"{len(errs)} code-check failure(s):\n" + "\n".join(errs))
 
