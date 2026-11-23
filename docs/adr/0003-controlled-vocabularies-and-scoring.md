@@ -269,6 +269,14 @@ on {required, taught}², and entails on P ∈ {required, taught} with Q forbidde
    - IRI: `B inconsistency/{body}/parents-differ/{locus}`. `gc:involves`
      names the differing Positions.
 
+### Note on the refutation check (ruling on report 24, 2026-11-22)
+
+The refutation check is run on an edge before it is ratified ([positions-phase1-draft.md](../loci/positions-phase1-draft.md), "The check, both ways"). This note records what refutes an edge and what does not.
+- **The precedent.** The reverse of E1, "infants entail one covenant", was refused (ruling M6 on the step-3 plan; ruling on report 11). Augsburg baptizes infants and holds no Position on the circumcision covenant. What refuted the edge was that Augsburg baptizes infants **on a different ground**, a different ground for the same practice. Augsburg's silence on the covenant was not the reason.
+- **The rule.** Silence alone does not refute an edge. A Body that holds P and holds nothing on Q is not evidence against "P entails Q".
+- **Silence as an artefact of wording.** A Body's silence on Q may come only from Q being worded from another Body's text. If so, its own words are read for Q. If they state Q, a Holding on Q is proposed from them. The case: (iii), worded from WCF 7.3, and LBC 7.2, "it pleased the Lord to make a Covenant of Grace" after the fall (report 24; the ruling on it).
+- The machine check is unchanged: an edge is refuted when it makes a source Body inconsistent.
+
 ## Revision 2 (2026-11-08; ratified 2026-11-08 with the R2.6 answers in R2.7)
 
 Drafted by the build agent from the architect's dispatch of 2026-11-08, §§2, 3, 4 and 8, together with the §4 addendum and the revised §4 test cases relayed the same day ([../handoff/DISPATCH_architect_2026-11-08.md](../handoff/DISPATCH_architect_2026-11-08.md)). Text quoted from the dispatch is verbatim. Everything else began as the build agent's proposal, and each choice the architect had not already made was listed under R2.6.
