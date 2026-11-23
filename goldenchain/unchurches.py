@@ -46,7 +46,7 @@ def excluded(g) -> dict[URIRef, list[dict]]:
                     "holding": h,
                     "position": pos,
                     "modality": mod,
-                    "source": g.value(h, DCTERMS.source),
+                    "sources": sorted(g.objects(h, DCTERMS.source), key=str),  # all of them, IRI order (ruling on report 27)
                     "own": (b, GC.holds, h) in g,
                 })
         if rows:

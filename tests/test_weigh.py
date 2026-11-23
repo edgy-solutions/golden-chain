@@ -1,4 +1,5 @@
 """weigh: cost from the user into the Body, against body/plumb-line (ADR-0003 section 5, 5a, R2.3-R2.7)."""
+import pytest
 
 from rdflib import Graph, Literal
 from rdflib.namespace import XSD
@@ -200,3 +201,35 @@ def test_real_data_smoke():
     g = ingest.union(ingest.derive_rdflib(ds))
     assert weigh.render(g)
     check_w5(g)
+
+
+# ---- stable output (weigh fix 2, ruling on report 27; LOCK_weigh_sources_sorted) ------------
+
+@pytest.mark.parametrize("scope", ["members", "officers"])
+def test_weigh_two_processes_byte_identical(scope):
+    # Seeds 0 and 1 gave different bytes before the fix, in both scopes (the lock's measurements).
+    import os, subprocess, sys
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    outs = []
+    for seed in ("0", "1"):
+        env = dict(os.environ, PYTHONHASHSEED=seed, PYTHONPATH=str(root))
+        outs.append(subprocess.run([sys.executable, "-m", "goldenchain.weigh", "--scope", scope], cwd=root, env=env,
+                                   capture_output=True, check=True).stdout)
+    assert outs[0] == outs[1]
+
+
+def test_real_data_wcf_line_names_both_sources_in_iri_order():
+    g = ingest.union(ingest.derive_rdflib(ingest.load_dataset()))
+    line = next(l for l in weigh.render_body(g, U("body/wcf")).splitlines()
+                if "circumcision-covenant/administration-of-grace" in l)
+    assert "(source/wcf/28/4, source/wcf/7/5)" in line
+
+
+@pytest.mark.parametrize("order", [("<source/case-b/a>", "<source/case-b/b>"), ("<source/case-b/b>", "<source/case-b/a>")])
+def test_excluded_lists_every_source_sorted(order):
+    extra = "".join(f"<holding/case-b/believers-and-their-infants> dcterms:source {s} .\n" for s in order)
+    g = build(extra=extra)
+    rows = unchurches.excluded(g)[U("body/case-b")]
+    assert [str(x) for x in rows[0]["sources"]] == [ingest.B + "source/case-b/28", ingest.B + "source/case-b/a",
+                                                    ingest.B + "source/case-b/b"]

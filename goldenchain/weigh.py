@@ -211,8 +211,7 @@ def _holder(g, holding):
 
 
 def _own_cell(g, holding) -> str:
-    src = g.value(holding, DCTERMS.source)
-    if src is not None and (src, RDF.type, GC.PersonalKnowledge) in g:
+    if any((src, RDF.type, GC.PersonalKnowledge) in g for src in g.objects(holding, DCTERMS.source)):
         return "own (personal knowledge)"
     loc = g.value(holding, GC.locator)
     return f"own (statement, {loc})" if loc is not None else "own (statement)"
@@ -306,7 +305,7 @@ def render_body(g, body, scope="members") -> str:
         for r in exc[body]:
             fs = unchurches.flag_source(g, r["position"])
             line = (f"    - {rel(r['position'])} {tail(r['modality'])} "
-                    f"({rel(r['source']) if r['source'] else 'no source'}); flagged by the "
+                    f"({', '.join(rel(x) for x in r['sources']) if r['sources'] else 'no source'}); flagged by the "
                     f"plumb-line at {rel(fs) if fs else 'no source'}")
             if cong and not r["own"]:
                 holder = _holder(g, r["holding"])
