@@ -7,18 +7,16 @@ from rdflib import Graph, Literal
 from rdflib.namespace import DCTERMS, RDF, RDFS, SKOS
 
 from goldenchain import ingest
-from gcfix import GC, U
+from gcfix import FROZEN_8AC7E41, GC, U
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 G = Graph()
 for f in sorted(DATA.glob("*.ttl")):
     G.parse(f, format="turtle", publicID=ingest.B)
-# The source files without data/plumb-line.ttl, whose signed sittings add tiers and Holdings
-# (sitting eb961ddb, REPORT_phase1_27: these checks were pinned to the data before it).
-SRC = Graph()
-for f in sorted(DATA.glob("*.ttl")):
-    if f.name != "plumb-line.ttl":
-        SRC.parse(f, format="turtle", publicID=ingest.B)
+# The eight tests read the frozen copy of the data they were written for (LOCK_frozen_fixture_eight).
+FROZEN = Graph()
+for f in sorted(FROZEN_8AC7E41.glob("*.ttl")):
+    FROZEN.parse(f, format="turtle", publicID=ingest.B)
 
 LOCUS = U("locus/baptism-validity")
 P = {k: U("position/" + v) for k, v in {
@@ -34,7 +32,7 @@ def test_locus_33d_has_no_tier():
     assert G.value(LOCUS, SKOS.notation) == Literal("33d")
     assert G.value(LOCUS, RDFS.label) == Literal("Validity of baptism", lang="en")
     assert (LOCUS, GC.underHeading, U("heading/worship")) in G
-    assert SRC.value(LOCUS, GC.tier) is None
+    assert FROZEN.value(LOCUS, GC.tier) is None
 
 
 @pytest.mark.parametrize("key,label", [
@@ -122,7 +120,7 @@ def test_no_lbc_holding_on_validity_positions():
         if str(h).startswith(str(U("holding/lbc-1689/"))):
             assert G.value(h, GC.position) not in (P["smf"], P["gospel"], P["ours"])
     for k in ("smf", "gospel", "ours"):
-        assert P[k] not in _held_positions(SRC)
+        assert P[k] not in _held_positions(FROZEN)
 
 
 @pytest.mark.parametrize("work", ["graves-old-landmarkism", "belgic-confession", "bsb-gill-1984"])

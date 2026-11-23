@@ -1,0 +1,29 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ADR-0005 §2: who proposes and who ratifies.
+
+<agent/build-agent> a gc:Agent ;
+    rdfs:label "Build agent"@en .
+
+<agent/architect> a gc:Agent ;
+    rdfs:label "Architect"@en .
+
+# Ruling, report 7 Q2a: the plumb-line's Body (gc:Editorial, one instance, ever). Its Holdings come
+# only from signed plumb-line sittings (ADR-0006), written to data/plumb-line.ttl.
+<body/plumb-line> a gc:Editorial ;
+    rdfs:label "Plumb-line"@en .
+
+
+# Ruling, report 8 Q1: Chris ratifies every plumb-line sitting (its SourceDivision and Holdings).
+# The architect ratifies ADRs, schema and data rulings, never a doctrinal Holding.
+<agent/chris> a gc:Agent ;
+    rdfs:label "Chris"@en .
+
+# The work each signed plumb-line sitting (source/plumb-line/sitting-<build16>, ADR-0006) is part of.
+<source/plumb-line> a gc:SourceWork ;
+    rdfs:label "Plumb-line sittings (signed, ADR-0006)"@en .
