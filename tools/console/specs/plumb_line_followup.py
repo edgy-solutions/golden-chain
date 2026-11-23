@@ -5,6 +5,7 @@ Usage: python tools/console/specs/plumb_line_followup.py <content.json> <loci.tt
 The content file (format golden-chain-followup-content/1, e.g. docs/loci/plumb-line-followup-1.json) names
 the sections and rows; the loci and Position labels come from loci.ttl, the images from image-dir.
 Row types: locus (tier, clarity), position (modality, unchurches), radio, proposal, text, flag.
+A position row may carry its own "label", shown with the data wording as the first context line.
 A section with "locus" takes its title from the ttl, and every Position answering that Locus must have a
 position row. Fails loud on an unknown row type, a Position that does not answer its Locus, a missing
 Position row, a wrong content format.
@@ -67,8 +68,18 @@ def make_row(sec, locus, row, loci):
         by = {p["slug"]: p for p in locus["positions"]}
         if row["position"] not in by:
             raise Fail(f"{locus['slug']}/{row['position']}: that Position does not answer the Locus")
-        return {"id": f"{locus['slug']}.{row['position']}", "label": by[row["position"]]["label"], **common(row),
-                "fields": position_fields()}
+        ttl_label = by[row["position"]]["label"]
+        out = {"id": f"{locus['slug']}.{row['position']}", "label": ttl_label, **common(row),
+               "fields": position_fields()}
+        if "label" in row:
+            ov = row["label"]
+            if not isinstance(ov, str) or not ov.strip():
+                raise Fail(f"{locus['slug']}/{row['position']}: the label override is empty")
+            if ov == ttl_label:
+                raise Fail(f"{locus['slug']}/{row['position']}: the label override equals the label in the data")
+            out["label"] = ov
+            out["context"] = [f'The wording in the data now: "{ttl_label}".'] + out["context"]
+        return out
     rid = f"{sec['id']}.{row.get('id')}"
     if t == "radio":
         return {"id": rid, "label": row["label"], **common(row),

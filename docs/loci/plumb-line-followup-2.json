@@ -1,0 +1,419 @@
+{
+ "format": "golden-chain-followup-content/1",
+ "title": "Plumb-line follow-up: sitting 2",
+ "instruction": "Sitting 2 of two (ruling B-Q5 on report 12). It asks about the reworded positions on 23a and on validity, Gill's view on who may baptize, the wording of (b) on the instrumentality of baptism, and your stance on each new or reworded position.\n\nWhere a row has a proposed wording, it is shown on a grey background: confirm it, or correct it and write your own. Where a stance row shows a wording that differs from the one in the data now, the row says so, and your stance is on the position as you word it on this page. Nothing is preselected. The build agent proposes wordings from the sources' own words and proposes no stance: every stance on this page is yours to give.\n\nThe quotations were read by the build agent from the page images named beside them. A stance left empty means undecided. Tick unchurches only on a position you hold forbidden on a locus that is not tier third (ADR-0003 R2.3). Tier, clarity and modality are defined in Help.\n\nThe rows on the 33e section (instrumentality) are recorded in the signed record only: that locus is not yet in the data. Every other wording, edge and Holding you confirm here is written afterwards under its own lock, citing this sitting.",
+ "images": [
+  {
+   "id": "owen-v19-p78",
+   "file": "owen_v19_p78.png",
+   "caption": "Owen, Exposition of Hebrews, Goold ed. vol. 19 (1854), Exercitation XXVIII, p. 78. Internet Archive worksofjohnowend0019owen, image n85."
+  },
+  {
+   "id": "wcf-1647-7-3a",
+   "file": "wcf1647_leaf22.png",
+   "caption": "Westminster Confession, 1647 printing (Internet Archive humbleadviceofas00west), image n22, page 13: chapter 7, the start of section 3."
+  },
+  {
+   "id": "wcf-1647-7-3b",
+   "file": "wcf1647_leaf23.png",
+   "caption": "The same printing, image n23, page 14: the rest of 7.3."
+  },
+  {
+   "id": "gill-dr1749-p14",
+   "file": "gill_dr1749_p14.png",
+   "caption": "Gill, The Divine Right of Infant-Baptism, Examined and Disproved (1749), p. 14. Internet Archive bim_eighteenth-century_the-divine-right-of-infa_gill-john_1749, image n17."
+  },
+  {
+   "id": "gill-p914-sixthly",
+   "file": "crop_p914_sixthly.png",
+   "caption": "Gill, Practical III.1, foot of the left column: \"Sixthly, The ends and uses for which...\". BSB p. 914."
+  },
+  {
+   "id": "gill-p914-right",
+   "file": "crop_p914_right.png",
+   "caption": "Gill, Practical III.1, p. 914, right column: \"Sixthly\" heads 1 to 4. BSB p. 914."
+  }
+ ],
+ "sections": [
+  {
+   "id": "covenant-of-grace",
+   "locus": "covenant-of-grace",
+   "text": "Report 23 worked the architect's dispatch on 23a and proposed B: keep (ii) as a position of its own, restated in Owen's words, because Owen says there are two covenants and Gill says there is one. (iii) is reworded to its timing claim alone, from WCF 7.3; the clause on law and gospel is already carried by 23b. Your sitting-1 answers stand: (i) taught, (ii) as then worded tolerated, (iii) left empty pending this rewording.",
+   "image_ids": [
+    "owen-v19-p78"
+   ],
+   "rows": [
+    {
+     "type": "radio",
+     "id": "proposal",
+     "label": "Is (ii) a position of its own, apart from Gill's (i)? The build agent proposes B.",
+     "options": [
+      "B: keep (ii), restated in Owen's words",
+      "A: (ii) says nothing (i) does not; merge it into (i)",
+      "C: the difference belongs to justification (phase 2), not here"
+     ],
+     "context": [
+      "Gill, Body, Doctrinal II.7, point 5, p. 217: \"…some divines, indeed, make them distinct covenants; the covenant of redemption, they say, was made with Christ in eternity; the covenant of grace with the elect, or with believers, in time: but this is very wrongly said; there is but one covenant of grace, and not two, in which the Head and Members, the Redeemer and the persons to be redeemed, Christ and the elect, are concerned…\"",
+      "\"First, we must distinguish between the covenant that God made with men concerning Christ, and the covenant that he made with his Son concerning men.\"",
+      "Against A: (ii) as Owen states it says two covenants; (i) says one, and Gill denies two by name.",
+      "Against C: they part in the covenant chapter itself, before justification is reached."
+     ],
+     "image_ids": [
+      "owen-v19-p78"
+     ]
+    },
+    {
+     "type": "proposal",
+     "id": "ii-label",
+     "label": "If B: the wording of (ii), taken only from Owen's words (Hebrews vol. 19, p. 78)",
+     "proposed": "Two covenants: \"the covenant that he made with his Son concerning men\", \"the personal compact that was between the Father and the Son before the world was\"; and \"the covenant that God made with men concerning Christ\", which \"after the fall he entered into… with mankind\", \"commonly called the covenant of grace\".",
+     "context": [
+      "Owen, Hebrews, Goold vol. 19, Exercitation XXVIII §2, p. 78 (the full sentences the restated wording is taken from):",
+      "\"First, we must distinguish between the covenant that God made with men concerning Christ, and the covenant that he made with his Son concerning men.\"",
+      "\"After the fall he entered into another covenant with mankind, which, from the principle, nature, and end of it, is commonly called the covenant of grace.\"",
+      "\"This is not that which at present we inquire into; but it is the personal compact that was between the Father and the Son before the world was, as it is revealed in the Scripture, that is to be declared.\"",
+      "The identifier of (ii) stays as it is; only its wording changes."
+     ],
+     "image_ids": [
+      "owen-v19-p78"
+     ]
+    },
+    {
+     "type": "position",
+     "position": "established-in-new-covenant",
+     "label": "Two covenants: \"the covenant that he made with his Son concerning men\", \"the personal compact that was between the Father and the Son before the world was\"; and \"the covenant that God made with men concerning Christ\", which \"after the fall he entered into… with mankind\", \"commonly called the covenant of grace\".",
+     "context": [
+      "Your stance is on (ii) as you word it in the row above. If you corrected the wording, it is on your wording.",
+      "If you chose A or C above, leave this empty."
+     ]
+    },
+    {
+     "type": "proposal",
+     "id": "iii-label",
+     "label": "The wording of (iii), its timing claim only, from WCF 7.3 as printed in 1647",
+     "proposed": "Man by his Fall having made himself uncapable of Life by that Covenant [of works], the Lord was pleased to make a Second, commonly called the Covenant of Grace.",
+     "context": [
+      "Spelling as printed, long s made plain; the words in square brackets are added.",
+      "The clause \"administered under law and gospel\" is dropped here: 23b carries it."
+     ],
+     "image_ids": [
+      "wcf-1647-7-3a",
+      "wcf-1647-7-3b"
+     ]
+    },
+    {
+     "type": "position",
+     "position": "made-in-time-after-fall",
+     "label": "Man by his Fall having made himself uncapable of Life by that Covenant [of works], the Lord was pleased to make a Second, commonly called the Covenant of Grace.",
+     "context": [
+      "Your stance is on (iii) as you word it in the row above."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "ii-iii-edge",
+     "label": "(ii) and (iii) are now marked as excluding each other. Restated, (ii) says the covenant of grace was made after the fall, which is what (iii) says. Retire that mark, or keep it?",
+     "options": [
+      "retire it: (ii) and (iii) do not exclude each other",
+      "keep it"
+     ],
+     "context": [
+      "A retired mark is kept in the data with the status rejected and a note; it is never deleted (ADR-0002).",
+      "(i) still excludes (ii), and (i) still excludes (iii): Gill p. 214, \"made before the creation of man; though it was first made manifest quickly after his fall\"."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "ii-entails-iii",
+     "label": "Does (ii), as restated, entail (iii)? That is: does whoever holds (ii) also hold (iii)?",
+     "options": [
+      "yes: (ii) entails (iii)",
+      "no"
+     ],
+     "context": [
+      "LBC 7.2 (1677, p. 26, as proposed from your photograph; your answer on the LBC 1677 console, row 7.2.text, governs the reading): \"Moreover Man having brought himself under the curse of the Law by his fall, it pleased the Lord to make a Covenant of Grace…\"",
+      "The proposed Holding in the row below gives LBC a Holding on (iii). LBC said nothing on (iii) before only because (iii) was worded from WCF.",
+      "With it, LBC holds both (ii) and (iii). Coxe holds nothing on (iii).",
+      "This row records your judgment only; whether an entails mark is written is for the architect."
+     ]
+    },
+    {
+     "type": "proposal",
+     "id": "lbc-7-2-holding",
+     "label": "If the mark is retired: LBC 1689 holds (iii), from LBC 7.2",
+     "proposed": "LBC 1689 holds (iii) as taught; source LBC 7.2.",
+     "context": [
+      "LBC 7.2 (1677, p. 26, as proposed from your photograph; your answer on the LBC 1677 console, row 7.2.text, governs the reading): \"Moreover Man having brought himself under the curse of the Law by his fall, it pleased the Lord to make a Covenant of Grace…\"",
+      "\"Taught\" follows WCF's Holding on (iii). Correct it if you read 7.2 otherwise.",
+      "If you keep the mark between (ii) and (iii), this Holding is not written: LBC would then hold two positions marked as excluding each other."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "coxe-holds",
+     "label": "On the quotations below, does Coxe (1681) hold (i), (ii) as restated, or neither?",
+     "options": [
+      "(i)",
+      "(ii) as restated",
+      "neither"
+     ],
+     "context": [
+      "Coxe, Discourse of the Covenants, I §5, p. 12: \"the Covenant of Grace is established in Christ as the Head thereof… It is by Union to him that Believers obtain a new-Covenant-interest…\"",
+      "II §10, pp. 36-37: \"…transacted in a way of Covenant between the Father and the Son, even in a Covenant of Redemption…\"; \"2. In pursuance of this Covenant of Redemption, and the Suretiship of Christ taken therein, upon the Fall of Man…\"",
+      "II §11, point 5, p. 43, of Adam: \"…there was no formal and express Covenant-Transaction with him… but as he obtained Interest for himself alone… by his own Faith…\"",
+      "Coxe does not say, in the sections read, whether the covenant of redemption and the covenant of grace are one covenant or two."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "lbc-holds",
+     "label": "On the quotations below, does LBC 1677 hold (i), (ii) as restated, or neither?",
+     "options": [
+      "(i)",
+      "(ii) as restated",
+      "neither"
+     ],
+     "context": [
+      "LBC 7.2 (1677, p. 26, as proposed from your photograph; your answer on the LBC 1677 console, row 7.2.text, governs the reading): \"Moreover Man having brought himself under the curse of the Law by his fall, it pleased the Lord to make a Covenant of Grace…\"",
+      "LBC 7.3 (1677, p. 27): \"This Covenant is revealed in the Gospel; first of all to Adam in the promise of Salvation by the (e) seed of the woman, and afterwards by farther steps, untill the full (f) discovery thereof was compleated in the new Testament; and it is founded in that (*) Eternal Covenant transaction, that was between the Father and the Son, about the Redemption of the Elect…\"",
+      "\"Founded in\" does not settle one covenant or two: Gill too calls the eternal council \"the basis and foundation of the covenant of grace\" (II.7, p. 214).",
+      "The data now has LBC holding (ii), as then worded, taught (source LBC 7.3)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "baptism-validity",
+   "locus": "baptism-validity",
+   "text": "The architect: the label of (2) must say the three suffice, with no condition on the administering church; the old label read as part of (3) and misled you. At sitting 1 you held (2), as then worded, forbidden, and (3) required. Then Gill on the administrator, from report 25, with his own words. At sitting 1 you wrote: \"Undecided until Gill is read further. Gill may hold that the administrator is a minister called by a gospel church, which would agree with (3) in substance. Ask in sitting 2 with his own words.\"",
+   "image_ids": [
+    "gill-dr1749-p14"
+   ],
+   "rows": [
+    {
+     "type": "proposal",
+     "id": "label-2",
+     "label": "The wording of (2)",
+     "proposed": "Subject, mode and formula: a professing believer, immersed, in the triune name. These three suffice, with no condition on the administering church.",
+     "context": [
+      "The sitting-1 wording: \"Subject, mode and formula: a professing believer, immersed, in the triune name.\""
+     ]
+    },
+    {
+     "type": "position",
+     "position": "subject-mode-formula",
+     "label": "Subject, mode and formula: a professing believer, immersed, in the triune name. These three suffice, with no condition on the administering church.",
+     "context": [
+      "Your stance is on (2) as you word it in the row above. It replaces your sitting-1 answer on (2)."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "gill-view",
+     "label": "Which of these states Gill's view of what makes a baptism valid, as far as the administrator goes?",
+     "options": [
+      "(B), as worded below, a position of its own",
+      "Gill holds (2); the administrator is a matter of order, not of validity",
+      "(C) a minister called by a gospel church"
+     ],
+     "context": [
+      "(B), proposed, built only from Gill's phrases: \"Immersion, upon a profession of faith, are the essentials of baptism. In ordinary cases the administrator ought to be baptized and called to preach the word and administer ordinances; but such an administrator is not essential to the ordinance, and admission to baptism lies in the administrator, not in the church.\"",
+      "Q1, who may administer. II.3, p. 863: \"yet it is pretty plain, that those who have a commission to teach, have also a commission to baptize, and to attend to whatsoever Christ has commanded;\"",
+      "Q2, who makes the administrator. II.3, p. 866: \"The outward call is not immediately by Christ, … but mediately by the church;\" II.3, p. 867: \"The election and call of them, with their acceptance, is ordination.\"",
+      "Q2, the extraordinary case. Divine Right 1749, p. 15: \"it was enough for any Person sensible of the Corruption, to attempt a Reformation, and to administer it in the right Way, who was satisfied of his Call from God, to preach the Gospel, and administer Ordinances, according to the Word.\"",
+      "Q3, \"not a church ordinance\". III.1, p. 896: \"When I say it is not a church-ordinance, I mean it is not an ordinance administered in the church, but out of it, and in order to admission into it, and communion with it;\" and \"Admission to baptism lies solely in the breast of the administrator…\"",
+      "Q5. Divine Right 1749, p. 14: \"It must be owned, that in ordinary Cases, he ought to be baptized himself, that baptizes another, or preaches the Word, or administers other Ordinances; but in an extraordinary Case as this, of beginning a Reformation, from a general Corruption, where such an Administrator cannot be had, it may be done; nor is it essential to the Ordinance that there should be such an Administrator, or otherwise it could never have been introduced into the World at all at first; the first Administrator must be an unbaptized Person, as John the Baptist was.\"",
+      "What makes a baptism. Reply 1765, p. 4: \"The Essentials to the right Administration of Baptism amongst other Things are, that it be performed by Immersion, without which it can't be Baptism; and that it be administred upon a Profession of Faith; neither of which are to be found in Infant-Sprinkling.\"",
+      "No succession. Reply 1765, p. 12: \"but he has no where promised, that he will have a continued Succession of visible congregated Churches.\"",
+      "Gill uses \"Gospel-Order\" of a church, not of an administrator. Reply 1765, p. 13: \"one small Church or Congregation gathered out of the World by the Grace of GOD, according to Gospel-Order, and whose Principles and Practices are agreeable to the Word of GOD, is to be preferred before all the national Churches in the World.\"",
+      "BSB 1984 foreword, conclusion 1(a), p. xiii: \"a. in his Practical Divinity, book three, Chpt. 1, pp. 896-915, his introductory remarks about baptism are confusing. If that were all he had ever said relative to this subject, it would have been, and no doubt is, a stumbling block.\"",
+      "Foreword proposition 1, p. vii: \"Any religious assembly that preaches a false gospel and/or practices a false baptism cannot be recognized as a true New Testament Church of gospel order.\" Proposition 7, p. viii: \"Only churches of New Testament origin and New Testament order can give Scriptural baptism.\"",
+      "Why (B) and not (C): (C) is Gill's ordinary rule, but he does not make it a condition of validity (Divine Right pp. 14-15). On validity alone, (B) says what (2) says; the second option records that."
+     ],
+     "image_ids": [
+      "gill-dr1749-p14"
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "gill-view-stance",
+     "label": "If (B) or (C) is added as a position: your stance on it",
+     "options": [
+      "required",
+      "taught",
+      "tolerated",
+      "forbidden"
+     ],
+     "required": false,
+     "context": [
+      "(3), for comparison: \"Subject, mode and formula, and the administrator a church of gospel order, defined by doctrine, not by identity or succession.\" You hold it required.",
+      "Leave this empty if you chose the second option above, or are undecided."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "gill-view-unchurches",
+     "label": "If (B) or (C) is added and you hold it forbidden: does holding it unchurch a body?",
+     "options": [
+      "unchurches",
+      "does not unchurch"
+     ],
+     "required": false,
+     "context": [
+      "Leave this empty unless your stance in the row above is forbidden."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "gill-refuse",
+     "label": "Does Gill say whether a church may refuse, or require baptism of, someone baptized by a given administrator?",
+     "options": [
+      "he does not say, in the sections read",
+      "he says so (write where, under other)"
+     ],
+     "context": [
+      "II.1, p. 857: \"a man may propose himself to be a member of a church, but it is at the option of the church whether they will receive him;\"",
+      "Reply 1765, p. 13, on the first English Baptists: \"they are able to justify their Baptism on as good a Foundation as the Reformers are able to justify theirs received from the Papists,\"",
+      "Divine Right 1749, pp. 15-17, quotes Zanchy that one so baptized \"ought not to be baptized again\"; those words are Zanchy's, not Gill's. Gill adopts only Zanchy's reason (p. 17)."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "b-excludes-3",
+     "label": "If (B) is added: do (B) and (3) exclude each other?",
+     "options": [
+      "yes",
+      "no"
+     ],
+     "required": false,
+     "context": [
+      "(3) makes the administrator a condition of validity; Divine Right p. 14 says such an administrator is \"not essential to the Ordinance\". Nothing is worked out from this mark."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "b-excludes-our-order",
+     "label": "If (B) is added: do (B) and \"a church of our own order, by identity or succession\" exclude each other?",
+     "options": [
+      "yes",
+      "no"
+     ],
+     "required": false,
+     "context": [
+      "Reply p. 12: no promise of \"a continued Succession of visible congregated Churches\"."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "b-and-2",
+     "label": "If (B) is added: should (B) and (2) carry no mark between them?",
+     "options": [
+      "no mark between them",
+      "a mark (write which, under other)"
+     ],
+     "required": false,
+     "context": [
+      "On validity alone they say the same; (B) adds a rule of order."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "instrumentality",
+   "title": "33e Instrumentality of baptism (not yet in the data): How does baptism benefit the one baptized?",
+   "text": "At sitting 1 you read Gill's \"means\" as (b): the rite sets Christ before faith; the Spirit works by the Word. Your note: \"quote gill exactly rather than paraphrase\". Gill's words from \"Sixthly\" are below, read from the page. This locus and its two positions are not yet in the data: minting waits on a question to the architect about how the references are counted. Every answer in this section is kept in the signed record and used when they are added.",
+   "image_ids": [
+    "gill-p914-sixthly",
+    "gill-p914-right"
+   ],
+   "rows": [
+    {
+     "type": "text",
+     "id": "b-wording",
+     "label": "Write (b) as you want it worded",
+     "context": [
+      "The head (p. 914): \"Sixthly, The ends and uses for which baptism is appointed, and which are answered by it.\"",
+      "1 (p. 914): \"One end of it, and a principal one, as has been frequently hinted, is, to represent the sufferings, burial, and resurrection of Christ; which is plainly and fully suggested in Rom. vi. 4, 5. Col. ii. 12.\"",
+      "2 (p. 914): \"It was practised both by John and by the apostles of Christ, for the remission of sins, Mark i. 4. Acts ii. 38. not that that is the procuring and meritorious cause of it, which only is the blood of Christ; but they who submit unto it, may, by means of it, be led, directed, and encouraged to expect it from Christ.\"",
+      "3 (p. 914): \"…baptism neither washes away original nor actual sin, it has no such virtue in it; but it is a means of directing to Christ the Lamb of God, who, by his atoning blood and sacrifice, has purged and continues to take away the sins of men.\"",
+      "4 (p. 914): \"A salutary or saving use and effect is ascribed unto it; The like figure whereunto, baptism, doth also now save us; should it be asked how, and by what means? the answer follows, By the resurrection of Jesus Christ, 1 Pet. iii. 21. that is, by leading the faith of the person baptized to Christ, as delivered for his offences, and as risen again for his justification.\""
+     ],
+     "image_ids": [
+      "gill-p914-sixthly",
+      "gill-p914-right"
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "tier",
+     "label": "The tier of this question",
+     "options": [
+      "first",
+      "second",
+      "third"
+     ],
+     "context": [
+      "The dispatch of 2026-11-08 records it as second."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "clarity",
+     "label": "The clarity of this question",
+     "options": [
+      "settled",
+      "contested",
+      "open"
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "a-stance",
+     "label": "(a) \"The Spirit works through the rite to confirm faith.\" Your stance",
+     "options": [
+      "required",
+      "taught",
+      "tolerated",
+      "forbidden"
+     ],
+     "required": false,
+     "context": [
+      "The wording of (a) is the dispatch's (2026-11-08, section 8). The Arguments planned for it come from the Heidelberg Catechism (Q. 65, 69-73) and the Belgic Confession (Arts. 33-34)."
+     ]
+    },
+    {
+     "type": "radio",
+     "id": "a-unchurches",
+     "label": "If you hold (a) forbidden: does holding (a) unchurch a body?",
+     "options": [
+      "unchurches",
+      "does not unchurch"
+     ],
+     "required": false
+    },
+    {
+     "type": "radio",
+     "id": "b-stance",
+     "label": "(b), as you worded it above. Your stance",
+     "options": [
+      "required",
+      "taught",
+      "tolerated",
+      "forbidden"
+     ],
+     "required": false
+    },
+    {
+     "type": "radio",
+     "id": "b-unchurches",
+     "label": "If you hold (b) forbidden: does holding (b) unchurch a body?",
+     "options": [
+      "unchurches",
+      "does not unchurch"
+     ],
+     "required": false
+    }
+   ]
+  }
+ ]
+}

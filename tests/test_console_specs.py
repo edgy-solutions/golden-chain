@@ -539,6 +539,118 @@ def test_followup_refusals(tmp_path, followup_images):
         mk(lambda c: c.update(format="other/1"))
 
 
+def test_followup_position_label_override_is_shown_with_the_data_wording_first(tmp_path, followup_images):
+    import plumb_line_followup as pf
+
+    base = pf.make_spec(CONTENT, LOCI, followup_images)
+    idx = {}
+
+    def mutate(c):
+        for si, s in enumerate(c["sections"]):
+            for ri, r in enumerate(s["rows"]):
+                if r.get("type") == "position" and not idx:
+                    idx.update(si=si, ri=ri)
+                    r["label"] = "A reworded position, as the signer would write it"
+
+    spec = pf.make_spec(content_with(tmp_path, mutate), LOCI, followup_images)
+    old, new = base["sections"][idx["si"]]["rows"][idx["ri"]], spec["sections"][idx["si"]]["rows"][idx["ri"]]
+    assert new["label"] == "A reworded position, as the signer would write it"
+    assert new["context"][0] == f'The wording in the data now: "{old["label"]}".'
+    assert new["context"][1:] == old["context"]
+    assert new["image_ids"] == old["image_ids"] and new["fields"] == old["fields"]
+
+
+def test_followup_position_label_override_refusals(tmp_path, followup_images):
+    import plumb_line_followup as pf
+
+    def first_position(c):
+        return next(r for s in c["sections"] for r in s["rows"] if r.get("type") == "position")
+
+    def mk(mutate):
+        return pf.make_spec(content_with(tmp_path, mutate), LOCI, followup_images)
+
+    with pytest.raises(Fail, match="override is empty"):
+        mk(lambda c: first_position(c).update(label="  "))
+    ttl_label = next(r for s in pf.make_spec(CONTENT, LOCI, followup_images)["sections"] for r in s["rows"]
+                     if r["id"].count(".") == 1 and not r["id"].endswith(".locus"))["label"]
+    first_id = next(r for s in pf.make_spec(CONTENT, LOCI, followup_images)["sections"] for r in s["rows"]
+                    if r["id"].count(".") == 1 and not r["id"].endswith(".locus"))["id"]
+    pos_slug = first_id.split(".", 1)[1]
+
+    def same(c):
+        next(r for s in c["sections"] for r in s["rows"]
+             if r.get("type") == "position" and r["position"] == pos_slug).update(label=ttl_label)
+
+    with pytest.raises(Fail, match="equals the label in the data"):
+        mk(same)
+
+
+CONTENT2 = ROOT / "docs" / "loci" / "plumb-line-followup-2.json"
+S2_POSITION_ROWS = {"covenant-of-grace.established-in-new-covenant", "covenant-of-grace.made-in-time-after-fall",
+                    "baptism-validity.subject-mode-formula"}
+
+
+@pytest.fixture
+def followup2_images(tmp_path):
+    d = tmp_path / "imgs2"
+    d.mkdir()
+    for n, im in enumerate(json.loads(CONTENT2.read_text(encoding="utf-8"))["images"]):
+        tc.png(d / im["file"], 8, 4, shade=50 + n)
+    return d
+
+
+def test_followup_sitting2_spec_on_the_real_content(followup2_images):
+    import plumb_line_followup as pf
+
+    spec = pf.make_spec(CONTENT2, LOCI, followup2_images)
+    secs = spec["sections"]
+    rows = [r for s in secs for r in s["rows"]]
+    assert len(secs) == 3
+    assert [len(s["rows"]) for s in secs] == [10, 9, 7]
+    assert len(rows) == 26
+    assert sum(len(r["fields"]) for r in rows) == 29
+    assert len(spec["images"]) == 6
+    assert not any(r["id"].endswith(".locus") for r in rows)
+    assert not any(r["id"].startswith("unchurches.") for r in rows)
+    pos = [r for r in rows if [f["id"] for f in r["fields"]] == ["modality", "unchurches"]]
+    assert len(pos) == 3 and {r["id"] for r in pos} == S2_POSITION_ROWS
+    for r in pos:
+        assert r["context"][0].startswith('The wording in the data now: "')
+    build.check_spec(spec)
+
+
+def test_followup_sitting2_merge_classification(followup2_images):
+    import plumb_line_followup as pf
+
+    spec = pf.make_spec(CONTENT2, LOCI, followup2_images)
+    srows = []
+    for s in spec["sections"]:
+        for r in s["rows"]:
+            fields = []
+            for f in r["fields"]:
+                if f["id"] == "modality":
+                    v = "tolerated"
+                elif f["id"] == "unchurches":
+                    v = []
+                elif f["kind"] == "text":
+                    v = "x"
+                else:
+                    v = f["options"][0]
+                fields.append({"id": f["id"], "label": f["label"], "kind": f["kind"], "value": v})
+            srows.append({"row_id": r["id"], "section": s["id"], "label": r["label"], "state": "verdict",
+                          "note": "", "fields": fields})
+    signed = {"kind": "plumb-line-followup", "build_hash": "ab" * 32, "export_sha256": "cd" * 32,
+              "signature": {"name": "Chris", "date": "2026-11-22"}, "rows": srows}
+    state = plumb_merge.new_state()
+    plumb_merge.apply(state, signed)
+    notes = state["sittings"][-1]["notes"]
+    single = [r["id"] for s in spec["sections"] for r in s["rows"] if r["id"] not in S2_POSITION_ROWS]
+    assert len(single) == 23 and sorted(notes["not_data"]) == sorted(single)
+    assert set(state["holdings"]) == {("covenant-of-grace", "established-in-new-covenant"),
+                                      ("covenant-of-grace", "made-in-time-after-fall"),
+                                      ("baptism-validity", "subject-mode-formula")}
+
+
 # ---- (v) q11-crops --------------------------------------------------------------------------------
 
 def _q11_spec_module():
