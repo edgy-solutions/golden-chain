@@ -42,4 +42,21 @@ Next, in order: the two weigh fixes; R3; sitting 2; Batch C.
 
 ## Applied
 
-(Filled in by the report that works it.)
+Worked in [REPORT_phase1_28.md](REPORT_phase1_28.md), 2026-11-23:
+
+- **The weigh fixes:**
+  - Fix 2 is on `phase-0` (`395f3ef`; S1-S5 held). The note on weigh variance is `07712fb`.
+  - Fix 1 is held on `hold/weigh-fix-1` (`194149b`), because the existing `test_w1_w2_w3` fails with it. The proposed amendment, `2a817d1`, waits on the architect.
+- **The frozen fixture:** `4bff5fb` (X1-X4 held). These eight are the last exception.
+- **ADR-0003 R3:** built on `hold/adr3-r3` (`f4e8b5a`; R1-R10 held), covering:
+  - the Q3 migration;
+  - "by this site's standard";
+  - "The site's statement of its standard is not yet signed."
+
+  It is held for the 26 proposed test amendments (`a193e8b`).
+- **Gadsby 1875:** labelled as the proposed witness for Articles 1-31 only. Chris confirms it on the statements console. Articles 32-35 have no witness.
+- **Next, in order:**
+  - both weigh fixes are done;
+  - R3 is built and held;
+  - the sitting 2 console is built (`84770b2`);
+  - Batch C is stopped under rule 8 on the Argument unit (`e663931`).
