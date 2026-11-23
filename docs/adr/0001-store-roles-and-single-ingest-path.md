@@ -127,3 +127,25 @@ The phase-0 open points are settled as follows.
    - It is never committed or copied into the repo. `.gitignore` excludes `*.pdf`, `*.epub` and `*.docx`.
    - The pre-commit hook refuses PDFs anywhere and, under `data/`, any file that is not `.ttl`, `.py` or `.md`.
    - Derived working copies (OCR) stay outside the repo too.
+
+## Amendment 1: the shared-database guard (2026-11-22; ruling on report 24)
+
+**Why.** There is one TDB2 store, `fuseki/databases/gc`. `ingest.build_tdb2` deletes and rebuilds it, and `fuseki.serve` opens it. The suite also builds it (from tiny test data) and serves it. In report 24, an ingest run on a scratch data copy collided with a suite run: the ingest failed on a file lock and the suite had 14 failures in `test_guard_jena`. The ruling: "add a guard so a check cannot open it while a test run holds it."
+
+**Decision.**
+1. A new module `goldenchain/dblock.py` gives `hold(purpose, path=LOCK)`, a context manager. `LOCK` is `fuseki/run/gc.lock` (gitignored).
+   - It takes a **non-blocking, exclusive OS lock** on an open handle: `msvcrt.locking` on Windows, `fcntl.flock` elsewhere. The OS releases it when the process exits, even if killed, so there is no stale lock.
+   - It is **re-entrant within one process** (a depth count). Nested holds in the holding process succeed. Only the outermost exit releases.
+   - If another process holds it, it raises `DatabaseBusy` (a `RuntimeError`) **at once**, before anything is written. The message names the database path and, where readable, the holder's pid, purpose and start time (from a sidecar file `gc.lock.holder` written after acquiring).
+2. `ingest.build_tdb2` takes the hold as its first act, before writing `fuseki/run/` or touching the database. `fuseki.serve` holds it for the server's life.
+3. `tests/conftest.py` gets a **session-scoped autouse fixture** that holds it for the whole test run (purpose "pytest session"). So any other process that tries to build or serve while the suite runs gets `DatabaseBusy`.
+4. `python -m goldenchain.ingest` already reports any exception and exits 1. A busy database prints `INGEST FAILED: DatabaseBusy: ...` and exits 1, with the database untouched.
+5. Nothing else changes. In-process checks (`load_dataset`, `derive_rdflib`, on a scratch `GOLDEN_CHAIN_DATA`) never open the database and need no hold.
+
+## Verification, amendment 1: the lock (2026-11-22, before any code for it)
+
+Git history seals this lock.
+
+- **AY1. Busy is refused, untouched.** While a process holds the lock, a second process running `python -m goldenchain.ingest` on a scratch `GOLDEN_CHAIN_DATA` exits 1, prints `DatabaseBusy` on stderr, and leaves `fuseki/databases/gc` unchanged (same file names, sizes and mtimes) and `fuseki/run/gc.trig` unchanged. Born test: the test session itself is the holder.
+- **AY2. Re-entrant and released.** On a tmp lock path: a nested hold in one process succeeds; after the outermost exit, another process can take it; after a holder process is killed, another process can take it.
+- **AY3. Nothing else moves.** No existing test file is edited (`tests/conftest.py` gains the fixture; it holds no test). The suite is 810 + the born tests, all passing. Weigh byte-identical (`71c14a5d187d` / `c8fe9e910b5a`). Ingest, run alone, gives 0 violations and 3 warnings. `git diff data/` is empty.
