@@ -58,6 +58,11 @@ def build(bodies=None, tier=None, clarity=None, extra=""):
         ttl_pl += holding("plumb-line", l, p, _, SRC)
     for p in ("believers-and-their-infants", "infants"):
         ttl_pl += f'<position/baptism-subjects/{p}> gc:unchurches "true"^^xsd:boolean .\n'
+        # The flag's provenance axiom, as every flag in the data carries (ADR-0006 R1); weigh fix 1 reads it.
+        ttl_pl += (f'<axiom/unchurches/baptism-subjects/{p}/to/true> a <http://www.w3.org/2002/07/owl#Axiom> ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedSource> <position/baptism-subjects/{p}> ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedProperty> gc:unchurches ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedTarget> true ; dcterms:source {SRC} .\n')
     for name, hs in (BODIES if bodies is None else bodies).items():
         ttl_fx += f"<body/{name}> a gc:Confession .\n"
         for l, p, m in hs:
