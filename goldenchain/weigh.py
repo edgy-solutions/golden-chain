@@ -306,7 +306,7 @@ def render_body(g, body, scope="members") -> str:
             fs = unchurches.flag_source(g, r["position"])
             line = (f"    - {rel(r['position'])} {tail(r['modality'])} "
                     f"({', '.join(rel(x) for x in r['sources']) if r['sources'] else 'no source'}); flagged by the "
-                    f"plumb-line at {rel(fs) if fs else 'no source'}")
+                    f"plumb-line at {', '.join(rel(x) for x in fs) if fs else 'no source'}")
             if cong and not r["own"]:
                 holder = _holder(g, r["holding"])
                 line += " inherited from " + (rel(holder) if holder is not None else NOT_RECORDED)

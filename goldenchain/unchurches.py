@@ -7,7 +7,7 @@ gc:effectivelyHolds, so a section-6 derived stance can never trigger exclusion.
 """
 
 from rdflib import URIRef
-from rdflib.namespace import DCTERMS, RDF
+from rdflib.namespace import DCTERMS, OWL, RDF
 
 from goldenchain.ingest import B, GC
 
@@ -63,8 +63,11 @@ def wording(g, body) -> str:
     raise ValueError(f"{body} has no wording: its gc classes are {classes}")
 
 
-def flag_source(g, position):
-    for h in g.objects(PLUMB_BODY, GC.holds):
-        if (h, GC.position, position) in g:
-            return g.value(h, DCTERMS.source)
-    return None
+def flag_source(g, position) -> list:
+    """The sources named on the flag's own annotated axiom(s) (ADR-0006 R1), in IRI order.
+    Never the Holding's source, and no fallback: with no axiom the list is empty (ruling on report 27)."""
+    srcs = set()
+    for ax in g.subjects(OWL.annotatedSource, position):
+        if (ax, OWL.annotatedProperty, GC.unchurches) in g:
+            srcs |= set(g.objects(ax, DCTERMS.source))
+    return sorted(srcs, key=str)

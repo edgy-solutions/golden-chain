@@ -208,3 +208,32 @@ def test_wording_classes_are_body_subclasses_without_instances():
     for n in ("Denomination", "Congregation"):
         assert (GC[n], RDF.type, OWL.Class) in onto
         assert not set(ingest.union(ingest.load_dataset()).subjects(RDF.type, GC[n]))
+
+
+# ---- the flag's source (weigh fix 1, ruling on report 27; LOCK_weigh_flag_source) ----------
+
+def test_real_data_flag_source_is_the_flags_sitting():
+    g = ingest.union(ingest.derive_rdflib(ingest.load_dataset()))
+    for p in ("baptism-subjects/believers-and-their-infants", "baptism-subjects/infants",
+              "circumcision-covenant/administration-of-grace"):
+        assert unchurches.flag_source(g, U("position/" + p)) == [U("source/plumb-line/sitting-eb961ddb1e582ed6")]
+
+
+OWL_ = "http://www.w3.org/2002/07/owl#"
+AX = f"""<axiom/unchurches/baptism/immersion/to/true> a <{OWL_}Axiom> ;
+    <{OWL_}annotatedSource> <position/baptism/immersion> ; <{OWL_}annotatedProperty> gc:unchurches ;
+    <{OWL_}annotatedTarget> true ; dcterms:source <source/plumb-line/sitting-b> ."""
+
+
+def test_flag_source_is_the_axioms_not_the_holdings():
+    # The Holding is sourced to source/gill/ch1 (PL_FORBID); the flag's axiom names sitting-b.
+    g = ingest.union(ingest.derive_rdflib(build(FLAG + " " + AX)))
+    assert unchurches.flag_source(g, U("position/baptism/immersion")) == [U("source/plumb-line/sitting-b")]
+
+
+def test_flag_source_without_axiom_is_empty():
+    w = world()
+    w.hold("parent", "l", "p", "taught")
+    w.hold("plumb-line", "l", "p", "forbidden")
+    g = ingest.union(derive(w))
+    assert unchurches.flag_source(g, U("position/l/p")) == []
