@@ -129,3 +129,16 @@ Lead 3 followed: catalogue searches only. Nothing was downloaded. [R catalogue r
 - The 1875 Gadsby printing is a **candidate witness for Articles 1–31 only**, if lead 1 is right that they were fixed by 1872. It cannot witness 32–35. Viewing it would need Chris's leave (A-4 allows no download).
 - The ruling notes Chris may ask the Gospel Standard Society directly for its earliest printing of the Articles as passed in 1879.
 - **Still no witness of record.**
+
+## Ruling on report 24 (A-4), worked 2026-11-22
+
+- **The ruling:** the 1875 Gadsby printing "is worth having as a witness for Articles 1-31, labelled as covering those only". Chris gave the go-ahead ("yes on gospel standard").
+- **The fetch was refused by Google, and not retried:**
+  - The Books API (`volumes/9J6XTR8IeaoC`) returned HTTP 429 (daily quota).
+  - The full-view PDF link redirected to Google's bot-check page (HTTP 429, `google.com/sorry`).
+  - Under the standing rule, bot checks are not circumvented. Nothing was downloaded and no page was viewed.
+- **How it can still be had:**
+  - Chris opens Google Books ID `9J6XTR8IeaoC` in a browser and downloads the full-view PDF into the private corpus. The build agent then views it to propose (the PDF is never committed).
+  - Or the BL copy (`BL:A0026105450`) through the BL's own digitised-books viewer, if Chris prefers.
+- **Label when it is a witness:** "1875 Gadsby printing: witness for Articles 1–31 only; does not witness Articles 32–35 (1878–79)."
+- **Still no witness of record.**

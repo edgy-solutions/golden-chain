@@ -32,4 +32,10 @@ Console size: leave the photographs at full size. Chris tries it
 
 ## Applied
 
-(Filled in when worked.)
+Worked in [REPORT_phase1_26.md](REPORT_phase1_26.md), 2026-11-22.
+- **Entails check:** the LBC Holding on (iii) from 7.2 is proposed (triples in the report) and shown on the sitting-2 row. It is not in data yet: while `(ii) excludes (iii)` stands it would make LBC inconsistent. It goes in with sitting 2, when that edge is retired.
+- **ADR-0003:** the note on the refutation check, after Revision 1 (`fdaf2b0`).
+- **Guard:** ADR-0001 amendment 1, AY1–AY3 locked (`30f3c6e`) and held; suite 813 passed.
+- **A-3, A-5:** accepted; nothing further.
+- **A-4:** Google refused the fetch with its bot check (HTTP 429). Not retried. Recorded in [gospel-standard.md](../sources/phase2/gospel-standard.md).
+- **Console size:** no action.
