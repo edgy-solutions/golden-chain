@@ -1,0 +1,774 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Westminster Confession of Faith (docs/sources/westminster.md). Reference only; no quotation.
+# Arguments cite the proof texts attached to the clause that states the Position.
+
+<body/wcf> a gc:Confession ;
+    rdfs:label "Westminster Confession of Faith (1647)"@en ;
+    gc:expressedIn <source/wcf> .
+
+<source/wcf> a gc:SourceWork ;
+    rdfs:label "Westminster Confession of Faith (1647), with proof texts"@en ;
+    dcterms:bibliographicCitation "Witness: Edinburgh: Evan Tyler, 1647 (ruling on report 5 Q7; edition stated once, ruling on report 8 Q4)." .
+
+<source/wcf/7/3> a gc:SourceDivision ;
+    rdfs:label "WCF 7.3"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/7/5> a gc:SourceDivision ;
+    rdfs:label "WCF 7.5"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/7/6> a gc:SourceDivision ;
+    rdfs:label "WCF 7.6"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/27/1> a gc:SourceDivision ;
+    rdfs:label "WCF 27.1"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/1> a gc:SourceDivision ;
+    rdfs:label "WCF 28.1"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/2> a gc:SourceDivision ;
+    rdfs:label "WCF 28.2"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/3> a gc:SourceDivision ;
+    rdfs:label "WCF 28.3"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/4> a gc:SourceDivision ;
+    rdfs:label "WCF 28.4"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/5> a gc:SourceDivision ;
+    rdfs:label "WCF 28.5"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/6> a gc:SourceDivision ;
+    rdfs:label "WCF 28.6"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+<source/wcf/28/7> a gc:SourceDivision ;
+    rdfs:label "WCF 28.7"@en ;
+    dcterms:isPartOf <source/wcf> .
+
+# ---------------------------------------------------------------- holdings
+
+<body/wcf> gc:holds <holding/wcf/covenant-administrations/one-covenant-two-administrations> .
+
+<holding/wcf/covenant-administrations/one-covenant-two-administrations> a gc:Holding ;
+    gc:position <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/7/5> , <source/wcf/7/6> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/covenant-of-grace/made-in-time-after-fall> .
+
+<holding/wcf/covenant-of-grace/made-in-time-after-fall> a gc:Holding ;
+    gc:position <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/7/3> , <source/wcf/7/5> , <source/wcf/7/6> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/circumcision-covenant/administration-of-grace> .
+
+<holding/wcf/circumcision-covenant/administration-of-grace> a gc:Holding ;
+    gc:position <position/circumcision-covenant/administration-of-grace> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/7/5> , <source/wcf/28/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/baptism-perpetuity/standing-ordinance-to-the-end> .
+
+<holding/wcf/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Holding ;
+    gc:position <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/28/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Ruling 4, 28.4: the canonical WALL.
+<body/wcf> gc:holds <holding/wcf/baptism-subjects/believers-and-their-infants> .
+
+<holding/wcf/baptism-subjects/believers-and-their-infants> a gc:Holding ;
+    gc:position <position/baptism-subjects/believers-and-their-infants> ;
+    gc:modality <vocab/modality/required> ;
+    dcterms:source <source/wcf/28/4> ;
+    gc:status <vocab/status/ratified> ;
+    gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/architect> ;
+    dcterms:dateAccepted "2026-10-25"^^xsd:date .
+
+<body/wcf> gc:holds <holding/wcf/baptism-subjects/professing-believers-only> .
+
+<holding/wcf/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/forbidden> ;
+    dcterms:source <source/wcf/28/4> ;
+    gc:derivedBy "implication" ;
+    gc:status <vocab/status/ratified> ;
+    gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/architect> ;
+    dcterms:dateAccepted "2026-10-25"^^xsd:date .
+
+# Ruling 4, 28.3: officers only; immersion itself is not forbidden to all.
+<body/wcf> gc:holds <holding/wcf/baptism-mode/mode-indifferent/officers> .
+
+<holding/wcf/baptism-mode/mode-indifferent/officers> a gc:Holding ;
+    gc:position <position/baptism-mode/mode-indifferent> ;
+    gc:modality <vocab/modality/required> ;
+    gc:scope <vocab/scope/officers> ;
+    dcterms:source <source/wcf/28/3> ;
+    gc:status <vocab/status/ratified> ;
+    gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/architect> ;
+    dcterms:dateAccepted "2026-10-25"^^xsd:date .
+
+<body/wcf> gc:holds <holding/wcf/baptism-mode/immersion-only/officers> .
+
+<holding/wcf/baptism-mode/immersion-only/officers> a gc:Holding ;
+    gc:position <position/baptism-mode/immersion-only> ;
+    gc:modality <vocab/modality/forbidden> ;
+    gc:scope <vocab/scope/officers> ;
+    dcterms:source <source/wcf/28/3> ;
+    gc:derivedBy "implication" ;
+    gc:status <vocab/status/ratified> ;
+    gc:proposedBy <agent/build-agent> ;
+    gc:ratifiedBy <agent/architect> ;
+    dcterms:dateAccepted "2026-10-25"^^xsd:date .
+
+<body/wcf> gc:holds <holding/wcf/baptism-formula/triune-name> .
+
+<holding/wcf/baptism-formula/triune-name> a gc:Holding ;
+    gc:position <position/baptism-formula/triune-name> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/28/2> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/baptism-significance/union-with-christ> .
+
+<holding/wcf/baptism-significance/union-with-christ> a gc:Holding ;
+    gc:position <position/baptism-significance/union-with-christ> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/28/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/baptism-significance/sign-and-seal-of-the-covenant> .
+
+<holding/wcf/baptism-significance/sign-and-seal-of-the-covenant> a gc:Holding ;
+    gc:position <position/baptism-significance/sign-and-seal-of-the-covenant> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/27/1> , <source/wcf/28/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/wcf> gc:holds <holding/wcf/baptism-efficacy/grace-conferred-in-right-use> .
+
+<holding/wcf/baptism-efficacy/grace-conferred-in-right-use> a gc:Holding ;
+    gc:position <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/wcf/28/5> , <source/wcf/28/6> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Ruling Q5 on report 2: 28.7 "is but once to be administered to any person"; scope all.
+<body/wcf> gc:holds <holding/wcf/baptism-repetition/once-only> .
+
+<holding/wcf/baptism-repetition/once-only> a gc:Holding ;
+    gc:position <position/baptism-repetition/once-only> ;
+    gc:modality <vocab/modality/required> ;
+    dcterms:source <source/wcf/28/7> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/wcf/7/5/001> a gc:Argument ;
+    gc:source <source/wcf/7/5> ;
+    gc:supports <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:cites <passage/kjv/2Cor.3.6-2Cor.3.9> ;
+    gc:locator "7.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "i 2 Cor.3, 6,7 8,9" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/6/001> a gc:Argument ;
+    gc:source <source/wcf/7/6> ;
+    gc:supports <position/covenant-administrations/one-covenant-two-administrations> ;
+    gc:cites <passage/kjv/Gal.3.14> ,
+        <passage/kjv/Gal.3.16> ,
+        <passage/kjv/Acts.15.11> ,
+        <passage/kjv/Rom.3.21-Rom.3.23> ,
+        <passage/kjv/Rom.3.30> ,
+        <passage/kjv/Ps.32.1> ,
+        <passage/kjv/Rom.4.3> ,
+        <passage/kjv/Rom.4.6> ,
+        <passage/kjv/Rom.4.16-Rom.4.17> ,
+        <passage/kjv/Rom.4.23-Rom.4.24> ,
+        <passage/kjv/Heb.13.8> ;
+    gc:locator "7.6" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 25" ;
+    gc:asPrinted "s Gal.3.14.16. Rom,3.21,22,23,30.Psal. 32.1.with Rom.4.3,6,16,17,23,24.Heb.13.8, Act.15.11." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/6/002> a gc:Argument ;
+    gc:source <source/wcf/7/6> ;
+    gc:supports <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:cites <passage/kjv/Col.2.17> ;
+    gc:locator "7.6" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "n Gal, 2, 17" ;
+    gc:resolutionNote "Printed \"Gal, 2, 17\", attached to \"Christ the substance\"; the middle numeral is damaged on leaf 24. Resolved to Col 2:17 by ruling M11 on the step-3 plan, the clause being Christ the substance (cf. Col 2:17). Chris signs from the leaf." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# WCF 7.6 note o is not minted (not ruled).
+
+<argument/wcf/27/1/001> a gc:Argument ;
+    gc:source <source/wcf/27/1> ;
+    gc:supports <position/baptism-significance/sign-and-seal-of-the-covenant> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Gen.17.7> ,
+        <passage/kjv/Gen.17.10> ;
+    gc:locator "27.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 55" ;
+    gc:asPrinted "a Rom.4.11 Gen.17.7,10" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/1/001> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/sign-and-seal-of-the-covenant> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Col.2.11-Col.2.12> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "c Rom.4.11 with Coloss.2, 11,12" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/1/002> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Gal.3.27> ,
+        <passage/kjv/Rom.6.5> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "d Gal.3.27 Rom.6.5" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/1/003> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "h Matth. 28. 19,20." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.1 note b, admission (ruling on report 5 Q8): the composite 33a Position.
+<argument/wcf/28/1/004> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/1Cor.12.13> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "b 1 Cor.12.13," ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.1 note e, regeneration (ruling on report 5 Q8).
+<argument/wcf/28/1/005> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Titus.3.5> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "e Tit.3.5" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.1 note f, remission of sins (ruling on report 5 Q8).
+<argument/wcf/28/1/006> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Mark.1.4> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "f Mark 1.4" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.1 note g, newness of life: split from 28/1/002, one Argument per lettered note.
+<argument/wcf/28/1/007> a gc:Argument ;
+    gc:source <source/wcf/28/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.3-Rom.6.4> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "g Rom.6.3,4" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/2/001> a gc:Argument ;
+    gc:source <source/wcf/28/2> ;
+    gc:supports <position/baptism-formula/triune-name> ;
+    gc:cites <passage/kjv/Matt.3.11> ,
+        <passage/kjv/John.1.33> ,
+        <passage/kjv/Matt.28.19-Matt.28.20> ;
+    gc:locator "28.2" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "i Mat.3.11 John 1.33. Mat.28.19,20" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/3/001> a gc:Argument ;
+    gc:source <source/wcf/28/3> ;
+    gc:supports <position/baptism-mode/mode-indifferent> ;
+    gc:cites <passage/kjv/Heb.9.10> ,
+        <passage/kjv/Heb.9.19-Heb.9.22> ,
+        <passage/kjv/Acts.2.41> ,
+        <passage/kjv/Acts.16.33> ,
+        <passage/kjv/Mark.7.4> ;
+    gc:locator "28.3" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 56" ;
+    gc:asPrinted "k Heb.9.10, 19,20,21,22 Acts 2.41. and 16.33. Mark 7.4" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/4/001> a gc:Argument ;
+    gc:source <source/wcf/28/4> ;
+    gc:supports <position/baptism-subjects/believers-and-their-infants> ;
+    gc:cites <passage/kjv/Gen.17.7> ,
+        <passage/kjv/Gen.17.9> ,
+        <passage/kjv/Gal.3.9> ,
+        <passage/kjv/Gal.3.14> ,
+        <passage/kjv/Col.2.11-Col.2.12> ,
+        <passage/kjv/Acts.2.38-Acts.2.39> ,
+        <passage/kjv/Rom.4.11-Rom.4.12> ,
+        <passage/kjv/1Cor.7.14> ,
+        <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Mark.10.13-Mark.10.16> ,
+        <passage/kjv/Luke.18.15> ;
+    gc:locator "28.4" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "m Gen.17.7. 9. with Gal 3.91,4 & Col 2 11.12. & Acts 2 38. 39. & Rom.4.11, 12. 1 Cor.7.14. Mat.28.19. Mark 10.13, 14, 15.16. Luke 18.15." ;
+    gc:resolutionNote "\"Gal 3.91,4\" is as printed (signed from the leaf by Chris, 2026-11-01). Cited as Gal 3:9 and 3:14, as Schaff prints it (Gal. iii. 9, 14): ruling on report 7 Q6, status proposed. Chris's note at signing: likely 3.9, 14." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.4 note l, professing adults (ruling on report 7 Q7). Chris corrected the proposed "Act;" to "Acts".
+<argument/wcf/28/4/002> a gc:Argument ;
+    gc:source <source/wcf/28/4> ;
+    gc:supports <position/baptism-subjects/believers-and-their-infants> ;
+    gc:cites <passage/kjv/Mark.16.15-Mark.16.16> ,
+        <passage/kjv/Acts.8.37-Acts.8.38> ;
+    gc:locator "28.4" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "l Mark 16. 15, 16 Acts 8.37, 38." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.5 note n, neglect a great sin: under the 33b Position, the clause that answers necessity (ruling on report 8 Q3).
+<argument/wcf/28/5/001> a gc:Argument ;
+    gc:source <source/wcf/28/5> ;
+    gc:supports <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:cites <passage/kjv/Luke.7.30> ,
+        <passage/kjv/Exod.4.24-Exod.4.26> ;
+    gc:locator "28.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "n Luke 7. 30. with Exod .4. 24.25,26." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.5 note o, grace and salvation not so inseparably annexed (ruling on report 8 Q2, Q3).
+<argument/wcf/28/5/002> a gc:Argument ;
+    gc:source <source/wcf/28/5> ;
+    gc:supports <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Acts.10.2> ,
+        <passage/kjv/Acts.10.4> ,
+        <passage/kjv/Acts.10.22> ,
+        <passage/kjv/Acts.10.31> ,
+        <passage/kjv/Acts.10.45> ,
+        <passage/kjv/Acts.10.47> ;
+    gc:locator "28.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "o Rom. 4. 11. Acts 10 2.4. 22, 31,45,47." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.5 note p, not all baptized are regenerated (ruling on report 8 Q2, Q3).
+<argument/wcf/28/5/003> a gc:Argument ;
+    gc:source <source/wcf/28/5> ;
+    gc:supports <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:cites <passage/kjv/Acts.8.13> ,
+        <passage/kjv/Acts.8.23> ;
+    gc:locator "28.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "p Acts 8. 13 23." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/6/001> a gc:Argument ;
+    gc:source <source/wcf/28/6> ;
+    gc:supports <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:cites <passage/kjv/Gal.3.27> ,
+        <passage/kjv/Titus.3.5> ,
+        <passage/kjv/Eph.5.25-Eph.5.26> ,
+        <passage/kjv/Acts.2.38> ,
+        <passage/kjv/Acts.2.41> ;
+    gc:locator "28.6" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "r Gal.3.27. Tit.3.5, Eph.5.25,26. Acts 2.38.41." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# 28.6 note q, efficacy not tied to the moment of administration; printed at 28.6 (ruling on report 8 Q2).
+<argument/wcf/28/6/002> a gc:Argument ;
+    gc:source <source/wcf/28/6> ;
+    gc:supports <position/baptism-efficacy/grace-conferred-in-right-use> ;
+    gc:cites <passage/kjv/John.3.5> ,
+        <passage/kjv/John.3.8> ;
+    gc:locator "28.6" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "q John 3.5,8." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/7/001> a gc:Argument ;
+    gc:source <source/wcf/28/7> ;
+    gc:supports <position/baptism-repetition/once-only> ;
+    gc:cites <passage/kjv/Titus.3.5> ;
+    gc:locator "28.7" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "s Tit.3.5." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Step 3 Batch A (PLAN_step3_minting, ruling on report 11). 28.4 note m also supports 23b yes.
+<argument/wcf/7/3/001> a gc:Argument ;
+    gc:source <source/wcf/7/3> ;
+    gc:supports <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:cites <passage/kjv/Gal.3.21> ,
+        <passage/kjv/Rom.8.3> ,
+        <passage/kjv/Rom.3.20-Rom.3.21> ,
+        <passage/kjv/Gen.3.15> ,
+        <passage/kjv/Isa.42.6> ;
+    gc:locator "7.3" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "e Gal.3,21 Rom.8,3 Rom.3,20,21 Gen.3,15 Isa.42,6" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/5/002> a gc:Argument ;
+    gc:source <source/wcf/7/5> ;
+    gc:supports <position/covenant-of-grace/made-in-time-after-fall> ;
+    gc:cites <passage/kjv/2Cor.3.6-2Cor.3.9> ;
+    gc:locator "7.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "i 2 Cor.3, 6,7 8,9" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/7/5/003> a gc:Argument ;
+    gc:source <source/wcf/7/5> ;
+    gc:supports <position/circumcision-covenant/administration-of-grace> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Col.2.11-Col.2.12> ,
+        <passage/kjv/1Cor.5.7> ,
+        <passage/kjv/Heb.8.1-Heb.10.39> ;
+    gc:locator "7.5" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 24" ;
+    gc:asPrinted "k Heb.8, 9, 10 chapters Rom.4, 11 Col.2,11,12 1 Cor.5,7" ;
+    gc:resolutionNote "\"Heb.8, 9, 10 chapters\" is a chapter-level reference, cited as the whole span Heb 8:1–10:39 (ruling M8 on the step-3 plan)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/wcf/28/4/003> a gc:Argument ;
+    gc:source <source/wcf/28/4> ;
+    gc:supports <position/circumcision-covenant/administration-of-grace> ;
+    gc:cites <passage/kjv/Gen.17.7> ,
+        <passage/kjv/Gen.17.9> ,
+        <passage/kjv/Gal.3.9> ,
+        <passage/kjv/Gal.3.14> ,
+        <passage/kjv/Col.2.11-Col.2.12> ,
+        <passage/kjv/Acts.2.38-Acts.2.39> ,
+        <passage/kjv/Rom.4.11-Rom.4.12> ,
+        <passage/kjv/1Cor.7.14> ,
+        <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Mark.10.13-Mark.10.16> ,
+        <passage/kjv/Luke.18.15> ;
+    gc:locator "28.4" ;
+    gc:secondaryLocator "IA humbleadviceofas00west leaf 57" ;
+    gc:asPrinted "m Gen.17.7. 9. with Gal 3.91,4 & Col 2 11.12. & Acts 2 38. 39. & Rom.4.11, 12. 1 Cor.7.14. Mat.28.19. Mark 10.13, 14, 15.16. Luke 18.15." ;
+    gc:resolutionNote "\"Gal 3.91,4\" is as printed (signed from the leaf by Chris, 2026-11-01). Cited as Gal 3:9 and 3:14, as Schaff prints it (Gal. iii. 9, 14): ruling on report 7 Q6, status proposed. Chris's note at signing: likely 3.9, 14." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/1Cor.7.14> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.7.14" ;
+    gc:startOrdinal 138 ; gc:endOrdinal 138 .
+
+<passage/kjv/1Cor.12.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.12.13" ;
+    gc:startOrdinal 284 ; gc:endOrdinal 284 .
+
+<passage/kjv/2Cor.3.6-2Cor.3.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Cor" ; gc:osisRef "2Cor.3.6-2Cor.3.9" ;
+    gc:startOrdinal 47 ; gc:endOrdinal 50 .
+
+<passage/kjv/Acts.2.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.38" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Acts.2.38-Acts.2.39> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.38-Acts.2.39" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 65 .
+
+<passage/kjv/Acts.2.41> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.41" ;
+    gc:startOrdinal 67 ; gc:endOrdinal 67 .
+
+<passage/kjv/Acts.8.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.13" ;
+    gc:startOrdinal 266 ; gc:endOrdinal 266 .
+
+<passage/kjv/Acts.8.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.23" ;
+    gc:startOrdinal 276 ; gc:endOrdinal 276 .
+
+<passage/kjv/Acts.8.37-Acts.8.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.37-Acts.8.38" ;
+    gc:startOrdinal 290 ; gc:endOrdinal 291 .
+
+<passage/kjv/Acts.10.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.2" ;
+    gc:startOrdinal 338 ; gc:endOrdinal 338 .
+
+<passage/kjv/Acts.10.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.4" ;
+    gc:startOrdinal 340 ; gc:endOrdinal 340 .
+
+<passage/kjv/Acts.10.22> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.22" ;
+    gc:startOrdinal 358 ; gc:endOrdinal 358 .
+
+<passage/kjv/Acts.10.31> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.31" ;
+    gc:startOrdinal 367 ; gc:endOrdinal 367 .
+
+<passage/kjv/Acts.10.45> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.45" ;
+    gc:startOrdinal 381 ; gc:endOrdinal 381 .
+
+<passage/kjv/Acts.10.47> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.10.47" ;
+    gc:startOrdinal 383 ; gc:endOrdinal 383 .
+
+<passage/kjv/Acts.15.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.15.11" ;
+    gc:startOrdinal 530 ; gc:endOrdinal 530 .
+
+<passage/kjv/Acts.16.33> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.16.33" ;
+    gc:startOrdinal 593 ; gc:endOrdinal 593 .
+
+<passage/kjv/Col.2.11-Col.2.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.11-Col.2.12" ;
+    gc:startOrdinal 40 ; gc:endOrdinal 41 .
+
+<passage/kjv/Eph.5.25-Eph.5.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.5.25-Eph.5.26" ;
+    gc:startOrdinal 123 ; gc:endOrdinal 124 .
+
+<passage/kjv/Exod.4.24-Exod.4.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Exod" ; gc:osisRef "Exod.4.24-Exod.4.26" ;
+    gc:startOrdinal 93 ; gc:endOrdinal 95 .
+
+<passage/kjv/Gal.3.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.9" ;
+    gc:startOrdinal 54 ; gc:endOrdinal 54 .
+
+<passage/kjv/Gal.3.14> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.14" ;
+    gc:startOrdinal 59 ; gc:endOrdinal 59 .
+
+<passage/kjv/Gal.3.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.16" ;
+    gc:startOrdinal 61 ; gc:endOrdinal 61 .
+
+<passage/kjv/Gal.3.27> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.27" ;
+    gc:startOrdinal 72 ; gc:endOrdinal 72 .
+
+<passage/kjv/Gen.17.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.7" ;
+    gc:startOrdinal 405 ; gc:endOrdinal 405 .
+
+<passage/kjv/Gen.17.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.9" ;
+    gc:startOrdinal 407 ; gc:endOrdinal 407 .
+
+<passage/kjv/Gen.17.10> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.10" ;
+    gc:startOrdinal 408 ; gc:endOrdinal 408 .
+
+<passage/kjv/Heb.9.10> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.10" ;
+    gc:startOrdinal 152 ; gc:endOrdinal 152 .
+
+<passage/kjv/Heb.9.19-Heb.9.22> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.19-Heb.9.22" ;
+    gc:startOrdinal 161 ; gc:endOrdinal 164 .
+
+<passage/kjv/Heb.13.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.13.8" ;
+    gc:startOrdinal 286 ; gc:endOrdinal 286 .
+
+<passage/kjv/John.1.33> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.1.33" ;
+    gc:startOrdinal 33 ; gc:endOrdinal 33 .
+
+<passage/kjv/John.3.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.5" ;
+    gc:startOrdinal 81 ; gc:endOrdinal 81 .
+
+<passage/kjv/John.3.8> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.8" ;
+    gc:startOrdinal 84 ; gc:endOrdinal 84 .
+
+<passage/kjv/Luke.7.30> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Luke" ; gc:osisRef "Luke.7.30" ;
+    gc:startOrdinal 332 ; gc:endOrdinal 332 .
+
+<passage/kjv/Luke.18.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Luke" ; gc:osisRef "Luke.18.15" ;
+    gc:startOrdinal 810 ; gc:endOrdinal 810 .
+
+<passage/kjv/Mark.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.1.4" ;
+    gc:startOrdinal 4 ; gc:endOrdinal 4 .
+
+<passage/kjv/Mark.7.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.7.4" ;
+    gc:startOrdinal 252 ; gc:endOrdinal 252 .
+
+<passage/kjv/Mark.10.13-Mark.10.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.10.13-Mark.10.16" ;
+    gc:startOrdinal 386 ; gc:endOrdinal 389 .
+
+<passage/kjv/Mark.16.15-Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.15-Mark.16.16" ;
+    gc:startOrdinal 673 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.3.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.11" ;
+    gc:startOrdinal 59 ; gc:endOrdinal 59 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/Matt.28.19-Matt.28.20> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19-Matt.28.20" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1071 .
+
+<passage/kjv/Ps.32.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Ps" ; gc:osisRef "Ps.32.1" ;
+    gc:startOrdinal 417 ; gc:endOrdinal 417 .
+
+<passage/kjv/Rom.3.21-Rom.3.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.3.21-Rom.3.23" ;
+    gc:startOrdinal 82 ; gc:endOrdinal 84 .
+
+<passage/kjv/Rom.3.30> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.3.30" ;
+    gc:startOrdinal 91 ; gc:endOrdinal 91 .
+
+<passage/kjv/Rom.4.3> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.3" ;
+    gc:startOrdinal 95 ; gc:endOrdinal 95 .
+
+<passage/kjv/Rom.4.6> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.6" ;
+    gc:startOrdinal 98 ; gc:endOrdinal 98 .
+
+<passage/kjv/Rom.4.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.11" ;
+    gc:startOrdinal 103 ; gc:endOrdinal 103 .
+
+<passage/kjv/Rom.4.11-Rom.4.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.11-Rom.4.12" ;
+    gc:startOrdinal 103 ; gc:endOrdinal 104 .
+
+<passage/kjv/Rom.4.16-Rom.4.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.16-Rom.4.17" ;
+    gc:startOrdinal 108 ; gc:endOrdinal 109 .
+
+<passage/kjv/Rom.4.23-Rom.4.24> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.23-Rom.4.24" ;
+    gc:startOrdinal 115 ; gc:endOrdinal 116 .
+
+<passage/kjv/Rom.6.3-Rom.6.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.3-Rom.6.4" ;
+    gc:startOrdinal 141 ; gc:endOrdinal 142 .
+
+<passage/kjv/Rom.6.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.5" ;
+    gc:startOrdinal 143 ; gc:endOrdinal 143 .
+
+<passage/kjv/Titus.3.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.3.5" ;
+    gc:startOrdinal 36 ; gc:endOrdinal 36 .
+
+<passage/kjv/1Cor.5.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.5.7" ;
+    gc:startOrdinal 98 ; gc:endOrdinal 98 .
+
+<passage/kjv/Gal.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.21" ;
+    gc:startOrdinal 66 ; gc:endOrdinal 66 .
+
+<passage/kjv/Gen.3.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.3.15" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Isa.42.6> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Isa" ; gc:osisRef "Isa.42.6" ;
+    gc:startOrdinal 832 ; gc:endOrdinal 832 .
+
+<passage/kjv/Rom.3.20-Rom.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.3.20-Rom.3.21" ;
+    gc:startOrdinal 81 ; gc:endOrdinal 82 .
+
+<passage/kjv/Rom.8.3> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.8.3" ;
+    gc:startOrdinal 189 ; gc:endOrdinal 189 .
+
+<passage/kjv/Heb.8.1-Heb.10.39> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.8.1-Heb.10.39" ;
+    gc:startOrdinal 130 ; gc:endOrdinal 209 .
+
+<passage/kjv/Col.2.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.17" ;
+    gc:startOrdinal 46 ; gc:endOrdinal 46 .

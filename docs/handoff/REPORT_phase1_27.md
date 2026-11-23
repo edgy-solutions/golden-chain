@@ -26,6 +26,8 @@
 | E10 | Suite 813 passed, with one test amended in the lock commit | **Missed.** 8 failed, 805 passed. After the amendments below: **814 passed** (813 + 1 born). |
 
 **E9, what happened.** Both hashes changed, as predicted (from `71c14a5d187d` / `c8fe9e910b5a`). They are not stable: see the second defect below. Two runs gave members `13209f4b689f` and `72a2d3c329e7`; officers gave `590965a0a299` both times. The miss is in what changed:
+
+> **Note, 2026-11-22 (ruling on report 27): not verifiable as stated.** The officers hash also varies with the process's hash seed: seeds 0 and 3 give `590965a0a299`, seeds 1 and 2 give `7dcf90eb14d4` ([LOCK_weigh_sources_sorted_2026-11-22.md](LOCK_weigh_sources_sorted_2026-11-22.md)). My two runs happened to agree. After weigh fix 2 (`395f3ef`) the hashes are stable: members `46381316eb30`, officers `91bfab215992`. The text above is not rewritten.
 - I predicted a new **wall** for WCF. Instead, three Bodies are **not ranked**, and weigh lists them as "Not a church by this plumb-line's standard":
   - **WCF:** believers-and-their-infants required (28.4), and administration-of-grace taught (7.5).
   - **The Apology and Augsburg:** infants taught (IX).

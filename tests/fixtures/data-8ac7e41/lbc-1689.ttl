@@ -1,0 +1,449 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Second London Baptist Confession (docs/sources/lbc-1689.md). Reference only; no quotation.
+
+<body/lbc-1689> a gc:Confession ;
+    rdfs:label "Second London Baptist Confession (1677/1689)"@en ;
+    gc:expressedIn <source/lbc-1689> .
+
+<source/lbc-1689> a gc:SourceWork ;
+    rdfs:label "A Confession of Faith (1677/1689), with proof texts"@en ;
+    dcterms:bibliographicCitation "Witness: the 1677 first printing, facsimile edition (2000). Slug kept as lbc-1689 (architect ruling, 2026-10-25)." .
+
+<source/lbc-1689/7/3> a gc:SourceDivision ;
+    rdfs:label "LBC 7.3"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/28/1> a gc:SourceDivision ;
+    rdfs:label "LBC 28.1"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/28/2> a gc:SourceDivision ;
+    rdfs:label "LBC 28.2"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/1> a gc:SourceDivision ;
+    rdfs:label "LBC 29.1"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/2> a gc:SourceDivision ;
+    rdfs:label "LBC 29.2"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/3> a gc:SourceDivision ;
+    rdfs:label "LBC 29.3"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+<source/lbc-1689/29/4> a gc:SourceDivision ;
+    rdfs:label "LBC 29.4"@en ;
+    dcterms:isPartOf <source/lbc-1689> .
+
+# ---------------------------------------------------------------- holdings
+# No efficacy (33b) Holding: 29.1 says "a sign", not "only a sign" (finding).
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-perpetuity/standing-ordinance-to-the-end> .
+
+<holding/lbc-1689/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Holding ;
+    gc:position <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/28/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-subjects/professing-believers-only> .
+
+<holding/lbc-1689/baptism-subjects/professing-believers-only> a gc:Holding ;
+    gc:position <position/baptism-subjects/professing-believers-only> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/2> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-mode/immersion-only> .
+
+<holding/lbc-1689/baptism-mode/immersion-only> a gc:Holding ;
+    gc:position <position/baptism-mode/immersion-only> ;
+    gc:modality <vocab/modality/required> ;
+    dcterms:source <source/lbc-1689/29/4> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-formula/triune-name> .
+
+<holding/lbc-1689/baptism-formula/triune-name> a gc:Holding ;
+    gc:position <position/baptism-formula/triune-name> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/3> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/baptism-significance/union-with-christ> .
+
+<holding/lbc-1689/baptism-significance/union-with-christ> a gc:Holding ;
+    gc:position <position/baptism-significance/union-with-christ> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/29/1> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<body/lbc-1689> gc:holds <holding/lbc-1689/covenant-of-grace/established-in-new-covenant> .
+
+<holding/lbc-1689/covenant-of-grace/established-in-new-covenant> a gc:Holding ;
+    gc:position <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:modality <vocab/modality/taught> ;
+    dcterms:source <source/lbc-1689/7/3> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- arguments
+
+# LBC 7.3, one Argument per note. Note g (salvation of the OT saints) is deliberately not minted:
+# note g — salvation of the OT saints — does not separate (ii) from (iii); not cited.
+
+<argument/lbc-1689/7/3/001> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Gen.3.15> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "e Gen. 3.15." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/7/3/002> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/Heb.1.1> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "f Heb. 1.1." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/7/3/003> a gc:Argument ;
+    gc:source <source/lbc-1689/7/3> ;
+    gc:supports <position/covenant-of-grace/established-in-new-covenant> ;
+    gc:cites <passage/kjv/2Tim.1.9> ,
+        <passage/kjv/Titus.1.2> ;
+    gc:locator "7.3" ;
+    gc:asPrinted "* 2 Tim. 1.9. Tit. 1.2." ;
+    rdfs:comment "asPrinted taken from a reading transcription (bible-researcher.com, after CCEL; two reads agree), not from the 1677 facsimile; flagged until Chris reads the 1677 margin letters (ruling M10 on the step-3 plan)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/28/1/001> a gc:Argument ;
+    gc:source <source/lbc-1689/28/1> ;
+    gc:supports <position/baptism-perpetuity/standing-ordinance-to-the-end> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/1Cor.11.26> ;
+    gc:locator "28.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), p. 96, \"Of Baptism and the Lords Supper\"" ;
+    gc:asPrinted "(a) Mat. 28. 19, 20. 1 Cor. 11. 26." ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.3-Rom.6.5> ,
+        <passage/kjv/Col.2.12> ,
+        <passage/kjv/Gal.3.27> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27" ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Mark.1.4> ,
+        <passage/kjv/Acts.22.16> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(d) Mar. 1.4; Act. 26. 16" ;
+    gc:resolutionNote "\"Act. 26. 16\" is in the 1677 printing, not a later slip (confirmed from the page by the architect). Resolved to Acts 22:16 (the remission-of-sins clause), a 22->26 compositor error; resolution proposed by the architect. The earlier candidates Acts 2:41 and 8:12 are withdrawn." ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/1/003> a gc:Argument ;
+    gc:source <source/lbc-1689/29/1> ;
+    gc:supports <position/baptism-significance/union-with-christ> ;
+    gc:cites <passage/kjv/Rom.6.2> ,
+        <passage/kjv/Rom.6.4> ;
+    gc:locator "29.1" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(e) Rom. 6.2,4" ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/2/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/2> ;
+    gc:supports <position/baptism-subjects/professing-believers-only> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36-Acts.8.37> ;
+    gc:locator "29.2" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(f) Mar. 16.16; Act. 8.36,37" ;
+    gc:resolutionNote "Note (f) read by the architect from the 1677 facsimile: Acts 8:36-37. The 1719 OCR reading \"37, 38\" is wrong." ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/3/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/3> ;
+    gc:supports <position/baptism-formula/triune-name> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/Acts.8.38> ;
+    gc:locator "29.3" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/4/001> a gc:Argument ;
+    gc:source <source/lbc-1689/29/4> ;
+    gc:supports <position/baptism-mode/immersion-only> ;
+    gc:cites <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ;
+    gc:locator "29.4" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(h) Mat. 3. 16. Joh. 3. 23." ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/2/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/2> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Acts.8.36-Acts.8.37> ;
+    gc:locator "29.2" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(f) Mar. 16.16; Act. 8.36,37" ;
+    rdfs:comment "Note (f) again, as evidence for the subject element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5)."@en ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/3/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/3> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Matt.28.19-Matt.28.20> ,
+        <passage/kjv/Acts.8.38> ;
+    gc:locator "29.3" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    rdfs:comment "Note (g) again, as evidence for the formula element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5)."@en ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/29/4/002> a gc:Argument ;
+    gc:source <source/lbc-1689/29/4> ;
+    gc:supports <position/baptism-validity/subject-mode-formula> ;
+    gc:cites <passage/kjv/Matt.3.16> ,
+        <passage/kjv/John.3.23> ;
+    gc:locator "29.4" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), sig. H, \"Of Baptism\"" ;
+    gc:asPrinted "(h) Mat. 3. 16. Joh. 3. 23." ;
+    rdfs:comment "Note (h) again, as evidence for the mode element of the validity Position. This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5). Booth, Paedobaptism Examined (London, 1829) vol. 2, Part II, p. 280 note ‡, continued p. 281 (archive.org pdobaptismexamin02boot leaf 289), paraphrased: a ceremony essentially different from what Christ appointed is not baptism, so one who received it may afterwards be baptized without the charge of Anabaptism. Booth prints no Scripture there, so he enters as a note, not an Argument (M1)."@en ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/lbc-1689/28/2/001> a gc:Argument ;
+    gc:source <source/lbc-1689/28/2> ;
+    gc:supports <position/baptism-validity/church-of-gospel-order> ;
+    gc:cites <passage/kjv/Matt.28.19> ,
+        <passage/kjv/1Cor.4.1> ;
+    gc:locator "28.2" ;
+    gc:secondaryLocator "1677 first printing, facsimile edition (2000), \"Of Baptism and the Lords Supper\"" ;
+    gc:asPrinted "(b) Mat. 28. 19. 1 Cor. 4. 1." ;
+    rdfs:comment "Note (b) of 28.2, as evidence for the administrator element of the validity Position (a church of gospel order). This Argument is cited for the validity Position without an LBC Holding (ruling B-Q1 on report 12; M5). No page is recorded for the secondary locator."@en ;
+    rdfs:comment "gc:asPrinted is model-proposed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile, and not signed by Chris row by row (ruling on report 18, disclosure item 2, 2026-11-15). It awaits Chris's confirmation or correction on the LBC 1677 console; until then nothing calls it signed."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/1Cor.11.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.11.26" ;
+    gc:startOrdinal 263 ; gc:endOrdinal 263 .
+
+<passage/kjv/Acts.8.36-Acts.8.37> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.36-Acts.8.37" ;
+    gc:startOrdinal 289 ; gc:endOrdinal 290 .
+
+<passage/kjv/Acts.8.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.38" ;
+    gc:startOrdinal 291 ; gc:endOrdinal 291 .
+
+<passage/kjv/Acts.22.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.22.16" ;
+    gc:startOrdinal 797 ; gc:endOrdinal 797 .
+
+<passage/kjv/Col.2.12> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.12" ;
+    gc:startOrdinal 41 ; gc:endOrdinal 41 .
+
+<passage/kjv/Gal.3.27> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.27" ;
+    gc:startOrdinal 72 ; gc:endOrdinal 72 .
+
+<passage/kjv/John.3.23> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.3.23" ;
+    gc:startOrdinal 99 ; gc:endOrdinal 99 .
+
+<passage/kjv/Mark.1.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.1.4" ;
+    gc:startOrdinal 4 ; gc:endOrdinal 4 .
+
+<passage/kjv/Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.16" ;
+    gc:startOrdinal 674 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.3.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.16" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Matt.28.19-Matt.28.20> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19-Matt.28.20" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1071 .
+
+<passage/kjv/Rom.6.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.2" ;
+    gc:startOrdinal 140 ; gc:endOrdinal 140 .
+
+<passage/kjv/Rom.6.3-Rom.6.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.3-Rom.6.5" ;
+    gc:startOrdinal 141 ; gc:endOrdinal 143 .
+
+<passage/kjv/Rom.6.4> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.4" ;
+    gc:startOrdinal 142 ; gc:endOrdinal 142 .
+
+<passage/kjv/Gen.3.15> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.3.15" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Heb.1.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.1.1" ;
+    gc:startOrdinal 1 ; gc:endOrdinal 1 .
+
+<passage/kjv/2Tim.1.9> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "2Tim" ; gc:osisRef "2Tim.1.9" ;
+    gc:startOrdinal 9 ; gc:endOrdinal 9 .
+
+<passage/kjv/Titus.1.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.1.2" ;
+    gc:startOrdinal 2 ; gc:endOrdinal 2 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/1Cor.4.1> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.4.1" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+# "Model-proposed, read by" on each architect-read gc:asPrinted (ruling on report 19, A-1; ADR-0002 Revision 3).
+# On Chris's confirmation, contributor becomes <agent/chris> and status ratified.
+<axiom/asPrinted/lbc-1689/28/1/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/28/1/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(a) Mat. 28. 19, 20. 1 Cor. 11. 26." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/28/2/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/28/2/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(b) Mat. 28. 19. 1 Cor. 4. 1." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(d) Mar. 1.4; Act. 26. 16" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/1/003> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/1/003> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(e) Rom. 6.2,4" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/2/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/2/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(f) Mar. 16.16; Act. 8.36,37" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/2/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/2/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(f) Mar. 16.16; Act. 8.36,37" ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/3/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/3/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/3/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/3/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(g) Mat. 28. 19, 20. with Act. 8. 38." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/4/001> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/4/001> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(h) Mat. 3. 16. Joh. 3. 23." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .
+
+<axiom/asPrinted/lbc-1689/29/4/002> a owl:Axiom ;
+    owl:annotatedSource <argument/lbc-1689/29/4/002> ;
+    owl:annotatedProperty gc:asPrinted ;
+    owl:annotatedTarget "(h) Mat. 3. 16. Joh. 3. 23." ;
+    dcterms:contributor <agent/architect> ;
+    gc:status <vocab/status/proposed> ;
+    rdfs:comment "Proposed reading, unconfirmed: read by the architect, a hosted model, from Chris's photographs of the 1677 facsimile (ruling on report 18, disclosure item 2; ruling on report 19, A-1). Awaits Chris's confirmation on the LBC 1677 console."@en .

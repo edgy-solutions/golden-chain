@@ -1,0 +1,274 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Phase-1 headings, loci, Positions and the edges between them.
+# Loci 23, 28-32, 33a/33b (33 split per ruling 3, 2026-10-25) and 33c (ruling Q5, 2026-10-26). Labels are proposed; no doctrine is asserted.
+
+<heading/salvation> a gc:Heading ;
+    rdfs:label "Salvation"@en .
+
+<heading/worship> a gc:Heading ;
+    rdfs:label "Worship"@en .
+
+# ---------------------------------------------------------------- loci
+
+<locus/covenant-administrations> a gc:Locus ;
+    rdfs:label "Covenant administrations"@en ;
+    skos:notation "23" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "Are the old and new covenants two administrations of one covenant of grace?"@en ;
+    # Retired by the ruling on report 11 (ADR-0002 rule 3): split into 23a and 23b. The IRI, its Position,
+    # Holdings and Arguments stay; it is excluded from scoring.
+    owl:deprecated true ;
+    dcterms:isReplacedBy <locus/covenant-of-grace> , <locus/circumcision-covenant> .
+
+<locus/covenant-of-grace> a gc:Locus ;
+    rdfs:label "Covenant of grace"@en ;
+    skos:notation "23a" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "What is the covenant of grace, and when was it made?"@en .
+
+<locus/circumcision-covenant> a gc:Locus ;
+    rdfs:label "Covenant of circumcision"@en ;
+    skos:notation "23b" ;
+    gc:underHeading <heading/salvation> ;
+    gc:question "Was the covenant of circumcision an administration of the covenant of grace, such that the infant seed are in the covenant?"@en .
+
+<locus/baptism-perpetuity> a gc:Locus ;
+    rdfs:label "Perpetuity of baptism"@en ;
+    skos:notation "28" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Is water baptism a standing ordinance until Christ returns?"@en .
+
+<locus/johns-baptism> a gc:Locus ;
+    rdfs:label "John's baptism"@en ;
+    skos:notation "29" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Was John's baptism the same ordinance as Christian baptism?"@en .
+
+<locus/baptism-subjects> a gc:Locus ;
+    rdfs:label "Subjects of baptism"@en ;
+    skos:notation "30" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "Who may be baptized?"@en .
+
+<locus/baptism-mode> a gc:Locus ;
+    rdfs:label "Mode of baptism"@en ;
+    skos:notation "31" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "How is baptism administered?"@en .
+
+<locus/baptism-formula> a gc:Locus ;
+    rdfs:label "Formula of baptism"@en ;
+    skos:notation "32" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "In whose name is baptism administered?"@en .
+
+<locus/baptism-significance> a gc:Locus ;
+    rdfs:label "Significance of baptism"@en ;
+    skos:notation "33a" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What does baptism signify?"@en .
+
+<locus/baptism-efficacy> a gc:Locus ;
+    rdfs:label "Efficacy of baptism"@en ;
+    skos:notation "33b" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What does baptism effect?"@en .
+
+# Ruling Q5 on report 2 (2026-10-26). 33a, 33b and 33c are one family (ruling on report 5, Q1):
+# the notation is a display label; the IRI slug is the identity.
+<locus/baptism-repetition> a gc:Locus ;
+    rdfs:label "Repetition of baptism"@en ;
+    skos:notation "33c" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "May baptism be repeated?"@en .
+
+# Step 3 Batch B (ruling on report 12). No gc:tier here: tier is asserted only in data/plumb-line.ttl (the sitting sets it).
+<locus/baptism-validity> a gc:Locus ;
+    rdfs:label "Validity of baptism"@en ;
+    skos:notation "33d" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "What makes a baptism valid?"@en .
+
+# ---------------------------------------------------------------- positions
+
+<position/covenant-administrations/one-covenant-two-administrations> a gc:Position ;
+    rdfs:label "One covenant of grace in substance, administered in two ways: before Christ and after."@en ;
+    gc:answers <locus/covenant-administrations> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-perpetuity/standing-ordinance-to-the-end> a gc:Position ;
+    rdfs:label "Water baptism is a standing ordinance, to continue until the end of the world."@en ;
+    gc:answers <locus/baptism-perpetuity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/johns-baptism/same-ordinance> a gc:Position ;
+    rdfs:label "John's baptism and the apostles' baptism are one and the same ordinance."@en ;
+    gc:answers <locus/johns-baptism> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/professing-believers-only> a gc:Position ;
+    rdfs:label "Only those who profess repentance and faith are to be baptized."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/believers-and-their-infants> a gc:Position ;
+    rdfs:label "Professing believers, and the infants of one or both believing parents."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-subjects/infants> a gc:Position ;
+    rdfs:label "Children are to be baptized; no parental condition is stated."@en ;
+    gc:answers <locus/baptism-subjects> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-mode/immersion-only> a gc:Position ;
+    rdfs:label "Baptism is immersion; immersion is necessary to its due administration."@en ;
+    gc:answers <locus/baptism-mode> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-mode/mode-indifferent> a gc:Position ;
+    rdfs:label "Dipping is not necessary; baptism is rightly administered by pouring or sprinkling."@en ;
+    gc:answers <locus/baptism-mode> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-formula/triune-name> a gc:Position ;
+    rdfs:label "In the name of the Father, and of the Son, and of the Holy Spirit."@en ;
+    gc:answers <locus/baptism-formula> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-significance/union-with-christ> a gc:Position ;
+    rdfs:label "Baptism signifies union with Christ: fellowship in his death and resurrection, ingrafting, remission of sins, newness of life."@en ;
+    gc:answers <locus/baptism-significance> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-significance/sign-and-seal-of-the-covenant> a gc:Position ;
+    rdfs:label "Baptism is a sign and seal of the covenant of grace."@en ;
+    gc:answers <locus/baptism-significance> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/sign-only> a gc:Position ;
+    rdfs:label "Baptism signifies; it does not of itself confer or effect what it signifies."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/grace-conferred-in-right-use> a gc:Position ;
+    rdfs:label "By the right use of baptism, the grace promised is conferred by the Holy Spirit to those to whom it belongs, in God's time."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-efficacy/necessary-means-of-grace> a gc:Position ;
+    rdfs:label "Baptism is necessary to salvation; by it God's grace is offered and forgiveness of sins is given."@en ;
+    gc:answers <locus/baptism-efficacy> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-repetition/once-only> a gc:Position ;
+    rdfs:label "Baptism is administered but once to any person; it is never repeated."@en ;
+    gc:answers <locus/baptism-repetition> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Q5's second Position ("infant baptism is no baptism, so believer's baptism of one baptized in
+# infancy is not repetition"; Gill, LBC) is not minted: no Argument in the text yet (rule 2; report 5).
+
+# Step 3 Batch A Positions (PLAN_step3_minting, ruling on report 11).
+<position/covenant-of-grace/eternal-with-christ> a gc:Position ;
+    rdfs:label "Eternal, made with Christ as head of the elect, one with the covenant of redemption, manifested in time."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/covenant-of-grace/established-in-new-covenant> a gc:Position ;
+    rdfs:label "An eternal covenant of redemption between the Father and the Son; in pursuance of it, grace revealed to fallen man by promise from the fall."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/covenant-of-grace/made-in-time-after-fall> a gc:Position ;
+    rdfs:label "Made in time after the fall, administered under law and gospel."@en ;
+    gc:answers <locus/covenant-of-grace> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/circumcision-covenant/administration-of-grace> a gc:Position ;
+    rdfs:label "Yes: the covenant of circumcision was an administration of the covenant of grace, and the infant seed are in the covenant."@en ;
+    gc:answers <locus/circumcision-covenant> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/circumcision-covenant/not-an-administration-of-grace> a gc:Position ;
+    rdfs:label "No: the covenant of circumcision was not an administration of the covenant of grace."@en ;
+    gc:answers <locus/circumcision-covenant> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# Phase-2 search for the repetition Position's Scripture: Booth, Apology (1778); Gill's baptism tracts; Keach.
+# Position (1) of the validity family (dispatch section 6) is deferred to phase 2 (M5: Hodge ST3 sec. 6 prints no Scripture).
+<position/baptism-repetition/infant-sprinkling-not-baptism> a gc:Position ;
+    rdfs:label "Baptism is administered once. The sprinkling of an infant is not baptism, so the baptism of a professing believer who was sprinkled in infancy is his first baptism, not a repetition."@en ;
+    gc:answers <locus/baptism-repetition> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/subject-mode-formula> a gc:Position ;
+    rdfs:label "Subject, mode and formula: a professing believer, immersed, in the triune name."@en ;
+    gc:answers <locus/baptism-validity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/church-of-gospel-order> a gc:Position ;
+    rdfs:label "Subject, mode and formula, and the administrator a church of gospel order, defined by doctrine, not by identity or succession."@en ;
+    gc:answers <locus/baptism-validity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-validity/church-of-our-order> a gc:Position ;
+    rdfs:label "Subject, mode and formula, and the administrator a church of our own order, by identity or succession."@en ;
+    gc:answers <locus/baptism-validity> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- edges (ADR-0003 §6; as ratified as the weaker Position, ADR-0005 §4)
+
+<position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/believers-and-their-infants> .
+<position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/infants> .
+<position/baptism-mode/immersion-only> gc:excludes <position/baptism-mode/mode-indifferent> .
+<position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/grace-conferred-in-right-use> .
+<position/baptism-efficacy/sign-only> gc:excludes <position/baptism-efficacy/necessary-means-of-grace> .
+# Ruling M9 on the step-3 plan: 23b yes and no; 23a (i)-(ii), (i)-(iii), (ii)-(iii). Nothing is derived.
+<position/circumcision-covenant/administration-of-grace> gc:excludes <position/circumcision-covenant/not-an-administration-of-grace> .
+<position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/established-in-new-covenant> .
+<position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
+<position/covenant-of-grace/established-in-new-covenant> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
+
+# E1, ratified 2026-10-25; direction reversed by the ruling on report 11 (direction (ii), infants entail one covenant,
+# was refuted by Augsburg). The entails count stays 1.
+<position/circumcision-covenant/administration-of-grace> gc:entails <position/baptism-subjects/believers-and-their-infants> .
+
+# Rejected direction of E1 (ruling M6 on the step-3 plan; ADR-0002 Revision 2 item 3). Its triple is never asserted.
+<axiom/entails/baptism-subjects/believers-and-their-infants/to/circumcision-covenant/administration-of-grace> a owl:Axiom ;
+    owl:annotatedSource <position/baptism-subjects/believers-and-their-infants> ;
+    owl:annotatedProperty gc:entails ;
+    owl:annotatedTarget <position/circumcision-covenant/administration-of-grace> ;
+    gc:status <vocab/status/rejected> ;
+    rdfs:comment "Rejected direction of E1 (ruling M6 on the step-3 plan). Refuted by holding/augsburg/baptism-subjects/infants (taught): Augsburg baptizes infants and holds no position on the circumcision covenant. Never asserted; never deleted."@en .

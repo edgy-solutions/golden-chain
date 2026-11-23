@@ -1,0 +1,52 @@
+@base <https://w3id.org/golden-chain/> .
+@prefix gc: <https://w3id.org/golden-chain/ontology#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# The Belgic Confession (1561), in Schaff, Creeds of Christendom vol. 3. Reference only; no quotation.
+# The Belgic baptizes infants (Art. XXXIV, note 3), so it holds nothing on the repetition Position; no Body or Holding here (ruling B-Q3).
+
+<source/belgic-confession> a gc:SourceWork ;
+    rdfs:label "The Belgic Confession (1561), in Schaff, Creeds of Christendom vol. 3 (Harper, 1878 printing)"@en ;
+    dcterms:bibliographicCitation "Harper, 1878 printing. Scan: archive.org creedsofchristen187803scha (leaf n = printed page + 15)." .
+
+<source/belgic-confession/34> a gc:SourceDivision ;
+    rdfs:label "Belgic Confession, Art. XXXIV"@en ;
+    dcterms:isPartOf <source/belgic-confession> .
+
+# ---------------------------------------------------------------- arguments
+
+<argument/belgic-confession/34/001> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-repetition/infant-sprinkling-not-baptism> ;
+    gc:cites <passage/kjv/Mark.16.16> ,
+        <passage/kjv/Matt.28.19> ,
+        <passage/kjv/Eph.4.5> ,
+        <passage/kjv/Heb.6.2> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 442, note 1" ;
+    gc:pages "427" ;
+    gc:asPrinted "1 Marc xvi. 16; Matt. xxviii. 19; Eph. iv. 5; Héb. vi. 2." ;
+    rdfs:comment "Note 1 is keyed to \"once baptized ... without ever repeating the same\", so it supports only the Position's first clause (baptism is administered once). The Belgic baptizes infants (same article, note 3), so there is no Belgic Holding (ruling B-Q3)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+# ---------------------------------------------------------------- passages cited here
+
+<passage/kjv/Mark.16.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Mark" ; gc:osisRef "Mark.16.16" ;
+    gc:startOrdinal 674 ; gc:endOrdinal 674 .
+
+<passage/kjv/Matt.28.19> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.28.19" ;
+    gc:startOrdinal 1070 ; gc:endOrdinal 1070 .
+
+<passage/kjv/Eph.4.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.4.5" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Heb.6.2> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.6.2" ;
+    gc:startOrdinal 83 ; gc:endOrdinal 83 .

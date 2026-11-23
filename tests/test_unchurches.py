@@ -5,7 +5,7 @@ from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, XSD
 
 from goldenchain import ingest, unchurches
-from gcfix import GC, PROPOSED, U, World, add, dataset_with, minimal, strip_flags
+from gcfix import FROZEN_8AC7E41, GC, PROPOSED, U, World, add, dataset_with, minimal
 
 TRUE = '"true"^^xsd:boolean'
 FLAG = "<position/baptism/immersion> gc:unchurches " + TRUE + " ."
@@ -151,14 +151,14 @@ def test_wording_editorial_raises():
 # ---- real data ------------------------------------------------------------------------
 
 def test_real_data_no_flags_empty():
-    ds = ingest.load_dataset()
-    strip_flags(ds)  # the data before sitting eb961ddb wrote the first flags (REPORT_phase1_27)
+    # reads the frozen copy of the data it was written for (tests/fixtures/data-8ac7e41, LOCK_frozen_fixture_eight)
+    ds = ingest.load_dataset(FROZEN_8AC7E41)
     assert unchurches.excluded(ingest.derive_rdflib(ds)) == {}
 
 
 def test_real_data_with_flags():
-    ds = ingest.load_dataset()
-    strip_flags(ds)  # then exactly the two flags this test was written for (REPORT_phase1_27)
+    # reads the frozen copy of the data it was written for (tests/fixtures/data-8ac7e41, LOCK_frozen_fixture_eight)
+    ds = ingest.load_dataset(FROZEN_8AC7E41)
     pl = ds.graph(ingest.PLUMB_LINE)
     pos = [U("position/baptism-subjects/believers-and-their-infants"),
            U("position/baptism-subjects/infants")]
