@@ -121,7 +121,7 @@ def test_changed_modality_takes_new_src_and_day_unchanged_keeps_old():
 
 def test_silent_removes_holding_flag_and_its_axiom():
     r1 = rec(1, {**LOC, "loc.pa": {"modality": "forbidden", "unchurches": ["unchurches"]}})
-    assert "<axiom/unchurches/loc/pa/to/true>" in text([r1])
+    assert "<axiom/unchurches/plumb-line/loc/pa>" in text([r1])
     r2 = rec(2, {"loc.pa": {"modality": "silent", "unchurches": []}, "loc.pz": {"modality": "silent"}})
     t = text([r1, r2])
     assert "holding/plumb-line/loc/pa" not in t and "axiom/unchurches" not in t and "gc:unchurches" not in t
@@ -158,14 +158,14 @@ def test_flag_rows_confirm_and_withdraw():
     r1 = rec(1, {**LOC, "loc.pa": {"modality": "forbidden"}})
     r2 = rec(2, {**flag_row("loc", "pa", "confirm")}, kind="plumb-line-followup")
     t = text([r1, r2])
-    assert "<position/loc/pa> gc:unchurches true ." in t and "# unchurches (ADR-0003 R2.3)" in t
-    assert "<axiom/unchurches/loc/pa/to/true> a owl:Axiom" in t
+    assert "<body/plumb-line> gc:unchurches <position/loc/pa> ." in t and "# unchurches (ADR-0003 R2.3, R3.4)" in t
+    assert "<axiom/unchurches/plumb-line/loc/pa> a owl:Axiom" in t
     r3 = rec(3, {**flag_row("loc", "pa", "withdraw")}, kind="plumb-line-followup")
     t3 = text([r1, r2, r3])
     assert "gc:unchurches" not in t3 and "axiom/unchurches" not in t3
     r4 = rec(4, {**flag_row("loc", "pa", "confirm")}, kind="plumb-line-followup")
     g = graph([r1, r2, r4])  # confirmed again later keeps the standing source
-    assert str(g.value(b("axiom/unchurches/loc/pa/to/true"), URIRef("http://purl.org/dc/terms/source"))
+    assert str(g.value(b("axiom/unchurches/plumb-line/loc/pa"), URIRef("http://purl.org/dc/terms/source"))
                ).endswith("0002")
 
 

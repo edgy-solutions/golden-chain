@@ -559,7 +559,7 @@ def test_plumb_ttl_unchurches_ticked_on_forbidden_writes_one_triple():
                                 "loc.pa": {"modality": "forbidden", "unchurches": ["unchurches"]},
                                 "loc.pb": {"modality": "forbidden", "unchurches": []}}))
     tr = unchurches_triples(g)
-    assert len(tr) == 1 and str(tr[0][0]).endswith("position/loc/pa") and tr[0][2].toPython() is True
+    assert len(tr) == 1 and str(tr[0][0]).endswith("body/plumb-line") and str(tr[0][2]).endswith("position/loc/pa")
 
 
 def test_plumb_ttl_unchurches_refusals_and_silences():
