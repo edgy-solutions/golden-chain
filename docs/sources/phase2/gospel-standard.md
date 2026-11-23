@@ -142,3 +142,16 @@ Lead 3 followed: catalogue searches only. Nothing was downloaded. [R catalogue r
   - Or the BL copy (`BL:A0026105450`) through the BL's own digitised-books viewer, if Chris prefers.
 - **Label when it is a witness:** "1875 Gadsby printing: witness for Articles 1–31 only; does not witness Articles 32–35 (1878–79)."
 - **Still no witness of record.**
+
+## The 1875 Gadsby printing, seen (proposed witness), 2026-11-22
+
+- **Placed by Chris** in the private corpus (`gospel-standard/Form_of_Trust_Deed_and_Articles_of_Faith.pdf`, 21 PDF pages, a Google Books scan). It is not committed. The build agent viewed the page images to propose. There was no OCR, and no text is stored.
+- **Title page (PDF 4), as printed:** *Form of Trust Deed and Articles of Faith for Strict Baptist Churches. Revised.* London: J. Gadsby, "Gospel Standard" Office, 18, Bouverie Street, City. 1875. A library shelfmark and a cataloguer's subject note are written in by hand; they are not part of the print.
+- **Contents:**
+  - The trust deed form: printed pp. 3–8 (PDF 6–11).
+  - "The Schedule above referred to. Articles of Faith." begins on p. 8. Articles I–XXXI run from p. 8 to p. 15 (PDF 11–18). XXXI, on the annihilation of the wicked, is the last article.
+  - A closing paragraph ("Now all and each of these Doctrines and Ordinances…") on p. 16 (PDF 19).
+  - The printer's line, Clayton & Co., is at the foot of p. 16. PDF 21 is the back cover.
+- **Page offset:** printed page = PDF page − 3.
+- **Proposed witness, for the architect and Chris to ratify:** "1875 Gadsby printing (London: J. Gadsby, 1875, 'Revised'): witness for Articles 1–31 only; does not witness Articles 32–35 (1878–79)." Locators by printed page and article number. Chris confirms the title page and the I–XXXI span from the page images on a console before anything enters data.
+- **Not yet compared** with the later wording on the chapel site [R]. That comparison is phase-2 work.

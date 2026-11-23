@@ -80,6 +80,7 @@ Foreword p. xiii (PDF 14), "IN CONCLUSION", 1. The publishers say they "cannot a
   - Proposition 3 (p. vii): "Scriptural baptism is absolutely necessary to church constitution, organization and existence, so much so, that where there is no Scriptural baptism there is no Scriptural church. No baptism, no church."
   - Proposition 7 (p. viii): "Only churches of New Testament origin and New Testament order can give Scriptural baptism. Therefore, any religious society that preaches a false gospel cannot give Scriptural baptism."
   - Proposition 7 puts the giving of baptism in **churches**. Gill puts admission to baptism "solely in the breast of the administrator" (III.1, p. 896) and makes the baptized administrator "not essential" (DR 1749, p. 14). That is the difference behind proposal (B).
+  - **Correction (ruling on report 26, ruling 2; recorded against the architect).** The source for (3) is propositions **1 and 7**, not 3 and 7. Proposition 1 (p. vii): "Any religious assembly that preaches a false gospel and/or practices a false baptism cannot be recognized as a true New Testament Church of gospel order. All such assemblies who fundamentally, characteristically and permanently preach a false gospel come under the indictment of Gal. 1:6-9." Proposition 3 belongs where the recursion and the church-Locus dependency are recorded. The comparison with Gill above stands: it rests on proposition 7.
 
 ## Gill's baptism tracts (provisional)
 

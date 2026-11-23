@@ -103,4 +103,5 @@ Concerning the Lawful Subject of Baptism (1643, PD) if a scan exists.
 
 - **Status.** "Not public domain" (line 7) is too strong. The foreword's status is: "published 1984; no copyright notice per Chris; publisher's stated position that its books are freely distributable; written confirmation to be sought before public launch".
 - **The testimony.** The "testimony" recorded with the 2026-11-08 ruling above mixed Chris's words with the architect's. **Chris's own words are those he signs on row `validity-3-testimony`.** The Spilsbury and succession details were the architect's, and are not testimony.
+- **Proposition 3, quoted** (ruling on report 26, ruling 2). It is quoted here, where the recursion (above, "Taken together, these make validity *recursive*") and the church-Locus dependency are recorded. It is not the source for (3); propositions 1 and 7 are. Proposition 3 (p. vii): "Scriptural baptism is absolutely necessary to church constitution, organization and existence, so much so, that where there is no Scriptural baptism there is no Scriptural church. No baptism, no church."
 - This file is a record and is not rewritten; the corrections stand here.

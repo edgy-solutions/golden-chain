@@ -34,3 +34,10 @@ Worked 2026-11-22 by the build agent.
   - context: propositions 3 and 7 with pages; the status as ruled; "An earlier record mixed your words with the architect's. Only what you write here is your testimony.";
   - answer: free text in Chris's own words, with no proposed wording.
 - **A question for the architect.** The source division in data is "pp. vii–viii, propositions 1 and 7" (ruling B-Q4). This ruling names propositions **3** and 7 for validity. Proposition 1 is the one with "true New Testament Church of gospel order". Should the division's label stay as 1 and 7, or become 1, 3 and 7? Not changed.
+
+### Corrected by the ruling on report 26 ([RULING_report_26.md](RULING_report_26.md), ruling 2)
+
+- **The architect:** "your label is right and my ruling misnamed it." Propositions **1 and 7** are the source for validity (3). Proposition 3 ("no baptism, no church") is quoted where the recursion and the church-Locus dependency are recorded, not as the source for (3). Recorded against the architect.
+- **So the question above is answered:** the source division stays "pp. vii–viii, propositions 1 and 7". Data is unchanged.
+- **Applied:** [../sources/lee-bsb.md](../sources/lee-bsb.md) item 5 now quotes Proposition 1 (p. vii): "Any religious assembly that preaches a false gospel and/or practices a false baptism cannot be recognized as a true New Testament Church of gospel order. All such assemblies who fundamentally, characteristically and permanently preach a false gospel come under the indictment of Gal. 1:6-9." and proposition 7 for validity. Proposition 3 is kept there for the recursion only, and quoted in [PROPOSAL_validity_bsb_foreword.md](PROPOSAL_validity_bsb_foreword.md), "Corrections recorded". [REPORT_phase1_25.md](REPORT_phase1_25.md) carries a correction note after its "for comparison" block. The lists above are left as worked.
+- **The console:** `eb961ddb` was signed and is not rebuilt (ruling 1). Its testimony row is recorded as a console defect in [AUDIT_plumb_line_followup_eb961ddb1e582ed6.md](AUDIT_plumb_line_followup_eb961ddb1e582ed6.md).

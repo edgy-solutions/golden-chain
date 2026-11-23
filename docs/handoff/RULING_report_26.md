@@ -57,4 +57,9 @@ ARCHITECT, on report 26.
 
 ## Applied
 
-(Filled in when worked.)
+Worked in [REPORT_phase1_27.md](REPORT_phase1_27.md), 2026-11-22.
+- **Ruling 1:** the "(1).json" export ingested under the lock [LOCK_ingest_eb961ddb_2026-11-22.md](LOCK_ingest_eb961ddb_2026-11-22.md). The earlier export was not ingested. The console was not rebuilt. The testimony row's defect is recorded in [AUDIT_plumb_line_followup_eb961ddb1e582ed6.md](AUDIT_plumb_line_followup_eb961ddb1e582ed6.md); the signed answer stands.
+- **Ruling 2:** propositions 1 and 7 quoted as the source for (3); proposition 3 quoted only where the recursion and the church-Locus dependency are recorded. Recorded against the architect in the foreword ruling's Applied.
+- **Ruling 3:** accepted; nothing further.
+- **Ruling 4:** Chris placed the PDF; seen and proposed as a witness ([gospel-standard.md](../sources/phase2/gospel-standard.md)).
+- **Ruling 5 / message 1:** sitting 2 and Batch C are next. The LBC 7.3 margin confirmations are in the signed record only; the LBC 1677 console's answer governs.
