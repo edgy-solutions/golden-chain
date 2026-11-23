@@ -39,4 +39,4 @@ church", if his words support it. Rows for sitting 2.
 
 ## Applied
 
-(Filled in when worked.)
+Worked in [REPORT_phase1_25.md](REPORT_phase1_25.md), 2026-11-22. Q1–Q5 answered from Gill's words (Q4: does not say in the sections read); tract list provisional (8 located); foreword 1(a) recorded in paraphrase; proposed (B), with (C) as the alternative for Gill's ordinary rule; sitting-2 rows V1–V4. Nothing minted.

@@ -1,7 +1,12 @@
 # Handoff: phase 1 (in flight)
 
 - Branch: `phase-0`, pushed through report 14's commit on 2026-11-14 (after `9a5a955`). The architect says "Push as you go".
-- **Now (2026-11-22): ruling on report 23 worked; LBC 1677 console built** ([REPORT_phase1_24.md](REPORT_phase1_24.md); [RULING_report_23.md](RULING_report_23.md)).
+- **Now (2026-11-22): validity (3) and Gill researched** ([REPORT_phase1_25.md](REPORT_phase1_25.md); [DISPATCH_validity3_gill_2026-11-22.md](DISPATCH_validity3_gill_2026-11-22.md); lock `c30b99c`).
+  - **Proposed (B):** Gill's view is a distinct Position. His essentials are immersion and a profession of faith; a baptized, called administrator is the ordinary rule but "not essential to the Ordinance" (DR 1749, p. 14). "Not a church ordinance" means before and in order to membership (III.1, p. 896). (C) fits his ordinary rule only. Q4: does not say. Sitting-2 rows V1–V4 in the report.
+  - Tracts: 8 located with IA witnesses, twelve not confirmed; DR 1749 ch. II, the Reply pp. iii–14 and the 1765 sermon read.
+  - **Next:** work the ruling on report 24 ([RULING_report_24.md](RULING_report_24.md)): LBC Holding on (iii) from 7.2 (proposed, on the entails row); ADR-0003 note (silence alone does not refute); TDB guard (lock first); the 1875 Gadsby printing (Chris said yes) as a witness for Articles 1–31 only.
+  - **Waiting on the architect:** report 25's V-1 and V-2.
+- **Before it (2026-11-22): ruling on report 23 worked; LBC 1677 console built** ([REPORT_phase1_24.md](REPORT_phase1_24.md); [RULING_report_23.md](RULING_report_23.md)).
   - Commits: `54c930b` (ruling filed; AX1–AX3 locked); `456b396` (A-3 built: correction line names `corrections@golden-chain.org`); `c737db9` (7.2/7.3 reading rows); `d7cd93a` (A-4, A-5 docs); the report-24 commit.
   - **Refutation check for "(ii) entails (iii)?":** mechanically clean. LBC holds (ii) and nothing on (iii), which is the M6 shape. Both readings go on the sitting-2 row; Chris decides. Run refutation checks **in-process only** (`ingest.derive_rdflib` on a scratch `GOLDEN_CHAIN_DATA`). Ingest writes to the one shared TDB, and a concurrent run breaks `test_guard_jena`.
   - **LBC 1677 console `0a73bb5afa616446`** is in `~/.golden-chain/console/lbc1677/` with README_SIGN.txt: 25 rows, 34 fields, 87.7 MB (photos not resized, by design). The photos dir is `~/.golden-chain/console/lbc1677-photos/`.
