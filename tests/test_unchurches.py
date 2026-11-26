@@ -8,7 +8,7 @@ from goldenchain import ingest, unchurches
 from gcfix import FROZEN_8AC7E41, GC, PROPOSED, U, World, add, dataset_with, minimal
 
 TRUE = '"true"^^xsd:boolean'
-FLAG = "<position/baptism/immersion> gc:unchurches " + TRUE + " ."
+FLAG = "<body/plumb-line> gc:unchurches <position/baptism/immersion> ."
 PL_FORBID = f"""
 <body/plumb-line> a gc:Body ; gc:holds <holding/plumb-line/baptism/immersion> .
 <holding/plumb-line/baptism/immersion> a gc:Holding ; gc:position <position/baptism/immersion> ;
@@ -47,25 +47,25 @@ def test_refuse_non_plumb_line_graph():
 
 
 def test_refuse_false():
-    refused(build('<position/baptism/immersion> gc:unchurches "false"^^xsd:boolean .'),
-            "only", "may be written")
+    refused(build('<body/plumb-line> gc:unchurches "false"^^xsd:boolean .'),
+            "must be a gc:Position")
 
 
 def test_refuse_plain_literal():
-    refused(build('<position/baptism/immersion> gc:unchurches "yes" .'), "may be written")
+    refused(build('<body/plumb-line> gc:unchurches "yes" .'), "must be a gc:Position")
 
 
 def test_refuse_non_position():
-    refused(build("<locus/baptism> gc:unchurches " + TRUE + " ."), "not a gc:Position")
+    refused(build("<body/plumb-line> gc:unchurches <locus/baptism> ."), "must be a gc:Position")
 
 
 def test_refuse_two_literals():
-    ds = build(FLAG)
+    ds = build('<body/plumb-line> gc:unchurches "true"^^xsd:boolean .')
     # rdflib folds "1"^^xsd:boolean to "true" on parse, so build the second term unnormalised.
     ds.graph(ingest.PLUMB_LINE).add(
-        (U("position/baptism/immersion"), GC.unchurches, Literal("1", datatype=XSD.boolean, normalize=False))
+        (U("body/plumb-line"), GC.unchurches, Literal("1", datatype=XSD.boolean, normalize=False))
     )
-    refused(ds, "written 2 times")
+    refused(ds, "must be a gc:Position")
 
 
 def test_refuse_plumb_line_taught():
@@ -90,7 +90,7 @@ def test_refuse_no_tier():
 def derive(w: World, flag_pos="position/l/p"):
     ds = w.dataset()
     pl = ds.graph(ingest.PLUMB_LINE)
-    pl.add((U(flag_pos), GC.unchurches, Literal(True)))
+    pl.add((U("body/plumb-line"), GC.unchurches, U(flag_pos)))
     return ingest.derive_rdflib(ds)
 
 
@@ -163,7 +163,7 @@ def test_real_data_with_flags():
     pos = [U("position/baptism-subjects/believers-and-their-infants"),
            U("position/baptism-subjects/infants")]
     for p in pos:
-        pl.add((p, GC.unchurches, Literal(True, datatype=XSD.boolean)))
+        pl.add((U("body/plumb-line"), GC.unchurches, p))
     ingest.code_checks(ds)
     d = ingest.derive_rdflib(ds)
     out = unchurches.excluded(d)
@@ -208,3 +208,32 @@ def test_wording_classes_are_body_subclasses_without_instances():
     for n in ("Denomination", "Congregation"):
         assert (GC[n], RDF.type, OWL.Class) in onto
         assert not set(ingest.union(ingest.load_dataset()).subjects(RDF.type, GC[n]))
+
+
+# ---- the flag's source (weigh fix 1, ruling on report 27; LOCK_weigh_flag_source) ----------
+
+def test_real_data_flag_source_is_the_flags_sitting():
+    g = ingest.union(ingest.derive_rdflib(ingest.load_dataset()))
+    for p in ("baptism-subjects/believers-and-their-infants", "baptism-subjects/infants",
+              "circumcision-covenant/administration-of-grace"):
+        assert unchurches.flag_source(g, U("position/" + p)) == [U("source/plumb-line/sitting-eb961ddb1e582ed6")]
+
+
+OWL_ = "http://www.w3.org/2002/07/owl#"
+AX = f"""<axiom/unchurches/plumb-line/baptism/immersion> a <{OWL_}Axiom> ;
+    <{OWL_}annotatedSource> <body/plumb-line> ; <{OWL_}annotatedProperty> gc:unchurches ;
+    <{OWL_}annotatedTarget> <position/baptism/immersion> ; dcterms:source <source/plumb-line/sitting-b> ."""
+
+
+def test_flag_source_is_the_axioms_not_the_holdings():
+    # The Holding is sourced to source/gill/ch1 (PL_FORBID); the flag's axiom names sitting-b.
+    g = ingest.union(ingest.derive_rdflib(build(FLAG + " " + AX)))
+    assert unchurches.flag_source(g, U("position/baptism/immersion")) == [U("source/plumb-line/sitting-b")]
+
+
+def test_flag_source_without_axiom_is_empty():
+    w = world()
+    w.hold("parent", "l", "p", "taught")
+    w.hold("plumb-line", "l", "p", "forbidden")
+    g = ingest.union(derive(w))
+    assert unchurches.flag_source(g, U("position/l/p")) == []

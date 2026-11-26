@@ -189,7 +189,7 @@ def render(state):
         m, src, day = state["holdings"][(l, p)]
         holdings.append(f"<holding/plumb-line/{l}/{p}> a gc:Holding ; gc:position <position/{l}/{p}> ;\n"
                         f"    gc:modality <vocab/modality/{m}> ; dcterms:source <{src}> ;\n    " + _status(day))
-    flags = [f"<position/{l}/{p}> gc:unchurches true ." for l, p in sorted(state["flags"])]
+    flags = [f"<body/plumb-line> gc:unchurches <position/{l}/{p}> ." for l, p in sorted(state["flags"])]
     axioms = {}
 
     def ax(iri, source, prop, target, src):
@@ -202,11 +202,11 @@ def render(state):
     for locus, (c, src) in state["clarity"].items():
         ax(f"axiom/clarity/{locus}/to/{c}", f"locus/{locus}", "gc:clarity", f"<vocab/clarity/{c}>", src)
     for (l, p), src in state["flags"].items():
-        ax(f"axiom/unchurches/{l}/{p}/to/true", f"position/{l}/{p}", "gc:unchurches", "true", src)
+        ax(f"axiom/unchurches/plumb-line/{l}/{p}", "body/plumb-line", "gc:unchurches", f"<position/{l}/{p}>", src)
     divs = [f'<source/plumb-line/sitting-{s["build16"]}> a gc:SourceDivision ; dcterms:isPartOf <source/plumb-line> ;\n'
             f'    dcterms:identifier "{s["export_sha256"]}" ;\n    ' + _status(s["day"]) for s in state["sittings"]]
     blocks = [head, "\n".join(com), "\n".join(loci), "\n".join(holds), "\n".join(holdings),
-              ("\n".join(["# unchurches (ADR-0003 R2.3)"] + flags) if flags else ""),
+              ("\n".join(["# unchurches (ADR-0003 R2.3, R3.4)"] + flags) if flags else ""),
               "\n".join(axioms[k] for k in sorted(axioms)), "\n".join(divs)]
     return ("\n\n".join(b for b in blocks if b) + "\n").encode("utf-8")
 

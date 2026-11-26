@@ -227,7 +227,7 @@ def test_av4_other_bodies_render_unchanged_by_the_congregation_lines():
 # ---- AV5 --------------------------------------------------------------------------------------------
 
 def test_av5_excluded_by_an_inherited_holding_says_so():
-    plumb = (plumb_for({1: "second"}) + '<position/l1/a> gc:unchurches "true"^^xsd:boolean .\n')
+    plumb = (plumb_for({1: "second"}) + '<body/plumb-line> gc:unchurches <position/l1/a> .\n')
     g = graph(parents_ttl(range(1, 2), one_parent=True), hold("p1", 1, "a", "source/p1/x"), ONE_PARENT_CHURCH)
     text = weigh.render_body(gc_ingest.union(derived(g, plumb)), U(CB))
     assert text.split("\n")[0] == f"{CB} [Congregation] not ranked"

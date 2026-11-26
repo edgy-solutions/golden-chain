@@ -29,8 +29,9 @@ SYNTH = PREFIXES + """@prefix owl: <http://www.w3.org/2002/07/owl#> .
     rdfs:comment "SENTINEL-COMMENT locus" .
 <locus/two> a gc:Locus ; rdfs:label "Locus Two" ; gc:question "Two?"@en ; gc:underHeading <heading/h> .
 <position/one/a> a gc:Position ; rdfs:label "Pos A" ; gc:answers <locus/one> ;
-    gc:unchurches true ; rdfs:comment "SENTINEL-COMMENT pos" ;
+    rdfs:comment "SENTINEL-COMMENT pos" ;
     gc:status <vocab/status/proposed> ; gc:proposedBy <agent/build> .
+<body/plumb-line> gc:unchurches <position/one/a> .
 <position/one/b> a gc:Position ; rdfs:label "Pos B" ; gc:answers <locus/one> ;
     gc:status <vocab/status/proposed> ; gc:proposedBy <agent/build> .
 <position/two/a> a gc:Position ; rdfs:label "Pos C" ; gc:answers <locus/two> ;

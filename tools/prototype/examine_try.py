@@ -241,7 +241,7 @@ def locus_page(m, c, l, with_page):
     out.append("<h2>Positions</h2>")
     poss = sorted(c["positions"].get(l, []))
     for p in poss:
-        flag = " [unchurches]" if m.one(p, "unchurches") == "true" else ""
+        flag = " [unchurches]" if p in m.vals(B + "body/plumb-line", "unchurches") else ""
         out.append(f"<h3>{esc(m.label(p) + flag)}</h3>\n<h4>Arguments</h4>\n<ul>")
         for a in sorted(c["args"].get(p, [])):
             li = f"<li id=\"arg-{esc(slug(a))}\">{arg_fields(m, a)}"

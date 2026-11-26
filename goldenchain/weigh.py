@@ -76,11 +76,17 @@ def _deprecated(g, locus) -> bool:
     return any(str(o).lower() in ("true", "1") for o in g.objects(locus, OWL.deprecated))
 
 
-def _stance_mods(g) -> tuple[dict, dict]:
-    """The plumb-line as a user (5a): stance[locus][position] = user modality; plumb_mod[position]."""
+def _stance_mods(g, frm=PLUMB, scope="members") -> tuple[dict, dict]:
+    """A Body as a user (5a): stance[locus][position] = user modality; plumb_mod[position].
+    The plumb-line reads its own Holdings; any other Body (a comparison view, ADR-0003 R3.3) reads its
+    effective Holdings in the scope."""
     stance: dict = {}
     plumb_mod: dict = {}
-    for h in g.objects(PLUMB, GC.holds):
+    if frm == PLUMB:
+        holdings = g.objects(PLUMB, GC.holds)
+    else:
+        holdings = [h for h in g.objects(frm, GC.effectivelyHolds) if g.value(h, GC.scope) in SCOPES[scope]]
+    for h in holdings:
         mod = g.value(h, GC.modality)
         pos = g.value(h, GC.position)
         if mod is None or pos is None or tail(mod) not in USER_OF:
@@ -121,8 +127,8 @@ def _cell(g, body, pos, user, scope):
     return best
 
 
-def score(g, body, scope="members") -> dict:
-    st, plumb_mod = _stance_mods(g)
+def score(g, body, scope="members", frm=PLUMB) -> dict:
+    st, plumb_mod = _stance_mods(g, frm, scope)
     walls, breaks, untiered = [], [], []
     num = den = 0.0
     n_cost = 0
@@ -174,12 +180,15 @@ def body_class(g, body) -> str:
     return "Body"
 
 
-def weigh(g, scope="members", only=None) -> dict:
-    allowed = set(bodies(g))
+def weigh(g, scope="members", only=None, frm=PLUMB) -> dict:
+    if frm == PLUMB:
+        allowed = set(bodies(g))
+    else:  # comparison view (ADR-0003 R3.3): nothing excluded, the Body itself not ranked
+        allowed = set(bodies(g)) - {frm}
     if only is not None:
         allowed &= set(only)
-    exc = {b: r for b, r in unchurches.excluded(g).items() if b in allowed}
-    scored = [(b, score(g, b, scope)) for b in sorted(allowed - set(exc), key=str)]
+    exc = ({b: r for b, r in unchurches.excluded(g).items() if b in allowed} if frm == PLUMB else {})
+    scored = [(b, score(g, b, scope, frm)) for b in sorted(allowed - set(exc), key=str)]
     scored.sort(key=lambda t: (len(t[1]["walls"]), t[1]["cost"] is None, t[1]["cost"] or 0.0, str(t[0])))
     return {"ranked": scored, "excluded": exc}
 
@@ -293,20 +302,21 @@ def congregation_cells(g, body) -> list:
     return out
 
 
-def render_body(g, body, scope="members") -> str:
+def render_body(g, body, scope="members", frm=PLUMB) -> str:
     cls = body_class(g, body)
-    exc = unchurches.excluded(g)
+    exc = unchurches.excluded(g) if frm == PLUMB else {}
     cong = is_congregation(g, body)
     if body in exc:
         lines = [f"{rel(body)} [{cls}] not ranked"]
         if cong:
             lines += congregation_header(g, body)
+        lines.append("  " + unchurches.UNSIGNED)
         lines.append("  " + unchurches.HEADING + ": " + unchurches.wording(g, body))
         for r in exc[body]:
             fs = unchurches.flag_source(g, r["position"])
             line = (f"    - {rel(r['position'])} {tail(r['modality'])} "
                     f"({', '.join(rel(x) for x in r['sources']) if r['sources'] else 'no source'}); flagged by the "
-                    f"plumb-line at {rel(fs) if fs else 'no source'}")
+                    f"plumb-line at {', '.join(rel(x) for x in fs) if fs else 'no source'}")
             if cong and not r["own"]:
                 holder = _holder(g, r["holding"])
                 line += " inherited from " + (rel(holder) if holder is not None else NOT_RECORDED)
@@ -315,7 +325,7 @@ def render_body(g, body, scope="members") -> str:
         if cong:
             lines += congregation_cells(g, body)
         return "\n".join(lines)
-    s = score(g, body, scope)
+    s = score(g, body, scope, frm)
     lines = [f"{rel(body)} [{cls}] ranked"]
     if cong:
         lines += congregation_header(g, body)
@@ -323,7 +333,7 @@ def render_body(g, body, scope="members") -> str:
     for wl in s["walls"]:
         for pos, bm, pm in wl["cells"]:
             lines.append(f"    - {rel(wl['locus'])} (tier {wl['tier']}): {rel(pos)} {bm} "
-                         f"against plumb-line {pm}")
+                         f"against {rel(frm) if frm != PLUMB else 'plumb-line'} {pm}")
             if pos in CONSEQUENCE:
                 lines.append(f"      consequence: {CONSEQUENCE[pos]}")
     lines.append(f"  cost: {_fmt(s['cost'])} over {s['n_cost']} loci; coverage: {_fmt(s['coverage'])}")
@@ -337,14 +347,23 @@ def render_body(g, body, scope="members") -> str:
     return "\n".join(lines)
 
 
-def render(g, scope="members", only=None) -> str:
-    res = weigh(g, scope, only)
-    parts = [f"Weigh against body/plumb-line (scope {scope})", ""]
-    blocks = [render_body(g, b, scope) for b, _ in res["ranked"]]
+def render(g, scope="members", only=None, frm=PLUMB) -> str:
+    res = weigh(g, scope, only, frm)
+    if frm == PLUMB:
+        parts = [f"Weigh against body/plumb-line (scope {scope})", unchurches.UNSIGNED, ""]
+    else:
+        parts = [f"Comparison view: weighed from the Holdings of {unchurches.label(g, frm)}, "
+                 f"not by this site's standard", f"(scope {scope})"]
+        rows = unchurches.stated(g, frm)
+        if rows:
+            parts.append(f"stated by {unchurches.label(g, frm)}:")
+            parts += ["  - " + unchurches.stated_line(g, frm, r) for r in rows]
+        parts.append("")
+    blocks = [render_body(g, b, scope, frm) for b, _ in res["ranked"]]
     parts.append("\n\n".join(blocks))
     if res["excluded"]:
-        parts += ["", unchurches.HEADING, ""]
-        parts.append("\n\n".join(render_body(g, b, scope) for b in sorted(res["excluded"], key=str)))
+        parts += ["", unchurches.UNSIGNED, unchurches.HEADING, ""]
+        parts.append("\n\n".join(render_body(g, b, scope, frm) for b in sorted(res["excluded"], key=str)))
     return "\n".join(parts).rstrip("\n")
 
 
@@ -352,16 +371,21 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(prog="goldenchain.weigh")
     ap.add_argument("--scope", choices=sorted(SCOPES), default="members")
     ap.add_argument("--flag", action="append", default=[], metavar="locus/pos")
+    ap.add_argument("--from", dest="frm", default="body/plumb-line", metavar="body/X",
+                    help="weigh from this Body's Holdings (a comparison view, ADR-0003 R3.3)")
     a = ap.parse_args(argv)
     ds = ingest.load_dataset()
     pl = ds.graph(ingest.PLUMB_LINE)
     for f in a.flag:  # in memory only
-        pl.add((URIRef(B + "position/" + f), GC.unchurches, Literal(True, datatype=XSD.boolean)))
+        pl.add((PLUMB, GC.unchurches, URIRef(B + "position/" + f)))
     g = ingest.union(ingest.derive_rdflib(ds))
+    frm = URIRef(B + a.frm)
+    if frm != PLUMB and frm not in bodies(g):
+        raise SystemExit(f"weigh: --from {a.frm}: not a Body in the data")
     if a.flag:
         print("PROJECTION (flags overlaid in memory, not in data): " + ", ".join(a.flag))
         print()
-    print(render(g, a.scope))
+    print(render(g, a.scope, frm=frm))
 
 
 if __name__ == "__main__":

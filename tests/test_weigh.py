@@ -57,7 +57,12 @@ def build(bodies=None, tier=None, clarity=None, extra=""):
         ttl_fx += f"<position/{l}/{p}> a gc:Position ; gc:answers <locus/{l}> .\n"
         ttl_pl += holding("plumb-line", l, p, _, SRC)
     for p in ("believers-and-their-infants", "infants"):
-        ttl_pl += f'<position/baptism-subjects/{p}> gc:unchurches "true"^^xsd:boolean .\n'
+        ttl_pl += f'<body/plumb-line> gc:unchurches <position/baptism-subjects/{p}> .\n'
+        # The flag's provenance axiom, as every flag in the data carries (ADR-0006 R1); weigh fix 1 reads it.
+        ttl_pl += (f'<axiom/unchurches/plumb-line/baptism-subjects/{p}> a <http://www.w3.org/2002/07/owl#Axiom> ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedSource> <body/plumb-line> ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedProperty> gc:unchurches ; '
+                   f'<http://www.w3.org/2002/07/owl#annotatedTarget> <position/baptism-subjects/{p}> ; dcterms:source {SRC} .\n')
     for name, hs in (BODIES if bodies is None else bodies).items():
         ttl_fx += f"<body/{name}> a gc:Confession .\n"
         for l, p, m in hs:
@@ -77,7 +82,8 @@ W1 = """body/case-a [Confession] ranked
     - locus/worship (tier second): 0.75"""
 
 W2 = """body/case-b [Confession] not ranked
-  Not a church by this plumb-line's standard: churches subscribing to this standard are not churches by this plumb-line's standard.
+  The site's statement of its standard is not yet signed.
+  Not a church by this site's standard: churches subscribing to this standard are not churches by this site's standard.
     - position/baptism-subjects/believers-and-their-infants required (source/case-b/28); flagged by the plumb-line at source/plumb-line/sitting-fixture
   Its members' standing as Christians is not asserted either way."""
 
@@ -117,7 +123,7 @@ def test_w4_distinct_and_order():
     assert [b for b, _ in res["ranked"]] == [U("body/case-a"), U("body/case-c")]
     assert set(res["excluded"]) == {U("body/case-b")}
     txt = weigh.render(g)
-    assert txt.startswith("Weigh against body/plumb-line (scope members)\n\n")
+    assert txt.startswith("Weigh against body/plumb-line (scope members)\nThe site's statement of its standard is not yet signed.\n\n")
     assert txt.index("case-a") < txt.index("case-c") < txt.index(unchurches.HEADING)
 
 
@@ -197,7 +203,7 @@ def test_real_data_smoke():
     assert weigh.weigh(g)["excluded"] == {}
     pl = ds.graph(ingest.PLUMB_LINE)
     for p in ("believers-and-their-infants", "infants"):
-        pl.add((U(f"position/baptism-subjects/{p}"), GC.unchurches, Literal(True, datatype=XSD.boolean)))
+        pl.add((U("body/plumb-line"), GC.unchurches, U(f"position/baptism-subjects/{p}")))
     g = ingest.union(ingest.derive_rdflib(ds))
     assert weigh.render(g)
     check_w5(g)
