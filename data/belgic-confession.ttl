@@ -12,6 +12,10 @@
     rdfs:label "The Belgic Confession (1561), in Schaff, Creeds of Christendom vol. 3 (Harper, 1878 printing)"@en ;
     dcterms:bibliographicCitation "Harper, 1878 printing. Scan: archive.org creedsofchristen187803scha (leaf n = printed page + 15)." .
 
+<source/belgic-confession/33> a gc:SourceDivision ;
+    rdfs:label "Belgic Confession, Art. XXXIII"@en ;
+    dcterms:isPartOf <source/belgic-confession> .
+
 <source/belgic-confession/34> a gc:SourceDivision ;
     rdfs:label "Belgic Confession, Art. XXXIV"@en ;
     dcterms:isPartOf <source/belgic-confession> .
@@ -33,6 +37,104 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+<argument/belgic-confession/33/001> a gc:Argument ;
+    gc:source <source/belgic-confession/33> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Rom.4.11> ,
+        <passage/kjv/Gen.9.13> ,
+        <passage/kjv/Gen.17.11> ;
+    gc:locator "Art. XXXIII" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 439, note 2" ;
+    gc:pages "424" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/33/002> a gc:Argument ;
+    gc:source <source/belgic-confession/33> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Col.2.11> ,
+        <passage/kjv/Col.2.17> ,
+        <passage/kjv/1Cor.5.7> ;
+    gc:locator "Art. XXXIII" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 439, note 3" ;
+    gc:pages "424" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/002> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/1Cor.6.11> ,
+        <passage/kjv/Titus.3.5> ,
+        <passage/kjv/Heb.9.14> ,
+        <passage/kjv/1John.1.7> ,
+        <passage/kjv/Rev.1.5> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 441, note 1" ;
+    gc:pages "426" ;
+    gc:asPrinted "Apoc. i. 6" ;
+    gc:resolutionNote "Printed 'Apoc. i. 6'; the clause (the blood of Christ cleanses) answers Rev 1:5, 'washed us from our sins in his own blood'. Resolved to Rev 1:5 (LOCK_batchC_rebased B9)." ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/003> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/John.19.34> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 441, note 2" ;
+    gc:pages "426" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/004> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Matt.3.11> ,
+        <passage/kjv/1Cor.3.5> ,
+        <passage/kjv/1Cor.3.7> ,
+        <passage/kjv/Rom.6.3> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 441, note 3" ;
+    gc:pages "426" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/005> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Eph.5.26> ,
+        <passage/kjv/Acts.22.16> ,
+        <passage/kjv/1Pet.3.21> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 441, note 4" ;
+    gc:pages "426" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/006> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Gal.3.27> ,
+        <passage/kjv/1Cor.12.13> ,
+        <passage/kjv/Eph.4.22-Eph.4.24> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 441, note 5" ;
+    gc:pages "426" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<argument/belgic-confession/34/007> a gc:Argument ;
+    gc:source <source/belgic-confession/34> ;
+    gc:supports <position/baptism-instrumentality/instrumental> ;
+    gc:cites <passage/kjv/Acts.2.38> ,
+        <passage/kjv/Acts.8.16> ;
+    gc:locator "Art. XXXIV" ;
+    gc:secondaryLocator "IA creedsofchristen187803scha leaf 442, note 2" ;
+    gc:pages "427" ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- passages cited here
 
 <passage/kjv/Mark.16.16> a gc:Passage ;
@@ -50,3 +152,99 @@
 <passage/kjv/Heb.6.2> a gc:Passage ;
     gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.6.2" ;
     gc:startOrdinal 83 ; gc:endOrdinal 83 .
+
+<passage/kjv/Rom.4.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.4.11" ;
+    gc:startOrdinal 103 ; gc:endOrdinal 103 .
+
+<passage/kjv/Gen.9.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.9.13" ;
+    gc:startOrdinal 219 ; gc:endOrdinal 219 .
+
+<passage/kjv/Gen.17.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gen" ; gc:osisRef "Gen.17.11" ;
+    gc:startOrdinal 409 ; gc:endOrdinal 409 .
+
+<passage/kjv/Col.2.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.11" ;
+    gc:startOrdinal 40 ; gc:endOrdinal 40 .
+
+<passage/kjv/Col.2.17> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Col" ; gc:osisRef "Col.2.17" ;
+    gc:startOrdinal 46 ; gc:endOrdinal 46 .
+
+<passage/kjv/1Cor.5.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.5.7" ;
+    gc:startOrdinal 98 ; gc:endOrdinal 98 .
+
+<passage/kjv/1Cor.6.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.6.11" ;
+    gc:startOrdinal 115 ; gc:endOrdinal 115 .
+
+<passage/kjv/Titus.3.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Titus" ; gc:osisRef "Titus.3.5" ;
+    gc:startOrdinal 36 ; gc:endOrdinal 36 .
+
+<passage/kjv/Heb.9.14> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Heb" ; gc:osisRef "Heb.9.14" ;
+    gc:startOrdinal 156 ; gc:endOrdinal 156 .
+
+<passage/kjv/1John.1.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1John" ; gc:osisRef "1John.1.7" ;
+    gc:startOrdinal 7 ; gc:endOrdinal 7 .
+
+<passage/kjv/Rev.1.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rev" ; gc:osisRef "Rev.1.5" ;
+    gc:startOrdinal 5 ; gc:endOrdinal 5 .
+
+<passage/kjv/John.19.34> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "John" ; gc:osisRef "John.19.34" ;
+    gc:startOrdinal 815 ; gc:endOrdinal 815 .
+
+<passage/kjv/Matt.3.11> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Matt" ; gc:osisRef "Matt.3.11" ;
+    gc:startOrdinal 59 ; gc:endOrdinal 59 .
+
+<passage/kjv/1Cor.3.5> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.3.5" ;
+    gc:startOrdinal 52 ; gc:endOrdinal 52 .
+
+<passage/kjv/1Cor.3.7> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.3.7" ;
+    gc:startOrdinal 54 ; gc:endOrdinal 54 .
+
+<passage/kjv/Rom.6.3> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Rom" ; gc:osisRef "Rom.6.3" ;
+    gc:startOrdinal 141 ; gc:endOrdinal 141 .
+
+<passage/kjv/Eph.5.26> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.5.26" ;
+    gc:startOrdinal 124 ; gc:endOrdinal 124 .
+
+<passage/kjv/Acts.22.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.22.16" ;
+    gc:startOrdinal 797 ; gc:endOrdinal 797 .
+
+<passage/kjv/1Pet.3.21> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Pet" ; gc:osisRef "1Pet.3.21" ;
+    gc:startOrdinal 71 ; gc:endOrdinal 71 .
+
+<passage/kjv/Gal.3.27> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Gal" ; gc:osisRef "Gal.3.27" ;
+    gc:startOrdinal 72 ; gc:endOrdinal 72 .
+
+<passage/kjv/1Cor.12.13> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "1Cor" ; gc:osisRef "1Cor.12.13" ;
+    gc:startOrdinal 284 ; gc:endOrdinal 284 .
+
+<passage/kjv/Eph.4.22-Eph.4.24> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Eph" ; gc:osisRef "Eph.4.22-Eph.4.24" ;
+    gc:startOrdinal 88 ; gc:endOrdinal 90 .
+
+<passage/kjv/Acts.2.38> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.2.38" ;
+    gc:startOrdinal 64 ; gc:endOrdinal 64 .
+
+<passage/kjv/Acts.8.16> a gc:Passage ;
+    gc:versification "kjv" ; gc:book "Acts" ; gc:osisRef "Acts.8.16" ;
+    gc:startOrdinal 269 ; gc:endOrdinal 269 .

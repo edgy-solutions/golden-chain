@@ -151,14 +151,17 @@ def hand_minted():
     from rdflib import Graph, URIRef
     g = Graph()
     g.parse(TTL, format="turtle")
-    cites, pages = URIRef(GC + "cites"), URIRef(GC + "pages")
+    cites, pages, loc = URIRef(GC + "cites"), URIRef(GC + "pages"), URIRef(GC + "locator")
     out = {}
     for arg in set(g.subjects(cites, None)):
         if "/practical/3/1/" not in str(arg):
             continue
         pg = str(next(g.objects(arg, pages))).split("-")[0].strip()
-        out[pg] = out.get(pg, 0) + len(set(g.objects(arg, cites)))
-    return dict(sorted(out.items()))
+        # a printed reference counts once, however many Positions its Arguments support (Batch C adds a
+        # second Argument on Sixthly 1-4 for baptism-instrumentality)
+        locator = str(next(g.objects(arg, loc), ""))
+        out.setdefault(pg, set()).update((locator, str(c)) for c in g.objects(arg, cites))
+    return {pg: len(v) for pg, v in sorted(out.items())}
 
 
 def build(ocr, slant):

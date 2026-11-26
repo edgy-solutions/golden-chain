@@ -96,6 +96,13 @@
     gc:underHeading <heading/worship> ;
     gc:question "What makes a baptism valid?"@en .
 
+# Batch C (LOCK_batchC_unit_2026-11-26). No gc:tier here: tier is asserted only in data/plumb-line.ttl.
+<locus/baptism-instrumentality> a gc:Locus ;
+    rdfs:label "Instrumentality of baptism"@en ;
+    skos:notation "33e" ;
+    gc:underHeading <heading/worship> ;
+    gc:question "How does baptism benefit the one baptized?"@en .
+
 # ---------------------------------------------------------------- positions
 
 <position/covenant-administrations/one-covenant-two-administrations> a gc:Position ;
@@ -248,6 +255,19 @@
     gc:status <vocab/status/proposed> ;
     gc:proposedBy <agent/build-agent> .
 
+<position/baptism-instrumentality/instrumental> a gc:Position ;
+    rdfs:label "The Holy Ghost confirms faith by the use of the sacraments."@en ;
+    gc:answers <locus/baptism-instrumentality> ;
+    rdfs:comment "Label in the words of Heidelberg Q.65 (Harbaugh p. 107), 'it' read as 'faith' (ruling on report 28, item 7)."@en ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
+<position/baptism-instrumentality/representational> a gc:Position ;
+    rdfs:label "Wording pending. F-B answered (b): the rite sets Christ before faith; the Spirit works by the Word."@en ;
+    gc:answers <locus/baptism-instrumentality> ;
+    gc:status <vocab/status/proposed> ;
+    gc:proposedBy <agent/build-agent> .
+
 # ---------------------------------------------------------------- edges (ADR-0003 §6; as ratified as the weaker Position, ADR-0005 §4)
 
 <position/baptism-subjects/professing-believers-only> gc:excludes <position/baptism-subjects/believers-and-their-infants> .
@@ -260,6 +280,8 @@
 <position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/established-in-new-covenant> .
 <position/covenant-of-grace/eternal-with-christ> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
 <position/covenant-of-grace/established-in-new-covenant> gc:excludes <position/covenant-of-grace/made-in-time-after-fall> .
+# (a) as Reformed theology holds it includes representation (plan note); nothing is derived from this exclusion (M3 open).
+<position/baptism-instrumentality/instrumental> gc:excludes <position/baptism-instrumentality/representational> .
 
 # E1, ratified 2026-10-25; direction reversed by the ruling on report 11 (direction (ii), infants entail one covenant,
 # was refuted by Augsburg). The entails count stays 1.
