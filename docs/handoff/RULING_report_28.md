@@ -66,4 +66,13 @@ ARCHITECT RULINGS — report 28.
 
 ## Applied
 
-(Filled in by the report that works it.)
+Worked in [REPORT_phase1_29.md](REPORT_phase1_29.md):
+- 4-5: `59e156e`.
+- 6: in force; Batch C is on `hold/batchC-unit`.
+- 7: ADR-0005 amended in `72c4afb`; the mint is `f639051`, held.
+- 8: `b3b17e3`.
+- 9: at the sitting-2 ingest.
+- 10: `4a52926`; Q-I-4 is `67de543`, held, page `f3f1af17d9075ba5`.
+- 12-13: at the LBC ingest.
+- 14, 16: `4a52926`.
+- 15: `66a98b8`.
