@@ -16,13 +16,13 @@ Document only. Nothing is asserted, minted or ranked.
 | GS75 | Gospel Standard Articles, 1875 Gadsby printing (Arts. 1-31 only) | private corpus PDF; title page and pp. 8-16 seen [V] | 1875; authors d. by 1869 |
 | GillCGT | John Gill, *The Cause of God and Truth* (London: A. Ward, 1735-38), 4 parts | IA `bim_eighteenth-century_…_gill-john_1735_1`-`_4`; Google scan `causegodandtrut00gillgoog` (1736) [L] | Gill d. 1771 |
 | GillBody | Gill, *Body of Divinity* (in the data) | BSB 2019, 1839 pagination (in the data) | Gill d. 1771 |
-| Brine | John Brine, *A Refutation of Arminian Principles* (London: A. Ward, 1743), ESTC T96831 | no free scan found (licensed ECCO only) [U] | Brine d. 1765 |
+| Brine | John Brine, *A Refutation of Arminian Principles* (London: A. Ward, 1743), ESTC T96831 | no free scan found (licensed ECCO only) [U]. **Considered; no page witness yet** (ruling on report 28, item 14) | Brine d. 1765 |
 | Fuller | Andrew Fuller, *The Gospel of Christ Worthy of All Acceptation* (Northampton, 1785) | IA `bim_eighteenth-century_the-gospel-of-christ-wor_fuller-andrew_1785` [L]; 1805 Philadelphia printing `gospelworthyall01fullgoog` [L]; 2nd ed. 1801 not found | Fuller d. 1815 |
-| BlackRock | Black Rock Address (Particular Baptists at Black Rock, Maryland, 28 Sept. 1832) | transcripts only [T]; first printing [U] | 1832 |
+| BlackRock | Black Rock Address (Particular Baptists at Black Rock, Maryland, 28 Sept. 1832) | transcripts only [T]; first printing [U]. **Considered; no page witness yet** (ruling on report 28, item 14) | 1832 |
 | Hassell | C. B. and Sylvester Hassell, *History of the Church of God* (Middletown, N.Y.: Beebe, 1886) | IA `cu31924029245128`, `historychurchgo00hassgoog` [L] | 1886; authors d. 1880 and 1928 |
-| Fulton | Fulton Confession (Primitive Baptists, Fulton, Kentucky, 1900) | transcripts only [T]; first printing [U] | 1900 |
-| CRC1924 | Christian Reformed Church, Acts of Synod 1924 (the "Three Points") | Calvin Digital Commons, Dutch and English items [L] | Dutch 1924: US PD. English translation: date and rights [U] |
-| Hoeksema | Herman Hoeksema, *Drie Scheuren* (1925); English *A Triple Breach* (1942) | Dutch printing [U]; English: web text only [T] | **Restricted.** Hoeksema d. 1965 (UK term runs to 2035); the 1942 English is likely in copyright in the US. Not usable without permission |
+| Fulton | Fulton Confession (Primitive Baptists, Fulton, Kentucky, 1900) | transcripts only [T]; first printing [U]. **Considered; no page witness yet** (ruling on report 28, item 14) | 1900 |
+| CRC1924 | Christian Reformed Church, Acts of Synod 1924 (the "Three Points") | Calvin Digital Commons, Dutch and English items [L]. **A lead only** until the English translation's rights are known (ruling on report 28, item 14) | Dutch 1924: US PD. English translation: date and rights [U] |
+| Hoeksema | Herman Hoeksema, *Drie Scheuren* (1925); English *A Triple Breach* (1942) | Dutch printing [U]; English: web text only [T]. **A lead only** until its rights are known (ruling on report 28, item 14) | **Restricted.** Hoeksema d. 1965 (UK term runs to 2035); the 1942 English is likely in copyright in the US. Not usable without permission |
 | WCF, LBC | in the data | in the data | in the data |
 
 ## Rows
@@ -47,3 +47,9 @@ Document only. Nothing is asserted, minted or ranked.
 - **Brine** has no free scan. The order is to find one or leave Brine out.
 - **Hoeksema** is restricted, by the order's own flag ("check copyright"). The CRC 1924 English translation's rights are unknown. The Dutch Acts (1924) are US PD and could be the witness, with any translation made by a person named and signed for.
 - **Gill's *Cause of God and Truth***, as distinct from the *Body*, would be a new Source node under ADR-0009.
+
+## Ruled (report 28, item 14, 2026-11-26)
+
+- A document with only a transcript has no page witness and is not in scope (ADR-0009 Decision 1). Black Rock, Fulton and Brine are recorded as **"considered; no page witness yet"**.
+- Hoeksema and the CRC 1924 English translation are **leads only** until their rights are known.
+- Positions that rest only on these wait. As the table stands, no row rests only on them: every row also names GS75, Gill, Fuller, Hassell, WCF or LBC.

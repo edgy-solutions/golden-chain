@@ -33,4 +33,4 @@ Proposals only. Nothing is minted, and the 1875 printing is not yet a Source in 
 - **Articles 32-35** (the later articles on addressing the unconverted) are not in this printing. The 1875 printing ends at XXXI, on p. 15. They still have no witness.
 - **Article 29 has letter-form differences** on three words. These are not recorded: the build agent does not judge typeface (rule 11 and the italic rules). If a reading needs them, they go on a console for Chris.
 - **Article 9 was not viewed this pass.** Its start page (p. 10) is inferred from p. 11, which opens mid-article. It is to be confirmed.
-- **Which edition a Body is weighed on** is the architect's call: the 1875 printing (1-31) or a later one with 32-35.
+- **Which edition a Body is weighed on** (ruled on report 28, item 16): a Body is weighed only on what has a witness. The Gospel Standard Body, when minted, is "Articles 1-31, 1875 printing", and its page says that Articles 32-35 are not yet witnessed.

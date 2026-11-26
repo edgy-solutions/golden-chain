@@ -70,3 +70,10 @@ Sketch only, for review:
 2. **Granularity.** Per Source node, so per edition where the data has separate editions.
 3. **Systematic works and Teachers.** The page states each work's role: Body, witness, or both.
 4. **Licensed but private texts.** Listed by title as "licensed, not reproduced", and **only once written permission is on file**.
+
+## Points resolved by the ruling on report 28 (2026-11-26, item 10)
+
+1. **The site's own standard (Q-I-1).** `source/plumb-line` (the signed sittings) is not a published document under this ADR. It is not offered for inclusion, and it is not counted in weigh's closing line. The Documents included page lists it under its own heading, **"the site's standard"**, apart from the sources.
+2. **How the signed statements and inclusions enter the data (Q-I-2).** In one locked change, as proposed: the humility statement, the scope statement, and every inclusion row of one signed statements console together.
+3. **Owen (Q-I-3).** Owen's *Exposition of the Epistle to the Hebrews* is one Source. Volume and page are the locator.
+4. **The BSB 1984 foreword (Q-I-4).** Chris decides on the row. If he includes it, its entry is labelled **"short extracts only; written confirmation to be sought before launch"**. (The architect's reason: the foreword is already cited for validity (3), and short quotation was ruled permitted, so "not now" would contradict the data.)
