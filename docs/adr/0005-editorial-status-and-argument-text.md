@@ -72,6 +72,11 @@ Deprecation stays `owl:deprecated` (ADR-0002); it is not a status.
 - *Amended (architect, report 2 Q1, 2026-10-25): one Argument per lettered note.* Where a source letters its proofs (the confessions), each lettered note is its own Argument, and the letter opens its `gc:asPrinted`, e.g. `"(c) Rom. 6.3,4,5; Col. 2.12; Gal. 3.27"`. A Passage then leads to the exact clause it supports.
   - Rule 2 is per Position, not per Argument: several notes may support the same Position, as LBC 29.1 (c), (d) and (e) all support `union-with-christ`.
   - Shape: a `gc:asPrinted` opening with `(x) ` must be the Argument's only `gc:asPrinted`. Unlettered inline citations (Gill) may carry several.
+- *Amended (architect, ruling on report 28, item 7, 2026-11-26): the unit is the quotation unit as the source prints it.* One Argument per quotation unit as the source prints it. Several references printed under one unit stay one Argument, with one `gc:cites` per reference. Where this and "one Argument per lettered note" differ, this governs.
+  - A confession's lettered note or footnote is one printed unit, so the rule above gives the same Arguments there.
+  - In a catechism's proofs (Harbaugh's Heidelberg), a quoted verse with the reference or references printed after it is one unit. A further quotation brought in by "Again:" is its own unit.
+  - In Gill, a run of inline references closing one clause is one unit.
+  - Applied from Batch C on ([LOCK_batchC_unit_2026-11-26](../handoff/LOCK_batchC_unit_2026-11-26.md)). Existing Arguments are not re-cut by this amendment.
 - **`gc:quotation`** is the only text property allowed on an Argument. It is a verbatim quotation from the source division, within the quotation scope.
 - **The quotation scope is filled** (architect, 2026-10-25): display and quotation are permitted.
   - Gill's text is public domain.
