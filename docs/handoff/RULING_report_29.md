@@ -32,4 +32,8 @@ Label (a), from Heidelberg 65: accepted.
 
 ## Applied
 
-(Filled in by the report that works it.)
+Worked in [REPORT_phase1_30.md](REPORT_phase1_30.md):
+- Q-C-2: the audit.
+- Q-C-3: `e940414` (the merge) and `da34406` (the form tests derive their counts).
+- Q-C-4: `f3f1af17d9075ba5` confirmed.
+- Q-H-1: at the sitting-2 ingest.
