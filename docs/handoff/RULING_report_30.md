@@ -19,4 +19,9 @@ Merge, the derived-count tests and the page ids: accepted.
 
 ## Applied
 
-(Filled in by the report that works it.)
+| Item | What | Commit | Result |
+|---|---|---|---|
+| Q-A-1 | Page pass, part 1 | report 31's commit | 17 viewed (the 16, and p. 345). 10 same, 7 would split into 21 units, 0 merge or widen, 0 signed. Recorded in [AUDIT_argument_unit_2026-11-26.md](AUDIT_argument_unit_2026-11-26.md), "Page pass, part 1"; [REPORT_phase1_31.md](REPORT_phase1_31.md). |
+| Q-A-1 | Gill pp. 897-912 | — | Held until Chris signs `9b19159be3098c64`. |
+| Q-A-2 | Re-cut once, after part 2 | — | Nothing changed. The part-1 candidates and proposed IRIs are listed. The full list follows part 2. |
+| Accepted | Merge, derived counts, page ids | — | Noted. |
