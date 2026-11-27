@@ -108,4 +108,5 @@ DAY 2
 | Q-P-1 | Graves is three units | this commit | Noted in the audit's re-cut list: `graves-old-landmarkism/10/001` becomes 10/002-004, as proposed. The list stays unapplied until the full list after part 2 is ruled (Q-A-2). |
 | The slip | One string read per Argument | — | Recorded in report 31. Part 2 reads every string. |
 | Order, items 1-7 | Day 1 and Day 2 work | later commits | Each item has its own lock, committed before its work. |
+| Order, item 1 | Justification | lock `991da11`; research this commit | [RESEARCH_justification_2026-11-26.md](RESEARCH_justification_2026-11-26.md): the table for 8 sources, the lock scored (2 misses: Belgic J-b, Witsius J-c), 6 Positions proposed, Chris's words beside the table. Nothing minted. |
 | Order, item 8 | Two drafts | — | Held. The text was truncated (Q-O-1). |
