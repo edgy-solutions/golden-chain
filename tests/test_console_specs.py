@@ -19,7 +19,8 @@ import test_console as tc  # noqa: E402
 import lbc1677  # noqa: E402
 import wcf1647  # noqa: E402
 from column_rule import Fail  # noqa: E402
-from rdflib import DCTERMS, RDF, Graph, Namespace, URIRef  # noqa: E402
+from rdflib import DCTERMS, RDF, RDFS, SKOS, Graph, Namespace, URIRef  # noqa: E402
+from plumb_line import notation_key  # noqa: E402
 
 GC = Namespace("https://w3id.org/golden-chain/ontology#")
 BASE = "https://w3id.org/golden-chain/"
@@ -148,26 +149,64 @@ def form_position_rows():
     return len(re.findall(r"^\| `[^`]+` \|", FORM.read_text(encoding="utf-8"), re.M))
 
 
-def test_plumb_line_spec_matches_form():
-    spec = plumb_line.make_spec(LOCI)
+OWL_DEPRECATED = URIRef("http://www.w3.org/2002/07/owl#deprecated")
+
+
+def derived(loci_path):
+    """(loci, positions) read from a loci TTL independently of plumb_line.read_loci: the non-deprecated Loci
+    that some Position answers, in notation order, as [(slug, notation, [Position slugs])]; plus the Position total."""
+    g = Graph()
+    g.parse(loci_path, format="turtle")
+    tail = lambda i: str(i).rsplit("/", 1)[1]  # noqa: E731
+    out = []
+    for loc in g.subjects(RDF.type, GC.Locus):
+        dep = g.value(loc, OWL_DEPRECATED)
+        if dep is not None and dep.toPython() is True:
+            continue
+        poss = sorted(tail(p) for p in g.subjects(GC.answers, loc))
+        if poss:
+            out.append((tail(loc), str(g.value(loc, SKOS.notation)), poss))
+    out.sort(key=lambda l: notation_key(l[1]))
+    return out, sum(len(l[2]) for l in out)
+
+
+def is_subsequence(want, got):
+    it = iter(got)
+    return all(x in it for x in want)
+
+
+def check_spec_matches_form(loci_path):
+    loci, npos = derived(loci_path)
+    spec = plumb_line.make_spec(loci_path)
     secs = spec["sections"]
+    ids, titles = [s["id"] for s in secs], [s["title"].split(" ")[0] for s in secs]
     # 23 is retired (owl:deprecated) and replaced by 23a and 23b (ruling on report 11)
-    assert [s["id"] for s in secs] == ["covenant-of-grace", "circumcision-covenant", "baptism-perpetuity",
-                                       "johns-baptism", "baptism-subjects", "baptism-mode", "baptism-formula",
-                                       "baptism-significance", "baptism-efficacy", "baptism-repetition",
-                                       "baptism-validity", "baptism-instrumentality"]  # 33d, Batch B; 33e, Batch C
-    assert [s["title"].split(" ")[0] for s in secs] == ["23a", "23b", "28", "29", "30", "31", "32", "33a",
-                                                        "33b", "33c", "33d", "33e"]
+    assert is_subsequence(["covenant-of-grace", "circumcision-covenant", "baptism-perpetuity",
+                           "johns-baptism", "baptism-subjects", "baptism-mode", "baptism-formula",
+                           "baptism-significance", "baptism-efficacy", "baptism-repetition",
+                           "baptism-validity", "baptism-instrumentality"], ids)  # 33d, Batch B; 33e, Batch C
+    assert is_subsequence(["23a", "23b", "28", "29", "30", "31", "32", "33a", "33b", "33c", "33d", "33e"], titles)
+    assert ids == [l[0] for l in loci] and titles == [l[1] for l in loci]
     pos_rows = [r for s in secs for r in s["rows"] if not r["id"].endswith(".locus")]
-    assert len(pos_rows) == 25 and form_position_rows() == 15  # Batch B: +1 repetition, +3 validity; Batch C: +2
+    assert len(pos_rows) == npos and form_position_rows() == 15
     locus_rows = [r for s in secs for r in s["rows"] if r["id"].endswith(".locus")]
-    assert len(locus_rows) == 12
+    assert len(locus_rows) == len(loci)
+    check_form_rows(spec, loci)
+
+
+def test_plumb_line_spec_matches_form():
+    check_spec_matches_form(LOCI)
+
+
+def check_form_rows(spec, loci):
+    secs = spec["sections"]
+    pos_rows = [r for s in secs for r in s["rows"] if not r["id"].endswith(".locus")]
     order, form_pos, _ = plumb_line.read_form(FORM.read_text(encoding="utf-8"))
-    for s in secs:  # every locus the form knows (all but 23a, 23b) carries its rows; Batch B adds one after it
+    have = {l[0]: l[2] for l in loci}
+    for s in secs:  # every locus the form knows (all but 23a, 23b) carries the rows the data gives it
         if s["id"] in form_pos:
             got = sorted(r["id"].split(".", 1)[1] for r in s["rows"][1:])
-            extra = ["infant-sprinkling-not-baptism"] if s["id"] == "baptism-repetition" else []
-            assert got == sorted(form_pos[s["id"]] + extra)
+            assert got == have[s["id"]] and set(form_pos[s["id"]]) <= set(got)
     by_id = {s["id"]: [r["id"].split(".", 1)[1] for r in s["rows"][1:]] for s in secs}
     assert "covenant-administrations" not in by_id
     assert sorted(by_id["covenant-of-grace"]) == sorted(["eternal-with-christ", "established-in-new-covenant",
@@ -186,12 +225,16 @@ def test_plumb_line_refuses_a_form_that_differs(tmp_path, monkeypatch):
         plumb_line.make_spec(LOCI)
 
 
-@pytest.fixture
-def plumb(tmp_path, monkeypatch):
+def plumb_for(tmp_path, monkeypatch, loci_path):
     sp = tmp_path / "spec.json"
-    build.write_spec(sp, plumb_line.make_spec(LOCI))
+    build.write_spec(sp, plumb_line.make_spec(loci_path))
     made, man = built(tmp_path, monkeypatch, sp)
     return tmp_path, made, man, json.loads(made["spec"].read_text(encoding="utf-8"))
+
+
+@pytest.fixture
+def plumb(tmp_path, monkeypatch):
+    return plumb_for(tmp_path, monkeypatch, LOCI)
 
 
 def modalities(ex):
@@ -204,7 +247,12 @@ def modalities(ex):
 
 
 def test_plumb_line_ttl_writer(plumb):
+    check_ttl_writer(plumb, LOCI)
+
+
+def check_ttl_writer(plumb, loci_path):
     tmp, made, man, spec = plumb
+    loci, npos = derived(loci_path)
     ttl = tmp / "pl.ttl"
     res = sign(tmp, made, man, spec, modalities, write=True, ttl_out=ttl)
     assert res[2] == ttl  # signed json, sitting record, ttl
@@ -212,14 +260,14 @@ def test_plumb_line_ttl_writer(plumb):
     g.parse(ttl, format="turtle")
     b = lambda s: URIRef(BASE + s)  # noqa: E731
     holdings = set(g.subjects(RDF.type, GC.Holding))
-    assert len(holdings) == 25 - 1 - 1  # one silent, one abstained
+    assert len(holdings) == npos - 1 - 1  # one silent, one abstained
     assert b("holding/plumb-line/baptism-subjects/infants") not in holdings
     assert b("holding/plumb-line/baptism-efficacy/sign-only") not in holdings
-    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == 23
+    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == npos - 1 - 1
     assert (b("locus/johns-baptism"), GC.tier, b("vocab/tier/third")) in g
     assert (b("locus/johns-baptism"), GC.clarity, b("vocab/clarity/contested")) in g
     assert (b("locus/baptism-perpetuity"), GC.tier, b("vocab/tier/first")) in g
-    assert len(list(g.subject_objects(GC.tier))) == 11  # baptism-efficacy locus row was a fault
+    assert len(list(g.subject_objects(GC.tier))) == len(loci) - 1  # baptism-efficacy locus row was a fault
     h = b("holding/plumb-line/baptism-mode/immersion-only")
     assert (h, GC.modality, b("vocab/modality/forbidden")) in g
     assert (h, GC.position, b("position/baptism-mode/immersion-only")) in g
@@ -241,13 +289,18 @@ def silence(ex):  # the 2026-11-08 sitting: one modality left empty, so console 
 
 
 def test_plumb_line_null_modality_is_silence(plumb):
+    check_null_modality_is_silence(plumb, LOCI)
+
+
+def check_null_modality_is_silence(plumb, loci_path):
     """Ruling, dispatch 2026-11-08 §1: a modality left empty is deliberate silence, a complete verdict."""
     tmp, made, man, spec = plumb
+    npos = derived(loci_path)[1]
     ttl = tmp / "pl.ttl"
     sign(tmp, made, man, spec, silence, write=True, ttl_out=ttl)
     g = Graph()
     g.parse(ttl, format="turtle")
-    assert len(set(g.subjects(RDF.type, GC.Holding))) == 25 - 1
+    assert len(set(g.subjects(RDF.type, GC.Holding))) == npos - 1
     assert URIRef(BASE + "holding/plumb-line/johns-baptism/same-ordinance") not in set(g.subjects())
     assert "modality left empty, unanswered, untouched: johns-baptism.same-ordinance\n" \
         in ttl.read_text(encoding="utf-8")
