@@ -109,4 +109,5 @@ DAY 2
 | The slip | One string read per Argument | — | Recorded in report 31. Part 2 reads every string. |
 | Order, items 1-7 | Day 1 and Day 2 work | later commits | Each item has its own lock, committed before its work. |
 | Order, item 1 | Justification | lock `991da11`; research this commit | [RESEARCH_justification_2026-11-26.md](RESEARCH_justification_2026-11-26.md): the table for 8 sources, the lock scored (2 misses: Belgic J-b, Witsius J-c), 6 Positions proposed, Chris's words beside the table. Nothing minted. |
+| Order, item 2 | Gospel call | lock `3943e34`; research this commit | [RESEARCH_gospel_call_2026-11-26.md](RESEARCH_gospel_call_2026-11-26.md): the table for 6 sources, the lock scored (no clear miss; 4 borderline G-c cells put to the architect), 7 Positions proposed, row 2c given a Gill source. GS Arts. 24-29 not read: p. 15 is in the open sitting `f3f1af17d9075ba5`. Nothing minted. |
 | Order, item 8 | Two drafts | — | Held. The text was truncated (Q-O-1). |
