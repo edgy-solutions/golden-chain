@@ -96,7 +96,7 @@
 | `gill-divine-right/4/003` | p. 46, leaf n49 | **would split, 2 units** | "First" 3 prints "Gen. xvii. 14." (a covenant that might be broken) and "Ps. lxxxix. 34." (God will not break it). |
 | `gill-divine-right/4/004` | p. 46, leaf n49 | **would split, 2 units** | "First" 4 prints "Gen. xvii. 6, 8." (the temporal things promised) and "ver. 5." (the change of name). |
 | `gill-divine-right/4/005` | p. 47, leaf n50 | same | One reference: "Gal. iii. 16." |
-| `graves-old-landmarkism/10/001` | p. 124, IA `oldlandmarkismw00gravgoog`, leaf n130 | **would split, 3 units** (see Q-P-1 in report 31) | Three parenthesised references, each set after its own noun: "Christ's declaration (Matt. 16: 18)", "Paul's statement (Heb. 12: 28)" and "the prophecy of Daniel (2: 44)". All three are in one sentence. |
+| `graves-old-landmarkism/10/001` | p. 124, IA `oldlandmarkismw00gravgoog`, leaf n130 | **would split, 3 units** (Q-P-1 ruled three units, 2026-11-26; see RULING_report_31) | Three parenthesised references, each set after its own noun: "Christ's declaration (Matt. 16: 18)", "Paul's statement (Heb. 12: 28)" and "the prophecy of Daniel (2: 44)". All three are in one sentence. |
 
 No Argument viewed would merge or widen.
 
