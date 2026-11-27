@@ -155,13 +155,13 @@ def test_plumb_line_spec_matches_form():
     assert [s["id"] for s in secs] == ["covenant-of-grace", "circumcision-covenant", "baptism-perpetuity",
                                        "johns-baptism", "baptism-subjects", "baptism-mode", "baptism-formula",
                                        "baptism-significance", "baptism-efficacy", "baptism-repetition",
-                                       "baptism-validity"]  # 33d, Batch B
+                                       "baptism-validity", "baptism-instrumentality"]  # 33d, Batch B; 33e, Batch C
     assert [s["title"].split(" ")[0] for s in secs] == ["23a", "23b", "28", "29", "30", "31", "32", "33a",
-                                                        "33b", "33c", "33d"]
+                                                        "33b", "33c", "33d", "33e"]
     pos_rows = [r for s in secs for r in s["rows"] if not r["id"].endswith(".locus")]
-    assert len(pos_rows) == 23 and form_position_rows() == 15  # Batch B: +1 repetition, +3 validity
+    assert len(pos_rows) == 25 and form_position_rows() == 15  # Batch B: +1 repetition, +3 validity; Batch C: +2
     locus_rows = [r for s in secs for r in s["rows"] if r["id"].endswith(".locus")]
-    assert len(locus_rows) == 11
+    assert len(locus_rows) == 12
     order, form_pos, _ = plumb_line.read_form(FORM.read_text(encoding="utf-8"))
     for s in secs:  # every locus the form knows (all but 23a, 23b) carries its rows; Batch B adds one after it
         if s["id"] in form_pos:
@@ -212,14 +212,14 @@ def test_plumb_line_ttl_writer(plumb):
     g.parse(ttl, format="turtle")
     b = lambda s: URIRef(BASE + s)  # noqa: E731
     holdings = set(g.subjects(RDF.type, GC.Holding))
-    assert len(holdings) == 23 - 1 - 1  # one silent, one abstained
+    assert len(holdings) == 25 - 1 - 1  # one silent, one abstained
     assert b("holding/plumb-line/baptism-subjects/infants") not in holdings
     assert b("holding/plumb-line/baptism-efficacy/sign-only") not in holdings
-    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == 21
+    assert len(list(g.objects(b("body/plumb-line"), GC.holds))) == 23
     assert (b("locus/johns-baptism"), GC.tier, b("vocab/tier/third")) in g
     assert (b("locus/johns-baptism"), GC.clarity, b("vocab/clarity/contested")) in g
     assert (b("locus/baptism-perpetuity"), GC.tier, b("vocab/tier/first")) in g
-    assert len(list(g.subject_objects(GC.tier))) == 10  # baptism-efficacy locus row was a fault
+    assert len(list(g.subject_objects(GC.tier))) == 11  # baptism-efficacy locus row was a fault
     h = b("holding/plumb-line/baptism-mode/immersion-only")
     assert (h, GC.modality, b("vocab/modality/forbidden")) in g
     assert (h, GC.position, b("position/baptism-mode/immersion-only")) in g
@@ -247,7 +247,7 @@ def test_plumb_line_null_modality_is_silence(plumb):
     sign(tmp, made, man, spec, silence, write=True, ttl_out=ttl)
     g = Graph()
     g.parse(ttl, format="turtle")
-    assert len(set(g.subjects(RDF.type, GC.Holding))) == 23 - 1
+    assert len(set(g.subjects(RDF.type, GC.Holding))) == 25 - 1
     assert URIRef(BASE + "holding/plumb-line/johns-baptism/same-ordinance") not in set(g.subjects())
     assert "modality left empty, unanswered, untouched: johns-baptism.same-ordinance\n" \
         in ttl.read_text(encoding="utf-8")

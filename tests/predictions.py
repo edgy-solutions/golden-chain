@@ -41,8 +41,9 @@
 # Follow-up sitting eb961ddb signed 2026-11-22 (RULING_report_26): 8 plumb-line Holdings, tier and clarity on 3 loci, 3 unchurches:
 # Holding/holds 54 -> 62, effectivelyHolds 55 -> 63, Axiom 29 -> 38, warnings 3 -> 0, all else unchanged
 # (docs/handoff/LOCK_ingest_eb961ddb_2026-11-22.md, E7).
+# Batch C on the quotation unit (LOCK_batchC_unit_2026-11-26, ruling on report 28 item 7): Locus 12 -> 13, Position/answers 24 -> 26, excludes 9 -> 10, Argument/supports 80 -> 115, Passage 142 -> 161, warnings 0 -> 1 (no tier on 33e), all else unchanged; locked before the mint.
 PREDICTED = {
-    "Locus": 12, "Position": 24, "Argument": 80, "Passage": 142, "Body": 8, "Holding": 62,
-    "excludes": 9, "entails": 1, "holds": 62, "answers": 24, "supports": 80, "childOf": 1,
-    "effectivelyHolds": 63, "warnings": 0, "Axiom": 38,
+    "Locus": 13, "Position": 26, "Argument": 115, "Passage": 161, "Body": 8, "Holding": 62,
+    "excludes": 10, "entails": 1, "holds": 62, "answers": 26, "supports": 115, "childOf": 1,
+    "effectivelyHolds": 63, "warnings": 1, "Axiom": 38,
 }
