@@ -76,14 +76,14 @@ ITEM 8, resent in full, and item 9:
 
 | Item | What | Commit | Result |
 |---|---|---|---|
-| General | Borderline cells become "does not say in its own words"; quotations kept in a "bears on" column; one source's words per label; one question per Position | this commit | Applied in the three research files below. |
-| Justification | J-P1 to J-P4, J-P6 candidates on J-a, J-b, J-c; J-P5 on LC Q. 32 alone, Owen on his own Argument; Heidelberg Q. 59 and Q. 60 to "bears on"; the Witsius claim recorded against the architect | this commit | [RESEARCH_justification_2026-11-26.md](RESEARCH_justification_2026-11-26.md). |
-| Gospel call | Four G-c cells to "bears on G-c"; G-c answered by Fuller alone; Fuller off G-P3; G-P5 one Position; G-P4 split (G-P4a on G-b, G-P4b on G-a, with the note on Christ's preaching to Israel); G-P1-3, 6, 7 candidates | this commit | [RESEARCH_gospel_call_2026-11-26.md](RESEARCH_gospel_call_2026-11-26.md). As ruled, the lock now scores one P2 miss: Gill G-c (predicted yes). The label source for G-P5 (Fuller) is the build agent's choice, put to the architect. |
-| Row 2c | Paraphrase replaced by Gill's quotations | this commit | [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md): two rows, G-P4a and G-P4b. |
-| The church | C-P1 to C-P5, C-P7, C-P8 candidates, each relabelled from one source; Scots XVIII p. 462 moved to C-b, Scots C-a does not say; C-P6 WCF only; C-P6b new from Belgic XXX | this commit | [RESEARCH_church_2026-11-26.md](RESEARCH_church_2026-11-26.md). The Scots C-a cell now scores as held. |
-| Laying on of hands | A locus candidate of its own, not developed | this commit | [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §11: LBC 26.9 and Gill p. 868, recorded only. |
-| Row 4c | Dropped | this commit | Removed from [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §4, with a note. |
-| Searches | A Gill lead on duty-faith; "offer" elsewhere in Fuller 1785 | later commit | Under their own lock. |
-| New reads | WCF 27.4 and Scots XXII now; LBC 28.2 after the 1677 sitting is signed | later commit | Under their own lock. LBC 28.2 waits on `0a73bb5afa616446`. |
+| General | Borderline cells become "does not say in its own words"; quotations kept in a "bears on" column; one source's words per label; one question per Position | `85712ea` | Applied in the three research files below. |
+| Justification | J-P1 to J-P4, J-P6 candidates on J-a, J-b, J-c; J-P5 on LC Q. 32 alone, Owen on his own Argument; Heidelberg Q. 59 and Q. 60 to "bears on"; the Witsius claim recorded against the architect | `85712ea` | [RESEARCH_justification_2026-11-26.md](RESEARCH_justification_2026-11-26.md). |
+| Gospel call | Four G-c cells to "bears on G-c"; G-c answered by Fuller alone; Fuller off G-P3; G-P5 one Position; G-P4 split (G-P4a on G-b, G-P4b on G-a, with the note on Christ's preaching to Israel); G-P1-3, 6, 7 candidates | `85712ea` | [RESEARCH_gospel_call_2026-11-26.md](RESEARCH_gospel_call_2026-11-26.md). As ruled, the lock now scores one P2 miss: Gill G-c (predicted yes). The label source for G-P5 (Fuller) is the build agent's choice, put to the architect. |
+| Row 2c | Paraphrase replaced by Gill's quotations | `85712ea` | [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md): two rows, G-P4a and G-P4b. |
+| The church | C-P1 to C-P5, C-P7, C-P8 candidates, each relabelled from one source; Scots XVIII p. 462 moved to C-b, Scots C-a does not say; C-P6 WCF only; C-P6b new from Belgic XXX | `85712ea` | [RESEARCH_church_2026-11-26.md](RESEARCH_church_2026-11-26.md). The Scots C-a cell now scores as held. |
+| Laying on of hands | A locus candidate of its own, not developed | `85712ea` | [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §11: LBC 26.9 and Gill p. 868, recorded only. |
+| Row 4c | Dropped | `85712ea` | Removed from [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §4, with a note. |
+| Searches | A Gill lead on duty-faith; "offer" elsewhere in Fuller 1785 | this commit | [FINDINGS_ruling32_reads_2026-11-27.md](FINDINGS_ruling32_reads_2026-11-27.md), under lock `5fdbcd8`. No gospel "offer" located in Fuller 1785. Two Gill leads (CGT I, Numb. XXVIII, pp. 149-152; III, p. 68) are reported, not supplied. |
+| New reads | WCF 27.4 and Scots XXII now; LBC 28.2 after the 1677 sitting is signed | this commit | Same file. WCF 27.4 and Scots XXII both answer C-d; entering them waits on the architect. LBC 28.2 waits on `0a73bb5afa616446`. |
 | Sitting 2 | Gill II.3 p. 867 and pp. 874-876 on the administrator rows, if not already there | later commit | Checked first. If a test must change, the change goes to a hold/ branch. |
 | Items 8 and 9 | Two ADR drafts; the re-cut list | later commits | Proposed, not built. |
