@@ -150,7 +150,9 @@ def main(ocr_dir, align_dir, out):
     align_sha = sha256_file(align_p)
     ocr = json.loads(ocr_p.read_text(encoding="utf-8"))
     moved = json.loads(align_p.read_text(encoding="utf-8"))["report"]["moved_blocks"]
-    words, pages = ocr["words"], ocr["header"]["pages_printed"]
+    words = ocr["words"]
+    first, last = ocr["header"]["pages_printed"]  # [first, last], as gy_ocr_baptism writes it
+    pages = list(range(first, last + 1))
     lbc = lines(words)
     bh = body_h(lbc)
     zones, table = {}, {}

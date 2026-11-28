@@ -158,3 +158,21 @@ def test_main_fails_on_missing(tmp_path, monkeypatch):
     monkeypatch.setattr(fz, "git_state", lambda repo: CLEAN)
     with pytest.raises(Fail):
         fz.main(str(tmp_path), str(tmp_path), str(tmp_path / "x"))
+
+
+def test_main_walks_every_page_in_the_printed_range(tmp_path, monkeypatch):
+    # pages_printed is [first, last]; the pages between them are walked too
+    monkeypatch.setattr(fz, "git_state", lambda repo: CLEAN)
+    words = [W(p, r, i, 100 + i * 30, 20, key=f"{p}/{r}/{i}")
+             for p in (913, 914, 915) for r in ("left", "right") for i in range(3)]
+    ocr = {"header": {"pages_printed": [913, 915]}, "words": words}
+    o, a, out = tmp_path / "o", tmp_path / "a", tmp_path / "out"
+    o.mkdir()
+    a.mkdir()
+    (o / "ocr.json").write_text(json.dumps(ocr))
+    (a / "align.json").write_text(json.dumps({"report": {"moved_blocks": [
+        {"page": 914, "first_key": "914/left/2", "last_key": "914/left/2"}]}}))
+    assert fz.main(str(o), str(a), str(out)) == 0
+    res = json.loads((out / "zones.json").read_text(encoding="utf-8"))
+    assert sorted(res["columns"]) == [f"{p}/{r}" for p in (913, 914, 915) for r in ("left", "right")]
+    assert res["scores"]["N3_columns"] == 6
