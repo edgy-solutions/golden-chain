@@ -1,5 +1,6 @@
 # Research: justification (two-day order, Day 1, item 1)
 
+- **Amended by the ruling on report 32** ([RULING_report_32.md](RULING_report_32.md)): the Heidelberg cells (now in "bears on"), the scoring notes, the record against the architect, the Positions and What waits.
 - **From:** the build agent, 2026-11-26.
 - **On:** [RULING_report_31.md](RULING_report_31.md), the two-day order, item 1, in the form of the 23a research.
 - **Lock:** [LOCK_justification_research_2026-11-26.md](LOCK_justification_research_2026-11-26.md) (`991da11`), committed before any page for this item was viewed.
@@ -94,11 +95,11 @@
 
 ### Heidelberg Catechism (Schaff vol. 3, English)
 
-| | |
-|---|---|
-| **J-a** | "Not that I am acceptable to God on account of the worthiness of my faith; but because only the satisfaction, righteousness, and holiness of Christ is my righteousness before God, and I can receive the same and make it my own in no other way than by faith only." (Q. 61, p. 327). |
-| **J-b** | Does not say in the sections read. Q. 59 asks what it helps "now that thou believest all this?", and answers "That I am righteous in Christ before God, and an heir of eternal life." (p. 326). The answer is tied to believing, but it does not say when. It is scored as not answering; the architect may read it otherwise. |
-| **J-c** | Does not say in the sections read. The word "condition" is not used. Q. 60 ends "if only I accept such benefit with a believing heart." (p. 327). That is conditional wording, but it does not call faith a condition. It is scored as not answering; the architect may read it otherwise. |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **J-a** | "Not that I am acceptable to God on account of the worthiness of my faith; but because only the satisfaction, righteousness, and holiness of Christ is my righteousness before God, and I can receive the same and make it my own in no other way than by faith only." (Q. 61, p. 327). | |
+| **J-b** | Does not say in its own words (ruled, report 32). | Q. 59 asks what it helps "now that thou believest all this?", and answers "That I am righteous in Christ before God, and an heir of eternal life." (p. 326). |
+| **J-c** | Does not say in its own words (ruled, report 32). The word "condition" is not used. | Q. 60 ends "if only I accept such benefit with a believing heart." (p. 327). |
 
 ### Belgic Confession (Schaff vol. 3, English)
 
@@ -129,11 +130,11 @@ They are unsigned. They are attached to no source, no Position and no question, 
 | J-b, Gill | yes (from eternity, Christ's resurrection, in the conscience) | **Held** (pp. 205, 208, 209). |
 | J-b, Owen | yes (upon believing) | **Held on answering; the content is part missed.** Owen distinguishes essence from manifestation, initial and at the judgment (p. 192). "Upon believing" is not said in those words. It follows from pp. 153-154: a true believer cannot be unjustified. |
 | J-b, Witsius | yes (at least three moments) | **Held.** Seven articles, none from eternity. |
-| J-b, LC and Heidelberg | no | **Held.** Heidelberg Q. 59 is noted above. |
+| J-b, LC and Heidelberg | no | **Held.** Heidelberg Q. 59 is in "bears on" (ruled "does not say", report 32). |
 | J-b, Belgic | no | **Missed.** Art. XXIII: Christ's obedience "becomes ours when we believe in him" (p. 409). |
 | J-c, LC, Gill and Owen | yes (condition; denies; qualified) | **Held.** |
 | J-c, WCF, LBC and Belgic | no | **Held.** |
-| J-c, Heidelberg | no | **Held.** The "if only" clause of Q. 60 is noted above. |
+| J-c, Heidelberg | no | **Held.** The "if only" clause of Q. 60 is in "bears on" (ruled "does not say", report 32). |
 | J-c, Witsius | no | **Missed.** He discusses "condition" and rejects it as "properly so called" (§§XLIX-LII, pp. 549-552). |
 
 **Counts:**
@@ -158,21 +159,23 @@ They are unsigned. They are attached to no source, no Position and no question, 
 | P3.7: Belgic XXII calls faith an instrument | **Held** (p. 408, "only an instrument"). |
 | P3.8: 4 to 6 Positions | **Held:** 6. |
 
+**Recorded against the architect (ruling on report 32):** the claim that Witsius counts a moment "in God's decree". He counts none from eternity (see the notes on Witsius above).
+
 **Recorded, not resolved:**
 - Witsius gives the Dutch confession as "instead of an instrument" (p. 551). Schaff's English of Art. XXII prints "only an instrument" (p. 408). The two may stand for different texts of the confession. That is not checked here.
 
 ## Proposed Positions (worded only from the sources; nothing minted)
 
-Each label is the source's own words. The ids are working names for this file only.
+**As ruled on report 32.** J-P1 to J-P6 are candidates on three loci: J-a (what faith is in justification), J-b (when) and J-c (condition). Each label is one source's words from one place. Other sources stand as further sources, each with its own words on its own Argument. The ids are working names for this file only.
 
-| Id (working) | Label, in the source's words | Grounds (quotations above) | Notes |
-|---|---|---|---|
-| **J-P1** | Faith "is the alone instrument of Justification". | WCF 11.2; LBC 11.2; LC Q. 73 ("only as it is an Instrument"); Belgic XXII ("only an instrument"); Owen p. 153 | Answers J-a. |
-| **J-P2** | "Faith is not the cause, but an effect of justification"; "Faith is the evidence and manifestation of justification". | Gill II.5, pp. 203-204 | Answers J-a. Gill denies faith is "even the instrumental cause" (p. 204), so J-P1 and J-P2 are opposed in his own words. |
-| **J-P3** | Justification "is from eternity, being an immanent act in the divine mind". Its declarations at Christ's resurrection, in the conscience and at the judgment are "renewed declarations" of that sentence. | Gill II.5, pp. 205, 209 | Answers J-b. |
-| **J-P4** | God decreed "from all eternity" to justify the elect, but "they are not justified, untill the holy Spirit doth in due time, actually apply Christ unto them". | WCF 11.4; LBC 11.4 ("personally"); Witsius §LIX, p. 557; Belgic XXIII, p. 409 | Answers J-b. Where J-P3 and J-P4 differ is shown on the page: WCF 11.4 calls the eternal act a *decree* to justify, and Gill writes "his decree, or will to justify them, is the justification of them" (II.5, p. 207). |
-| **J-P5** | Faith is "the condition to interest them in him", in the sense that "it is the Duty on our part which God requireth, that we may be justified". | LC Q. 32; Owen p. 154 | Answers J-c. Owen allows the word and limits it (p. 154). The LC states it without comment. Whether those two sentences make one Position is for the architect. |
-| **J-P6** | Faith is not "a condition properly so called"; faith is not among "the terms of it ... as conditions of men's acceptance with God". | Witsius §LII, p. 552; Gill VI.8, p. 510 | Answers J-c. Witsius allows that some reformed said "sine qua non". Gill denies even that (II.5, p. 204). |
+| Id (working) | Locus | Label: one source's words, one place | Label source | Further sources (own words on own Argument) | Notes |
+|---|---|---|---|---|---|
+| **J-P1** | J-a | Faith "is the alone instrument of Justification". | WCF 11.2 | LBC 11.2; LC Q. 73 ("only as it is an Instrument"); Belgic XXII ("only an instrument"); Owen p. 153 | |
+| **J-P2** | J-a | "Faith is the evidence and manifestation of justification, and therefore justification must be before it" | Gill II.5, p. 204 | none | Gill denies faith is "even the instrumental cause" (p. 204), so J-P1 and J-P2 are opposed in his own words. That sentence goes on its own Argument. |
+| **J-P3** | J-b | "Justification, is not only before faith, but it is from eternity, being an immanent act in the divine mind, and so an internal and eternal one" | Gill II.5, p. 205 | none | The "renewed declarations" sentence (p. 209) goes on its own Argument. |
+| **J-P4** | J-b | "God did, from all eternity, decree to justifie all the elect, and Christ did, in the fulnesse of time, die for their sins, and rise again for their justification: nevertheless, they are not justified, untill the holy Spirit doth in due time, actually apply Christ unto them." | WCF 11.4 | LBC 11.4 ("personally"); Witsius §LIX, p. 557; Belgic XXIII, p. 409 | WCF 11.4 calls the eternal act a *decree* to justify. Gill writes "his decree, or will to justify them, is the justification of them" (II.5, p. 207). |
+| **J-P5** | J-c | Faith is required "as the condition to interest them in him". | LC Q. 32 | Owen p. 154 | As ruled: one Position, labelled with LC Q. 32's words alone. Owen's limit ("For no more may be intended thereby, but that it is the Duty on our part which God requireth, that we may be justified.") is quoted on his own Argument. |
+| **J-P6** | J-c | "yet they were far from being of opinion, that faith is a condition properly so called, on performing which, man should, according to the gracious covenant of God, have a right to justification as to a reward." | Witsius §LII, p. 552 | Gill VI.8, p. 510 ("Nor are faith, repentance, and new obedience, the terms of it, ... as conditions of men's acceptance with God") | Witsius allows that some reformed said "sine qua non". Gill denies even that (II.5, p. 204). |
 
 **What is not proposed:**
 - No Position for the Witsius "articles" taken as a whole. Their content falls under J-P4, with the general articles beside it.
@@ -181,8 +184,6 @@ Each label is the source's own words. The ids are working names for this file on
 
 ## What waits
 
-- **On the architect:**
-  - Accept, reject or reword J-P1 to J-P6.
-  - Rule on the J-P5 question: does the LC sentence stand with Owen's, or alone?
-  - Rule on the two borderline Heidelberg cells: Q. 59 for J-b, and the "if only" of Q. 60 for J-c.
+- **Ruled (report 32):** J-P1 to J-P6 are candidates. J-P5 is one Position on LC Q. 32's words. The Heidelberg cells do not say.
+- **On the architect:** nothing further from this item.
 - **On Chris:** nothing new from this item. LBC 11.4 "personally" is to be checked on the 1677 photographs when that sitting closes.

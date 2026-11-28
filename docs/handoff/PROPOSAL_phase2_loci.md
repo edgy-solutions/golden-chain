@@ -56,7 +56,10 @@ gospel to be offered to all?
 |---|---|---|
 | 2a. Faith is the duty of all who hear; the gospel is offered to all | Fuller, *Gospel Worthy of All Acceptation*, 1785 ([fuller.md](../sources/phase2/fuller.md)); Dort II.5–6, III/IV.8–9 ([dort.md](../sources/phase2/dort.md)) | Fuller: no contents read [U]; Dort [U] |
 | 2b. Saving faith is not the duty of the unregenerate; no offers | Gospel Standard Arts. 26, 29, 33, 34 (adjacent 24, 25, 27, 28) ([gospel-standard.md](../sources/phase2/gospel-standard.md)) | headings from a later printing [R] |
-| 2c. A general call is preached to all, but without an offer of grace | none located | — |
+| 2c (G-P4a, on whether it is an offer). "THESE words are no call, invitation, or offer of grace to dead sinners, since they are spoken to such who were thirsty; ..." | Gill, *The Cause of God and Truth*, Part I, Numb. XV, p. 91 ([RESEARCH_gospel_call_2026-11-26.md](RESEARCH_gospel_call_2026-11-26.md)) | read on the page image [V]; not signed |
+| 2c (G-P4b, on publishing to all). Christ "published the things concerning his person, office and grace, indefinitely to them all, that he might gain some". **Said of Christ's own preaching to Israel.** | Gill, *The Cause of God and Truth*, Part I, Numb. XXIX, pp. 156-157 (same file) | read on the page image [V]; not signed |
+
+**Row 2c (ruling on report 32):** the earlier paraphrase, "A general call is preached to all, but without an offer of grace", joined answers to two questions. It is replaced by Gill's own words in the two rows above, one per question.
 
 **A split the architect may want:** duty-faith and the free offer can be held
 apart. That gives two Loci, or one Locus with four Positions.
@@ -79,7 +82,8 @@ apart. That gives two Loci, or one Locus with four Positions.
 |---|---|---|
 | 4a. Three marks: preaching of the word, the sacraments, discipline | Belgic Art. 29, pp. 419–421; Scots Confession ch. 18 | Belgic heading [V]; **Scots not yet reviewed** |
 | 4b. Churches are more or less pure; the marks are a matter of degree | WCF 25.4–5 | [V] (phase 1) |
-| 4c. A church is known by its constitution (3a) and its ordinances rightly administered | LBC 26 (paragraphs to be found) | [U] |
+
+**Row 4c is dropped** (ruling on report 32). It read "A church is known by its constitution (3a) and its ordinances rightly administered". No source names marks for it, and reading LBC 26.6-26.8 as marks would be our judgment.
 
 **Note:** the order names the Scots Confession (1560), but it had no item-4
 review. It is listed as a gap in report 19.
@@ -164,6 +168,15 @@ They may share sources.
 - **No wording is proposed for the Positions.** The two paragraphs are worded differently where they say how doctrine is drawn from Scripture. Whether that makes one Position or two is a reading of the sources, so it is for Chris to sign and the architect to rule. No transcription is stored (the LBC rule), and no model wording is offered for it (rule 3).
 - **The 1677 page** needs Chris's photograph of the facsimile, or a console row, before LBC 1.6 can be cited. The 1719 locator serves only to locate it.
 - **The folio "[6]"** on WCF leaf 14 is how the scan reads at the build agent's resolution. Chris should check it from the pixels before it is used as a locator.
+
+## 11. The laying on of hands at ordination (locus candidate; ruling on report 32)
+
+**Recorded only. Not developed now.** No question is worded and no Position is proposed. The two places that raised it, from [RESEARCH_church_2026-11-26.md](RESEARCH_church_2026-11-26.md):
+
+| Source | Where | Tag |
+|---|---|---|
+| LBC 26.9 | 1719 printing (marked), p. 109: officers set apart "with Imposition of Hands of the Eldership of the Church, if there be any before Constituted therein:" | read on the page image [V]; 1677 not yet checked |
+| Gill, *Body*, Practical II.3 | p. 868: "3. No instance can be given of hands being laid on any ordinary minister, pastor or elder, at his ordination;" | read on the page image [V]; not signed |
 
 ## Next steps on ratification
 

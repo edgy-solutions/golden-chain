@@ -1,5 +1,6 @@
 # Research: the gospel call (two-day order, Day 1, item 2)
 
+- **Amended by the ruling on report 32** ([RULING_report_32.md](RULING_report_32.md)): the G-c cells, the scoring notes marked "Ruled", the Positions and What waits.
 - **From:** the build agent, 2026-11-26.
 - **On:** [RULING_report_31.md](RULING_report_31.md), the two-day order, item 2. It follows the form of item 1 ([RESEARCH_justification_2026-11-26.md](RESEARCH_justification_2026-11-26.md)) and covers the rows already in the phase-2 table: [locus-table-gospel-call.md](../sources/phase2/locus-table-gospel-call.md), the first five rows, and [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §2 (2a, 2b, 2c).
 - **Lock:** [LOCK_gospel_call_research_2026-11-26.md](LOCK_gospel_call_research_2026-11-26.md) (`3943e34`). It was committed before any page for this item was viewed.
@@ -12,11 +13,11 @@
     - WCF 7.3 and LBC 7.2 say God "freely offereth unto sinners". Dort III/IV.9 speaks of "Christ offered by the gospel".
     - Gill denies that the invitations are an "offer of grace to dead sinners".
     - Fuller does not use the word "offer" in the pages read. He speaks of "an embassy of peace" and "a proposal of peace".
-  - **G-c (duty-faith).** Only Fuller answers plainly. Four cells are **borderline** and go to the architect: Gill, WCF 7.3, LBC 7.2 and Dort II.5.
+  - **G-c (duty-faith).** Only Fuller answers. The four borderline cells (Gill, WCF 7.3, LBC 7.2, Dort II.5) were ruled "does not say" and are kept in a "bears on" column.
   - **G-d (unbelief a sin).** Gill calls it "criminal and blameworthy", Fuller "a heinous sin", and Dort "their own fault".
   - **G-e (what to exhort).** Fuller exhorts the unconverted to faith. Gill gives the exhortations a convicting use and makes them a call to "an outward reformation of life". Dort pairs the promise with "the command to repent and believe".
-  - **The lock:** no P2 cell is a clear miss, but four G-c cells are put to the architect. P3 held, with notes on P3.6 and P3.7.
-  - **Seven Positions are proposed.** Row 2c gets a Gill source. Row 2b gets nothing new, because the GS articles it rests on are in an open sitting.
+  - **The lock:** as ruled (report 32), one P2 miss: Gill G-c, predicted yes. The WCF, LBC and Dort G-c cells held. P3 held, with notes on P3.6 and P3.7.
+  - **Eight Positions after the ruling** (G-P4 split into G-P4a and G-P4b). Row 2c gets its Gill quotations. Row 2b gets nothing new, because the GS articles it rests on are in an open sitting.
 
 ## Who read what
 
@@ -95,33 +96,33 @@
 
 ### WCF 1647, 7.3 and ch. X
 
-| | |
-|---|---|
-| **G-a** | "Others, not elected, although they may be called by the Ministry of the Word, and may have some common operations of the Spirit, yet they never truely come unto Christ, and therefore cannot be saved" (10.4, pp. 21-22). It does not say "to all". |
-| **G-b** | "Wherein he freely offereth unto sinners Life and Salvation by Jesus Christ, requiring of them Faith in Him that they may be saved, and promising to give unto all those that are ordained unto Life, his holy Spirit, to make them willing, and able to beleeve." (7.3, pp. 13-14). Also: "he is thereby inabled to answer this Call and to imbrace the grace offered, and conveyed in it." (10.2, p. 21). |
-| **G-c** | **Borderline.** 7.3, quoted under G-b, has "requiring of them Faith in Him" of the "sinners" to whom life is offered. It does not say "duty" or "unregenerate". |
-| **G-d** | Does not say in the sections read. 10.4 says the others "never truely come unto Christ", but does not call it a sin. |
-| **G-e** | Does not say in the sections read. |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **G-a** | "Others, not elected, although they may be called by the Ministry of the Word, and may have some common operations of the Spirit, yet they never truely come unto Christ, and therefore cannot be saved" (10.4, pp. 21-22). It does not say "to all". | |
+| **G-b** | "Wherein he freely offereth unto sinners Life and Salvation by Jesus Christ, requiring of them Faith in Him that they may be saved, and promising to give unto all those that are ordained unto Life, his holy Spirit, to make them willing, and able to beleeve." (7.3, pp. 13-14). Also: "he is thereby inabled to answer this Call and to imbrace the grace offered, and conveyed in it." (10.2, p. 21). | |
+| **G-c** | Does not say in its own words (ruled, report 32). | 7.3, quoted under G-b: "requiring of them Faith in Him", of the "sinners" to whom life is offered. |
+| **G-d** | Does not say in the sections read. 10.4 says the others "never truely come unto Christ", but does not call it a sin. | |
+| **G-e** | Does not say in the sections read. | |
 
 ### LBC, 1719 printing (marked), 7.2 and ch. X
 
-| | |
-|---|---|
-| **G-a** | "Others not elected, although they may be called by the Ministry of the Word, and may have some common operations of the Spirit, yet not being effectually drawn by the Father, they neither will, nor can truly come to Christ; and therefore cannot be saved" (10.4, p. 61). It does not say "to all". |
-| **G-b** | "wherein he freely offereth unto Sinners, Life and Salvation by Jesus Christ, requiring of them Faith in him, that they may be saved" (7.2, p. 49). Also: "until being quickned and renewed by the Holy Spirit, he is thereby enabled to answer this Call, and to embrace the Grace offered and conveyed in it" (10.2, p. 60). |
-| **G-c** | **Borderline**, as WCF 7.3: "requiring of them Faith in him" (7.2, p. 49). |
-| **G-d** | Does not say in the sections read. 10.4 has "they neither will, nor can truly come", and does not call it a sin. |
-| **G-e** | Does not say in the sections read. |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **G-a** | "Others not elected, although they may be called by the Ministry of the Word, and may have some common operations of the Spirit, yet not being effectually drawn by the Father, they neither will, nor can truly come to Christ; and therefore cannot be saved" (10.4, p. 61). It does not say "to all". | |
+| **G-b** | "wherein he freely offereth unto Sinners, Life and Salvation by Jesus Christ, requiring of them Faith in him, that they may be saved" (7.2, p. 49). Also: "until being quickned and renewed by the Holy Spirit, he is thereby enabled to answer this Call, and to embrace the Grace offered and conveyed in it" (10.2, p. 60). | |
+| **G-c** | Does not say in its own words (ruled, report 32). | "requiring of them Faith in him" (7.2, p. 49). |
+| **G-d** | Does not say in the sections read. 10.4 has "they neither will, nor can truly come", and does not call it a sin. | |
+| **G-e** | Does not say in the sections read. | |
 
 ### Gill, *The Cause of God and Truth*, Part I (1735)
 
-| | |
-|---|---|
-| **G-a** | "...he is here to be considered as a preacher, a minister of the circumcision, sent to the lost sheep of the house of Israel, for whose welfare he had a compassionate regard and concern; and therefore published the things concerning his person, office and grace, indefinitely to them all, that he might gain some, not knowing as man, though he did as God, who were chosen, and who were not;" (Numb. XXIX, pp. 156-157). |
-| **G-b** | "THESE words are no call, invitation, or offer of grace to dead sinners, since they are spoken to such who were thirsty; ..." (Numb. XV, p. 91). And of exhortations: "were they made to all men, they should be consider'd only as declarations of what God approves of, commands and requires, and not what he wills and determines shall be;" (Numb. XXXII, p. 166). |
-| **G-c** | **Borderline.** "Besides, exhortations to any thing, be it what it will, do not necessarily imply that man has a power to comply with them. Men are required to believe in Christ, ... but it does not follow, that they are able of themselves to do all these things." (Numb. XXXII, p. 165). Beside it: "as all men are indeed bound, by the law of nature, to a natural repentance, though all men are not called by the gospel to an evangelical one;" (p. 169). Neither says in its own words whether *saving* faith is the duty of the *unregenerate*. |
-| **G-d** | "Though man lies under such a disability, and has neither power nor will of himself to come to Christ for life; yet his not coming to Christ, when revealed in the external ministry of the gospel, as God's way of salvation, is criminal and blameworthy; since the disability and perverseness of his will are not owing to any decree of God, but to the corruption and viciosity of his nature, through sin;" (Numb. XXX, pp. 159-160). |
-| **G-e** | See the quotations listed after this table. |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **G-a** | "...he is here to be considered as a preacher, a minister of the circumcision, sent to the lost sheep of the house of Israel, for whose welfare he had a compassionate regard and concern; and therefore published the things concerning his person, office and grace, indefinitely to them all, that he might gain some, not knowing as man, though he did as God, who were chosen, and who were not;" (Numb. XXIX, pp. 156-157). | |
+| **G-b** | "THESE words are no call, invitation, or offer of grace to dead sinners, since they are spoken to such who were thirsty; ..." (Numb. XV, p. 91). And of exhortations: "were they made to all men, they should be consider'd only as declarations of what God approves of, commands and requires, and not what he wills and determines shall be;" (Numb. XXXII, p. 166). | |
+| **G-c** | Does not say in its own words (ruled, report 32). | "Besides, exhortations to any thing, be it what it will, do not necessarily imply that man has a power to comply with them. Men are required to believe in Christ, ... but it does not follow, that they are able of themselves to do all these things." (Numb. XXXII, p. 165). And: "as all men are indeed bound, by the law of nature, to a natural repentance, though all men are not called by the gospel to an evangelical one;" (p. 169). |
+| **G-d** | "Though man lies under such a disability, and has neither power nor will of himself to come to Christ for life; yet his not coming to Christ, when revealed in the external ministry of the gospel, as God's way of salvation, is criminal and blameworthy; since the disability and perverseness of his will are not owing to any decree of God, but to the corruption and viciosity of his nature, through sin;" (Numb. XXX, pp. 159-160). | |
+| **G-e** | See the quotations listed after this table. | |
 
 **Gill, G-e:**
 
@@ -134,7 +135,7 @@
 | Locator | Bears on | Quotation |
 |---|---|---|
 | Numb. XI, p. 72 | G-e | "...to what purpose are such exhortations? I answer; To convince men of their pollution, and that they stand in need of being washed and cleansed, of which they are naturally ignorant:" |
-| Numb. XXI, p. 118 | G-c | "his precepts shew what man ought to do, not what he can do" |
+| Numb. XXI, p. 118 | bears on G-c | "his precepts shew what man ought to do, not what he can do" |
 | Numb. XXI, p. 118 | G-e | "Such an exhortation as this ... may be designed to convince men of their want of one, and of the importance of it, that without it is no salvation; and so be the means, through the efficacious grace of God, of his elect enjoying this blessing" |
 | Numb. XXXII, p. 164 | G-e | "Evangelical repentance is not in the power of a natural man, but is the gift of God's free grace. Legal repentance may be performed by particular persons, who are destitute of the grace of God, and by all the inhabitants of a place, as the Ninevites, who repented externally at the preaching of Jonah" |
 | Numb. XXV, p. 136 | G-e | The gathering is "to him externally, by and under the ministry of the word, to hear him preach, so as that they might be brought to a conviction of, and an assent unto him, as the Messiah; which, though it might have fallen short of saving faith in him, would have been sufficient to have preserved them from temporal ruin" |
@@ -157,13 +158,13 @@
 
 ### Canons of Dort (Scott, 1831)
 
-| | |
-|---|---|
-| **G-a** | "Which promise ought to be announced and proposed, promiscuously and indiscriminately, to all nations and men, to whom God in his good pleasure hath sent the gospel, with the command to repent and believe." (II.5, pp. 99-100). |
-| **G-b** | "But as many as are invited by the gospel, are invited sincerely (or in earnest, serio.) For sincerely and most truly God shews in his word, what is pleasing to him; namely, that they who are called should come to him. And he sincerely promises to all who come to him, and believe, the peace of their souls and eternal life." (III/IV.8, p. 107). And: "the fault of this is not in the gospel, nor in Christ offered by the gospel, nor in God inviting by the gospel, and conferring various gifts on them; but in the persons themselves who are invited" (III/IV.9, p. 107). Of faith itself: "not in that it is offered to the will of man by God, but that the thing itself is conferred on him, inspired, infused into him." (III/IV.14, p. 109). |
-| **G-c** | **Borderline.** II.5, quoted under G-a, publishes the promise "with the command to repent and believe" to all to whom the gospel is sent. III/IV.8 says God "shews in his word, what is pleasing to him; namely, that they who are called should come to him". Neither says "duty" or "unregenerate". |
-| **G-d** | "But because many who are called by the gospel do not repent, nor believe in Christ, but perish in unbelief; this doth not arise from defect or insufficiency of the sacrifice offered by Christ upon the cross, but from their own fault." (II.6, p. 100). |
-| **G-e** | II.5, quoted under G-a: the promise is to be published "with the command to repent and believe". And: "For grace is conferred through admonitions, and the more promptly we do our duty, the more illustrious the benefit of God, who worketh in us, is wont to be, and the most rightly doth his work proceed." (III/IV.17, p. 110). |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **G-a** | "Which promise ought to be announced and proposed, promiscuously and indiscriminately, to all nations and men, to whom God in his good pleasure hath sent the gospel, with the command to repent and believe." (II.5, pp. 99-100). | |
+| **G-b** | "But as many as are invited by the gospel, are invited sincerely (or in earnest, serio.) For sincerely and most truly God shews in his word, what is pleasing to him; namely, that they who are called should come to him. And he sincerely promises to all who come to him, and believe, the peace of their souls and eternal life." (III/IV.8, p. 107). And: "the fault of this is not in the gospel, nor in Christ offered by the gospel, nor in God inviting by the gospel, and conferring various gifts on them; but in the persons themselves who are invited" (III/IV.9, p. 107). Of faith itself: "not in that it is offered to the will of man by God, but that the thing itself is conferred on him, inspired, infused into him." (III/IV.14, p. 109). | |
+| **G-c** | Does not say in its own words (ruled, report 32). | II.5, quoted under G-a: the promise is published "with the command to repent and believe". III/IV.8: God "shews in his word, what is pleasing to him; namely, that they who are called should come to him". |
+| **G-d** | "But because many who are called by the gospel do not repent, nor believe in Christ, but perish in unbelief; this doth not arise from defect or insufficiency of the sacrifice offered by Christ upon the cross, but from their own fault." (II.6, p. 100). | |
+| **G-e** | II.5, quoted under G-a: the promise is to be published "with the command to repent and believe". And: "For grace is conferred through admonitions, and the more promptly we do our duty, the more illustrious the benefit of God, who worketh in us, is wont to be, and the most rightly doth his work proceed." (III/IV.17, p. 110). | |
 
 - **The Rejections** of Heads II and III/IV say none of G-a to G-e in their own words.
   - III/IV R.7 (p. 114) rejects "gentle suasion". That bears on regeneration, not on the call.
@@ -194,9 +195,9 @@
 | G-b, Fuller | yes | **Held on answering, with a note.** The sense is answered ("proposal of peace", p. 162; "embassy of peace", p. 58). The word "offer" is not in the pages read. |
 | G-b, GS75 | no (not read) | **Held.** Arts. 28-29 are in the open sitting. |
 | G-c, Fuller | yes | **Held** (p. 37). |
-| G-c, Gill | yes | **Borderline: put to the architect.** p. 165 has "Men are required to believe in Christ". p. 169 has "all men are not called by the gospel to an evangelical [repentance]". Neither says in its own words whether saving faith is the duty of the unregenerate. If it is ruled "does not say", this cell is a miss. |
-| G-c, WCF and LBC | no | **Borderline: put to the architect.** 7.3 and 7.2 have "requiring of them Faith in Him". If that is ruled an answer, these two cells are misses. |
-| G-c, Dort | no | **Borderline: put to the architect.** II.5 has "with the command to repent and believe", to all to whom the gospel is sent. If that is ruled an answer, this cell is a miss. |
+| G-c, Gill | yes | **Borderline: put to the architect.** p. 165 has "Men are required to believe in Christ". p. 169 has "all men are not called by the gospel to an evangelical [repentance]". Neither says in its own words whether saving faith is the duty of the unregenerate. If it is ruled "does not say", this cell is a miss. **Ruled "does not say" (report 32): missed.** |
+| G-c, WCF and LBC | no | **Borderline: put to the architect.** 7.3 and 7.2 have "requiring of them Faith in Him". If that is ruled an answer, these two cells are misses. **Ruled "does not say" (report 32): held.** |
+| G-c, Dort | no | **Borderline: put to the architect.** II.5 has "with the command to repent and believe", to all to whom the gospel is sent. If that is ruled an answer, this cell is a miss. **Ruled "does not say" (report 32): held.** |
 | G-c, GS75 | no | **Held** for Arts. X-XIII. Art. 26 is not read. |
 | G-d, Gill, Fuller, Dort | yes | **Held** (pp. 159-160; p. 65; II.6). |
 | G-d, WCF, LBC, GS75 | no | **Held.** |
@@ -210,7 +211,7 @@
 |---|---|---|
 | G-a | 5 | **5**, held |
 | G-b | 5 | **5**, held (Fuller without the word "offer") |
-| G-c | 2 | **1 certain** (Fuller) and **4 borderline** (Gill, WCF, LBC, Dort). The ruling decides between 1 and 5. |
+| G-c | 2 | **1 certain** (Fuller) and **4 borderline** (Gill, WCF, LBC, Dort). The ruling decides between 1 and 5. **Ruled (report 32): 1, so G-c is missed by one** (Gill predicted, not found). |
 | G-d | 3 | **3**, held |
 | G-e | 3 | **3**, held |
 
@@ -225,35 +226,32 @@
 | P3.4: Fuller has a Part of propositions or arguments and a separate Part answering objections | **Held.** Part II "Containing Arguments" (p. 37) sets out numbered Propositions (I, III, IV and V read). The objections are in Part III (Obj. III at p. 132). |
 | P3.5: Gill treats the invitations in Part I, section by section, and uses "offer" only to qualify or deny it | **Held in the sections read.** He treats them by Numbers on the passages, and "offer" appears only in denial (pp. 91, 92). Nine of the sixty Numbers were read. |
 | P3.6: no GS75 cell answered by Arts. 10-13 and 23 | **Held for Arts. 10-13.** Only the first line of Art. 23 could be read: the rest is on p. 15, in the open sitting. |
-| P3.7: row 2c gets a Gill CGT source | **Held, with a note.** Row 2c reads "a general call is preached to all, but without an offer of grace". Gill gives the two halves in two places: "published ... indefinitely to them all" (p. 157), and "no call, invitation, or offer of grace to dead sinners" (p. 91). Whether the row's wording fits him is for the architect (G-P4). |
+| P3.7: row 2c gets a Gill CGT source | **Held, with a note.** Row 2c reads "a general call is preached to all, but without an offer of grace". Gill gives the two halves in two places: "published ... indefinitely to them all" (p. 157), and "no call, invitation, or offer of grace to dead sinners" (p. 91). Whether the row's wording fits him is for the architect (G-P4). **Ruled (report 32):** G-P4 is split; row 2c's paraphrase is replaced by the two quotations. |
 | P3.8: 4 to 7 Positions | **Held:** 7. |
 
 ## Proposed Positions (worded only from the sources; nothing minted)
 
-Each label is the source's own words. The ids are working names for this file only.
+**As ruled on report 32.** G-P1, G-P2, G-P3, G-P6 and G-P7 are candidates. G-P4 is split in two. G-P5 is one Position on G-d. Each label is one source's words from one place, and each Position answers one question. Other sources stand as further sources, each with its own words on its own Argument. The ids are working names for this file only.
 
-| Id (working) | Label, in the source's words | Grounds (quotations above) | Row | Notes |
-|---|---|---|---|---|
-| **G-P1** | The promise "ought to be announced and proposed, promiscuously and indiscriminately, to all nations and men, to whom God in his good pleasure hath sent the gospel, with the command to repent and believe." | Dort II.5; Fuller pp. 164, 166 | 2a | Answers G-a. Dort's clause also bears on G-c and G-e (borderline above). |
-| **G-P2** | "Faith in Christ the incumbent Duty of Men in general under the Sound of the Gospel." | Fuller, Part II title and Prop. I, p. 37; p. 163 ("every man hath a warrant") | 2a | Answers G-c. Whether WCF 7.3, LBC 7.2 and Dort II.5 also ground it depends on the borderline ruling. |
-| **G-P3** | God "freely offereth unto sinners Life and Salvation by Jesus Christ, requiring of them Faith in Him that they may be saved"; "as many as are invited by the gospel, are invited sincerely". | WCF 7.3; LBC 7.2; Dort III/IV.8-9 | 2a | Answers G-b. Fuller's "proposal of peace" (p. 162) is near this but does not use the word "offer". Whether he is listed here is for the architect. |
-| **G-P4** | The invitations are "no call, invitation, or offer of grace to dead sinners"; yet the things of Christ were "published ... indefinitely to them all, that he might gain some". | Gill pp. 91, 156-157; p. 166 ("declarations of what God approves of, commands and requires") | **2c** | Answers G-b and G-a. This is the first source for row 2c, assembled from two Numbers. |
-| **G-P5** | Not coming to Christ, "when revealed in the external ministry of the gospel", is "criminal and blameworthy"; "The want of faith in Christ ... is itself ... a heinous sin." | Gill pp. 159-160; Fuller p. 65; Dort II.6 ("their own fault") | 2a, 2c | Answers G-d. Gill grounds the blame in "the corruption and viciosity of his nature". Fuller grounds it in duty: "whatever is not a sinner's duty, the omission of it cannot be charged on him as a crime" (p. 65). Whether that difference makes two Positions is for the architect. |
-| **G-P6** | "calls, warnings, invitations, expostulations, threatenings, and exhortations, even to the unregenerate, are perfectly consistent"; the preacher is to "exhort them to cast their souls at his feet for mercy". | Fuller pp. 163-164, 167 | 2a | Answers G-e. |
-| **G-P7** | Such exhortations are "To convince men of their pollution" and "to lead persons to enquire after the proper means of cleansing"; the conversion pressed is "an outward reformation of life"; "Legal repentance may be performed by ... persons, who are destitute of the grace of God". | Gill pp. 72-73, 118, 164-165, 169-170 | 2c | Answers G-e. Gill also says that several exhortations often cited were "not made to unconverted sinners" (p. 211; p. 329). |
+| Id (working) | Answers | Label: one source's words, one place | Label source | Further sources (own words on own Argument) | Row | Notes |
+|---|---|---|---|---|---|---|
+| **G-P1** | G-a | The promise "ought to be announced and proposed, promiscuously and indiscriminately, to all nations and men, to whom God in his good pleasure hath sent the gospel, with the command to repent and believe." | Dort II.5 | Fuller pp. 164, 166 | 2a | As ruled, the clause "with the command to repent and believe" says nothing on G-c. It is in "bears on G-c". |
+| **G-P2** | G-c | "Faith in Christ the incumbent Duty of Men in general under the Sound of the Gospel." | Fuller, Part II title, p. 37 | none: G-c is answered by Fuller alone until the GS articles are read (ruled) | 2a | Fuller p. 163 ("every man hath a warrant") goes on its own Argument. |
+| **G-P3** | G-b | God "freely offereth unto sinners Life and Salvation by Jesus Christ, requiring of them Faith in Him that they may be saved". | WCF 7.3 | LBC 7.2; Dort III/IV.8-9 ("invited sincerely"; "Christ offered by the gospel") | 2a | As ruled, Fuller does not stand under G-P3 on the pages read. A search of the 1785 text for "offer" is reported separately. Unless it finds one, his "proposal of peace" (p. 162) stands as his own wording. |
+| **G-P4a** | G-b | "THESE words are no call, invitation, or offer of grace to dead sinners, since they are spoken to such who were thirsty; ..." | Gill, Numb. XV, p. 91 | Gill, Numb. XXXII, p. 166 ("declarations of what God approves of, commands and requires"), on its own Argument | 2c | Split from G-P4, as ruled. |
+| **G-P4b** | G-a | Christ "published the things concerning his person, office and grace, indefinitely to them all, that he might gain some". | Gill, Numb. XXIX, pp. 156-157 | none | 2c | Split from G-P4, as ruled. **Said of Christ's own preaching to Israel:** "he is here to be considered as a preacher, a minister of the circumcision, sent to the lost sheep of the house of Israel". |
+| **G-P5** | G-d | "The want of faith in Christ is ascribed in the scriptures to men's depravity, and is itself there represented as a heinous sin." | Fuller, Prop. IV, p. 65 | Gill, Numb. XXX, pp. 159-160 ("criminal and blameworthy"); Dort II.6 ("their own fault") | 2a, 2c | One Position, as ruled. Each source's ground is recorded on its own Argument: Gill, "the corruption and viciosity of his nature"; Fuller, duty ("whatever is not a sinner's duty, the omission of it cannot be charged on him as a crime", p. 65). **The choice of Fuller for the label is the build agent's.** The architect may name another source. |
+| **G-P6** | G-e | "Then calls, warnings, invitations, expostulations, threatenings, and exhortations, even to the unregenerate, are perfectly consistent." | Fuller, Inference 5, pp. 163-164 | none | 2a | Fuller p. 164 ("exhort them to cast their souls at his feet for mercy") and his other G-e quotations above go on their own Arguments. |
+| **G-P7** | G-e | "Likewise the conversion here pressed unto, is not an internal conversion of the soul to God, which is the work of almighty power; but an outward reformation of life, or a bringing forth fruit in conversation, meet for the repentance insisted on." | Gill, Numb. XXXII, p. 165 | none | 2c | Gill pp. 72-73, 118, 164 and 169-170 go on their own Arguments. Gill also says that several exhortations often cited were "not made to unconverted sinners" (p. 211; p. 329). |
 
 **What is not proposed:**
 - **Nothing for row 2b** ("Saving faith is not the duty of the unregenerate; no offers").
   - Its source is GS Arts. 26, 29, 33 and 34. Arts. 26 and 29 are in the open sitting, and 33-34 have no witness.
-  - Gill's p. 169 clause, "all men are not called by the gospel to an evangelical one", is on repentance. It is noted for that row but not proposed under it.
+  - Gill's p. 169 clause is in "bears on G-c". It is not proposed under row 2b.
 - No edges are drawn, and no Argument or Holding is cut. Those follow a ruling.
 
 ## What waits
 
-- **On the architect:**
-  - Accept, reject or reword G-P1 to G-P7.
-  - Rule on the four borderline G-c cells: Gill pp. 165 and 169; WCF 7.3 and LBC 7.2, "requiring of them Faith"; and Dort II.5, "with the command to repent and believe".
-  - Rule whether Fuller stands under G-P3 without the word "offer".
-  - Rule whether G-P5 is one Position or two.
-  - Rule whether row 2c's wording fits Gill (G-P4).
+- **Ruled (report 32):** the four G-c cells do not say. G-P4 is split. G-P5 is one Position. G-P1, G-P2, G-P3, G-P6 and G-P7 are candidates. In [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md), row 2c's paraphrase is replaced by the G-P4a and G-P4b quotations.
+- **On the architect:** the label source for G-P5 (Fuller is proposed). The two searches the ruling asked for (a Gill lead on duty-faith; "offer" elsewhere in Fuller 1785) are reported in their own file.
 - **On Chris:** the signature of the statements sitting `f3f1af17d9075ba5`. Until it is signed, GS75 p. 15 cannot be read. That page holds the rest of Art. XXIII and Arts. XXIV-XXIX: the articles the order names for this item, and the source of row 2b.

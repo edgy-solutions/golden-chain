@@ -1,5 +1,6 @@
 # Research: the church (two-day order, Day 1, item 3)
 
+- **Amended by the ruling on report 32** ([RULING_report_32.md](RULING_report_32.md)): the Scots cells, the scoring notes marked "Ruled", the Positions, row 4c, the laying-on-of-hands locus candidate and What waits.
 - **From:** the build agent, 2026-11-26.
 - **On:** [RULING_report_31.md](RULING_report_31.md), the two-day order, item 3. It follows the form of items 1 and 2 ([RESEARCH_gospel_call_2026-11-26.md](RESEARCH_gospel_call_2026-11-26.md)) and covers the rows already in the phase-2 table: [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md) §3 (3a, 3b, 3c) and §4 (4a, 4b, 4c).
 - **Lock:** [LOCK_church_research_2026-11-26.md](LOCK_church_research_2026-11-26.md) (`d7d772c`). It was committed before any page for this item was viewed.
@@ -13,7 +14,7 @@
     - LBC 26.2 and 26.6: "visible Saints" who "willingly consent to walk together". There is no clause on children.
     - Belgic XXVII: "a holy congregation and assembly of true Christian believers".
     - Gill: "regenerate persons", baptized "upon a profession of their faith", and "Not their infants with them". The church's form "lies in mutual consent".
-    - Scots XVI speaks only of the invisible Kirk. XVIII is **borderline** and goes to the architect.
+    - Scots: does not say (ruled, report 32). XVI speaks only of the invisible Kirk. XVIII p. 462 answers C-b, where the true Kirk is known.
   - **C-b (marks).**
     - Belgic XXIX and Scots XVIII each name three: preaching, the sacraments, discipline.
     - WCF 25.4 makes purity a matter of degree.
@@ -28,8 +29,8 @@
     - LBC 26.8: the officers, "for the peculiar Administration of Ordinances".
     - Gill: only an officer, and a pastor only in his own church. A private member may not be deputed, and deacons do not administer.
     - WCF and Scots do not say in the sections read.
-  - **The lock:** two misses (P3.1 on the wording; LBC C-d), and one borderline cell (Scots C-a). Everything else held.
-  - **Eight Positions are proposed**, five on rows 3a-4b and three on C-c and C-d, which have no rows yet. Nothing is proposed for row 4c.
+  - **The lock:** two misses (P3.1 on the wording; LBC C-d). The borderline Scots C-a cell was ruled "does not say", so it held. Everything else held.
+  - **Nine candidates after the ruling**: five on rows 3a-4b and four on C-c and C-d, which have no rows yet (C-P6 is split from a new Belgic candidate). Row 4c is dropped. The laying on of hands is recorded as a locus candidate of its own.
 
 ## Who read what
 
@@ -88,12 +89,12 @@
 
 ### Scots Confession (Schaff vol. 3), Arts. XVI and XVIII
 
-| | |
-|---|---|
-| **C-a** | **Borderline.** Art. XVI is of the invisible Kirk: "This Kirk is invisible, knawen onelie to God, quha alane knawis whome he hes chosen;" (p. 459). But XVIII says of particular kirks: "Wheresoever then thir former notes are seene, and of ony time continue (be the number never so fewe, ...), there, without all doubt, is the trew Kirk of Christ:" and "Not that universall, of quhilk we have before spoken, bot particular, sik as wes in Corinthus, Galatia, Ephesus, and uther places," (p. 462). |
-| **C-b** | "The notes therefore of the trew Kirk of God we beleeve, confesse, and avow to be, first, the trew preaching of the Worde of God," (p. 461); "Secundly, the right administration of the Sacraments of Christ Jesus," and "Last, Ecclesiastical discipline uprightlie ministred, as Goddis Worde prescribes, whereby vice is repressed, and vertew nurished." (p. 462). The notes are "nouther Antiquitie, Title usurpit, lineal Descence, Place appointed, nor multitude of men approving ane error." (p. 461). |
-| **C-c** | On who judges the doctrine: "The interpretation quhairof, we confesse, neither appertaines to private nor publick persone, nether zit to ony Kirk, for ony preheminence or prerogative, personallie or locallie, quhilk ane hes above ane uther, bot apperteines to the Spirite of God, be the quhilk also the Scripture was written." (p. 463). Also: "...although that Councels, Realmes, and Nations have approved and received the same." (pp. 463-464). |
-| **C-d** | Does not say in the sections read. XVIII names "the right administration of the Sacraments", but not who administers. |
+| | Answer | Bears on (claims nothing) |
+|---|---|---|
+| **C-a** | Does not say in its own words (ruled, report 32). | Art. XVI is of the invisible Kirk: "This Kirk is invisible, knawen onelie to God, quha alane knawis whome he hes chosen;" (p. 459). |
+| **C-b** | "The notes therefore of the trew Kirk of God we beleeve, confesse, and avow to be, first, the trew preaching of the Worde of God," (p. 461); "Secundly, the right administration of the Sacraments of Christ Jesus," and "Last, Ecclesiastical discipline uprightlie ministred, as Goddis Worde prescribes, whereby vice is repressed, and vertew nurished." (p. 462). The notes are "nouther Antiquitie, Title usurpit, lineal Descence, Place appointed, nor multitude of men approving ane error." (p. 461). Where the true Kirk is known (ruled to answer C-b, report 32): "Wheresoever then thir former notes are seene, and of ony time continue (be the number never so fewe, ...), there, without all doubt, is the trew Kirk of Christ:" and "Not that universall, of quhilk we have before spoken, bot particular, sik as wes in Corinthus, Galatia, Ephesus, and uther places," (p. 462). | |
+| **C-c** | On who judges the doctrine: "The interpretation quhairof, we confesse, neither appertaines to private nor publick persone, nether zit to ony Kirk, for ony preheminence or prerogative, personallie or locallie, quhilk ane hes above ane uther, bot apperteines to the Spirite of God, be the quhilk also the Scripture was written." (p. 463). Also: "...although that Councels, Realmes, and Nations have approved and received the same." (pp. 463-464). | |
+| **C-d** | Does not say in the sections read. XVIII names "the right administration of the Sacraments", but not who administers. | |
 
 ### Gill, *Body*, Practical Book II
 
@@ -145,7 +146,7 @@ Report 25's answers are cited, not re-read. Book II was read in full under this 
 | Cell | Predicted | Result |
 |---|---|---|
 | C-a, WCF, LBC, Belgic, Gill | yes | **Held** (25.2; 26.2, 26.6; XXVII-XXVIII; II.1 pp. 855-856). |
-| C-a, Scots | no (16 is the invisible Kirk) | **Borderline: put to the architect.** XVI is as predicted. But XVIII (p. 462) says the true Kirk is wherever the notes are seen, "be the number never so fewe", and that this means the particular kirk. If that is ruled an answer to C-a, this cell is a miss. |
+| C-a, Scots | no (16 is the invisible Kirk) | **Borderline: put to the architect.** XVI is as predicted. But XVIII (p. 462) says the true Kirk is wherever the notes are seen, "be the number never so fewe", and that this means the particular kirk. If that is ruled an answer to C-a, this cell is a miss. **Ruled (report 32): XVIII p. 462 answers C-b, not C-a; Scots C-a does not say. Held.** |
 | C-b, WCF, Belgic, Scots | yes | **Held** (25.4; XXIX; XVIII). |
 | C-b, LBC, Gill | no | **Held.** 26.3 and II.6 p. 891 are the nearest, and neither names marks. |
 | C-c, all five | yes | **Held** (30.1, 31.3; 26.7-26.15; XXX-XXXII; XVIII p. 463; II.1, II.3, II.6). |
@@ -157,7 +158,7 @@ Report 25's answers are cited, not re-read. Book II was read in full under this 
 
 | | Predicted | Found |
 |---|---|---|
-| C-a | 4 | **4 certain** and **1 borderline** (Scots). The ruling decides between 4 and 5. |
+| C-a | 4 | **4 certain** and **1 borderline** (Scots). The ruling decides between 4 and 5. **Ruled (report 32): 4, held.** |
 | C-b | 3 | **3**, held |
 | C-c | 5 | **5**, held |
 | C-d | 2 | **3**: a **miss** (LBC) |
@@ -179,34 +180,31 @@ Report 25's answers are cited, not re-read. Book II was read in full under this 
 
 ## Proposed Positions (worded only from the sources; nothing minted)
 
-Each label is the source's own words. The ids are working names for this file only.
+**As ruled on report 32.** C-P1 to C-P5, C-P7 and C-P8 are candidates. C-P6 is WCF's alone, and Belgic gets a separate candidate (C-P6b). Each label is one source's words from one place, and each Position answers one question. Other sources stand as further sources, each with its own words on its own Argument. The ids are working names for this file only.
 
-| Id (working) | Label, in the source's words | Grounds (quotations above) | Row | Notes |
-|---|---|---|---|---|
-| **C-P1** | Persons "professing the Faith of the Gospel ... are and may be called visible Saints; and of such ought all particular Congregations to be constituted", and they "willingly consent to walk together". | LBC 26.2, 26.6; Gill II.1 pp. 855-856 ("regenerate persons"; the form "lies in mutual consent") | **3a** | Answers C-a. Gill is a second source for 3a. Row 3a's Spilsbury source is still [U]. |
-| **C-P2** | The visible Church "consists of all those, throughout the World, that professe the true Religion; and of their Children". | WCF 25.2 | **3b** | Answers C-a. Gill p. 856, "Not their infants with them", is against it in his own words. |
-| **C-P3** | The Church is "a holy congregation and assembly of true Christian believers"; hypocrites are "not of the Church, though externally in it". | Belgic XXVII, XXIX | **3c** | Answers C-a. Scots XVIII (borderline) would join here if ruled an answer. |
-| **C-P4** | "The marks by which the true Church is known are these: If the pure doctrine of the gospel is preached therein; if she maintains the pure administration of the sacraments as instituted by Christ; if church discipline is exercised in punishing of sin;" | Belgic XXIX; Scots XVIII | **4a** | Answers C-b. Scots also names what the notes are not ("nouther Antiquitie, ... lineal Descence", p. 461). Row 4a's "Scots not yet reviewed" can now be cleared. |
-| **C-P5** | Particular churches "are more or lesse pure"; some "become no Churches of Christ, but Synogogues of Satan". | WCF 25.4-5 | **4b** | Answers C-b. LBC 26.3 has the second clause but not "more or lesse pure", so it is not listed as a ground. |
-| **C-P6** | Christ "hath therein appointed a Government, in the hand of Church Officers"; synods determine controversies "ministerially", and "may erre". | WCF 30.1, 31.3-4; Belgic XXX-XXXI (the council of the Church, chosen "by a lawful election") | new (C-c) | Answers C-c. Whether Belgic stands with WCF here, or apart, is for the architect. |
-| **C-P7** | To each church Christ "hath given all that Power and Authority, which is any way needful"; messengers "are not entrusted with any Church-power properly so called". | LBC 26.7, 26.15; Gill II.1 p. 858 ("congregational"), II.6 pp. 894-895 (the power "originally lies in the church") | new (C-c) | Answers C-c. Gill and LBC 26.9 differ on the laying on of hands (Gill p. 868). Whether that is a difference worth a Position is for the architect. |
-| **C-P8** | There "must be Ministers or Pastors to preach the Word of God, and to administer the Sacraments"; the Supper "cannot be administered authoritatively but by an officer". | Belgic XXX; LBC 26.8; Gill II.3 pp. 863, 874-876, II.5 p. 882; report 25 Q1-Q2 | new (C-d) | Answers C-d. LBC 26.11 and Gill p. 863 both let gifted brethren preach, but Gill says they do not administer the ordinances. LBC does not say that either way. |
+| Id (working) | Answers | Label: one source's words, one place | Label source | Further sources (own words on own Argument) | Row | Notes |
+|---|---|---|---|---|---|---|
+| **C-P1** | C-a | "All Persons, throughout the World, professing the Faith of the Gospel, and Obedience unto God by Christ, according unto it, not destroying their own Profession by any Errors, everting the foundation, or unholiness of Conversation, are and may be called visible Saints; and of such ought all particular Congregations to be constituted." | LBC 26.2, p. 105 | LBC 26.6, p. 107 ("willingly consent to walk together"); Gill II.1 pp. 855-856 ("regenerate persons"; the form "lies in mutual consent") | **3a** | Row 3a's Spilsbury source is still [U]. |
+| **C-P2** | C-a | The visible Church "consists of all those, throughout the World, that professe the true Religion; and of their Children;" | WCF 25.2, pp. 44-45 | none | **3b** | Gill p. 856, "Not their infants with them", is against it in his own words. |
+| **C-P3** | C-a | "We believe and profess one catholic or universal Church, which is a holy congregation and assembly of true Christian believers, expecting all their salvation in Jesus Christ, ..." | Belgic XXVII, pp. 416-417 | Belgic XXIX, p. 419 (hypocrites "not of the Church, though externally in it") | **3c** | As ruled, Scots does not join here. |
+| **C-P4** | C-b | "The marks by which the true Church is known are these: If the pure doctrine of the gospel is preached therein; if she maintains the pure administration of the sacraments as instituted by Christ; if church discipline is exercised in punishing of sin;" | Belgic XXIX, p. 419 | Scots XVIII, pp. 461-462 (the three notes; and, as ruled, where the true Kirk is known) | **4a** | Row 4a's "Scots not yet reviewed" can now be cleared. Scots also names what the notes are not ("nouther Antiquitie, ... lineal Descence", p. 461), on its own Argument. |
+| **C-P5** | C-b | "And particular Churches, which are Members thereof, are more or lesse pure, according as the Doctrine of the Gospell is taught and imbraced, Ordinances administred, and Publicke Worship performed more or lesse purely in them." | WCF 25.4 | WCF 25.5 ("Synogogues of Satan"), on its own Argument | **4b** | LBC 26.3 has the "Synagogues of Satan" clause but not "more or lesse pure", so it is not listed. |
+| **C-P6** | C-c | "The Lord Jesus, as King and Head of his Church, hath therein appointed a Government, in the hand of Church Officers, distinct from the Civill Magistrate." | WCF 30.1, p. 52 | WCF 31.3 (synods determine "ministerially") and 31.4 ("may erre"), on their own Arguments | new (C-c) | As ruled, Belgic stands apart. |
+| **C-P6b** | C-c | "...also elders and deacons, who, together with the pastors, form the council of the Church;" | Belgic XXX, p. 421 | Belgic XXXI, p. 422 ("by a lawful election of the Church"), on its own Argument | new (C-c) | New, as ruled. The Belgic articles read give the council of the church and say nothing of synods. |
+| **C-P7** | C-c | "To each of these Churches thus gathered, ... he hath given all that Power and Authority, which is any way needful for their carrying on that Order in Worship and Discipline, which he hath instituted for them to observe," | LBC 26.7, p. 108 | LBC 26.15 (messengers have no "Church-power properly so called"); Gill II.1 p. 858 ("congregational"), II.6 pp. 894-895 (the power "originally lies in the church") | new (C-c) | The laying on of hands is not developed here: see the locus candidate below. |
+| **C-P8** | C-d | "We believe that this true Church must be governed by the spiritual policy which our Lord has taught us in his Word—namely, that there must be Ministers or Pastors to preach the Word of God, and to administer the Sacraments;" | Belgic XXX, p. 421 | LBC 26.8, p. 108 ("for the peculiar Administration of Ordinances"); Gill II.3 pp. 863, 874-876, II.5 p. 882 (the Supper "cannot be administered authoritatively but by an officer", p. 876); report 25 Q1-Q2 | new (C-d) | LBC 26.11 and Gill p. 863 both let gifted brethren preach. Gill says they do not administer the ordinances. LBC does not say either way. |
+
+**Recorded as a locus candidate of its own (ruled, report 32), not developed now:**
+- **The laying on of hands at ordination.** LBC 26.9 (p. 109): officers are "solemnly set apart by Fasting and Prayer, with Imposition of Hands of the Eldership of the Church, if there be any before Constituted therein:". Gill II.3 (p. 868): "3. No instance can be given of hands being laid on any ordinary minister, pastor or elder, at his ordination;". It is also listed in [PROPOSAL_phase2_loci.md](PROPOSAL_phase2_loci.md).
 
 **What is not proposed:**
-- **Nothing for row 4c** ("A church is known by its constitution (3a) and its ordinances rightly administered", LBC 26, paragraphs to be found).
-  - LBC 26 names no marks. The nearest paragraphs are 26.3 (mixture) and 26.6-26.8 (constitution and officers).
-  - Gill Book II names no marks either.
-  - If the architect wants row 4c kept, its source must be a reading of 26.6-26.8 as marks. That is a judgment, so it is not made here.
-- **Nothing on Scots XVIII p. 463** (interpretation belongs to "the Spirite of God", not to any kirk) as its own Position. It is quoted under C-c for the architect.
+- **Row 4c is dropped** (ruled, report 32). No source names marks for it, and reading LBC 26.6-26.8 as marks would be our judgment.
+- **Nothing on Scots XVIII p. 463** (interpretation belongs to "the Spirite of God", not to any kirk) as its own Position. It is quoted under C-c.
 - No edges are drawn, and no Argument or Holding is cut. Those follow a ruling.
 
 ## What waits
 
-- **On the architect:**
-  - Accept, reject or reword C-P1 to C-P8.
-  - Rule on the borderline Scots C-a cell (XVIII p. 462).
-  - Rule whether Belgic stands with WCF under C-P6.
-  - Rule whether the laying on of hands (LBC 26.9 against Gill p. 868) makes its own Position.
-  - Decide whether row 4c is kept without a source, or dropped.
-  - Decide whether WCF 27.4, LBC 28.2 and Scots XXII (the confessions' clauses on who administers the sacraments) are to be read.
-- **On Chris:** nothing for this item. LBC was read in the 1719 printing because the 1677 photographs are in the open sitting `0a73bb5afa616446`. Once that sitting is signed, the LBC cells can be checked against 1677.
+- **Ruled (report 32):** C-P1 to C-P5, C-P7 and C-P8 are candidates. C-P6 is WCF's alone, and C-P6b is new, from Belgic XXX. Scots C-a does not say; XVIII p. 462 answers C-b. Row 4c is dropped. The laying on of hands is a locus candidate.
+- **Reads the ruling ordered:** WCF 27.4 and Scots XXII now, under their own lock (reported in their own file). LBC 28.2 on the 1677 page once that sitting is signed.
+- **Sitting 2:** the ruling asks that Gill II.3 p. 867 and pp. 874-876 be shown on sitting 2's administrator rows if not already there. That is reported in its own file.
+- **On Chris:** the LBC 1677 sitting `0a73bb5afa616446`. Once it is signed, LBC 28.2 can be read and the LBC cells checked against 1677.
