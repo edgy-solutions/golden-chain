@@ -24,7 +24,9 @@ for _p in (ROOT, ROOT / "tools"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from goldenchain import ingest, jena  # noqa: E402
+from rdflib.namespace import DCTERMS  # noqa: E402
+
+from goldenchain import ingest, jena, unchurches, weigh  # noqa: E402
 
 B = ingest.B
 G = str(ingest.GC)
@@ -296,6 +298,188 @@ def try_page(m, c, ps, by_passage):
     return "\n".join(out)
 
 
+# ------------------------------------------------------------------ weigh and Body pages (item 7)
+
+GROUPS = ("could join", "could join with stated differences", "could not join", "no locus covered")
+
+
+def holding_sources(g, body, pos, body_mod, scope="members") -> list:
+    """dcterms:source IRIs of the body's effective Holdings on pos (scope in weigh's set, modality tail body_mod)."""
+    srcs = set()
+    for h in g.objects(body, ingest.GC.effectivelyHolds):
+        if (h, ingest.GC.position, pos) not in g or g.value(h, ingest.GC.scope) not in weigh.SCOPES[scope]:
+            continue
+        mod = g.value(h, ingest.GC.modality)
+        if mod is not None and weigh.tail(mod) == body_mod:
+            srcs |= set(g.objects(h, DCTERMS.source))
+    return sorted(srcs, key=str)
+
+
+def differences(g, body, scope="members") -> list:
+    """Covered, non-wall loci with weight > 0 whose cell is above 0, sorted by locus IRI (weigh's own helpers)."""
+    st, plumb_mod = weigh._stance_mods(g, weigh.PLUMB, scope)
+    out = []
+    for locus in sorted(st, key=str):
+        w, tier = weigh._weight(g, locus)
+        if w is None or w == 0:
+            continue
+        known = {p: c for p, u in st[locus].items() if (c := weigh._cell(g, body, p, u, scope)) is not None}
+        if not known:
+            continue
+        top = max((c[0] for c in known.values()), key=weigh._num)
+        if top == weigh.WALL or weigh._num(top) <= 0:
+            continue
+        positions = [(p, c[1], plumb_mod[p], holding_sources(g, body, p, c[1], scope))
+                     for p, c in sorted(known.items(), key=lambda t: str(t[0])) if c[0] > 0]
+        out.append({"locus": locus, "tier": tier, "cell": top, "break": top >= 0.25,
+                    "positions": positions})
+    return out
+
+
+def group(score_dict, diffs) -> str:
+    if score_dict["walls"]:
+        return GROUPS[2]
+    if diffs:
+        return GROUPS[1]
+    if not score_dict["coverage"]:
+        return GROUPS[3]
+    return GROUPS[0]
+
+
+def _srcs(srcs) -> str:
+    return ", ".join(weigh.rel(x) for x in srcs) or "no source"
+
+
+def _locus_html(locus, examine_slugs) -> str:
+    if slug(str(locus)) in examine_slugs:
+        return f"<a href=\"../examine/{esc(slug(str(locus)))}.html\">{esc(weigh.rel(locus))}</a>"
+    return esc(weigh.rel(locus))
+
+
+def _body_link(m, b) -> str:
+    return f"<a href=\"body/{esc(slug(str(b)))}.html\">{esc(m.label(str(b)))}</a>"
+
+
+def _derivation_table(g, rows) -> list:
+    out = ["<table><tr><th>Position</th><th>Modality</th><th>Sources</th>"
+           "<th>Flagged by the plumb-line at</th></tr>"]
+    for r in rows:
+        out.append(f"<tr><td>{esc(weigh.rel(r['position']))}</td><td>{esc(weigh.tail(r['modality']))}</td>"
+                   f"<td>{esc(_srcs(r['sources']))}</td>"
+                   f"<td>{esc(_srcs(unchurches.flag_source(g, r['position'])))}</td></tr>")
+    out.append("</table>")
+    return out
+
+
+def weigh_page(g, m, res, diffs, scores, groups) -> str:
+    out = ["<h1>Weigh</h1>", "<p>against: body/plumb-line; scope: members</p>",
+           f"<p>{esc(unchurches.UNSIGNED)}</p>"]
+    for name in GROUPS:
+        out.append(f"<h2>{esc(name.capitalize())}</h2>")
+        members = [b for b, _ in res["ranked"] if groups[b] == name]
+        if not members:
+            out.append("<p>none</p>")
+            continue
+        out.append("<ul>")
+        for b in members:
+            s = scores[b]
+            out.append(f"<li>{_body_link(m, b)} [{esc(weigh.body_class(g, b))}] walls {len(s['walls'])}; "
+                       f"differences {len(diffs[b])}; cost {weigh._fmt(s['cost'])} over {s['n_cost']} loci; "
+                       f"coverage {weigh._fmt(s['coverage'])}</li>")
+        out.append("</ul>")
+    out += [f"<h2>{esc(unchurches.HEADING)}</h2>", f"<p>{esc(unchurches.UNSIGNED)}</p>"]
+    for b in sorted(res["excluded"], key=str):
+        out.append(f"<h3>{_body_link(m, b)} [{esc(weigh.body_class(g, b))}]</h3>")
+        out.append(f"<p>{esc(unchurches.wording(g, b))}</p>")
+        out += _derivation_table(g, res["excluded"][b])
+        out.append(f"<p>{esc(unchurches.MEMBERS)}</p>")
+    return "\n".join(out)
+
+
+def body_page(g, m, b, res, diffs, scores, groups, examine_slugs) -> str:
+    out = [f"<h1>{esc(m.label(str(b)))}</h1>", f"<p>{esc(weigh.rel(b))} [{esc(weigh.body_class(g, b))}]</p>"]
+    if b in res["excluded"]:
+        out += [f"<p>{esc(unchurches.UNSIGNED)}</p>",
+                f"<p>{esc(unchurches.HEADING)}: {esc(unchurches.wording(g, b))}</p>"]
+        out += _derivation_table(g, res["excluded"][b])
+        out.append(f"<p>{esc(unchurches.MEMBERS)}</p>")
+    else:
+        s = scores[b]
+        out.append(f"<p>group: {esc(groups[b])}</p>")
+        out.append("<h2>Walls</h2>")
+        items = []
+        for wl in s["walls"]:
+            for pos, bm, pm in wl["cells"]:
+                li = (f"<li>{_locus_html(wl['locus'], examine_slugs)} (tier {esc(wl['tier'])}): "
+                      f"{esc(weigh.rel(pos))}, {esc(bm)} against plumb-line {esc(pm)}; "
+                      f"sources: {esc(_srcs(holding_sources(g, b, pos, bm)))}")
+                if pos in weigh.CONSEQUENCE:
+                    li += f"<br>consequence: {esc(weigh.CONSEQUENCE[pos])}"
+                items.append(li + "</li>")
+        out += ["<ul>", *items, "</ul>"] if items else ["<p>none</p>"]
+        out.append("<h2>Differences</h2>")
+        if diffs[b]:
+            out.append("<ul>")
+            for d in diffs[b]:
+                out.append(f"<li>{_locus_html(d['locus'], examine_slugs)} (tier {esc(d['tier'])}); "
+                           f"cell {esc(format(d['cell'], 'g'))}" + (" break" if d["break"] else "") + "<ul>")
+                for pos, bm, pm, srcs in d["positions"]:
+                    out.append(f"<li>{esc(weigh.rel(pos))}, {esc(bm)} against plumb-line {esc(pm)}; "
+                               f"sources: {esc(_srcs(srcs))}</li>")
+                out.append("</ul></li>")
+            out.append("</ul>")
+        else:
+            out.append("<p>none</p>")
+        out += ["<h2>Numbers</h2>",
+                f"<p>cost {weigh._fmt(s['cost'])} over {s['n_cost']} loci; coverage {weigh._fmt(s['coverage'])}; "
+                f"breaks {len(s['breaks'])}</p>"]
+        if s["untiered"]:
+            out.append("<p>untiered: " + esc(", ".join(weigh.rel(x) for x in s["untiered"])) + "</p>")
+    out.append("<h2>Holdings</h2>")
+    hs = sorted(g.objects(b, ingest.GC.effectivelyHolds), key=str)
+    if hs:
+        out.append("<table><tr><th>Locus</th><th>Position</th><th>Modality</th><th>Scope</th>"
+                   "<th>Sources</th><th>Held by</th></tr>")
+        for h in hs:
+            pos = g.value(h, ingest.GC.position)
+            loc = g.value(pos, ingest.GC.answers) if pos is not None else None
+            mod, sc = g.value(h, ingest.GC.modality), g.value(h, ingest.GC.scope)
+            if (b, ingest.GC.holds, h) in g:
+                by = "own"
+            else:
+                hd = weigh._holder(g, h)
+                by = weigh.rel(hd) if hd is not None else "none"
+            out.append("<tr>" + "".join(f"<td>{esc(x)}</td>" for x in (
+                weigh.rel(loc) if loc is not None else "none", weigh.rel(pos) if pos is not None else "none",
+                weigh.tail(mod) if mod is not None else "none", weigh.tail(sc) if sc is not None else "none",
+                _srcs(sorted(g.objects(h, DCTERMS.source), key=str)), by)) + "</tr>")
+        out.append("</table>")
+    else:
+        out.append("<p>none</p>")
+    out.append("<p><a href=\"../weigh.html\">Weigh</a></p>")
+    return "\n".join(out)
+
+
+def weigh_files(m, data_dir, examine_slugs, head, sha) -> dict:
+    """weigh.html and body/<slug>.html, always from the rdflib graph weigh's own CLI loads."""
+    g = ingest.union(ingest.derive_rdflib(ingest.load_dataset(data_dir)))
+    res = weigh.weigh(g, "members")
+    scores = dict(res["ranked"])
+    diffs = {b: differences(g, b) for b in scores}
+    groups = {b: group(scores[b], diffs[b]) for b in scores}
+    bodies = weigh.bodies(g)
+    seen = {}
+    for b in bodies:
+        if slug(str(b)) in seen:
+            raise RuntimeError(f"slug collision body/{slug(str(b))}: {seen[slug(str(b))]} and {b}")
+        seen[slug(str(b))] = b
+    files = {"weigh.html": page("Weigh", weigh_page(g, m, res, diffs, scores, groups), head, sha)}
+    for b in bodies:
+        files[f"body/{slug(str(b))}.html"] = page(
+            m.label(str(b)), body_page(g, m, b, res, diffs, scores, groups, examine_slugs), head, sha)
+    return files
+
+
 # ------------------------------------------------------------------ build
 
 def store_sha(kind, data_dir=None) -> str:
@@ -308,7 +492,7 @@ def store_sha(kind, data_dir=None) -> str:
     return h.hexdigest()
 
 
-def build(out: Path, store: str = "tdb2", data_dir=None) -> dict:
+def build(out: Path, store: str = "tdb2", data_dir=None, weigh_pages: bool = False) -> dict:
     from column_rule import clean_run, git_state  # lazy: heavy imports
     out = Path(out)
     start = git_state(ingest.ROOT)
@@ -333,7 +517,8 @@ def build(out: Path, store: str = "tdb2", data_dir=None) -> dict:
             names[k] = i
 
     files = {}
-    idx = ["<h1>Index</h1>", "<h2>Loci</h2>", "<ul>"]
+    idx = ["<h1>Index</h1>"] + (["<p><a href=\"weigh.html\">Weigh</a></p>"] if weigh_pages else [])
+    idx += ["<h2>Loci</h2>", "<ul>"]
     for l in c["loci"]:
         idx.append(f"<li><a href=\"examine/{esc(slug(l))}.html\">{esc(locus_title(m, l))}</a></li>")
     idx += ["</ul>", "<h2>Passages</h2>", "<ul>"]
@@ -347,6 +532,11 @@ def build(out: Path, store: str = "tdb2", data_dir=None) -> dict:
     for ps in with_page:
         files[f"try/{slug(ps)}.html"] = page(passage_name(m, ps), try_page(m, c, ps, by_passage),
                                              head, sha)
+    nbody = 0
+    if weigh_pages:
+        wf = weigh_files(m, data_dir, {slug(l) for l in c["loci"]}, head, sha)
+        nbody = len(wf) - 1
+        files.update(wf)
     for rel in sorted(files):
         p = out / rel
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -361,8 +551,12 @@ def build(out: Path, store: str = "tdb2", data_dir=None) -> dict:
         "cites_rows": len(c["cites"]),
         "candidate_only_passages": len(cand_only),
     }
+    if weigh_pages:
+        summary.update(weigh_pages=1, body_pages=nbody, weigh_source="rdflib")
     header = {"git_head": start["commit"], "store": store, "store_sha256": sha,
               "clean_run": clean_run(start, end), "summary": summary}
+    if weigh_pages:
+        header.update(weigh_pages=1, body_pages=nbody, weigh_source="rdflib")
     (out / "run_header.json").write_text(json.dumps(header, indent=2, sort_keys=True) + "\n",
                                          encoding="utf-8", newline="\n")
     return summary
@@ -377,7 +571,7 @@ def main(argv=None) -> int:
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--store", choices=["tdb2", "rdflib"], default="tdb2")
     a = ap.parse_args(argv)
-    summary = build(a.out or default_out(), a.store)
+    summary = build(a.out or default_out(), a.store, weigh_pages=True)
     print(json.dumps(summary, indent=2))
     return 0
 

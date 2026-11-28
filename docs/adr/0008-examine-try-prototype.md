@@ -93,3 +93,49 @@ Ratified as a local prototype. The open points are answered:
 2. **Passage pages show the reference only** until ADR-0004 settles the display text. That is already so, because no verse text is stored.
 3. **Deployment** is a separate ADR.
 
+
+## Revision 1 (proposed 2026-11-27, on the two-day order, Day 2, item 7): a weigh page and Body pages
+
+- Status: **Proposed.** The order allows the prototype to be built ahead of ratification, because it is local, read-only and mints nothing ([RULING_report_31.md](../handoff/RULING_report_31.md)). It is built under the lock [LOCK_item7_weigh_body_pages_2026-11-27.md](../handoff/LOCK_item7_weigh_body_pages_2026-11-27.md).
+- The order, verbatim: "Extend the examine/try prototype with a weigh page and a Body page, generated from weigh's output and the data: the three groups (could join; could join with stated differences; could not join), walls shown apart from differences, the "not a church by this site's standard" listing with its derivation and the unsigned-statement line, each claim with its source. No sentence that is not a label, a locator or a signed record."
+
+### Decision (proposed)
+
+1. **Two page kinds**, written by the same generator next to the others:
+   - `weigh.html`: weigh against the plumb-line, scope members;
+   - `body/<slug>.html`: one per Body that weigh weighs or lists. The plumb-line gets none.
+   - `index.html` gains one link, to `weigh.html`. No existing page changes.
+2. **Weigh is the only scorer.** The pages come from `goldenchain.weigh` and `goldenchain.unchurches`, run on the same rdflib dataset as weigh's CLI. The generator never re-scores. For a cell's Holding and source it reads weigh's own cell rule. Nothing in `goldenchain/` changes.
+3. **The three groups, as the build agent reads them** (open point 1):
+
+   | Group | A ranked Body is in it when |
+   |---|---|
+   | could join | no wall, at least one covered locus, and every covered locus's cell is 0 |
+   | could join with stated differences | no wall, and at least one covered, non-wall locus has a cell above 0 |
+   | could not join | at least one wall |
+   | no locus covered (listed apart) | no wall and no covered locus |
+
+   - A Body weigh excludes is in no group. It is in the listing "Not a church by this site's standard", with its derivation: the Holding's Position, its modality, its sources, and the plumb-line sitting that flags the Position.
+   - The fourth line is not one of the order's groups. Without it a Body that weigh has nothing to weigh on would be shown as "could join" (open point 2).
+4. **Walls apart from differences.** A Body page lists its walls, then its differences, under separate headings.
+   - A **difference** is a covered, non-wall locus whose cell is above 0. One at 0.25 or more is marked "break", as weigh's R2.7 (4) defines it.
+   - Each wall and each difference shows the Position, the Body's modality against the plumb-line's, and the source IRIs of the Body's Holding there.
+5. **The words on the page.** These are the only words on the new pages:
+   - labels, IRI tails, vocabulary tails and numbers;
+   - the banner, the section headings and the group names;
+   - the ruled wordings, imported from code and never retyped: `unchurches.UNSIGNED` (the unsigned-statement line), `HEADING`, `WORDING` and `MEMBERS`, and `weigh.CONSEQUENCE`.
+
+   The ruled wordings are sentences. They are not labels, locators or signed records (open point 3).
+6. **The same guards as the ratified prototype:** the banner on every page, no `rdfs:comment`, `gc:resolutionNote`, `gc:quotation` or `gc:derivedBy`, everything sorted by IRI, and two runs byte-identical.
+
+### Verification
+
+The lock's WX1-WX7: the groups and the listing as weigh's output gives them at `9d6dae3`; 7 Body pages; the existing pages unchanged; the banner and sentinels; determinism; and weigh's CLI output, `data/` and `goldenchain/` unchanged.
+
+### Open points
+
+1. **The groups' reading.** Is "could join with stated differences" any nonzero cell, as proposed, or only a break (a cell of 0.25 or more)? With the data at `9d6dae3` the two readings give the same groups, because the one difference is 0.75.
+2. **The fourth line.** Should a Body with no covered locus be listed apart, as proposed? Or should it be left off the weigh page?
+3. **The ruled wordings.** Do `UNSIGNED`, `HEADING`, `WORDING`, `MEMBERS` and `CONSEQUENCE` count as allowed fixed words under "no sentence that is not a label, a locator or a signed record"? The order names the unsigned-statement line, so at least that one is required.
+4. **Scope.** Only "members" is generated. Should there be an "officers" weigh page too?
+5. **Comparison views** (ADR-0003 R3.3, weighing from another Body's Holdings) are not generated. Are they wanted in the prototype?
